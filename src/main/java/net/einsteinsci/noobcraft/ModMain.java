@@ -7,6 +7,9 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+
+import org.apache.logging.log4j.Level;
+
 import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -20,7 +23,7 @@ guiFactory = "net.einsteinsci.noobcraft.config.NoobcraftConfigGuiFactory")
 public class ModMain
 {
 	public static final String MODID = "noobcraft";
-	public static final String VERSION = "0.0.1.2";
+	public static final String VERSION = "0.0.3.1";
 	
 	public static Configuration configFile;
 	
@@ -46,8 +49,8 @@ public class ModMain
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e)
 	{
-		// System.out.println("[NoobCraft] Ready to be a noob?");
-		FMLLog.info("[NoobCraft] Ready to be a noob?");
+		// FMLLog.info("[NoobCraft] Ready to be a noob?");
+		FMLLog.log("NoobCraft", Level.INFO, "Starting pre-initialization...");
 		
 		configFile = new Configuration(e.getSuggestedConfigurationFile());
 		configFile.load();
@@ -68,7 +71,6 @@ public class ModMain
 		RegisterRecipes.addShapedRecipes();
 		RegisterRecipes.addAdvancedRecipes();
 		RegisterRecipes.addFurnaceRecipes();
-		// GameRegistry.register
 	}
 	
 	public void init(FMLInitializationEvent e)

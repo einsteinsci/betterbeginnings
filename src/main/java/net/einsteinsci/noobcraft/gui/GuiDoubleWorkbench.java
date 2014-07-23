@@ -15,9 +15,13 @@ public class GuiDoubleWorkbench extends GuiContainer
 	private static final ResourceLocation workbenchGuiTextures = new ResourceLocation(ModMain.MODID
 		+ ":textures/gui/container/doubleWorkbench.png");
 	
+	private final ContainerDoubleWorkbench container;
+	
 	public GuiDoubleWorkbench(InventoryPlayer invPlayer, World world, int x, int y, int z)
 	{
 		super(new ContainerDoubleWorkbench(invPlayer, world, x, y, z));
+		
+		container = (ContainerDoubleWorkbench) inventorySlots;
 	}
 	
 	/**

@@ -5,6 +5,7 @@ tile.doubleWorkbench.name=Crafting Table
 item.flintKnife.name=Flint Knife
 item.boneKnife.name=Bone Knife
 item.ironKnife.name=Iron Knife
+item.diamondKnife.name=Diamond Knife
 
 item.flintHatchet.name=Flint Hatchet
 item.bonePickaxe.name=Bone Pickaxe
@@ -12,6 +13,7 @@ item.bonePickaxe.name=Bone Pickaxe
 item.boneShard.name=Bone Shard
 item.testItem.name=Test Item
 item.leatherStrip.name=Leather Strip
+item.ironNugget.name=Iron Nugget
 
 item.noobWoodSword.name=Wooden Sword
 
