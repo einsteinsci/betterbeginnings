@@ -1,6 +1,6 @@
 package net.einsteinsci.noobcraft.gui;
 
-import net.einsteinsci.noobcraft.NoobcraftMod;
+import net.einsteinsci.noobcraft.ModMain;
 import net.einsteinsci.noobcraft.inventory.ContainerKiln;
 import net.einsteinsci.noobcraft.tileentity.TileEntityKiln;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -16,7 +16,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiKiln extends GuiContainer
 {
-	private static final ResourceLocation kilnGuiTextures = new ResourceLocation(NoobcraftMod.MODID + ":textures/gui/container/kiln.png");
+	private static final ResourceLocation kilnGuiTextures = new ResourceLocation(ModMain.MODID + ":textures/gui/container/kiln.png");
 	private TileEntityKiln tileKiln;
 
 	public GuiKiln(InventoryPlayer invPlayer, TileEntityKiln tile) 

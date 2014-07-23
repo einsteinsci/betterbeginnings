@@ -12,6 +12,6 @@ public class ServerProxy
 	
 	public void registerNetworkStuff()
 	{
-		NetworkRegistry.INSTANCE.registerGuiHandler(NoobcraftMod.modInstance, new NoobCraftGuiHandler());
+		NetworkRegistry.INSTANCE.registerGuiHandler(ModMain.modInstance, new NoobCraftGuiHandler());
 	}
 }

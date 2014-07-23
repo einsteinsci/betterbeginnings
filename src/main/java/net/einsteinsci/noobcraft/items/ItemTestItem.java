@@ -1,6 +1,6 @@
 package net.einsteinsci.noobcraft.items;
 
-import net.einsteinsci.noobcraft.NoobcraftMod;
+import net.einsteinsci.noobcraft.ModMain;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -14,8 +14,8 @@ public class ItemTestItem extends Item
 	{
 		super();
 		setUnlocalizedName("testItem");
-		setTextureName(NoobcraftMod.MODID + ":" + getUnlocalizedName().substring(5));
-		setCreativeTab(NoobcraftMod.tabNoobCraft);
+		setTextureName(ModMain.MODID + ":" + getUnlocalizedName().substring(5));
+		setCreativeTab(ModMain.tabNoobCraft);
 	}
 	
 	@Override

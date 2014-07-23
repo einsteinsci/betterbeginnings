@@ -1,5 +1,6 @@
 tile.kiln.name=Kiln
 tile.kilnLit.name=Kiln (Lit)
+tile.doubleWorkbench.name=Crafting Table
 
 item.flintKnife.name=Flint Knife
 item.boneKnife.name=Bone Knife
@@ -15,3 +16,4 @@ item.leatherStrip.name=Leather Strip
 item.noobWoodSword.name=Wooden Sword
 
 itemGroup.tabNoobCraft=NoobCraft
+container.craftingdouble=Advanced Crafting

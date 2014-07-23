@@ -1,6 +1,6 @@
 package net.einsteinsci.noobcraft.items;
 
-import net.einsteinsci.noobcraft.NoobcraftMod;
+import net.einsteinsci.noobcraft.ModMain;
 
 public class ItemKnifeIron extends ItemKnife 
 {
@@ -8,8 +8,8 @@ public class ItemKnifeIron extends ItemKnife
 	{
 		super(ToolMaterial.IRON);
 		setUnlocalizedName("ironKnife");
-		setTextureName(NoobcraftMod.MODID + ":" + getUnlocalizedName().substring(5));
-		setCreativeTab(NoobcraftMod.tabNoobCraft);
+		setTextureName(ModMain.MODID + ":" + getUnlocalizedName().substring(5));
+		setCreativeTab(ModMain.tabNoobCraft);
 	}
 	
 }

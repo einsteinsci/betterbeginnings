@@ -2,7 +2,7 @@ package net.einsteinsci.noobcraft.items;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.einsteinsci.noobcraft.NoobcraftMod;
+import net.einsteinsci.noobcraft.ModMain;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -21,7 +21,7 @@ public class NoobWoodSword extends ItemSword
 	{
 		super(material);
 		setUnlocalizedName("noobWoodSword");
-		setTextureName(NoobcraftMod.MODID + ":" + getUnlocalizedName().substring(5));
+		setTextureName(ModMain.MODID + ":" + getUnlocalizedName().substring(5));
 		//setMaxDamage(60);
 		//setCreativeTab(CreativeTabs.tabCombat);
 	}

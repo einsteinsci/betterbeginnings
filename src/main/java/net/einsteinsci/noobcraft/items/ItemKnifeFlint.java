@@ -1,6 +1,6 @@
 package net.einsteinsci.noobcraft.items;
 
-import net.einsteinsci.noobcraft.NoobcraftMod;
+import net.einsteinsci.noobcraft.ModMain;
 import net.minecraft.item.Item.ToolMaterial;
 
 public class ItemKnifeFlint extends ItemKnife
@@ -9,7 +9,7 @@ public class ItemKnifeFlint extends ItemKnife
 	{
 		super(ToolMaterial.WOOD);
 		setUnlocalizedName("flintKnife");
-		setTextureName(NoobcraftMod.MODID + ":" + getUnlocalizedName().substring(5));
-		setCreativeTab(NoobcraftMod.tabNoobCraft);
+		setTextureName(ModMain.MODID + ":" + getUnlocalizedName().substring(5));
+		setCreativeTab(ModMain.tabNoobCraft);
 	}
 }

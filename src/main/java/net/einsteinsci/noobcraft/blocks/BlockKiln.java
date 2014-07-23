@@ -2,7 +2,7 @@ package net.einsteinsci.noobcraft.blocks;
 
 import java.util.Random;
 
-import net.einsteinsci.noobcraft.NoobcraftMod;
+import net.einsteinsci.noobcraft.ModMain;
 import net.einsteinsci.noobcraft.gui.NoobCraftGuiHandler;
 import net.einsteinsci.noobcraft.register.RegisterBlocks;
 import net.einsteinsci.noobcraft.tileentity.TileEntityKiln;
@@ -45,10 +45,10 @@ public class BlockKiln extends BlockContainer
 		else
 		{
 			setBlockName("kiln");
-			setCreativeTab(NoobcraftMod.tabNoobCraft);
+			setCreativeTab(ModMain.tabNoobCraft);
 		}
 		
-		setBlockTextureName(NoobcraftMod.MODID + ":" + getUnlocalizedName().substring(5));
+		setBlockTextureName(ModMain.MODID + ":" + getUnlocalizedName().substring(5));
 		
 		isLit2 = lit;
 	}
@@ -57,9 +57,9 @@ public class BlockKiln extends BlockContainer
 	@Override
 	public void registerBlockIcons(IIconRegister iconregister)
 	{
-		this.blockIcon = iconregister.registerIcon(NoobcraftMod.MODID + ":kilnSide");
-		this.front = iconregister.registerIcon(this.isLit2 ? NoobcraftMod.MODID + ":kilnLit" : NoobcraftMod.MODID + ":kilnUnlit");
-		this.top = iconregister.registerIcon(NoobcraftMod.MODID + ":kilnTop");
+		this.blockIcon = iconregister.registerIcon(ModMain.MODID + ":kilnSide");
+		this.front = iconregister.registerIcon(this.isLit2 ? ModMain.MODID + ":kilnLit" : ModMain.MODID + ":kilnUnlit");
+		this.top = iconregister.registerIcon(ModMain.MODID + ":kilnTop");
 	}
 	
 	@Override
@@ -112,7 +112,7 @@ public class BlockKiln extends BlockContainer
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player,
 			int side, float clickX, float clickY, float clickZ)
 	{
-		player.openGui(NoobcraftMod.modInstance, NoobCraftGuiHandler.KILN_ID, world, x, y, z);
+		player.openGui(ModMain.modInstance, NoobCraftGuiHandler.KILN_ID, world, x, y, z);
 		
 		return true;
 	}

@@ -6,29 +6,39 @@ import java.util.List;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 
-public class RemoveRecipes 
-{	
+public class RemoveRecipes
+{
 	public static void remove()
 	{
-		List<ItemStack> removedRecipes = new ArrayList<ItemStack>();
+		List<Item> removedRecipes = new ArrayList<Item>();
 		
-		//Be sure to get the correct quantity
-		removedRecipes.add(new ItemStack(Items.wooden_sword));
-		removedRecipes.add(new ItemStack(Blocks.furnace));
+		// Be sure to get the correct quantity and damage
+		removedRecipes.add(Items.wooden_sword);
+		removedRecipes.add(Item.getItemFromBlock(Blocks.furnace));
+		removedRecipes.add(Items.diamond_pickaxe);
 		
 		List<IRecipe> recipes = CraftingManager.getInstance().getRecipeList();
 		Iterator<IRecipe> iterator = recipes.iterator();
-				          
-		while (iterator.hasNext()) 
+		
+		while (iterator.hasNext())
 		{
 			ItemStack stack = iterator.next().getRecipeOutput();
-			if (stack != null && removedRecipes.contains(stack))
+			if (stack == null)
 			{
-				iterator.remove();
+				continue;
+			}
+			else
+			{
+				Item item = stack.getItem();
+				if (item != null && removedRecipes.contains(item))
+				{
+					iterator.remove();
+				}
 			}
 		}
 	}
