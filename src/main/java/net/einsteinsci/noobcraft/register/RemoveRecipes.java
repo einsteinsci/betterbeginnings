@@ -29,8 +29,16 @@ public class RemoveRecipes
 		removedRecipes.add(Item.getItemFromBlock(Blocks.crafting_table));
 		
 		// Advanced Crafting
-		removedRecipes.add(Items.bow);
+		removedRecipes.add(Items.wooden_door);
+		removedRecipes.add(Items.iron_door);
+		removedRecipes.add(Item.getItemFromBlock(Blocks.fence_gate));
+		removedRecipes.add(Item.getItemFromBlock(Blocks.trapdoor));
+		removedRecipes.add(Item.getItemFromBlock(Blocks.chest));
+		removedRecipes.add(Item.getItemFromBlock(Blocks.trapped_chest));
+		removedRecipes.add(Item.getItemFromBlock(Blocks.piston));
+		removedRecipes.add(Item.getItemFromBlock(Blocks.tripwire_hook));
 		
+		removedRecipes.add(Items.bow);
 		removedRecipes.add(Items.wooden_shovel);
 		removedRecipes.add(Items.wooden_hoe);
 		
@@ -90,8 +98,7 @@ public class RemoveRecipes
 	
 	public static void removeFurnaceRecipes()
 	{
-		// FurnaceRecipes.smelting().getSmeltingList().remove(new ItemStack(Blocks.iron_ore));
-		
+		// Remove ALL THE THINGS!
 		ItemStack ironOre = new ItemStack(Blocks.iron_ore);
 		Map recipes = FurnaceRecipes.smelting().getSmeltingList();
 		Iterator iterator = recipes.entrySet().iterator();
