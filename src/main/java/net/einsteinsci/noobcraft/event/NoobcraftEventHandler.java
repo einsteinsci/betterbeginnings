@@ -2,17 +2,13 @@ package net.einsteinsci.noobcraft.event;
 
 import net.einsteinsci.noobcraft.config.NoobcraftConfig;
 import net.einsteinsci.noobcraft.items.ItemKnife;
+import net.einsteinsci.noobcraft.register.RegisterItems;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemAxe;
-import net.minecraft.item.ItemPickaxe;
-import net.minecraft.item.ItemSpade;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTool;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.item.*;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -20,17 +16,12 @@ import cpw.mods.fml.common.gameevent.PlayerEvent;
 
 public class NoobcraftEventHandler
 {
-	public static void sendChatToPlayer(EntityPlayer player, String message)
-	{
-		player.addChatMessage(new ChatComponentText(message));
-	}
-	
 	@SubscribeEvent
 	public void login(PlayerEvent.PlayerLoggedInEvent e)
 	{
 		if (NoobcraftConfig.greetUser)
 		{
-			sendChatToPlayer(e.player, "HELLO!");
+			ChatUtil.sendChatToPlayer(e.player, ChatUtil.LIME + "NoobCraft loaded successfully.");
 		}
 	}
 	
@@ -38,6 +29,27 @@ public class NoobcraftEventHandler
 	public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent e)
 	{
 		
+	}
+	
+	@SubscribeEvent
+	public void onItemTooltip(ItemTooltipEvent e)
+	{
+		Item item = e.itemStack.getItem();
+		
+		if (item == RegisterItems.charredMeat)
+		{
+			e.toolTip.add("Not to be confused with charcoal");
+		}
+		
+		if (item == RegisterItems.ironNugget)
+		{
+			e.toolTip.add("Good for hinges and rivets");
+		}
+		
+		if (item == RegisterItems.flintKnife)
+		{
+			e.toolTip.add("Don't bring it to a gunfight");
+		}
 	}
 	
 	@SubscribeEvent
@@ -50,27 +62,23 @@ public class NoobcraftEventHandler
 		handleWrongTool(e, block, player, heldItemStack);
 	}
 	
-	public void handleWrongTool(BlockEvent.BreakEvent e, Block block,
-		EntityPlayer player, ItemStack heldItemStack) {
+	public void handleWrongTool(BlockEvent.BreakEvent e, Block block, EntityPlayer player, ItemStack heldItemStack)
+	{
 		Item heldItem = null;
 		
 		String requiredToolClass = block.getHarvestTool(e.blockMetadata);
 		String toolUsed = "face";
 		
-		//Blocks that should be "pickaxe" but are actually null
-		if (block == Blocks.coal_block ||
-			block == Blocks.redstone_block ||
-			block == Blocks.stained_hardened_clay ||
-			block == Blocks.hardened_clay ||
-			block == Blocks.quartz_block ||
-			block == Blocks.brick_block ||
-			block == Blocks.ice || 			//not sure if this one is null already
+		// Blocks that should be "pickaxe" but are actually null
+		if (block == Blocks.coal_block || block == Blocks.redstone_block || block == Blocks.stained_hardened_clay ||
+			block == Blocks.hardened_clay || block == Blocks.quartz_block || block == Blocks.brick_block ||
+			block == Blocks.ice || 			// not sure if this one is null already
 			block == Blocks.packed_ice)
 		{
 			requiredToolClass = "pickaxe";
 		}
 		
-		//Blocks that should be breakable regardless of tool
+		// Blocks that should be breakable regardless of tool
 		if (block.getUnlocalizedName() == Blocks.snow.getUnlocalizedName() ||
 			block.getUnlocalizedName() == Blocks.snow_layer.getUnlocalizedName())
 		{
@@ -127,23 +135,26 @@ public class NoobcraftEventHandler
 				wrongTool = true;
 			}
 			
-			//if (toolClass.equalsIgnoreCase("null"))
+			// if (toolClass.equalsIgnoreCase("null"))
 			if (requiredToolClass == null || requiredToolClass == "shovel")
 			{
-				//Nobody cares. It's a shovel.
+				// Nobody cares. It's a shovel.
 				wrongTool = false;
 			}
 			
 			if (wrongTool)
 			{
 				e.setCanceled(true);
-				sendChatToPlayer(player, "[NoobCraft] Wrong tool!");
-				
 				if (toolUsed.equalsIgnoreCase("face"))
 				{
-					//What do you think the player's 'durability' is?
+					// What do you think the player's 'durability' is?
 					player.attackEntityFrom(DamageSource.cactus, 2);
-					sendChatToPlayer(player, "[NoobCraft] Ouch! What do you think punching that would do?");
+					ChatUtil.sendChatToPlayer(player, ChatUtil.YELLOW +
+						"[NoobCraft] Ouch! What do you think punching that would do?");
+				}
+				else
+				{
+					ChatUtil.sendChatToPlayer(player, ChatUtil.YELLOW + "[NoobCraft] Wrong tool!");
 				}
 			}
 		}
@@ -171,4 +182,4 @@ public class NoobcraftEventHandler
 
 
 
-//BUFFER
+// BUFFER

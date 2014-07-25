@@ -1,11 +1,9 @@
 package net.einsteinsci.noobcraft.gui;
 
-import net.einsteinsci.noobcraft.inventory.ContainerBrickOven;
-import net.einsteinsci.noobcraft.inventory.ContainerDoubleWorkbench;
-import net.einsteinsci.noobcraft.inventory.ContainerKiln;
-import net.einsteinsci.noobcraft.inventory.ContainerSimpleWorkbench;
+import net.einsteinsci.noobcraft.inventory.*;
 import net.einsteinsci.noobcraft.tileentity.TileEntityBrickOven;
 import net.einsteinsci.noobcraft.tileentity.TileEntityKiln;
+import net.einsteinsci.noobcraft.tileentity.TileEntitySmelter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
@@ -16,13 +14,14 @@ public class NoobCraftGuiHandler implements IGuiHandler
 	public static final int SIMPLEWORKBENCH_ID = 1;
 	public static final int DOUBLEWORKBENCH_ID = 2;
 	public static final int BRICKOVEN_ID = 3;
+	public static final int SMELTER_ID = 4;
 	
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
 	{
 		if (ID == KILN_ID)
 		{
-			TileEntityKiln tileEntityKiln = (TileEntityKiln) world.getTileEntity(x, y, z);
+			TileEntityKiln tileEntityKiln = (TileEntityKiln)world.getTileEntity(x, y, z);
 			return new ContainerKiln(player.inventory, tileEntityKiln);
 		}
 		
@@ -38,8 +37,14 @@ public class NoobCraftGuiHandler implements IGuiHandler
 		
 		if (ID == BRICKOVEN_ID)
 		{
-			TileEntityBrickOven brickOven = (TileEntityBrickOven) world.getTileEntity(x, y, z);
+			TileEntityBrickOven brickOven = (TileEntityBrickOven)world.getTileEntity(x, y, z);
 			return new ContainerBrickOven(player.inventory, brickOven);
+		}
+		
+		if (ID == SMELTER_ID)
+		{
+			TileEntitySmelter smelter = (TileEntitySmelter)world.getTileEntity(x, y, z);
+			return new ContainerSmelter(player.inventory, smelter);
 		}
 		
 		return null;
@@ -50,7 +55,7 @@ public class NoobCraftGuiHandler implements IGuiHandler
 	{
 		if (ID == KILN_ID)
 		{
-			TileEntityKiln tileEntityKiln = (TileEntityKiln) world.getTileEntity(x, y, z);
+			TileEntityKiln tileEntityKiln = (TileEntityKiln)world.getTileEntity(x, y, z);
 			return new GuiKiln(player.inventory, tileEntityKiln);
 		}
 		
@@ -66,8 +71,14 @@ public class NoobCraftGuiHandler implements IGuiHandler
 		
 		if (ID == BRICKOVEN_ID)
 		{
-			TileEntityBrickOven brickOven = (TileEntityBrickOven) world.getTileEntity(x, y, z);
+			TileEntityBrickOven brickOven = (TileEntityBrickOven)world.getTileEntity(x, y, z);
 			return new GuiBrickOven(player.inventory, brickOven);
+		}
+		
+		if (ID == SMELTER_ID)
+		{
+			TileEntitySmelter smelter = (TileEntitySmelter)world.getTileEntity(x, y, z);
+			return new GuiSmelter(player.inventory, smelter);
 		}
 		
 		return null;

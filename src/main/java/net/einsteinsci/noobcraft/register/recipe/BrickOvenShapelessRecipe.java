@@ -36,11 +36,11 @@ public class BrickOvenShapelessRecipe implements IBrickOvenRecipe
 	{
 		ArrayList arraylist = new ArrayList(recipeItems);
 		
-		for (int i = 0; i < 3; ++i)
+		for (int col = 0; col < 3; ++col)
 		{
-			for (int j = 0; j < 3; ++j)
+			for (int row = 0; row < 3; ++row)
 			{
-				ItemStack itemstack = oven.getStackInRowAndColumn(j, i);
+				ItemStack itemstack = oven.getStackInRowAndColumn(row, col);
 				
 				if (itemstack != null)
 				{

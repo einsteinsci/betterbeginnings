@@ -1,7 +1,7 @@
 package net.einsteinsci.noobcraft.tileentity;
 
 import net.einsteinsci.noobcraft.blocks.BlockBrickOven;
-import net.einsteinsci.noobcraft.register.BrickOvenRecipeHandler;
+import net.einsteinsci.noobcraft.register.recipe.BrickOvenRecipeHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -196,7 +196,17 @@ public class TileEntityBrickOven extends TileEntity implements IInventory
 	
 	private boolean canSmelt()
 	{
-		if (ovenStacks[INPUTSTART] == null)
+		boolean empty = true;
+		for (int i = INPUTSTART; i < ovenStacks.length; ++i)
+		{
+			if (ovenStacks[i] != null)
+			{
+				empty = false;
+				break;
+			}
+		}
+		
+		if (empty)
 		{
 			return false;
 		}
@@ -278,17 +288,17 @@ public class TileEntityBrickOven extends TileEntity implements IInventory
 				// Insert any additional block fuels here
 				if (block == Blocks.wooden_slab)
 				{
-					return 150;
+					return 300;
 				}
 				
 				if (block.getMaterial() == Material.wood)
 				{
-					return 300;
+					return 600;
 				}
 				
 				if (block == Blocks.coal_block)
 				{
-					return 16000;
+					return 32000;
 				}
 				
 				// VERY LARGE AMOUNT OF POWER!!!
@@ -303,7 +313,7 @@ public class TileEntityBrickOven extends TileEntity implements IInventory
 				if (((ItemTool)item).getToolMaterialName().equals("WOOD") ||
 					((ItemTool)item).getToolMaterialName().equals("noobwood"))
 				{
-					return 200;
+					return 400;
 				}
 			}
 			if (item instanceof ItemSword)
@@ -311,7 +321,7 @@ public class TileEntityBrickOven extends TileEntity implements IInventory
 				if (((ItemSword)item).getToolMaterialName().equals("WOOD") ||
 					((ItemSword)item).getToolMaterialName().equals("noobwood"))
 				{
-					return 200;
+					return 400;
 				}
 			}
 			if (item instanceof ItemHoe)
@@ -319,20 +329,20 @@ public class TileEntityBrickOven extends TileEntity implements IInventory
 				if (((ItemHoe)item).getToolMaterialName().equals("WOOD") ||
 					((ItemHoe)item).getToolMaterialName().equals("noobwood"))
 				{
-					return 200;
+					return 400;
 				}
 			}
 			if (item == Items.stick)
 			{
-				return 100;
+				return 200;
 			}
 			if (item == Items.coal)
 			{
-				return 1600;
+				return 3200;
 			}
 			if (item == Item.getItemFromBlock(Blocks.sapling))
 			{
-				return 100;
+				return 200;
 			}
 			
 			// Blaze Rods and Lava are invalid fuel sources for a kiln.
@@ -430,7 +440,7 @@ public class TileEntityBrickOven extends TileEntity implements IInventory
 	@Override
 	public String getInventoryName()
 	{
-		return hasCustomInventoryName() ? ovenName : "BrickOven";
+		return hasCustomInventoryName() ? ovenName : "container.brickoven";
 	}
 	
 	public void furnaceName(String displayName)

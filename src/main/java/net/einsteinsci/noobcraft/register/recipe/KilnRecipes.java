@@ -1,4 +1,4 @@
-package net.einsteinsci.noobcraft.register;
+package net.einsteinsci.noobcraft.register.recipe;
 
 import java.util.HashMap;
 import java.util.Iterator;

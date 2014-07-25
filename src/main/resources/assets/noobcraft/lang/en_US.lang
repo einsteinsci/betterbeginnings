@@ -3,6 +3,8 @@ tile.kilnLit.name=Kiln (Lit)
 tile.doubleWorkbench.name=Crafting Table
 tile.brickOven.name=Brick Oven
 tile.brickOvenLit.name=Brick Oven (Lit)
+tile.smelter.name=Smelter
+tile.smelterLit.name=Smelter (Lit)
 
 item.flintKnife.name=Flint Knife
 item.boneKnife.name=Bone Knife
@@ -22,3 +24,6 @@ item.noobWoodSword.name=Wooden Sword
 
 itemGroup.tabNoobCraft=NoobCraft
 container.craftingdouble=Advanced Crafting
+container.kiln=Kiln
+container.brickoven=Brick Oven
+container.smelter=Smelter

@@ -1,10 +1,9 @@
-package net.einsteinsci.noobcraft.register;
+package net.einsteinsci.noobcraft.register.recipe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import net.einsteinsci.noobcraft.inventory.AdvancedRecipe;
 import net.einsteinsci.noobcraft.inventory.InventoryWorkbenchAdditionalMaterials;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;

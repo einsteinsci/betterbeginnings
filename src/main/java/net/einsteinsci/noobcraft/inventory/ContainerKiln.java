@@ -1,6 +1,6 @@
 package net.einsteinsci.noobcraft.inventory;
 
-import net.einsteinsci.noobcraft.register.KilnRecipes;
+import net.einsteinsci.noobcraft.register.recipe.KilnRecipes;
 import net.einsteinsci.noobcraft.tileentity.TileEntityKiln;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

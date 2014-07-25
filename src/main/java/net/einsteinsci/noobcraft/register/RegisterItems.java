@@ -3,8 +3,10 @@ package net.einsteinsci.noobcraft.register;
 import net.einsteinsci.noobcraft.items.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemFood;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.oredict.OreDictionary;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class RegisterItems
 {
@@ -45,6 +47,13 @@ public class RegisterItems
 		RegisterHelper.registerItem(noobWoodSword);
 		
 		oreDictRegistry();
+	}
+	
+	public static void tweakVanilla()
+	{
+		((ItemFood)GameRegistry.findItem("minecraft", "beef")).setPotionEffect(17, 20, 0, 20);
+		((ItemFood)GameRegistry.findItem("minecraft", "porkchop")).setPotionEffect(17, 25, 0, 25);
+		((ItemFood)GameRegistry.findItem("minecraft", "fish")).setPotionEffect(17, 30, 1, 60); // Both fish types here
 	}
 	
 	public static void oreDictRegistry()

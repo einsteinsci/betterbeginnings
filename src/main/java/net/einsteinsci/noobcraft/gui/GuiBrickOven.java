@@ -4,6 +4,7 @@ import net.einsteinsci.noobcraft.ModMain;
 import net.einsteinsci.noobcraft.inventory.ContainerBrickOven;
 import net.einsteinsci.noobcraft.tileentity.TileEntityBrickOven;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
@@ -15,14 +16,27 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiBrickOven extends GuiContainer
 {
-	private static final ResourceLocation ovenGuiTextures = new ResourceLocation(ModMain.MODID
-		+ ":textures/gui/container/brickOven.png");
+	private static final ResourceLocation ovenGuiTextures = new ResourceLocation(ModMain.MODID +
+		":textures/gui/container/brickOven.png");
 	private TileEntityBrickOven tileBrickOven;
 	
 	public GuiBrickOven(InventoryPlayer inventory, TileEntityBrickOven tile)
 	{
 		super(new ContainerBrickOven(inventory, tile));
 		tileBrickOven = tile;
+	}
+	
+	/**
+	 * Draw the foreground layer for the GuiContainer (everything in front of the items)
+	 */
+	@Override
+	protected void drawGuiContainerForegroundLayer(int par1, int par2)
+	{
+		String string =
+			tileBrickOven.hasCustomInventoryName() ? tileBrickOven.getInventoryName() : I18n.format(
+				tileBrickOven.getInventoryName(), new Object[0]);
+		fontRendererObj.drawString(string, xSize / 2 - fontRendererObj.getStringWidth(string), 6, 4210752);
+		fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, ySize - 94, 4210752);
 	}
 	
 	@Override
@@ -45,5 +59,6 @@ public class GuiBrickOven extends GuiContainer
 		i1 = tileBrickOven.getCookProgressScaled(24);
 		drawTexturedModalRect(k + 89, l + 20, 176, 14, i1 + 1, 16);
 	}
+	
 	
 }

@@ -1,5 +1,6 @@
-package net.einsteinsci.noobcraft.inventory;
+package net.einsteinsci.noobcraft.register.recipe;
 
+import net.einsteinsci.noobcraft.inventory.InventoryWorkbenchAdditionalMaterials;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

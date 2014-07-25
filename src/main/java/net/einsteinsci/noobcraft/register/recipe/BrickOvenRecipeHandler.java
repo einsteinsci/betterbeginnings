@@ -1,12 +1,9 @@
-package net.einsteinsci.noobcraft.register;
+package net.einsteinsci.noobcraft.register.recipe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import net.einsteinsci.noobcraft.register.recipe.BrickOvenShapedRecipe;
-import net.einsteinsci.noobcraft.register.recipe.BrickOvenShapelessRecipe;
-import net.einsteinsci.noobcraft.register.recipe.IBrickOvenRecipe;
 import net.einsteinsci.noobcraft.tileentity.TileEntityBrickOven;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -17,7 +14,7 @@ import net.minecraftforge.oredict.OreDictionary;
 public class BrickOvenRecipeHandler
 {
 	private static final BrickOvenRecipeHandler INSTANCE = new BrickOvenRecipeHandler();
-	private List recipes = new ArrayList();
+	private List<IBrickOvenRecipe> recipes = new ArrayList<IBrickOvenRecipe>();
 	
 	// private Map experienceList;
 	
@@ -189,36 +186,17 @@ public class BrickOvenRecipeHandler
 			}
 		}
 		
-		if (i == 2 && itemstack.getItem() == itemstack1.getItem() && itemstack.stackSize == 1 &&
-			itemstack1.stackSize == 1 && itemstack.getItem().isRepairable())
+		for (IBrickOvenRecipe recipe : recipes)
 		{
-			Item item = itemstack.getItem();
-			int j1 = item.getMaxDamage() - itemstack.getItemDamageForDisplay();
-			int k = item.getMaxDamage() - itemstack1.getItemDamageForDisplay();
-			int l = j1 + k + item.getMaxDamage() * 5 / 100;
-			int i1 = item.getMaxDamage() - l;
+			// IBrickOvenRecipe recipe = (IBrickOvenRecipe)recipes.get(j);
 			
-			if (i1 < 0)
+			if (recipe.matches(oven, world))
 			{
-				i1 = 0;
+				return recipe.getCraftingResult(oven);
 			}
-			
-			return new ItemStack(itemstack.getItem(), 1, i1);
 		}
-		else
-		{
-			for (j = 0; j < recipes.size(); ++j)
-			{
-				IBrickOvenRecipe recipe = (IBrickOvenRecipe)recipes.get(j);
-				
-				if (recipe.matches(oven, world))
-				{
-					return recipe.getCraftingResult(oven);
-				}
-			}
-			
-			return null;
-		}
+		
+		return null;
 	}
 	
 	@Deprecated

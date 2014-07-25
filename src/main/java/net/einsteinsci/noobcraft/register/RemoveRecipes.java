@@ -3,12 +3,14 @@ package net.einsteinsci.noobcraft.register;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 
 public class RemoveRecipes
@@ -85,4 +87,44 @@ public class RemoveRecipes
 			}
 		}
 	}
+	
+	public static void removeFurnaceRecipes()
+	{
+		// FurnaceRecipes.smelting().getSmeltingList().remove(new ItemStack(Blocks.iron_ore));
+		
+		ItemStack ironOre = new ItemStack(Blocks.iron_ore);
+		Map recipes = FurnaceRecipes.smelting().getSmeltingList();
+		Iterator iterator = recipes.entrySet().iterator();
+		
+		while (iterator.hasNext())
+		{
+			iterator.next();
+			iterator.remove();
+		}
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Buffer

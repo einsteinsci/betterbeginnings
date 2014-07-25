@@ -14,12 +14,13 @@ import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @Mod(modid = ModMain.MODID, version = ModMain.VERSION,
-guiFactory = "net.einsteinsci.noobcraft.config.NoobcraftConfigGuiFactory")
+	guiFactory = "net.einsteinsci.noobcraft.config.NoobcraftConfigGuiFactory")
 public class ModMain
 {
 	public static final String MODID = "noobcraft";
@@ -83,8 +84,16 @@ public class ModMain
 		RegisterRecipes.addFurnaceRecipes();
 	}
 	
+	@EventHandler
 	public void init(FMLInitializationEvent e)
 	{
-		
+		RemoveRecipes.removeFurnaceRecipes();
+	}
+	
+	@EventHandler
+	public void postInit(FMLPostInitializationEvent e)
+	{
+		// RemoveRecipes.removeFurnaceRecipes();
+		RegisterItems.tweakVanilla();
 	}
 }

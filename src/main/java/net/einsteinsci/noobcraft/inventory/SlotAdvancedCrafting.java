@@ -1,6 +1,7 @@
 package net.einsteinsci.noobcraft.inventory;
 
-import net.einsteinsci.noobcraft.register.AdvancedCraftingHandler;
+import net.einsteinsci.noobcraft.register.recipe.AdvancedCraftingHandler;
+import net.einsteinsci.noobcraft.register.recipe.AdvancedRecipe;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
