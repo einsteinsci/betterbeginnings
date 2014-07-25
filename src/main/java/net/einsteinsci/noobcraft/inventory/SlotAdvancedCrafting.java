@@ -188,7 +188,7 @@ public class SlotAdvancedCrafting extends Slot
 			if (matStack != null)
 			{
 				int amount = 0;
-				AdvancedRecipes advRecipe = AdvancedCraftingHandler.AdvancedRecipeByResult(resultStack);
+				AdvancedRecipe advRecipe = AdvancedCraftingHandler.AdvancedRecipeByResult(resultStack);
 				
 				if (advRecipe != null)
 				{

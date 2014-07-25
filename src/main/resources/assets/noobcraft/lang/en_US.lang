@@ -1,6 +1,8 @@
 tile.kiln.name=Kiln
 tile.kilnLit.name=Kiln (Lit)
 tile.doubleWorkbench.name=Crafting Table
+tile.brickOven.name=Brick Oven
+tile.brickOvenLit.name=Brick Oven (Lit)
 
 item.flintKnife.name=Flint Knife
 item.boneKnife.name=Bone Knife
@@ -14,6 +16,7 @@ item.boneShard.name=Bone Shard
 item.testItem.name=Test Item
 item.leatherStrip.name=Leather Strip
 item.ironNugget.name=Iron Nugget
+item.charredMeat.name=Charred Meat
 
 item.noobWoodSword.name=Wooden Sword
 

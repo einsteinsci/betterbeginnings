@@ -7,7 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class AdvancedRecipes // implements IRecipe
+public class AdvancedRecipe
 {
 	/** How many horizontal slots this recipe is wide. */
 	public final int recipeWidth;
@@ -24,7 +24,7 @@ public class AdvancedRecipes // implements IRecipe
 	// ...something...
 	private boolean strangeFlag;
 	
-	public AdvancedRecipes(int width, int height, ItemStack[] items, ItemStack output, ItemStack[] materials)
+	public AdvancedRecipe(int width, int height, ItemStack[] items, ItemStack output, ItemStack[] materials)
 	{
 		recipeWidth = width;
 		recipeHeight = height;
@@ -211,7 +211,7 @@ public class AdvancedRecipes // implements IRecipe
 		return recipeOutput;
 	}
 	
-	public AdvancedRecipes func_92100_c()
+	public AdvancedRecipe func_92100_c()
 	{
 		strangeFlag = true;
 		return this;

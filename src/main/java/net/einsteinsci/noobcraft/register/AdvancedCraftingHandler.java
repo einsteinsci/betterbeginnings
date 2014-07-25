@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import net.einsteinsci.noobcraft.inventory.AdvancedRecipes;
+import net.einsteinsci.noobcraft.inventory.AdvancedRecipe;
 import net.einsteinsci.noobcraft.inventory.InventoryWorkbenchAdditionalMaterials;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
@@ -33,7 +33,7 @@ public class AdvancedCraftingHandler
 		crafting().addRecipe(result, additionalMaterials, args);
 	}
 	
-	public AdvancedRecipes addRecipe(ItemStack result, ItemStack[] additionalMaterials, Object... args)
+	public AdvancedRecipe addRecipe(ItemStack result, ItemStack[] additionalMaterials, Object... args)
 	{
 		String s = "";
 		int i = 0;
@@ -102,18 +102,18 @@ public class AdvancedCraftingHandler
 			}
 		}
 		
-		AdvancedRecipes advancedrecipes = new AdvancedRecipes(j, k, aitemstack, result, additionalMaterials);
+		AdvancedRecipe advancedrecipes = new AdvancedRecipe(j, k, aitemstack, result, additionalMaterials);
 		recipes.add(advancedrecipes);
 		return advancedrecipes;
 	}
 	
-	public static AdvancedRecipes AdvancedRecipeByResult(ItemStack result)
+	public static AdvancedRecipe AdvancedRecipeByResult(ItemStack result)
 	{
 		for (Object obj : crafting().recipes)
 		{
-			if (obj instanceof AdvancedRecipes)
+			if (obj instanceof AdvancedRecipe)
 			{
-				AdvancedRecipes recipe = (AdvancedRecipes) obj;
+				AdvancedRecipe recipe = (AdvancedRecipe) obj;
 				
 				if (recipe.getRecipeOutput().getItem() == result.getItem())
 				{
@@ -154,7 +154,7 @@ public class AdvancedCraftingHandler
 		
 		for (j = 0; j < recipes.size(); ++j)
 		{
-			AdvancedRecipes advrecipe = (AdvancedRecipes) recipes.get(j);
+			AdvancedRecipe advrecipe = (AdvancedRecipe) recipes.get(j);
 			
 			if (advrecipe.matchesMostly(crafting, world))
 			{
@@ -213,7 +213,7 @@ public class AdvancedCraftingHandler
 		{
 			for (j = 0; j < recipes.size(); ++j)
 			{
-				AdvancedRecipes advrecipe = (AdvancedRecipes) recipes.get(j);
+				AdvancedRecipe advrecipe = (AdvancedRecipe) recipes.get(j);
 				
 				if (advrecipe.matches(crafting, materials, world))
 				{

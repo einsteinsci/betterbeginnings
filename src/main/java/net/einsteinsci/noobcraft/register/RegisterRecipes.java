@@ -55,6 +55,7 @@ public class RegisterRecipes
 	public static void addFurnaceRecipes()
 	{
 		addKilnRecipes();
+		addBrickOvenRecipes();
 	}
 	
 	private static void addKilnRecipes()
@@ -64,6 +65,19 @@ public class RegisterRecipes
 		KilnRecipes.addRecipe(Blocks.log, new ItemStack(Items.coal, 1, 1), 0.15f);
 		KilnRecipes.addRecipe(Blocks.log2, new ItemStack(Items.coal, 1, 1), 0.15f);
 		KilnRecipes.addRecipe(Blocks.sand, new ItemStack(Blocks.glass), 0.1f);
+		KilnRecipes.addRecipe(Items.beef, new ItemStack(RegisterItems.charredMeat), 0.1f);
+		KilnRecipes.addRecipe(Items.porkchop, new ItemStack(RegisterItems.charredMeat), 0.1f);
+		KilnRecipes.addRecipe(Items.chicken, new ItemStack(RegisterItems.charredMeat), 0.1f);
+		KilnRecipes
+			.addRecipe(new ItemStack(Items.fish, 1, 0), new ItemStack(RegisterItems.charredMeat), 0.1f);
+		KilnRecipes
+			.addRecipe(new ItemStack(Items.fish, 1, 1), new ItemStack(RegisterItems.charredMeat), 0.1f);
+	}
+	
+	private static void addBrickOvenRecipes()
+	{
+		BrickOvenRecipeHandler.instance().putShapedRecipe(new ItemStack(Items.golden_apple), "GGG", "GAG",
+			"GGG", 'G', Items.gold_ingot, 'A', Items.apple);
 	}
 	
 	public static void addAdvancedRecipes()

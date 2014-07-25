@@ -46,11 +46,21 @@ public class ModMain
 		}
 	};
 	
+	public static void Log(String text)
+	{
+		Log(Level.INFO, text);
+	}
+	
+	public static void Log(Level level, String text)
+	{
+		FMLLog.log("NoobCraft", level, text);
+	}
+	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e)
 	{
 		// FMLLog.info("[NoobCraft] Ready to be a noob?");
-		FMLLog.log("NoobCraft", Level.INFO, "Starting pre-initialization...");
+		Log("Starting pre-initialization...");
 		
 		configFile = new Configuration(e.getSuggestedConfigurationFile());
 		configFile.load();

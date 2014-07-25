@@ -27,6 +27,8 @@ public class RemoveRecipes
 		removedRecipes.add(Item.getItemFromBlock(Blocks.crafting_table));
 		
 		// Advanced Crafting
+		removedRecipes.add(Items.bow);
+		
 		removedRecipes.add(Items.wooden_shovel);
 		removedRecipes.add(Items.wooden_hoe);
 		

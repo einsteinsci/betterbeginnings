@@ -5,7 +5,7 @@ import java.util.Random;
 import net.einsteinsci.noobcraft.ModMain;
 import net.einsteinsci.noobcraft.gui.NoobCraftGuiHandler;
 import net.einsteinsci.noobcraft.register.RegisterBlocks;
-import net.einsteinsci.noobcraft.tileentity.TileEntityKiln;
+import net.einsteinsci.noobcraft.tileentity.TileEntityBrickOven;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -23,7 +23,7 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockKiln extends BlockContainer
+public class BlockBrickOven extends BlockContainer
 {
 	@SideOnly(Side.CLIENT)
 	private IIcon top;
@@ -34,17 +34,17 @@ public class BlockKiln extends BlockContainer
 	private final boolean isLit2; // strange why...
 	private final Random random = new Random();
 	
-	public BlockKiln(boolean lit)
+	public BlockBrickOven(boolean lit)
 	{
 		super(Material.rock);
 		
 		if (lit)
 		{
-			setBlockName("kilnLit");
+			setBlockName("brickOvenLit");
 		}
 		else
 		{
-			setBlockName("kiln");
+			setBlockName("brickOven");
 			setCreativeTab(ModMain.tabNoobCraft);
 		}
 		
@@ -57,9 +57,10 @@ public class BlockKiln extends BlockContainer
 	@Override
 	public void registerBlockIcons(IIconRegister iconregister)
 	{
-		blockIcon = iconregister.registerIcon(ModMain.MODID + ":kilnSide");
-		front = iconregister.registerIcon(isLit2 ? ModMain.MODID + ":kilnLit" : ModMain.MODID + ":kilnUnlit");
-		top = iconregister.registerIcon(ModMain.MODID + ":kilnTop");
+		blockIcon = iconregister.registerIcon(ModMain.MODID + ":brickOvenSide");
+		front = iconregister.registerIcon(isLit2 ? ModMain.MODID + ":brickOvenLit" : ModMain.MODID
+			+ ":brickOvenUnlit");
+		top = iconregister.registerIcon(ModMain.MODID + ":brickOvenTop");
 	}
 	
 	@Override
@@ -93,7 +94,9 @@ public class BlockKiln extends BlockContainer
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side,
 		float clickX, float clickY, float clickZ)
 	{
-		player.openGui(ModMain.modInstance, NoobCraftGuiHandler.KILN_ID, world, x, y, z);
+		player.openGui(ModMain.modInstance, NoobCraftGuiHandler.BRICKOVEN_ID, world, x, y, z);
+		
+		// player.addChatMessage(new ChatComponentText("Brick Oven opened."));
 		
 		return true;
 	}
@@ -101,13 +104,13 @@ public class BlockKiln extends BlockContainer
 	@Override
 	public Item getItemDropped(int par1, Random rand, int par3)
 	{
-		return Item.getItemFromBlock(RegisterBlocks.blockKiln);
+		return Item.getItemFromBlock(RegisterBlocks.blockBrickOven);
 	}
 	
 	@Override
 	public Item getItem(World world, int x, int y, int z)
 	{
-		return Item.getItemFromBlock(RegisterBlocks.blockKiln);
+		return Item.getItemFromBlock(RegisterBlocks.blockBrickOven);
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -146,7 +149,7 @@ public class BlockKiln extends BlockContainer
 		
 		if (stack.hasDisplayName())
 		{
-			((TileEntityKiln) world.getTileEntity(x, y, z)).furnaceName(stack.getDisplayName());
+			((TileEntityBrickOven) world.getTileEntity(x, y, z)).furnaceName(stack.getDisplayName());
 		}
 	}
 	
@@ -192,11 +195,11 @@ public class BlockKiln extends BlockContainer
 		
 		if (lit)
 		{
-			world.setBlock(x, y, z, RegisterBlocks.blockKilnLit);
+			world.setBlock(x, y, z, RegisterBlocks.blockBrickOvenLit);
 		}
 		else
 		{
-			world.setBlock(x, y, z, RegisterBlocks.blockKiln);
+			world.setBlock(x, y, z, RegisterBlocks.blockBrickOven);
 		}
 		
 		isLit = false;
@@ -215,7 +218,7 @@ public class BlockKiln extends BlockContainer
 	{
 		if (!isLit)
 		{
-			TileEntityKiln tileEntityKiln = (TileEntityKiln) world.getTileEntity(x, y, z);
+			TileEntityBrickOven tileEntityKiln = (TileEntityBrickOven) world.getTileEntity(x, y, z);
 			if (tileEntityKiln != null)
 			{
 				for (int i = 0; i < tileEntityKiln.getSizeInventory(); i++)
@@ -246,7 +249,7 @@ public class BlockKiln extends BlockContainer
 							
 							float f3 = 0.025f;
 							entityItem.motionX = (float) random.nextGaussian() * f3;
-							entityItem.motionY = (float) random.nextGaussian() * f3 + 0.1f;
+							entityItem.motionY = (float) random.nextGaussian() * f3 + 0.3f;
 							entityItem.motionX = (float) random.nextGaussian() * f3;
 							world.spawnEntityInWorld(entityItem);
 						}
@@ -300,6 +303,29 @@ public class BlockKiln extends BlockContainer
 	@Override
 	public TileEntity createNewTileEntity(World world, int par2)
 	{
-		return new TileEntityKiln();
+		return new TileEntityBrickOven();
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Buffer

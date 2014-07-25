@@ -37,6 +37,11 @@ public class KilnRecipes
 		smelting().addLists(Item.getItemFromBlock(input), output, experience);
 	}
 	
+	public static void addRecipe(ItemStack input, ItemStack output, float experience)
+	{
+		smelting().putLists(input, output, experience);
+	}
+	
 	public void addLists(Item input, ItemStack itemStack, float experience)
 	{
 		putLists(new ItemStack(input, 1, OreDictionary.WILDCARD_VALUE), itemStack, experience);
@@ -70,7 +75,7 @@ public class KilnRecipes
 	{
 		return stack2.getItem() == stack.getItem()
 			&& (stack2.getItemDamage() == OreDictionary.WILDCARD_VALUE || stack2.getItemDamage() == stack
-				.getItemDamage());
+			.getItemDamage());
 	}
 	
 	public float giveExperience(ItemStack stack)
