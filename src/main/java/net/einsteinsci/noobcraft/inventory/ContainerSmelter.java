@@ -106,56 +106,62 @@ public class ContainerSmelter extends Container
 		return smelter.isUseableByPlayer(player);
 	}
 	
+	public boolean merge(ItemStack stack, int startSlot, int endSlot, boolean searchFromBottom)
+	{
+		return mergeItemStack(stack, startSlot, endSlot, searchFromBottom);
+	}
+	
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int slotid)
+	public ItemStack transferStackInSlot(EntityPlayer player, int clickedSlot)
 	{
 		ItemStack movedStackDupe = null;
-		Slot slot = (Slot)inventorySlots.get(slotid);
+		Slot slot = (Slot)inventorySlots.get(clickedSlot);
 		
 		if (slot != null && slot.getHasStack())
 		{
 			ItemStack movedStack = slot.getStack();
 			movedStackDupe = movedStack.copy();
 			
-			if (slotid == 2)
+			if (clickedSlot == TileEntitySmelter.OUTPUT)
 			{
-				if (!mergeItemStack(movedStack, 3, 39, true))
+				if (!mergeItemStack(movedStack, 4, 40, true))
 				{
 					return null;
 				}
 				slot.onSlotChange(movedStack, movedStackDupe);
 			}
-			else if (slotid != 1 && slotid != 0)
+			else if (clickedSlot != TileEntitySmelter.FUEL && clickedSlot != TileEntitySmelter.INPUT &&
+				clickedSlot != TileEntitySmelter.GRAVEL)
 			{
 				if (SmelterRecipeHandler.smelting().getSmeltingResult(movedStack) != null)
 				{
-					if (!mergeItemStack(movedStack, 0, 1, false))
+					if (!mergeItemStack(movedStack, TileEntitySmelter.INPUT, TileEntitySmelter.INPUT + 1, false))
 					{
 						return null;
 					}
 				}
 				else if (movedStack.getItem() == Item.getItemFromBlock(Blocks.gravel))
 				{
-					if (!mergeItemStack(movedStack, TileEntitySmelter.GRAVEL, 2, false))
+					if (!mergeItemStack(movedStack, TileEntitySmelter.GRAVEL, TileEntitySmelter.GRAVEL + 1, false))
 					{
 						return null;
 					}
 				}
 				else if (TileEntitySmelter.isItemFuel(movedStack))
 				{
-					if (!mergeItemStack(movedStack, TileEntitySmelter.FUEL, 2, false))
+					if (!mergeItemStack(movedStack, TileEntitySmelter.FUEL + 1, TileEntitySmelter.FUEL + 2, false))
 					{
 						return null;
 					}
 				}
-				else if (slotid >= 4 && slotid < 31)
+				else if (clickedSlot >= 4 && clickedSlot < 31)
 				{
-					if (!mergeItemStack(movedStack, 30, 39, false))
+					if (!mergeItemStack(movedStack, 31, 40, false))
 					{
 						return null;
 					}
 				}
-				else if (slotid >= 31 && slotid < 40 && !mergeItemStack(movedStack, 4, 31, false))
+				else if (clickedSlot >= 31 && clickedSlot < 40 && !mergeItemStack(movedStack, 4, 31, false))
 				{
 					return null;
 				}
