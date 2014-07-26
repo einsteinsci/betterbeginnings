@@ -1,5 +1,6 @@
 package net.einsteinsci.noobcraft.inventory;
 
+import net.einsteinsci.noobcraft.register.recipe.BrickOvenRecipeHandler;
 import net.einsteinsci.noobcraft.tileentity.TileEntityBrickOven;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -13,10 +14,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ContainerBrickOven extends Container
 {
-	public static final int FUEL = 0;
-	public static final int OUTPUT = 1;
-	public static final int INPUT = 3;
-	
 	// private InventoryBrickOvenMatrix craftMatrix = new
 	// InventoryBrickOvenMatrix(this, 3, 3);
 	private TileEntityBrickOven tileBrickOven;
@@ -27,8 +24,8 @@ public class ContainerBrickOven extends Container
 	public ContainerBrickOven(InventoryPlayer playerInv, TileEntityBrickOven tileEntityBrickOven)
 	{
 		tileBrickOven = tileEntityBrickOven;
-		addSlotToContainer(new Slot(tileEntityBrickOven, FUEL, 92, 58));
-		addSlotToContainer(new SlotFurnace(playerInv.player, tileEntityBrickOven, OUTPUT, 124, 21));
+		addSlotToContainer(new Slot(tileEntityBrickOven, TileEntityBrickOven.FUEL, 92, 58));
+		addSlotToContainer(new SlotFurnace(playerInv.player, tileEntityBrickOven, TileEntityBrickOven.OUTPUT, 124, 21));
 		// addSlotToContainer(new Slot(tileEntityBrickOven, INPUT, 30, 17));
 		
 		int i;
@@ -129,30 +126,60 @@ public class ContainerBrickOven extends Container
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 			
-			if (slotId == 0)
+			if (slotId == TileEntityBrickOven.OUTPUT)
 			{
-				if (!mergeItemStack(itemstack1, 10, 46, true))
+				if (!mergeItemStack(itemstack1, 11, 47, true)) // move to inventory (all, avoid hotbar)
 				{
 					return null;
 				}
 				
 				slot.onSlotChange(itemstack1, itemstack);
 			}
-			else if (slotId >= 10 && slotId < 37)
+			else if (slotId >= 11 && slotId < 38) // non-hotbar inventory
 			{
-				if (!mergeItemStack(itemstack1, 37, 46, false))
+				if (TileEntityBrickOven.isItemFuel(itemstack1))
+				{
+					if (!mergeItemStack(itemstack1, TileEntityBrickOven.FUEL, TileEntityBrickOven.FUEL + 1, false))
+					{
+						return null;
+					}
+				}
+				else if (BrickOvenRecipeHandler.instance().isInRecipe(itemstack1))
+				{
+					if (!mergeItemStack(itemstack1, TileEntityBrickOven.INPUTSTART, TileEntityBrickOven.INPUTSTART + 9,
+						false)) // move to craft matrix
+					{
+						return null;
+					}
+				}
+				else if (!mergeItemStack(itemstack1, 38, 47, false)) // move to hotbar
 				{
 					return null;
 				}
 			}
-			else if (slotId >= 37 && slotId < 46)
+			else if (slotId >= 37 && slotId < 46) // hotbar
 			{
-				if (!mergeItemStack(itemstack1, 10, 37, false))
+				if (TileEntityBrickOven.isItemFuel(itemstack1))
+				{
+					if (!mergeItemStack(itemstack1, TileEntityBrickOven.FUEL, TileEntityBrickOven.FUEL + 1, false))
+					{
+						return null;
+					}
+				}
+				else if (BrickOvenRecipeHandler.instance().isInRecipe(itemstack1))
+				{
+					if (!mergeItemStack(itemstack1, TileEntityBrickOven.INPUTSTART, TileEntityBrickOven.INPUTSTART + 9,
+						false)) // move to craft matrix
+					{
+						return null;
+					}
+				}
+				else if (!mergeItemStack(itemstack1, 11, 38, false)) // move to inventory (non-hotbar)
 				{
 					return null;
 				}
 			}
-			else if (!mergeItemStack(itemstack1, 10, 46, false))
+			else if (!mergeItemStack(itemstack1, 11, 47, false)) // move to inventory (all)
 			{
 				return null;
 			}

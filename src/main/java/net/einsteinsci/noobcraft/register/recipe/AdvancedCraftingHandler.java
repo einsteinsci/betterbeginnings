@@ -41,7 +41,7 @@ public class AdvancedCraftingHandler
 		
 		if (args[i] instanceof String[])
 		{
-			String[] astring = (String[]) args[i++];
+			String[] astring = (String[])args[i++];
 			
 			for (int l = 0; l < astring.length; ++l)
 			{
@@ -55,7 +55,7 @@ public class AdvancedCraftingHandler
 		{
 			while (args[i] instanceof String)
 			{
-				String s2 = (String) args[i++];
+				String s2 = (String)args[i++];
 				++k;
 				j = s2.length();
 				s = s + s2;
@@ -66,20 +66,20 @@ public class AdvancedCraftingHandler
 		
 		for (hashmap = new HashMap(); i < args.length; i += 2)
 		{
-			Character character = (Character) args[i];
+			Character character = (Character)args[i];
 			ItemStack itemstack1 = null;
 			
 			if (args[i + 1] instanceof Item)
 			{
-				itemstack1 = new ItemStack((Item) args[i + 1]);
+				itemstack1 = new ItemStack((Item)args[i + 1]);
 			}
 			else if (args[i + 1] instanceof Block)
 			{
-				itemstack1 = new ItemStack((Block) args[i + 1], 1, OreDictionary.WILDCARD_VALUE);
+				itemstack1 = new ItemStack((Block)args[i + 1], 1, OreDictionary.WILDCARD_VALUE);
 			}
 			else if (args[i + 1] instanceof ItemStack)
 			{
-				itemstack1 = (ItemStack) args[i + 1];
+				itemstack1 = (ItemStack)args[i + 1];
 			}
 			
 			hashmap.put(character, itemstack1);
@@ -93,7 +93,7 @@ public class AdvancedCraftingHandler
 			
 			if (hashmap.containsKey(Character.valueOf(c0)))
 			{
-				aitemstack[i1] = ((ItemStack) hashmap.get(Character.valueOf(c0))).copy();
+				aitemstack[i1] = ((ItemStack)hashmap.get(Character.valueOf(c0))).copy();
 			}
 			else
 			{
@@ -112,7 +112,7 @@ public class AdvancedCraftingHandler
 		{
 			if (obj instanceof AdvancedRecipe)
 			{
-				AdvancedRecipe recipe = (AdvancedRecipe) obj;
+				AdvancedRecipe recipe = (AdvancedRecipe)obj;
 				
 				if (recipe.getRecipeOutput().getItem() == result.getItem())
 				{
@@ -153,7 +153,7 @@ public class AdvancedCraftingHandler
 		
 		for (j = 0; j < recipes.size(); ++j)
 		{
-			AdvancedRecipe advrecipe = (AdvancedRecipe) recipes.get(j);
+			AdvancedRecipe advrecipe = (AdvancedRecipe)recipes.get(j);
 			
 			if (advrecipe.matchesMostly(crafting, world))
 			{
@@ -164,8 +164,8 @@ public class AdvancedCraftingHandler
 		return false;
 	}
 	
-	public ItemStack findMatchingRecipe(InventoryCrafting crafting,
-		InventoryWorkbenchAdditionalMaterials materials, World world)
+	public ItemStack findMatchingRecipe(InventoryCrafting crafting, InventoryWorkbenchAdditionalMaterials materials,
+		World world)
 	{
 		int i = 0;
 		ItemStack itemstack = null;
@@ -192,8 +192,8 @@ public class AdvancedCraftingHandler
 			}
 		}
 		
-		if (i == 2 && itemstack.getItem() == itemstack1.getItem() && itemstack.stackSize == 1
-			&& itemstack1.stackSize == 1 && itemstack.getItem().isRepairable())
+		if (i == 2 && itemstack.getItem() == itemstack1.getItem() && itemstack.stackSize == 1 &&
+			itemstack1.stackSize == 1 && itemstack.getItem().isRepairable())
 		{
 			Item item = itemstack.getItem();
 			int j1 = item.getMaxDamage() - itemstack.getItemDamageForDisplay();
@@ -212,7 +212,7 @@ public class AdvancedCraftingHandler
 		{
 			for (j = 0; j < recipes.size(); ++j)
 			{
-				AdvancedRecipe advrecipe = (AdvancedRecipe) recipes.get(j);
+				AdvancedRecipe advrecipe = (AdvancedRecipe)recipes.get(j);
 				
 				if (advrecipe.matches(crafting, materials, world))
 				{
@@ -222,5 +222,23 @@ public class AdvancedCraftingHandler
 			
 			return null;
 		}
+	}
+	
+	public boolean isAddedMaterial(ItemStack stack)
+	{
+		for (Object obj : recipes)
+		{
+			if (obj instanceof AdvancedRecipe)
+			{
+				AdvancedRecipe recipe = (AdvancedRecipe)obj;
+				
+				if (recipe.hasMaterial(stack))
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 }

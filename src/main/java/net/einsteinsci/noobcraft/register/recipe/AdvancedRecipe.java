@@ -92,8 +92,8 @@ public class AdvancedRecipe
 	}
 	
 	// Not sure what that fourth flag is...
-	private boolean checkMatch(InventoryCrafting crafting, InventoryWorkbenchAdditionalMaterials materials,
-		int width, int height, boolean flag4)
+	private boolean checkMatch(InventoryCrafting crafting, InventoryWorkbenchAdditionalMaterials materials, int width,
+		int height, boolean flag4)
 	{
 		for (int k = 0; k < 3; ++k)
 		{
@@ -119,8 +119,8 @@ public class AdvancedRecipe
 				
 				if (craftingStackInQuestion != null || neededCraftingStack != null)
 				{
-					if (craftingStackInQuestion == null && neededCraftingStack != null
-						|| craftingStackInQuestion != null && neededCraftingStack == null)
+					if (craftingStackInQuestion == null && neededCraftingStack != null ||
+						craftingStackInQuestion != null && neededCraftingStack == null)
 					{
 						return false;
 					}
@@ -130,8 +130,8 @@ public class AdvancedRecipe
 						return false;
 					}
 					
-					if (neededCraftingStack.getItemDamage() != OreDictionary.WILDCARD_VALUE
-						&& neededCraftingStack.getItemDamage() != craftingStackInQuestion.getItemDamage())
+					if (neededCraftingStack.getItemDamage() != OreDictionary.WILDCARD_VALUE &&
+						neededCraftingStack.getItemDamage() != craftingStackInQuestion.getItemDamage())
 					{
 						return false;
 					}
@@ -150,8 +150,8 @@ public class AdvancedRecipe
 								foundIt = true;
 							}
 							
-							if (requiredMatStack.getItemDamage() != OreDictionary.WILDCARD_VALUE
-								&& requiredMatStack.getItemDamage() != testedMatStack.getItemDamage())
+							if (requiredMatStack.getItemDamage() != OreDictionary.WILDCARD_VALUE &&
+								requiredMatStack.getItemDamage() != testedMatStack.getItemDamage())
 							{
 								foundIt = false;
 							}
@@ -192,7 +192,7 @@ public class AdvancedRecipe
 				
 				if (itemstack1 != null && itemstack1.hasTagCompound())
 				{
-					itemstack.setTagCompound((NBTTagCompound) itemstack1.stackTagCompound.copy());
+					itemstack.setTagCompound((NBTTagCompound)itemstack1.stackTagCompound.copy());
 				}
 			}
 		}
@@ -244,8 +244,8 @@ public class AdvancedRecipe
 				
 				if (craftingStackInQuestion != null || neededCraftingStack != null)
 				{
-					if (craftingStackInQuestion == null && neededCraftingStack != null
-						|| craftingStackInQuestion != null && neededCraftingStack == null)
+					if (craftingStackInQuestion == null && neededCraftingStack != null ||
+						craftingStackInQuestion != null && neededCraftingStack == null)
 					{
 						return false;
 					}
@@ -255,8 +255,8 @@ public class AdvancedRecipe
 						return false;
 					}
 					
-					if (neededCraftingStack.getItemDamage() != OreDictionary.WILDCARD_VALUE
-						&& neededCraftingStack.getItemDamage() != craftingStackInQuestion.getItemDamage())
+					if (neededCraftingStack.getItemDamage() != OreDictionary.WILDCARD_VALUE &&
+						neededCraftingStack.getItemDamage() != craftingStackInQuestion.getItemDamage())
 					{
 						return false;
 					}
@@ -265,5 +265,17 @@ public class AdvancedRecipe
 		}
 		
 		return true;
+	}
+	
+	public boolean hasMaterial(ItemStack stack)
+	{
+		for (ItemStack s : addedMaterials)
+		{
+			if (stack.getItem() == s.getItem())
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }

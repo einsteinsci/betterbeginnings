@@ -1,6 +1,5 @@
 package net.einsteinsci.noobcraft.gui;
 
-import net.einsteinsci.noobcraft.ModMain;
 import net.einsteinsci.noobcraft.inventory.ContainerKiln;
 import net.einsteinsci.noobcraft.tileentity.TileEntityKiln;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -16,44 +15,45 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiKiln extends GuiContainer
 {
-	private static final ResourceLocation kilnGuiTextures = new ResourceLocation(ModMain.MODID + ":textures/gui/container/kiln.png");
+	private static final ResourceLocation kilnGuiTextures = new ResourceLocation(
+		"minecraft:textures/gui/container/furnace.png");
 	private TileEntityKiln tileKiln;
-
-	public GuiKiln(InventoryPlayer invPlayer, TileEntityKiln tile) 
+	
+	public GuiKiln(InventoryPlayer invPlayer, TileEntityKiln tile)
 	{
 		super(new ContainerKiln(invPlayer, tile));
-		this.tileKiln = tile;
+		tileKiln = tile;
 	}
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2)
 	{
-		String string = this.tileKiln.hasCustomInventoryName() ? 
-				tileKiln.getInventoryName() : 
-				I18n.format(this.tileKiln.getInventoryName(), new Object[0]);
-		this.fontRendererObj.drawString(string, xSize / 2 - fontRendererObj.getStringWidth(string), 6, 4210752);
-		this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 94, 4210752);
+		String string =
+			tileKiln.hasCustomInventoryName() ? tileKiln.getInventoryName() : I18n.format(tileKiln.getInventoryName(),
+				new Object[0]);
+			fontRendererObj.drawString(string, xSize / 2 - fontRendererObj.getStringWidth(string), 6, 4210752);
+			fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, ySize - 94, 4210752);
 	}
-
+	
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) 
+	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
 		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		this.mc.getTextureManager().bindTexture(kilnGuiTextures);
-		int k = (this.width - this.xSize) / 2;
-		int l = (this.height - this.ySize) / 2;
+		mc.getTextureManager().bindTexture(kilnGuiTextures);
+		int k = (width - xSize) / 2;
+		int l = (height - ySize) / 2;
 		
-		this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
+		drawTexturedModalRect(k, l, 0, 0, xSize, ySize);
 		int i1;
 		
-		if (this.tileKiln.isBurning())
+		if (tileKiln.isBurning())
 		{
-			i1 = this.tileKiln.getBurnTimeRemainingScaled(12);
-			this.drawTexturedModalRect(k + 56, l + 36 + 12 - i1, 176, 12 - i1, 14, i1 + 2);
+			i1 = tileKiln.getBurnTimeRemainingScaled(12);
+			drawTexturedModalRect(k + 56, l + 36 + 12 - i1, 176, 12 - i1, 14, i1 + 2);
 		}
 		
-		i1 = this.tileKiln.getCookProgressScaled(24);
-		this.drawTexturedModalRect(k + 79, l + 34, 176, 14, i1 + 1, 16);
+		i1 = tileKiln.getCookProgressScaled(24);
+		drawTexturedModalRect(k + 79, l + 34, 176, 14, i1 + 1, 16);
 	}
 	
 }

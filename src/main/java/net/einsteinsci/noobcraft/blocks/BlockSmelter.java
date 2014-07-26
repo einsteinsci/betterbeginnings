@@ -49,6 +49,8 @@ public class BlockSmelter extends BlockContainer
 		}
 		
 		setBlockTextureName(ModMain.MODID + ":" + getUnlocalizedName().substring(5));
+		setHardness(1.5f);
+		setResistance(10.0f);
 		
 		isLit2 = lit;
 	}
@@ -242,7 +244,7 @@ public class BlockSmelter extends BlockContainer
 							if (stack.hasTagCompound())
 							{
 								entityItem.getEntityItem()
-								.setTagCompound((NBTTagCompound)stack.getTagCompound().copy());
+									.setTagCompound((NBTTagCompound)stack.getTagCompound().copy());
 							}
 							
 							float f3 = 0.025f;

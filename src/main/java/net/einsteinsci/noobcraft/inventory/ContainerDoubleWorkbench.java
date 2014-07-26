@@ -14,8 +14,7 @@ public class ContainerDoubleWorkbench extends Container
 {
 	/** The crafting matrix inventory (3x3). */
 	public InventoryCrafting craftMatrix = new InventoryCrafting(this, 3, 3);
-	public InventoryWorkbenchAdditionalMaterials addedMats = new InventoryWorkbenchAdditionalMaterials(this,
-		4);
+	public InventoryWorkbenchAdditionalMaterials addedMats = new InventoryWorkbenchAdditionalMaterials(this, 4);
 	public IInventory craftResult = new InventoryCraftResult();
 	private World worldObj;
 	private int posX;
@@ -28,8 +27,7 @@ public class ContainerDoubleWorkbench extends Container
 		posX = x;
 		posY = y;
 		posZ = z;
-		addSlotToContainer(new SlotAdvancedCrafting(invPlayer.player, craftMatrix, craftResult, addedMats, 0,
-			129, 35));
+		addSlotToContainer(new SlotAdvancedCrafting(invPlayer.player, craftMatrix, craftResult, addedMats, 0, 129, 35));
 		int l;
 		int i1;
 		
@@ -67,15 +65,13 @@ public class ContainerDoubleWorkbench extends Container
 	}
 	
 	/**
-	 * Callback for when the crafting matrix is changed. Detects if recipe is
-	 * valid.
+	 * Callback for when the crafting matrix is changed. Detects if recipe is valid.
 	 */
 	@Override
 	public void onCraftMatrixChanged(IInventory inventory)
 	{
 		boolean hasAddedMats = false;
-		ItemStack result = AdvancedCraftingHandler.crafting().findMatchingRecipe(craftMatrix, addedMats,
-			worldObj);
+		ItemStack result = AdvancedCraftingHandler.crafting().findMatchingRecipe(craftMatrix, addedMats, worldObj);
 		
 		if (result == null)
 		{
@@ -131,20 +127,20 @@ public class ContainerDoubleWorkbench extends Container
 		// RegisterBlocks.blockDoubleWorkbench ? false : player.getDistanceSq(
 		// posX + 0.5D, posY + 0.5D, posZ + 0.5D) <= 64.0D;
 		
-		return worldObj.getBlock(posX, posY, posZ) == RegisterBlocks.blockDoubleWorkbench
-			&& worldObj.getBlockMetadata(posX, posY, posZ) != 0
-			&& player.getDistanceSq(posX + 0.5D, posY + 0.5D, posZ + 0.5D) <= 64.0D;
+		return worldObj.getBlock(posX, posY, posZ) == RegisterBlocks.doubleWorkbench &&
+			worldObj.getBlockMetadata(posX, posY, posZ) != 0 &&
+			player.getDistanceSq(posX + 0.5D, posY + 0.5D, posZ + 0.5D) <= 64.0D;
 	}
 	
 	/**
-	 * Called when a player shift-clicks on a slot. You must override this or
-	 * you will crash when someone does that. I am not touching this code.
+	 * Called when a player shift-clicks on a slot. You must override this or you will crash when someone does that. I
+	 * am not touching this code.
 	 */
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotId)
 	{
 		ItemStack itemstack = null;
-		Slot slot = (Slot) inventorySlots.get(slotId);
+		Slot slot = (Slot)inventorySlots.get(slotId);
 		
 		if (slot != null && slot.getHasStack())
 		{
@@ -162,14 +158,28 @@ public class ContainerDoubleWorkbench extends Container
 			}
 			else if (slotId >= 10 && slotId < 37)
 			{
-				if (!mergeItemStack(itemstack1, 37, 46, false))
+				if (AdvancedCraftingHandler.crafting().isAddedMaterial(itemstack1))
+				{
+					if (!mergeItemStack(itemstack1, 46, 50, false))
+					{
+						return null;
+					}
+				}
+				else if (!mergeItemStack(itemstack1, 37, 46, false))
 				{
 					return null;
 				}
 			}
 			else if (slotId >= 37 && slotId < 46)
 			{
-				if (!mergeItemStack(itemstack1, 10, 37, false))
+				if (AdvancedCraftingHandler.crafting().isAddedMaterial(itemstack1))
+				{
+					if (!mergeItemStack(itemstack1, 46, 50, false))
+					{
+						return null;
+					}
+				}
+				else if (!mergeItemStack(itemstack1, 10, 37, false))
 				{
 					return null;
 				}
@@ -181,7 +191,7 @@ public class ContainerDoubleWorkbench extends Container
 			
 			if (itemstack1.stackSize == 0)
 			{
-				slot.putStack((ItemStack) null);
+				slot.putStack((ItemStack)null);
 			}
 			else
 			{

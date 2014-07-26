@@ -79,12 +79,12 @@ public class TileEntityKiln extends TileEntity implements ISidedInventory
 	@SideOnly(Side.CLIENT)
 	public int getBurnTimeRemainingScaled(int time)
 	{
-		if (currentBurnTime == 0)
+		if (currentBurnTime <= 0)
 		{
 			currentBurnTime = smeltTime;
 		}
 		
-		return currentBurnTime * time / smeltTime;
+		return kilnBurnTime * time / currentBurnTime;
 	}
 	
 	public boolean isBurning()

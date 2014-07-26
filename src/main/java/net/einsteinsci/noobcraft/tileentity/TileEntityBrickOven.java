@@ -212,7 +212,7 @@ public class TileEntityBrickOven extends TileEntity implements IInventory
 		}
 		else
 		{
-			ItemStack stack = BrickOvenRecipeHandler.instance().findMatchingRecipe(this, worldObj);
+			ItemStack stack = BrickOvenRecipeHandler.instance().findMatchingRecipe(this);
 			if (stack == null)
 			{
 				return false;
@@ -236,7 +236,7 @@ public class TileEntityBrickOven extends TileEntity implements IInventory
 	{
 		if (canSmelt())
 		{
-			ItemStack itemStack = BrickOvenRecipeHandler.instance().findMatchingRecipe(this, worldObj);
+			ItemStack itemStack = BrickOvenRecipeHandler.instance().findMatchingRecipe(this);
 			
 			if (ovenStacks[OUTPUT] == null)
 			{

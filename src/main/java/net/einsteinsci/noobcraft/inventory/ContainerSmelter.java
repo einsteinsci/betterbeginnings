@@ -25,9 +25,9 @@ public class ContainerSmelter extends Container
 	{
 		smelter = tileEntitySmelter;
 		addSlotToContainer(new Slot(tileEntitySmelter, TileEntitySmelter.INPUT, 46, 17));
-		addSlotToContainer(new Slot(tileEntitySmelter, TileEntitySmelter.GRAVEL, 66, 17));
 		addSlotToContainer(new Slot(tileEntitySmelter, TileEntitySmelter.FUEL, 56, 53));
 		addSlotToContainer(new SlotFurnace(playerInv.player, tileEntitySmelter, TileEntitySmelter.OUTPUT, 116, 35));
+		addSlotToContainer(new Slot(tileEntitySmelter, TileEntitySmelter.GRAVEL, 66, 17));
 		
 		int i;
 		for (i = 0; i < 3; ++i)
@@ -112,17 +112,17 @@ public class ContainerSmelter extends Container
 	}
 	
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int clickedSlot)
+	public ItemStack transferStackInSlot(EntityPlayer player, int fromId)
 	{
 		ItemStack movedStackDupe = null;
-		Slot slot = (Slot)inventorySlots.get(clickedSlot);
+		Slot slot = (Slot)inventorySlots.get(fromId);
 		
 		if (slot != null && slot.getHasStack())
 		{
 			ItemStack movedStack = slot.getStack();
 			movedStackDupe = movedStack.copy();
 			
-			if (clickedSlot == TileEntitySmelter.OUTPUT)
+			if (fromId == TileEntitySmelter.OUTPUT)
 			{
 				if (!mergeItemStack(movedStack, 4, 40, true))
 				{
@@ -130,8 +130,8 @@ public class ContainerSmelter extends Container
 				}
 				slot.onSlotChange(movedStack, movedStackDupe);
 			}
-			else if (clickedSlot != TileEntitySmelter.FUEL && clickedSlot != TileEntitySmelter.INPUT &&
-				clickedSlot != TileEntitySmelter.GRAVEL)
+			else if (fromId != TileEntitySmelter.FUEL && fromId != TileEntitySmelter.INPUT &&
+				fromId != TileEntitySmelter.GRAVEL)
 			{
 				if (SmelterRecipeHandler.smelting().getSmeltingResult(movedStack) != null)
 				{
@@ -149,19 +149,19 @@ public class ContainerSmelter extends Container
 				}
 				else if (TileEntitySmelter.isItemFuel(movedStack))
 				{
-					if (!mergeItemStack(movedStack, TileEntitySmelter.FUEL + 1, TileEntitySmelter.FUEL + 2, false))
+					if (!mergeItemStack(movedStack, TileEntitySmelter.FUEL, TileEntitySmelter.FUEL + 1, false))
 					{
 						return null;
 					}
 				}
-				else if (clickedSlot >= 4 && clickedSlot < 31)
+				else if (fromId >= 4 && fromId < 31)
 				{
 					if (!mergeItemStack(movedStack, 31, 40, false))
 					{
 						return null;
 					}
 				}
-				else if (clickedSlot >= 31 && clickedSlot < 40 && !mergeItemStack(movedStack, 4, 31, false))
+				else if (fromId >= 31 && fromId < 40 && !mergeItemStack(movedStack, 4, 31, false))
 				{
 					return null;
 				}

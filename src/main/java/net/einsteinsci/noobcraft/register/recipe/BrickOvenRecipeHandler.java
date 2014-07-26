@@ -8,7 +8,6 @@ import net.einsteinsci.noobcraft.tileentity.TileEntityBrickOven;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class BrickOvenRecipeHandler
@@ -158,7 +157,7 @@ public class BrickOvenRecipeHandler
 		return recipe;
 	}
 	
-	public ItemStack findMatchingRecipe(TileEntityBrickOven oven, World world)
+	public ItemStack findMatchingRecipe(TileEntityBrickOven oven)
 	{
 		int i = 0;
 		ItemStack itemstack = null;
@@ -190,7 +189,7 @@ public class BrickOvenRecipeHandler
 		{
 			// IBrickOvenRecipe recipe = (IBrickOvenRecipe)recipes.get(j);
 			
-			if (recipe.matches(oven, world))
+			if (recipe.matches(oven))
 			{
 				return recipe.getCraftingResult(oven);
 			}
@@ -199,14 +198,15 @@ public class BrickOvenRecipeHandler
 		return null;
 	}
 	
-	@Deprecated
-	private boolean canBeSmelted(ItemStack stack, ItemStack stack2)
+	public boolean isInRecipe(ItemStack stack)
 	{
-		// return stack2.getItem() == stack.getItem()
-		// && (stack2.getItemDamage() == OreDictionary.WILDCARD_VALUE ||
-		// stack2.getItemDamage() == stack
-		// .getItemDamage());
-		
+		for (IBrickOvenRecipe recipe : recipes)
+		{
+			if (recipe.contains(stack))
+			{
+				return true;
+			}
+		}
 		return false;
 	}
 	

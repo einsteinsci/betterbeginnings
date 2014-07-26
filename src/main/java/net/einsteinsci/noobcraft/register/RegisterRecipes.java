@@ -109,6 +109,9 @@ public class RegisterRecipes
 		// BUG: Buckets are eaten
 		BrickOvenRecipeHandler.addShapedRecipe(new ItemStack(Items.cake), "MMM", "SES", "WWW", 'M', Items.milk_bucket,
 			'S', Items.sugar, 'E', Items.egg, 'W', Items.wheat);
+		BrickOvenRecipeHandler.addShapedRecipe(new ItemStack(Items.bread, 2), "WWW", 'W', Items.wheat);
+		BrickOvenRecipeHandler.addShapedRecipe(new ItemStack(Items.cookie, 8), "WCW", 'W', Items.wheat, 'C',
+			new ItemStack(Items.dye, 1, 3));
 		
 		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.mushroom_stew), Blocks.brown_mushroom,
 			Blocks.red_mushroom, Items.bowl);
@@ -119,6 +122,8 @@ public class RegisterRecipes
 		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.cooked_fished, 1, 1), new ItemStack(Items.fish,
 			1, 1));
 		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.baked_potato), Items.potato);
+		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.pumpkin_pie), Items.egg, Items.sugar,
+			Blocks.pumpkin);
 	}
 	
 	public static void addAdvancedRecipes()
@@ -303,12 +308,15 @@ public class RegisterRecipes
 			Blocks.planks, 1, OreDictionary.WILDCARD_VALUE), '/', Items.stick);
 		
 		// Kiln
-		GameRegistry.addShapedRecipe(new ItemStack(RegisterBlocks.blockKiln), "###", "# #", "###", '#',
-			Blocks.cobblestone);
+		GameRegistry.addShapedRecipe(new ItemStack(RegisterBlocks.kiln), "###", "# #", "###", '#', Blocks.cobblestone);
 		
 		// Brick Oven
-		GameRegistry.addShapedRecipe(new ItemStack(RegisterBlocks.blockBrickOven), "BBB", "# #", "###", '#',
+		GameRegistry.addShapedRecipe(new ItemStack(RegisterBlocks.brickOven), "BBB", "# #", "###", '#',
 			Blocks.brick_block, 'B', Items.brick);
+		
+		// Smelter
+		GameRegistry.addShapedRecipe(new ItemStack(RegisterBlocks.smelter), "###", "#C#", "###", '#', new ItemStack(
+			Blocks.stonebrick, 1, 0), 'C', new ItemStack(Items.coal, 1, 1));
 		
 		// Vanilla Furnace
 		GameRegistry.addShapedRecipe(new ItemStack(Blocks.furnace), "###", "# #", "---", '#', Blocks.cobblestone, '-',
@@ -322,8 +330,8 @@ public class RegisterRecipes
 			RegisterItems.ironNugget);
 		
 		// Workbench
-		GameRegistry.addShapedRecipe(new ItemStack(RegisterBlocks.blockDoubleWorkbench), "##", "##", '#',
-			new ItemStack(Blocks.planks, 1, OreDictionary.WILDCARD_VALUE));
+		GameRegistry.addShapedRecipe(new ItemStack(RegisterBlocks.doubleWorkbench), "##", "##", '#', new ItemStack(
+			Blocks.planks, 1, OreDictionary.WILDCARD_VALUE));
 		
 		// Vanilla Crafting Table
 		GameRegistry.addShapedRecipe(new ItemStack(Blocks.crafting_table), "/*/", "*#*", "/*/", '/', Items.stick, '#',

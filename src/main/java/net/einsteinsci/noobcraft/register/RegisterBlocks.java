@@ -8,23 +8,23 @@ import net.minecraft.block.Block;
 
 public class RegisterBlocks
 {
-	public static final Block blockKiln = new BlockKiln(false);
-	public static final Block blockKilnLit = new BlockKiln(true);
-	public static final Block blockDoubleWorkbench = new BlockDoubleWorkbench();
-	public static final Block blockBrickOven = new BlockBrickOven(false);
-	public static final Block blockBrickOvenLit = new BlockBrickOven(true);
+	public static final Block kiln = new BlockKiln(false);
+	public static final Block kilnLit = new BlockKiln(true);
+	public static final Block doubleWorkbench = new BlockDoubleWorkbench();
+	public static final Block brickOven = new BlockBrickOven(false);
+	public static final Block brickOvenLit = new BlockBrickOven(true);
 	public static final Block smelter = new BlockSmelter(false);
 	public static final Block smelterLit = new BlockSmelter(true);
 	
 	public static void register()
 	{
-		RegisterHelper.registerBlock(blockKiln);
-		RegisterHelper.registerBlock(blockKilnLit);
+		RegisterHelper.registerBlock(kiln);
+		RegisterHelper.registerBlock(kilnLit);
 		
-		RegisterHelper.registerBlock(blockDoubleWorkbench);
+		RegisterHelper.registerBlock(doubleWorkbench);
 		
-		RegisterHelper.registerBlock(blockBrickOven);
-		RegisterHelper.registerBlock(blockBrickOvenLit);
+		RegisterHelper.registerBlock(brickOven);
+		RegisterHelper.registerBlock(brickOvenLit);
 		
 		RegisterHelper.registerBlock(smelter);
 		RegisterHelper.registerBlock(smelterLit);

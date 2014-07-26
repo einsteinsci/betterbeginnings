@@ -3,7 +3,6 @@ package net.einsteinsci.noobcraft.register.recipe;
 import net.einsteinsci.noobcraft.tileentity.TileEntityBrickOven;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class BrickOvenShapedRecipe implements IBrickOvenRecipe
@@ -36,7 +35,7 @@ public class BrickOvenShapedRecipe implements IBrickOvenRecipe
 	 * Used to check if a recipe matches current crafting inventory
 	 */
 	@Override
-	public boolean matches(TileEntityBrickOven oven, World world)
+	public boolean matches(TileEntityBrickOven oven)
 	{
 		for (int i = 0; i <= 3 - recipeWidth; ++i)
 		{
@@ -145,5 +144,18 @@ public class BrickOvenShapedRecipe implements IBrickOvenRecipe
 	{
 		strangeField = true;
 		return this;
+	}
+	
+	@Override
+	public boolean contains(ItemStack stack)
+	{
+		for (ItemStack s : recipeItems)
+		{
+			if (s.getItem() == stack.getItem())
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }

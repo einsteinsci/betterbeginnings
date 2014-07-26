@@ -24,6 +24,15 @@ public class BlockDoubleWorkbench extends Block
 	@SideOnly(Side.CLIENT)
 	private IIcon top;
 	@SideOnly(Side.CLIENT)
+	private IIcon topIfNorth;
+	@SideOnly(Side.CLIENT)
+	private IIcon topIfWest;
+	@SideOnly(Side.CLIENT)
+	private IIcon topIfEast;
+	@SideOnly(Side.CLIENT)
+	private IIcon topIfSouth;
+	
+	@SideOnly(Side.CLIENT)
 	private IIcon westNorthIfSolo;
 	
 	@SideOnly(Side.CLIENT)
@@ -45,20 +54,37 @@ public class BlockDoubleWorkbench extends Block
 		
 		// Not sure how this works...
 		setBlockTextureName(ModMain.MODID + ":" + getUnlocalizedName().substring(5));
+		setHardness(2.0f);
+		setResistance(5.0f);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int face, int meta)
 	{
-		// return face == 1 ? top : face == 0 ?
-		// Blocks.planks.getBlockTextureFromSide(face) : face != 2
-		// && face != 4 ? blockIcon : front;
-		
 		switch (face)
 		{
 			case BlockUtil.Top:
-				return top;
+				if (meta == BlockUtil.North)
+				{
+					return topIfNorth;
+				}
+				else if (meta == BlockUtil.West)
+				{
+					return topIfWest;
+				}
+				else if (meta == BlockUtil.East)
+				{
+					return topIfEast;
+				}
+				else if (meta == BlockUtil.South)
+				{
+					return topIfSouth;
+				}
+				else
+				{
+					return top;
+				}
 			case BlockUtil.Bottom:
 				return Blocks.planks.getBlockTextureFromSide(face);
 			case BlockUtil.North:
@@ -130,30 +156,35 @@ public class BlockDoubleWorkbench extends Block
 		northIfWest = iconregister.registerIcon(ModMain.MODID + ":workbenchNorthIfWest");
 		eastIfSouth = iconregister.registerIcon(ModMain.MODID + ":workbenchEastIfSouth");
 		southIfEast = iconregister.registerIcon(ModMain.MODID + ":workbenchSouthIfEast");
+		
+		topIfNorth = iconregister.registerIcon(ModMain.MODID + ":workbenchTopIfNorth");
+		topIfWest = iconregister.registerIcon(ModMain.MODID + ":workbenchTopIfWest");
+		topIfEast = iconregister.registerIcon(ModMain.MODID + ":workbenchTopIfEast");
+		topIfSouth = iconregister.registerIcon(ModMain.MODID + ":workbenchTopIfSouth");
 	}
 	
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack)
 	{
-		if (BlockUtil.getBlockFromDirection(world, x, y, z, BlockUtil.North) == RegisterBlocks.blockDoubleWorkbench)
+		if (BlockUtil.getBlockFromDirection(world, x, y, z, BlockUtil.North) == RegisterBlocks.doubleWorkbench)
 		{
 			world.setBlockMetadataWithNotify(x, y, z, BlockUtil.North, 3);
 			world.setBlockMetadataWithNotify(x, y, z - 1, BlockUtil.South, 3);
 		}
 		
-		if (BlockUtil.getBlockFromDirection(world, x, y, z, BlockUtil.South) == RegisterBlocks.blockDoubleWorkbench)
+		if (BlockUtil.getBlockFromDirection(world, x, y, z, BlockUtil.South) == RegisterBlocks.doubleWorkbench)
 		{
 			world.setBlockMetadataWithNotify(x, y, z, BlockUtil.South, 3);
 			world.setBlockMetadataWithNotify(x, y, z + 1, BlockUtil.North, 3);
 		}
 		
-		if (BlockUtil.getBlockFromDirection(world, x, y, z, BlockUtil.West) == RegisterBlocks.blockDoubleWorkbench)
+		if (BlockUtil.getBlockFromDirection(world, x, y, z, BlockUtil.West) == RegisterBlocks.doubleWorkbench)
 		{
 			world.setBlockMetadataWithNotify(x, y, z, BlockUtil.West, 3);
 			world.setBlockMetadataWithNotify(x - 1, y, z, BlockUtil.East, 3);
 		}
 		
-		if (BlockUtil.getBlockFromDirection(world, x, y, z, BlockUtil.East) == RegisterBlocks.blockDoubleWorkbench)
+		if (BlockUtil.getBlockFromDirection(world, x, y, z, BlockUtil.East) == RegisterBlocks.doubleWorkbench)
 		{
 			world.setBlockMetadataWithNotify(x, y, z, BlockUtil.East, 3);
 			world.setBlockMetadataWithNotify(x + 1, y, z, BlockUtil.West, 3);
@@ -163,22 +194,22 @@ public class BlockDoubleWorkbench extends Block
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int face)
 	{
-		if (BlockUtil.getBlockFromDirection(world, x, y, z, BlockUtil.North) == RegisterBlocks.blockDoubleWorkbench)
+		if (BlockUtil.getBlockFromDirection(world, x, y, z, BlockUtil.North) == RegisterBlocks.doubleWorkbench)
 		{
 			world.setBlockMetadataWithNotify(x, y, z - 1, 0, 3);
 		}
 		
-		if (BlockUtil.getBlockFromDirection(world, x, y, z, BlockUtil.South) == RegisterBlocks.blockDoubleWorkbench)
+		if (BlockUtil.getBlockFromDirection(world, x, y, z, BlockUtil.South) == RegisterBlocks.doubleWorkbench)
 		{
 			world.setBlockMetadataWithNotify(x, y, z + 1, 0, 3);
 		}
 		
-		if (BlockUtil.getBlockFromDirection(world, x, y, z, BlockUtil.West) == RegisterBlocks.blockDoubleWorkbench)
+		if (BlockUtil.getBlockFromDirection(world, x, y, z, BlockUtil.West) == RegisterBlocks.doubleWorkbench)
 		{
 			world.setBlockMetadataWithNotify(x - 1, y, z, 0, 3);
 		}
 		
-		if (BlockUtil.getBlockFromDirection(world, x, y, z, BlockUtil.East) == RegisterBlocks.blockDoubleWorkbench)
+		if (BlockUtil.getBlockFromDirection(world, x, y, z, BlockUtil.East) == RegisterBlocks.doubleWorkbench)
 		{
 			world.setBlockMetadataWithNotify(x + 1, y, z, 0, 3);
 		}
@@ -211,21 +242,20 @@ public class BlockDoubleWorkbench extends Block
 			++l;
 		}
 		
-		return l > 1 ? false : adjacentToSame(world, x - 1, y, z) ? false
-			: adjacentToSame(world, x + 1, y, z) ? false : adjacentToSame(world, x, y, z - 1) ? false
-				: !adjacentToSame(world, x, y, z + 1);
+		return l > 1 ? false : adjacentToSame(world, x - 1, y, z) ? false : adjacentToSame(world, x + 1, y, z) ? false
+			: adjacentToSame(world, x, y, z - 1) ? false : !adjacentToSame(world, x, y, z + 1);
 	}
 	
 	private boolean adjacentToSame(World world, int x, int y, int z)
 	{
-		return world.getBlock(x, y, z) != this ? false : world.getBlock(x - 1, y, z) == this ? true : world
-			.getBlock(x + 1, y, z) == this ? true : world.getBlock(x, y, z - 1) == this ? true : world
-			.getBlock(x, y, z + 1) == this;
+		return world.getBlock(x, y, z) != this ? false : world.getBlock(x - 1, y, z) == this ? true : world.getBlock(
+			x + 1, y, z) == this ? true : world.getBlock(x, y, z - 1) == this ? true
+			: world.getBlock(x, y, z + 1) == this;
 	}
 	
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int face,
-		float posX, float posY, float posZ)
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int face, float posX,
+		float posY, float posZ)
 	{
 		if (world.getBlockMetadata(x, y, z) == 0)
 		{

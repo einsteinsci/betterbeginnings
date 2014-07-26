@@ -49,6 +49,8 @@ public class BlockKiln extends BlockContainer
 		}
 		
 		setBlockTextureName(ModMain.MODID + ":" + getUnlocalizedName().substring(5));
+		setHardness(2.0f);
+		setResistance(10.0f);
 		
 		isLit2 = lit;
 	}
@@ -90,8 +92,8 @@ public class BlockKiln extends BlockContainer
 	}
 	
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side,
-		float clickX, float clickY, float clickZ)
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float clickX,
+		float clickY, float clickZ)
 	{
 		player.openGui(ModMain.modInstance, NoobCraftGuiHandler.KILN_ID, world, x, y, z);
 		
@@ -101,13 +103,13 @@ public class BlockKiln extends BlockContainer
 	@Override
 	public Item getItemDropped(int par1, Random rand, int par3)
 	{
-		return Item.getItemFromBlock(RegisterBlocks.blockKiln);
+		return Item.getItemFromBlock(RegisterBlocks.kiln);
 	}
 	
 	@Override
 	public Item getItem(World world, int x, int y, int z)
 	{
-		return Item.getItemFromBlock(RegisterBlocks.blockKiln);
+		return Item.getItemFromBlock(RegisterBlocks.kiln);
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -146,7 +148,7 @@ public class BlockKiln extends BlockContainer
 		
 		if (stack.hasDisplayName())
 		{
-			((TileEntityKiln) world.getTileEntity(x, y, z)).furnaceName(stack.getDisplayName());
+			((TileEntityKiln)world.getTileEntity(x, y, z)).furnaceName(stack.getDisplayName());
 		}
 	}
 	
@@ -192,11 +194,11 @@ public class BlockKiln extends BlockContainer
 		
 		if (lit)
 		{
-			world.setBlock(x, y, z, RegisterBlocks.blockKilnLit);
+			world.setBlock(x, y, z, RegisterBlocks.kilnLit);
 		}
 		else
 		{
-			world.setBlock(x, y, z, RegisterBlocks.blockKiln);
+			world.setBlock(x, y, z, RegisterBlocks.kiln);
 		}
 		
 		isLit = false;
@@ -215,7 +217,7 @@ public class BlockKiln extends BlockContainer
 	{
 		if (!isLit)
 		{
-			TileEntityKiln tileEntityKiln = (TileEntityKiln) world.getTileEntity(x, y, z);
+			TileEntityKiln tileEntityKiln = (TileEntityKiln)world.getTileEntity(x, y, z);
 			if (tileEntityKiln != null)
 			{
 				for (int i = 0; i < tileEntityKiln.getSizeInventory(); i++)
@@ -235,19 +237,20 @@ public class BlockKiln extends BlockContainer
 							j = Math.min(j, stack.stackSize);
 							
 							stack.stackSize -= j;
-							EntityItem entityItem = new EntityItem(world, x + velX, y + velY, z + velZ,
-								new ItemStack(stack.getItem(), j, stack.getItemDamage()));
+							EntityItem entityItem =
+								new EntityItem(world, x + velX, y + velY, z + velZ, new ItemStack(stack.getItem(), j,
+									stack.getItemDamage()));
 							
 							if (stack.hasTagCompound())
 							{
-								entityItem.getEntityItem().setTagCompound(
-									(NBTTagCompound) stack.getTagCompound().copy());
+								entityItem.getEntityItem()
+									.setTagCompound((NBTTagCompound)stack.getTagCompound().copy());
 							}
 							
 							float f3 = 0.025f;
-							entityItem.motionX = (float) random.nextGaussian() * f3;
-							entityItem.motionY = (float) random.nextGaussian() * f3 + 0.1f;
-							entityItem.motionX = (float) random.nextGaussian() * f3;
+							entityItem.motionX = (float)random.nextGaussian() * f3;
+							entityItem.motionY = (float)random.nextGaussian() * f3 + 0.1f;
+							entityItem.motionX = (float)random.nextGaussian() * f3;
 							world.spawnEntityInWorld(entityItem);
 						}
 					}

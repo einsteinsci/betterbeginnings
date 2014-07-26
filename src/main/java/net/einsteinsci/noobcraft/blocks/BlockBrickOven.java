@@ -49,6 +49,8 @@ public class BlockBrickOven extends BlockContainer
 		}
 		
 		setBlockTextureName(ModMain.MODID + ":" + getUnlocalizedName().substring(5));
+		setHardness(2.0f);
+		setResistance(10.0f);
 		
 		isLit2 = lit;
 	}
@@ -58,8 +60,7 @@ public class BlockBrickOven extends BlockContainer
 	public void registerBlockIcons(IIconRegister iconregister)
 	{
 		blockIcon = iconregister.registerIcon(ModMain.MODID + ":brickOvenSide");
-		front = iconregister.registerIcon(isLit2 ? ModMain.MODID + ":brickOvenLit" : ModMain.MODID
-			+ ":brickOvenUnlit");
+		front = iconregister.registerIcon(isLit2 ? ModMain.MODID + ":brickOvenLit" : ModMain.MODID + ":brickOvenUnlit");
 		top = iconregister.registerIcon(ModMain.MODID + ":brickOvenTop");
 	}
 	
@@ -91,8 +92,8 @@ public class BlockBrickOven extends BlockContainer
 	}
 	
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side,
-		float clickX, float clickY, float clickZ)
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float clickX,
+		float clickY, float clickZ)
 	{
 		player.openGui(ModMain.modInstance, NoobCraftGuiHandler.BRICKOVEN_ID, world, x, y, z);
 		
@@ -104,13 +105,13 @@ public class BlockBrickOven extends BlockContainer
 	@Override
 	public Item getItemDropped(int par1, Random rand, int par3)
 	{
-		return Item.getItemFromBlock(RegisterBlocks.blockBrickOven);
+		return Item.getItemFromBlock(RegisterBlocks.brickOven);
 	}
 	
 	@Override
 	public Item getItem(World world, int x, int y, int z)
 	{
-		return Item.getItemFromBlock(RegisterBlocks.blockBrickOven);
+		return Item.getItemFromBlock(RegisterBlocks.brickOven);
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -149,7 +150,7 @@ public class BlockBrickOven extends BlockContainer
 		
 		if (stack.hasDisplayName())
 		{
-			((TileEntityBrickOven) world.getTileEntity(x, y, z)).furnaceName(stack.getDisplayName());
+			((TileEntityBrickOven)world.getTileEntity(x, y, z)).furnaceName(stack.getDisplayName());
 		}
 	}
 	
@@ -195,11 +196,11 @@ public class BlockBrickOven extends BlockContainer
 		
 		if (lit)
 		{
-			world.setBlock(x, y, z, RegisterBlocks.blockBrickOvenLit);
+			world.setBlock(x, y, z, RegisterBlocks.brickOvenLit);
 		}
 		else
 		{
-			world.setBlock(x, y, z, RegisterBlocks.blockBrickOven);
+			world.setBlock(x, y, z, RegisterBlocks.brickOven);
 		}
 		
 		isLit = false;
@@ -218,7 +219,7 @@ public class BlockBrickOven extends BlockContainer
 	{
 		if (!isLit)
 		{
-			TileEntityBrickOven tileEntityKiln = (TileEntityBrickOven) world.getTileEntity(x, y, z);
+			TileEntityBrickOven tileEntityKiln = (TileEntityBrickOven)world.getTileEntity(x, y, z);
 			if (tileEntityKiln != null)
 			{
 				for (int i = 0; i < tileEntityKiln.getSizeInventory(); i++)
@@ -238,19 +239,20 @@ public class BlockBrickOven extends BlockContainer
 							j = Math.min(j, stack.stackSize);
 							
 							stack.stackSize -= j;
-							EntityItem entityItem = new EntityItem(world, x + velX, y + velY, z + velZ,
-								new ItemStack(stack.getItem(), j, stack.getItemDamage()));
+							EntityItem entityItem =
+								new EntityItem(world, x + velX, y + velY, z + velZ, new ItemStack(stack.getItem(), j,
+									stack.getItemDamage()));
 							
 							if (stack.hasTagCompound())
 							{
-								entityItem.getEntityItem().setTagCompound(
-									(NBTTagCompound) stack.getTagCompound().copy());
+								entityItem.getEntityItem()
+									.setTagCompound((NBTTagCompound)stack.getTagCompound().copy());
 							}
 							
 							float f3 = 0.025f;
-							entityItem.motionX = (float) random.nextGaussian() * f3;
-							entityItem.motionY = (float) random.nextGaussian() * f3 + 0.3f;
-							entityItem.motionX = (float) random.nextGaussian() * f3;
+							entityItem.motionX = (float)random.nextGaussian() * f3;
+							entityItem.motionY = (float)random.nextGaussian() * f3 + 0.3f;
+							entityItem.motionX = (float)random.nextGaussian() * f3;
 							world.spawnEntityInWorld(entityItem);
 						}
 					}

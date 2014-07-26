@@ -6,7 +6,6 @@ import java.util.List;
 
 import net.einsteinsci.noobcraft.tileentity.TileEntityBrickOven;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class BrickOvenShapelessRecipe implements IBrickOvenRecipe
@@ -14,9 +13,9 @@ public class BrickOvenShapelessRecipe implements IBrickOvenRecipe
 	/** Is the ItemStack that you get when craft the recipe. */
 	private final ItemStack recipeOutput;
 	/** Is a List of ItemStack that composes the recipe. */
-	public final List recipeItems;
+	public final List<ItemStack> recipeItems;
 	
-	public BrickOvenShapelessRecipe(ItemStack output, List input)
+	public BrickOvenShapelessRecipe(ItemStack output, List<ItemStack> input)
 	{
 		recipeOutput = output;
 		recipeItems = input;
@@ -32,9 +31,9 @@ public class BrickOvenShapelessRecipe implements IBrickOvenRecipe
 	 * Used to check if a recipe matches current crafting inventory
 	 */
 	@Override
-	public boolean matches(TileEntityBrickOven oven, World world)
+	public boolean matches(TileEntityBrickOven oven)
 	{
-		ArrayList arraylist = new ArrayList(recipeItems);
+		ArrayList<ItemStack> arraylist = new ArrayList<ItemStack>(recipeItems);
 		
 		for (int col = 0; col < 3; ++col)
 		{
@@ -88,5 +87,18 @@ public class BrickOvenShapelessRecipe implements IBrickOvenRecipe
 	public int getRecipeSize()
 	{
 		return recipeItems.size();
+	}
+	
+	@Override
+	public boolean contains(ItemStack stack)
+	{
+		for (ItemStack s : recipeItems)
+		{
+			if (s.getItem() == stack.getItem())
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }
