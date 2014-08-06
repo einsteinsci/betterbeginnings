@@ -75,7 +75,7 @@ public class BlockSmelter extends BlockContainer
 		{
 			if (side == 0)
 			{
-				return top;
+				return blockIcon;
 			}
 			else
 			{
@@ -244,7 +244,7 @@ public class BlockSmelter extends BlockContainer
 							if (stack.hasTagCompound())
 							{
 								entityItem.getEntityItem()
-									.setTagCompound((NBTTagCompound)stack.getTagCompound().copy());
+								.setTagCompound((NBTTagCompound)stack.getTagCompound().copy());
 							}
 							
 							float f3 = 0.025f;

@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.einsteinsci.noobcraft.config.NoobcraftConfig;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -29,14 +30,17 @@ public class RemoveRecipes
 		removedRecipes.add(Item.getItemFromBlock(Blocks.crafting_table));
 		
 		// Advanced Crafting
-		removedRecipes.add(Items.wooden_door);
-		removedRecipes.add(Items.iron_door);
-		removedRecipes.add(Item.getItemFromBlock(Blocks.fence_gate));
-		removedRecipes.add(Item.getItemFromBlock(Blocks.trapdoor));
-		removedRecipes.add(Item.getItemFromBlock(Blocks.chest));
-		removedRecipes.add(Item.getItemFromBlock(Blocks.trapped_chest));
-		removedRecipes.add(Item.getItemFromBlock(Blocks.piston));
-		removedRecipes.add(Item.getItemFromBlock(Blocks.tripwire_hook));
+		if (NoobcraftConfig.advancedCraftingForLotsOfThings)
+		{
+			removedRecipes.add(Items.wooden_door);
+			removedRecipes.add(Items.iron_door);
+			removedRecipes.add(Item.getItemFromBlock(Blocks.fence_gate));
+			removedRecipes.add(Item.getItemFromBlock(Blocks.trapdoor));
+			removedRecipes.add(Item.getItemFromBlock(Blocks.chest));
+			removedRecipes.add(Item.getItemFromBlock(Blocks.trapped_chest));
+			removedRecipes.add(Item.getItemFromBlock(Blocks.piston));
+			removedRecipes.add(Item.getItemFromBlock(Blocks.tripwire_hook));
+		}
 		
 		removedRecipes.add(Items.bow);
 		removedRecipes.add(Items.wooden_shovel);

@@ -101,22 +101,6 @@ public class TileEntityBrickOven extends TileEntity implements IInventory
 		}
 	}
 	
-	// public InventoryBrickOvenMatrix getCraftMatrix()
-	// {
-	// InventoryBrickOvenMatrix matrix = new InventoryBrickOvenMatrix(c, 3, 3);
-	//
-	// for (int i = 0; i < 3; ++i)
-	// {
-	// for (int j = 0; j < 3; ++j)
-	// {
-	// int slot = j + i * 3;
-	// matrix.setInventorySlotContents(slot, ovenStacks[slot]);
-	// }
-	// }
-	//
-	// return matrix;
-	// }
-	
 	@SideOnly(Side.CLIENT)
 	public int getCookProgressScaled(int progress)
 	{
@@ -253,21 +237,26 @@ public class TileEntityBrickOven extends TileEntity implements IInventory
 				
 				if (stack != null)
 				{
+					ItemStack containerItem = null;
+					
+					if (ovenStacks[i].getItem().hasContainerItem(ovenStacks[i]))
+					{
+						containerItem = ovenStacks[i].getItem().getContainerItem(ovenStacks[i]);
+					}
+					
 					--ovenStacks[i].stackSize;
 					
 					if (ovenStacks[i].stackSize <= 0)
 					{
 						ovenStacks[i] = null;
 					}
+					
+					if (containerItem != null)
+					{
+						ovenStacks[i] = containerItem;
+					}
 				}
 			}
-			
-			// --ovenStacks[0].stackSize;
-			
-			// if (ovenStacks[0].stackSize <= 0)
-			// {
-			// ovenStacks[0] = null;
-			// }
 		}
 	}
 	

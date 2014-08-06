@@ -91,6 +91,11 @@ public class AdvancedRecipe
 		return 0;
 	}
 	
+	public ItemStack[] getNeededMaterials()
+	{
+		return addedMaterials;
+	}
+	
 	// Not sure what that fourth flag is...
 	private boolean checkMatch(InventoryCrafting crafting, InventoryWorkbenchAdditionalMaterials materials, int width,
 		int height, boolean flag4)

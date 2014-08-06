@@ -95,7 +95,13 @@ public class BlockKiln extends BlockContainer
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float clickX,
 		float clickY, float clickZ)
 	{
+		TileEntityKiln kiln = (TileEntityKiln)world.getTileEntity(x, y, z);
 		player.openGui(ModMain.modInstance, NoobCraftGuiHandler.KILN_ID, world, x, y, z);
+		/*
+		 * if (kiln.stacked == 0) { // player.openGui(ModMain.modInstance, NoobCraftGuiHandler.KILN_ID, world, x, y, z);
+		 * } else { // ChatUtil.sendChatToPlayer(player, "DOUBLE KILN!"); // player.openGui(ModMain.modInstance,
+		 * NoobCraftGuiHandler.KILNSTACKED_ID, world, x, y, z); }
+		 */
 		
 		return true;
 	}
@@ -146,10 +152,31 @@ public class BlockKiln extends BlockContainer
 			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
 		}
 		
+		TileEntityKiln kiln = (TileEntityKiln)world.getTileEntity(x, y, z);
 		if (stack.hasDisplayName())
 		{
-			((TileEntityKiln)world.getTileEntity(x, y, z)).furnaceName(stack.getDisplayName());
+			kiln.furnaceName(stack.getDisplayName());
 		}
+		
+		/*
+		 * Block above = world.getBlock(x, y + 1, z); Block below = world.getBlock(x, y - 1, z); if (above ==
+		 * RegisterBlocks.kiln || above == RegisterBlocks.kilnLit) // If you placed the bottom { if (above ==
+		 * RegisterBlocks.kilnLit) { world.setBlock(x, y, z, RegisterBlocks.kilnLit); }
+		 * 
+		 * // Match the metadata world.setBlockMetadataWithNotify(x, y, z, world.getBlockMetadata(x, y + 1, z), 3);
+		 * 
+		 * //kiln.stacked = 1;
+		 * 
+		 * TileEntityKiln kilnAbove = (TileEntityKiln)world.getTileEntity(x, y + 1, z); //kilnAbove.stacked = -1; } else
+		 * if (below == RegisterBlocks.kiln || below == RegisterBlocks.kilnLit) // If you placed the top { if (above ==
+		 * RegisterBlocks.kilnLit) { world.setBlock(x, y, z, RegisterBlocks.kilnLit); }
+		 * 
+		 * // Match the metadata world.setBlockMetadataWithNotify(x, y, z, world.getBlockMetadata(x, y - 1, z), 3);
+		 * 
+		 * //kiln.stacked = -1;
+		 * 
+		 * TileEntityKiln kilnBelow = (TileEntityKiln)world.getTileEntity(x, y - 1, z); //kilnBelow.stacked = 1; }
+		 */
 	}
 	
 	private void direction(World world, int x, int y, int z)
@@ -215,9 +242,9 @@ public class BlockKiln extends BlockContainer
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta)
 	{
+		TileEntityKiln tileEntityKiln = (TileEntityKiln)world.getTileEntity(x, y, z);
 		if (!isLit)
 		{
-			TileEntityKiln tileEntityKiln = (TileEntityKiln)world.getTileEntity(x, y, z);
 			if (tileEntityKiln != null)
 			{
 				for (int i = 0; i < tileEntityKiln.getSizeInventory(); i++)
@@ -226,9 +253,9 @@ public class BlockKiln extends BlockContainer
 					
 					if (stack != null)
 					{
-						float velX = random.nextFloat() * 0.6f + 0.1f;
-						float velY = random.nextFloat() * 0.6f + 0.1f;
-						float velZ = random.nextFloat() * 0.6f + 0.1f;
+						float velX = random.nextFloat() * 0.6f;
+						float velY = random.nextFloat() * 0.6f + 0.2f;
+						float velZ = random.nextFloat() * 0.6f;
 						
 						while (stack.stackSize > 0)
 						{
@@ -244,7 +271,7 @@ public class BlockKiln extends BlockContainer
 							if (stack.hasTagCompound())
 							{
 								entityItem.getEntityItem()
-									.setTagCompound((NBTTagCompound)stack.getTagCompound().copy());
+								.setTagCompound((NBTTagCompound)stack.getTagCompound().copy());
 							}
 							
 							float f3 = 0.025f;
@@ -259,7 +286,28 @@ public class BlockKiln extends BlockContainer
 				world.func_147453_f(x, y, z, block);
 			}
 		}
+		
+		/*
+		 * if (tileEntityKiln.stacked == 1) { TileEntityKiln other = (TileEntityKiln)world.getTileEntity(x, y + 1, z);
+		 * if (other != null) { other.stacked = 0; } } else if (tileEntityKiln.stacked == -1) { TileEntityKiln other =
+		 * (TileEntityKiln)world.getTileEntity(x, y - 1, z); if (other != null) { other.stacked = 0; } }
+		 */
+		
 		super.breakBlock(world, x, y, z, block, meta);
+	}
+	
+	@Override
+	public boolean canPlaceBlockAt(World world, int x, int y, int z)
+	{
+		/*
+		 * if (world.getBlock(x, y + 1, z) == RegisterBlocks.kiln || world.getBlock(x, y + 1, z) ==
+		 * RegisterBlocks.kilnLit) { if (((TileEntityKiln)world.getTileEntity(x, y + 1, z)).stacked != 0) { return
+		 * false; } } if (world.getBlock(x, y - 1, z) == RegisterBlocks.kiln || world.getBlock(x, y - 1, z) ==
+		 * RegisterBlocks.kilnLit) { if (((TileEntityKiln)world.getTileEntity(x, y - 1, z)).stacked != 0) { return
+		 * false; } }
+		 */
+		
+		return true;
 	}
 	
 	@Override

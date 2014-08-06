@@ -23,9 +23,9 @@ public class ItemKnife extends ItemTool
 	{
 		Set s = Sets.newHashSet();
 		
-		//s.add(Blocks.log);
-		//s.add(Blocks.log2);
-		//s.add(Blocks.planks);
+		// s.add(Blocks.log);
+		// s.add(Blocks.log2);
+		// s.add(Blocks.planks);
 		s.add(Blocks.pumpkin);
 		s.add(Blocks.lit_pumpkin);
 		s.add(Blocks.melon_block);
@@ -46,21 +46,15 @@ public class ItemKnife extends ItemTool
 		return s;
 	}
 	
-	//Allows durability-based crafting (not sure if this first one is needed)
-	//@Override
-	//public boolean doesContainerItemLeaveCraftingGrid(ItemStack stack)
-	//{
-	//	return true;
-	//}
 	
-	//...which also requires this...
+	// Allows durability-based crafting.
 	@Override
 	public boolean hasContainerItem(ItemStack stack)
 	{
 		return true;
 	}
 	
-	//...and...
+	// ...which also requires this...
 	@Override
 	public ItemStack getContainerItem(ItemStack itemStack)
 	{
@@ -69,17 +63,15 @@ public class ItemKnife extends ItemTool
 		return itemStack;
 	}
 	
-	//Determines if a block broken with the tool will drop its drops.
+	// Determines if a block broken with the tool will drop its drops.
 	@Override
 	public boolean func_150897_b(Block block)
 	{
-		if (block.getMaterial() == Material.rock &&
-			toolMaterial.getHarvestLevel() >= 0)
+		if (block.getMaterial() == Material.rock && toolMaterial.getHarvestLevel() >= 0)
 		{
 			return true;
 		}
-		if (block.getMaterial() == Material.wood &&
-			toolMaterial.getHarvestLevel() >= 0)
+		if (block.getMaterial() == Material.wood && toolMaterial.getHarvestLevel() >= 0)
 		{
 			return true;
 		}

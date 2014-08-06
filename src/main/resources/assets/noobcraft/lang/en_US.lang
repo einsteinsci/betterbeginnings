@@ -5,6 +5,7 @@ tile.brickOven.name=Brick Oven
 tile.brickOvenLit.name=Brick Oven (Lit)
 tile.smelter.name=Smelter
 tile.smelterLit.name=Smelter (Lit)
+tile.repairTable.name=Repair Table
 
 item.flintKnife.name=Flint Knife
 item.boneKnife.name=Bone Knife
@@ -13,17 +14,27 @@ item.diamondKnife.name=Diamond Knife
 
 item.flintHatchet.name=Flint Hatchet
 item.bonePickaxe.name=Bone Pickaxe
+item.noobWoodSword.name=Wooden Sword
 
 item.boneShard.name=Bone Shard
-item.testItem.name=Test Item
 item.leatherStrip.name=Leather Strip
 item.ironNugget.name=Iron Nugget
 item.charredMeat.name=Charred Meat
 
-item.noobWoodSword.name=Wooden Sword
+item.testItem.name=Test Item
 
 itemGroup.tabNoobCraft=NoobCraft
+
 container.craftingdouble=Advanced Crafting
 container.kiln=Kiln
 container.brickoven=Brick Oven
 container.smelter=Smelter
+container.repairTable=Repair Table
+container.repairTable.minLevel=Minimum level
+container.repairTable.levelCost=Level cost
+container.repairTable.level= Levels
+
+achievement.flintKnife=Survival of the Fittest
+achievement.flintKnife.desc=Craft a flint knife out of two flint
+achievement.makeSticks=I'm a sapling, I'm a sapling...
+achievement.makeSticks.desc=Make a stick with a sapling and a knife

@@ -1,9 +1,8 @@
 package net.einsteinsci.noobcraft.gui;
 
 import net.einsteinsci.noobcraft.ModMain;
-import net.einsteinsci.noobcraft.inventory.ContainerDoubleWorkbench;
-import net.einsteinsci.noobcraft.register.recipe.AdvancedCraftingHandler;
-import net.einsteinsci.noobcraft.register.recipe.AdvancedRecipe;
+import net.einsteinsci.noobcraft.event.ChatUtil;
+import net.einsteinsci.noobcraft.inventory.ContainerRepairTable;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
@@ -13,7 +12,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -22,20 +20,20 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiDoubleWorkbench extends GuiContainer
+public class GuiRepairTable extends GuiContainer
 {
-	private static final ResourceLocation workbenchGuiTextures = new ResourceLocation(ModMain.MODID +
-		":textures/gui/container/doubleWorkbench.png");
+	private ContainerRepairTable container;
 	
-	private final ContainerDoubleWorkbench container;
+	private RenderItemPartialTransparency partialTransItemRenderer = new RenderItemPartialTransparency();
 	
-	private final RenderItemPartialTransparency partialTransItemRenderer = new RenderItemPartialTransparency();
+	private static final ResourceLocation craftingTableGuiTextures = new ResourceLocation(ModMain.MODID +
+		":textures/gui/container/repairTable.png");
 	
-	public GuiDoubleWorkbench(InventoryPlayer invPlayer, World world, int x, int y, int z)
+	public GuiRepairTable(InventoryPlayer invPlayer, World world, int x, int y, int z)
 	{
-		super(new ContainerDoubleWorkbench(invPlayer, world, x, y, z));
+		super(new ContainerRepairTable(invPlayer, world, x, y, z));
 		
-		container = (ContainerDoubleWorkbench)inventorySlots;
+		container = (ContainerRepairTable)inventorySlots;
 	}
 	
 	/**
@@ -45,38 +43,22 @@ public class GuiDoubleWorkbench extends GuiContainer
 	protected void drawGuiContainerForegroundLayer(int par1, int par2)
 	{
 		// I'm guessing the really big number at the end is the z layer.
-		fontRendererObj.drawString(I18n.format("container.craftingdouble", new Object[0]), 33, 6, 4210752);
-		// fontRendererObj.drawString(I18n.format("container.inventory", new
-		// Object[0]), 33, ySize - 96 + 2, 4210752);
-	}
-	
-	public void renderTransparentItems()
-	{
-		if (AdvancedCraftingHandler.crafting().hasRecipe(container.craftMatrix, container.worldObj))
+		// fontRendererObj.drawString(I18n.format("container.repairTable", new Object[0]), 8, 6, 4210752);
+		ItemStack stack = container.circleSlots[0].getStack();
+		if (container.requiredLevels != 0 && container.takenLevels != 0 && stack.isItemDamaged())
 		{
-			for (AdvancedRecipe recipe : AdvancedCraftingHandler.crafting().recipes)
-			{
-				if (recipe.matchesMostly(container.craftMatrix, container.worldObj))
-				{
-					for (int i = 0; i < recipe.getNeededMaterials().length; ++i)
-					{
-						ItemStack needed = recipe.getNeededMaterials()[i];
-						
-						if (needed.getItemDamage() == OreDictionary.WILDCARD_VALUE)
-						{
-							needed.setItemDamage(0);
-						}
-						
-						Slot slot = container.matSlots[i];
-						if (container.addedMats.getStackInSlot(i) == null)
-						{
-							drawItemStack(needed, (width - xSize) / 2 + slot.xDisplayPosition, (height - ySize) / 2 +
-								slot.yDisplayPosition, "" + needed.stackSize);
-						}
-					}
-				}
-			}
+			fontRendererObj.drawString(ChatUtil.BLACK + I18n.format("container.repairTable.minLevel") + ": ", 8, 10,
+				4210752);
+			fontRendererObj.drawString("" + container.requiredLevels + I18n.format("container.repairTable.level"), 16,
+				20, 4210752);
+			fontRendererObj.drawString(ChatUtil.BLACK + I18n.format("container.repairTable.levelCost") + ": ", 8, 35,
+				4210752);
+			fontRendererObj.drawString("" + container.takenLevels + I18n.format("container.repairTable.level"), 16, 45,
+				4210752);
+			
+			
 		}
+		// fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, ySize - 96 + 2, 4210752);
 	}
 	
 	private void drawItemStack(ItemStack stack, int xPos, int yPos, String note)
@@ -109,48 +91,37 @@ public class GuiDoubleWorkbench extends GuiContainer
 	}
 	
 	@Override
-	public void drawScreen(int xMouse, int yMouse, float par3)
+	public void drawScreen(int par1, int par2, float par3)
 	{
-		super.drawScreen(xMouse, yMouse, par3);
+		super.drawScreen(par1, par2, par3);
 		
-		renderTransparentItems();
+		
 	}
 	
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.getTextureManager().bindTexture(workbenchGuiTextures);
+		mc.getTextureManager().bindTexture(craftingTableGuiTextures);
 		int k = (width - xSize) / 2;
 		int l = (height - ySize) / 2;
 		drawTexturedModalRect(k, l, 0, 0, xSize, ySize);
 		
-		// renderTransparentItems();
+		for (int i = 0; i < container.requiredItems.size(); ++i)
+		{
+			if (container.requiredItems.get(i) == null)
+			{
+				break;
+			}
+			
+			Slot slot = container.circleSlots[i + 1];
+			ItemStack needed = container.requiredItems.get(i);
+			
+			if (needed != null)
+			{
+				drawItemStack(needed, (width - xSize) / 2 + slot.xDisplayPosition, (height - ySize) / 2 +
+					slot.yDisplayPosition, "" + needed.stackSize);
+			}
+		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Buffer ;)

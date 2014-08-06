@@ -3,8 +3,10 @@ package net.einsteinsci.noobcraft;
 import net.einsteinsci.noobcraft.config.NoobcraftConfig;
 import net.einsteinsci.noobcraft.event.NoobcraftEventHandler;
 import net.einsteinsci.noobcraft.register.*;
+import net.einsteinsci.noobcraft.register.achievement.RegisterAchievements;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 
@@ -20,7 +22,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @Mod(modid = ModMain.MODID, version = ModMain.VERSION,
-	guiFactory = "net.einsteinsci.noobcraft.config.NoobcraftConfigGuiFactory")
+guiFactory = "net.einsteinsci.noobcraft.config.NoobcraftConfigGuiFactory")
 public class ModMain
 {
 	public static final String MODID = "noobcraft";
@@ -46,6 +48,9 @@ public class ModMain
 			return RegisterItems.flintKnife;
 		}
 	};
+	
+	public static final AchievementPage pageNoobCraft = new AchievementPage("Noobcraft",
+		RegisterAchievements.getAchievements());
 	
 	public static void Log(String text)
 	{
@@ -77,6 +82,7 @@ public class ModMain
 		RegisterBlocks.register();
 		RegisterTileEntities.register();
 		
+		
 		RemoveRecipes.remove();
 		RegisterRecipes.addShapelessRecipes();
 		RegisterRecipes.addShapedRecipes();
@@ -87,6 +93,7 @@ public class ModMain
 	@EventHandler
 	public void init(FMLInitializationEvent e)
 	{
+		AchievementPage.registerAchievementPage(pageNoobCraft);
 		RemoveRecipes.removeFurnaceRecipes();
 	}
 	

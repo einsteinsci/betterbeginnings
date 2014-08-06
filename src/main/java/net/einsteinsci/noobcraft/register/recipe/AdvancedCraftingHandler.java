@@ -15,7 +15,7 @@ import net.minecraftforge.oredict.OreDictionary;
 public class AdvancedCraftingHandler
 {
 	private static final AdvancedCraftingHandler CRAFTING = new AdvancedCraftingHandler();
-	public List recipes = new ArrayList();
+	public List<AdvancedRecipe> recipes = new ArrayList<AdvancedRecipe>();
 	
 	public AdvancedCraftingHandler()
 	{
@@ -153,7 +153,7 @@ public class AdvancedCraftingHandler
 		
 		for (j = 0; j < recipes.size(); ++j)
 		{
-			AdvancedRecipe advrecipe = (AdvancedRecipe)recipes.get(j);
+			AdvancedRecipe advrecipe = recipes.get(j);
 			
 			if (advrecipe.matchesMostly(crafting, world))
 			{
@@ -212,7 +212,7 @@ public class AdvancedCraftingHandler
 		{
 			for (j = 0; j < recipes.size(); ++j)
 			{
-				AdvancedRecipe advrecipe = (AdvancedRecipe)recipes.get(j);
+				AdvancedRecipe advrecipe = recipes.get(j);
 				
 				if (advrecipe.matches(crafting, materials, world))
 				{

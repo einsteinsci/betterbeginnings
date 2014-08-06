@@ -15,6 +15,9 @@ public class NoobCraftGuiHandler implements IGuiHandler
 	public static final int DOUBLEWORKBENCH_ID = 2;
 	public static final int BRICKOVEN_ID = 3;
 	public static final int SMELTER_ID = 4;
+	public static final int REPAIRTABLE_ID = 5;
+	
+	public static final int KILNSTACKED_ID = 5;
 	
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
@@ -46,6 +49,20 @@ public class NoobCraftGuiHandler implements IGuiHandler
 			TileEntitySmelter smelter = (TileEntitySmelter)world.getTileEntity(x, y, z);
 			return new ContainerSmelter(player.inventory, smelter);
 		}
+		
+		if (ID == REPAIRTABLE_ID)
+		{
+			return new ContainerRepairTable(player.inventory, world, x, y, z);
+		}
+		
+		/*
+		 * if (ID == KILNSTACKED_ID) { TileEntityKiln kilnOne = (TileEntityKiln)world.getTileEntity(x, y, z);
+		 * 
+		 * if (kilnOne.stacked == 1) { TileEntityKiln kilnTop = (TileEntityKiln)world.getTileEntity(x, y + 1, z); return
+		 * new ContainerKilnStacked(player.inventory, kilnTop, kilnOne); } else if (kilnOne.stacked == -1) {
+		 * TileEntityKiln kilnBottom = (TileEntityKiln)world.getTileEntity(x, y - 1, z); return new
+		 * ContainerKilnStacked(player.inventory, kilnOne, kilnBottom); } }
+		 */
 		
 		return null;
 	}
@@ -80,6 +97,20 @@ public class NoobCraftGuiHandler implements IGuiHandler
 			TileEntitySmelter smelter = (TileEntitySmelter)world.getTileEntity(x, y, z);
 			return new GuiSmelter(player.inventory, smelter);
 		}
+		
+		if (ID == REPAIRTABLE_ID)
+		{
+			return new GuiRepairTable(player.inventory, world, x, y, z);
+		}
+		
+		/*
+		 * if (ID == KILNSTACKED_ID) { TileEntityKiln kilnOne = (TileEntityKiln)world.getTileEntity(x, y, z);
+		 * 
+		 * if (kilnOne.stacked == 1) { TileEntityKiln kilnTop = (TileEntityKiln)world.getTileEntity(x, y + 1, z); return
+		 * new GuiKilnStacked(player.inventory, kilnTop, kilnOne); } else if (kilnOne.stacked == -1) { TileEntityKiln
+		 * kilnBottom = (TileEntityKiln)world.getTileEntity(x, y - 1, z); return new GuiKilnStacked(player.inventory,
+		 * kilnOne, kilnBottom); } }
+		 */
 		
 		return null;
 	}

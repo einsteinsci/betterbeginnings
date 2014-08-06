@@ -5,18 +5,18 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
-public class InventoryWorkbenchAdditionalMaterials implements IInventory
+public class InventoryRepairTable implements IInventory
 {
-	private ItemStack[] stackList;
-	private int inventoryWidth;
+	public ItemStack[] stackList;
+	private int inventorySize;
 	
-	private Container eventHandler;
+	public Container eventHandler;
 	
-	public InventoryWorkbenchAdditionalMaterials(Container container, int size)
+	public InventoryRepairTable(Container container, int size)
 	{
 		stackList = new ItemStack[size];
 		eventHandler = container;
-		inventoryWidth = size;
+		inventorySize = size;
 	}
 	
 	@Override
@@ -96,7 +96,7 @@ public class InventoryWorkbenchAdditionalMaterials implements IInventory
 	@Override
 	public String getInventoryName()
 	{
-		return "container.workbenchmaterials";
+		return "container.repairTable";
 	}
 	
 	@Override
@@ -138,6 +138,46 @@ public class InventoryWorkbenchAdditionalMaterials implements IInventory
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack)
 	{
-		return true;
+		if (stack != null && slot == 0) // center slot
+		{
+			return stack.getItem().isDamageable();
+		}
+		else
+		{
+			return true;
+		}
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Buffer

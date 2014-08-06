@@ -1,6 +1,7 @@
 package net.einsteinsci.noobcraft.tileentity;
 
 import net.einsteinsci.noobcraft.blocks.BlockKiln;
+import net.einsteinsci.noobcraft.config.NoobcraftConfig;
 import net.einsteinsci.noobcraft.register.recipe.KilnRecipes;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -22,20 +23,25 @@ public class TileEntityKiln extends TileEntity implements ISidedInventory
 	private static final int[] slotsBottom = new int[] { 2, 1 };
 	private static final int[] slotsSides = new int[] { 1 };
 	
-	public static final int smeltTime = 250;
+	public static final int smeltTime = NoobcraftConfig.kilnSmeltTime;
+	public static final int smeltTimeStacked = 150;
 	
-	private ItemStack[] kilnStacks = new ItemStack[3];
+	public ItemStack[] kilnStacks = new ItemStack[3];
 	
 	public int kilnBurnTime;
 	public int currentBurnTime;
 	
 	public int kilnCookTime;
 	
+	// Where to look for the other kiln (1 = up, -1 = down, 0 = solo)
+	// public int stacked;
+	
 	private String kilnName;
 	
 	public TileEntityKiln()
 	{
 		super();
+		// stacked = 0;
 	}
 	
 	public void furnaceName(String string)
@@ -50,6 +56,7 @@ public class TileEntityKiln extends TileEntity implements ISidedInventory
 		
 		tagCompound.setShort("BurnTime", (short)kilnBurnTime);
 		tagCompound.setShort("CookTime", (short)kilnCookTime);
+		// tagCompound.setInteger("Stacked", stacked);
 		NBTTagList tagList = new NBTTagList();
 		
 		for (int i = 0; i < kilnStacks.length; ++i)
@@ -67,6 +74,39 @@ public class TileEntityKiln extends TileEntity implements ISidedInventory
 		if (hasCustomInventoryName())
 		{
 			tagCompound.setString("CustomName", kilnName);
+		}
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound tagCompound)
+	{
+		super.readFromNBT(tagCompound);
+		
+		// ItemStacks
+		NBTTagList tagList = tagCompound.getTagList("Items", 10);
+		kilnStacks = new ItemStack[getSizeInventory()];
+		
+		for (int i = 0; i < tagList.tagCount(); ++i)
+		{
+			NBTTagCompound itemTag = tagList.getCompoundTagAt(i);
+			byte slot = itemTag.getByte("Slot");
+			
+			if (slot >= 0 && slot < kilnStacks.length)
+			{
+				kilnStacks[slot] = ItemStack.loadItemStackFromNBT(itemTag);
+			}
+		}
+		
+		// Burn Time & Cook Time
+		kilnBurnTime = tagCompound.getShort("BurnTime");
+		kilnCookTime = tagCompound.getShort("CookTime");
+		currentBurnTime = getItemBurnTime(kilnStacks[1]);
+		
+		// stacked = tagCompound.getInteger("Stacked");
+		
+		if (tagCompound.hasKey("CustomName", 8))
+		{
+			kilnName = tagCompound.getString("CustomName");
 		}
 	}
 	
@@ -298,40 +338,29 @@ public class TileEntityKiln extends TileEntity implements ISidedInventory
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound tagCompound)
-	{
-		super.readFromNBT(tagCompound);
-		
-		// ItemStacks
-		NBTTagList tagList = tagCompound.getTagList("Items", 10);
-		kilnStacks = new ItemStack[getSizeInventory()];
-		
-		for (int i = 0; i < tagList.tagCount(); ++i)
-		{
-			NBTTagCompound itemTag = tagList.getCompoundTagAt(i);
-			byte slot = itemTag.getByte("Slot");
-			
-			if (slot >= 0 && slot < kilnStacks.length)
-			{
-				kilnStacks[slot] = ItemStack.loadItemStackFromNBT(itemTag);
-			}
-		}
-		
-		// Burn Time & Cook Time
-		kilnBurnTime = tagCompound.getShort("BurnTime");
-		kilnCookTime = tagCompound.getShort("CookTime");
-		currentBurnTime = getItemBurnTime(kilnStacks[1]);
-		
-		if (tagCompound.hasKey("CustomName", 8))
-		{
-			kilnName = tagCompound.getString("CustomName");
-		}
-	}
-	
-	@Override
 	public ItemStack getStackInSlot(int i)
 	{
-		return kilnStacks[i];
+		// if (stacked == 0)
+		{
+			return kilnStacks[i];
+		}
+		
+		/*
+		 * if (stacked == -1) { TileEntityKiln below = (TileEntityKiln)worldObj.getTileEntity(xCoord, yCoord - 1,
+		 * zCoord); if (i == ContainerKilnStacked.INPUTTOP) { return kilnStacks[0]; } else if (i ==
+		 * ContainerKilnStacked.OUTPUTTOP) { return kilnStacks[2]; } else if (i == ContainerKilnStacked.INPUTBOTTOM) {
+		 * return below.kilnStacks[0]; } else if (i == ContainerKilnStacked.OUTPUTBOTTOM) { return below.kilnStacks[2];
+		 * } else if (i == ContainerKilnStacked.FUEL) { return below.kilnStacks[1]; }
+		 * 
+		 * return kilnStacks[i]; } else if (stacked == 1) { TileEntityKiln above =
+		 * (TileEntityKiln)worldObj.getTileEntity(xCoord, yCoord + 1, zCoord); if (i == ContainerKilnStacked.INPUTTOP) {
+		 * return above.kilnStacks[0]; } else if (i == ContainerKilnStacked.OUTPUTTOP) { return above.kilnStacks[2]; }
+		 * else if (i == ContainerKilnStacked.INPUTBOTTOM) { return kilnStacks[0]; } else if (i ==
+		 * ContainerKilnStacked.OUTPUTBOTTOM) { return kilnStacks[2]; } else if (i == ContainerKilnStacked.FUEL) {
+		 * return kilnStacks[1]; }
+		 * 
+		 * return kilnStacks[i]; } else { return kilnStacks[i]; }
+		 */
 	}
 	
 	@Override
@@ -388,7 +417,28 @@ public class TileEntityKiln extends TileEntity implements ISidedInventory
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack stack)
 	{
+		// if (stacked == 0)
+		// {
 		kilnStacks[slot] = stack;
+		// }
+		
+		/*
+		 * if (stacked == -1) { TileEntityKiln below = (TileEntityKiln)worldObj.getTileEntity(xCoord, yCoord - 1,
+		 * zCoord); if (slot == ContainerKilnStacked.INPUTTOP) { kilnStacks[0] = stack; } else if (slot ==
+		 * ContainerKilnStacked.OUTPUTTOP) { kilnStacks[2] = stack; } else if (slot == ContainerKilnStacked.INPUTBOTTOM)
+		 * { below.kilnStacks[0] = stack; } else if (slot == ContainerKilnStacked.OUTPUTBOTTOM) { below.kilnStacks[2] =
+		 * stack; } else if (slot == ContainerKilnStacked.FUEL) { below.kilnStacks[1] = stack; }
+		 * 
+		 * kilnStacks[slot] = stack; } else if (stacked == 1) { TileEntityKiln above =
+		 * (TileEntityKiln)worldObj.getTileEntity(xCoord, yCoord + 1, zCoord); if (slot ==
+		 * ContainerKilnStacked.INPUTTOP) { above.kilnStacks[0] = stack; } else if (slot ==
+		 * ContainerKilnStacked.OUTPUTTOP) { above.kilnStacks[2] = stack; } else if (slot ==
+		 * ContainerKilnStacked.INPUTBOTTOM) { kilnStacks[0] = stack; } else if (slot ==
+		 * ContainerKilnStacked.OUTPUTBOTTOM) { kilnStacks[2] = stack; } else if (slot == ContainerKilnStacked.FUEL) {
+		 * kilnStacks[1] = stack; }
+		 * 
+		 * kilnStacks[slot] = stack; } else { kilnStacks[slot] = stack; }
+		 */
 		
 		if (stack != null && stack.stackSize > getInventoryStackLimit())
 		{

@@ -1,9 +1,6 @@
 package net.einsteinsci.noobcraft.register;
 
-import net.einsteinsci.noobcraft.blocks.BlockBrickOven;
-import net.einsteinsci.noobcraft.blocks.BlockDoubleWorkbench;
-import net.einsteinsci.noobcraft.blocks.BlockKiln;
-import net.einsteinsci.noobcraft.blocks.BlockSmelter;
+import net.einsteinsci.noobcraft.blocks.*;
 import net.minecraft.block.Block;
 
 public class RegisterBlocks
@@ -15,6 +12,7 @@ public class RegisterBlocks
 	public static final Block brickOvenLit = new BlockBrickOven(true);
 	public static final Block smelter = new BlockSmelter(false);
 	public static final Block smelterLit = new BlockSmelter(true);
+	public static final Block repairTable = new BlockRepairTable();
 	
 	public static void register()
 	{
@@ -28,5 +26,7 @@ public class RegisterBlocks
 		
 		RegisterHelper.registerBlock(smelter);
 		RegisterHelper.registerBlock(smelterLit);
+		
+		RegisterHelper.registerBlock(repairTable);
 	}
 }
