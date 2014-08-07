@@ -3,6 +3,7 @@ package net.einsteinsci.noobcraft.inventory;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.einsteinsci.noobcraft.ModMain;
 import net.einsteinsci.noobcraft.register.RegisterBlocks;
 import net.einsteinsci.noobcraft.register.RegisterItems;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,6 +19,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
+
+import org.apache.logging.log4j.Level;
 
 public class ContainerRepairTable extends Container
 {
@@ -68,6 +71,96 @@ public class ContainerRepairTable extends Container
 		for (l = 0; l < 9; ++l)
 		{
 			addSlotToContainer(new Slot(invPlayer, l, 8 + l * 18, 142));
+		}
+	}
+	
+	public boolean canRepair(EntityPlayer player)
+	{
+		if (circleSlots[0].getStack() != null)
+		{
+			if (!circleSlots[0].getStack().isItemDamaged())
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
+		
+		for (int i = 0; i < requiredItems.size(); ++i)
+		{
+			boolean foundIt = false;
+			ItemStack needed = requiredItems.get(i);
+			for (int j = 1; j < circleSlots.length; ++j)
+			{
+				if (circleSlots[j].getStack() != null)
+				{
+					ItemStack tested = circleSlots[j].getStack();
+					if (tested.getItem() == needed.getItem() &&
+						(tested.getItemDamage() == needed.getItemDamage() || needed.getItemDamage() == OreDictionary.WILDCARD_VALUE) &&
+						tested.stackSize >= needed.stackSize)
+					{
+						foundIt = true;
+						break;
+					}
+				}
+			}
+			
+			if (!foundIt)
+			{
+				return false;
+			}
+		}
+		
+		if (player.experienceLevel < requiredLevels && !player.capabilities.isCreativeMode)
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public void repair(EntityPlayer player)
+	{
+		if (!canRepair(player))
+		{
+			ModMain.Log(Level.ERROR, "Player is unable to repair tool.");
+		}
+		
+		for (int i = 0; i < requiredItems.size(); ++i)
+		{
+			boolean foundIt = false;
+			ItemStack needed = requiredItems.get(i);
+			for (int j = 1; j < circleSlots.length; ++j)
+			{
+				if (circleSlots[j].getStack() != null)
+				{
+					ItemStack tested = circleSlots[j].getStack();
+					if (tested.getItem() == needed.getItem() &&
+						(tested.getItemDamage() == needed.getItemDamage() || needed.getItemDamage() == OreDictionary.WILDCARD_VALUE) &&
+						tested.stackSize >= needed.stackSize)
+					{
+						tested.stackSize -= needed.stackSize;
+						if (tested.stackSize == 0)
+						{
+							tested = null;
+						}
+						break;
+					}
+				}
+			}
+		}
+		
+		if (!player.capabilities.isCreativeMode)
+		{
+			player.experienceLevel -= takenLevels;
+			
+			// circleSlots[0].getStack().setItemDamage(0);
+			// repairTableInventory.getStackInSlot(0).setItemDamage(0);
+			ItemStack stack2 = circleSlots[0].getStack().copy();
+			stack2.setItemDamage(0);
+			repairTableInventory.setInventorySlotContents(0, stack2);
 		}
 	}
 	

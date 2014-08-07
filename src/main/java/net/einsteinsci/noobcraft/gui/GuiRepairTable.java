@@ -4,9 +4,11 @@ import net.einsteinsci.noobcraft.ModMain;
 import net.einsteinsci.noobcraft.event.ChatUtil;
 import net.einsteinsci.noobcraft.inventory.ContainerRepairTable;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -29,11 +31,30 @@ public class GuiRepairTable extends GuiContainer
 	private static final ResourceLocation craftingTableGuiTextures = new ResourceLocation(ModMain.MODID +
 		":textures/gui/container/repairTable.png");
 	
+	private EntityPlayer player;
+	
 	public GuiRepairTable(InventoryPlayer invPlayer, World world, int x, int y, int z)
 	{
 		super(new ContainerRepairTable(invPlayer, world, x, y, z));
 		
 		container = (ContainerRepairTable)inventorySlots;
+		
+		player = invPlayer.player;
+	}
+	
+	@Override
+	public void initGui()
+	{
+		super.initGui();
+		
+		buttonList.clear();
+		buttonList.add(new GuiButton(0, (width - xSize) / 2 + 6, (height - ySize) / 2 + 55, 64, 20, I18n
+			.format("container.repairTable.repair")));
+		GuiButton repairButton = (GuiButton)buttonList.get(0);
+		if (repairButton != null)
+		{
+			repairButton.enabled = false;
+		}
 	}
 	
 	/**
@@ -45,20 +66,46 @@ public class GuiRepairTable extends GuiContainer
 		// I'm guessing the really big number at the end is the z layer.
 		// fontRendererObj.drawString(I18n.format("container.repairTable", new Object[0]), 8, 6, 4210752);
 		ItemStack stack = container.circleSlots[0].getStack();
-		if (container.requiredLevels != 0 && container.takenLevels != 0 && stack.isItemDamaged())
+		if ((container.requiredLevels != 0 || container.takenLevels != 0) && stack != null)
 		{
-			fontRendererObj.drawString(ChatUtil.BLACK + I18n.format("container.repairTable.minLevel") + ": ", 8, 10,
-				4210752);
-			fontRendererObj.drawString("" + container.requiredLevels + I18n.format("container.repairTable.level"), 16,
-				20, 4210752);
-			fontRendererObj.drawString(ChatUtil.BLACK + I18n.format("container.repairTable.levelCost") + ": ", 8, 35,
-				4210752);
-			fontRendererObj.drawString("" + container.takenLevels + I18n.format("container.repairTable.level"), 16, 45,
-				4210752);
-			
-			
+			if (stack.isItemDamaged())
+			{
+				fontRendererObj.drawString(ChatUtil.BLACK + I18n.format("container.repairTable.minLevel") + ": ", 8, 6,
+					4210752);
+				fontRendererObj.drawString("" + container.requiredLevels + I18n.format("container.repairTable.level"),
+					16, 16, 4210752);
+				fontRendererObj.drawString(ChatUtil.BLACK + I18n.format("container.repairTable.levelCost") + ": ", 8,
+					28, 4210752);
+				fontRendererObj.drawString("" + container.takenLevels + I18n.format("container.repairTable.level"), 16,
+					38, 4210752);
+			}
 		}
-		// fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, ySize - 96 + 2, 4210752);
+		
+		if (stack != null)
+		{
+			if (!stack.isItemDamaged())
+			{
+				fontRendererObj.drawString(I18n.format("container.repairTable.notNeeded.0"), 8, 6, 4210752);
+				fontRendererObj.drawString(I18n.format("container.repairTable.notNeeded.1"), 8, 16, 4210752);
+			}
+		}
+		
+		if (container.canRepair(player))
+		{
+			GuiButton button = (GuiButton)buttonList.get(0);
+			if (button != null)
+			{
+				button.enabled = true;
+			}
+		}
+		else
+		{
+			GuiButton button = (GuiButton)buttonList.get(0);
+			if (button != null)
+			{
+				button.enabled = false;
+			}
+		}
 	}
 	
 	private void drawItemStack(ItemStack stack, int xPos, int yPos, String note)
@@ -82,7 +129,7 @@ public class GuiRepairTable extends GuiContainer
 		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
 		GL11.glEnable(GL11.GL_LIGHTING);
 		partialTransItemRenderer.renderItemAndEffectIntoGUI(font, mc.getTextureManager(), stack, xPos, yPos);
-		partialTransItemRenderer.renderItemOverlayIntoGUI(font, mc.getTextureManager(), stack, xPos, yPos - 0, note);
+		partialTransItemRenderer.renderItemOverlayIntoGUI(font, mc.getTextureManager(), stack, xPos, yPos, note);
 		zLevel = 0.0F;
 		partialTransItemRenderer.zLevel = 0.0F;
 		GL11.glEnable(GL11.GL_LIGHTING);
@@ -91,11 +138,12 @@ public class GuiRepairTable extends GuiContainer
 	}
 	
 	@Override
-	public void drawScreen(int par1, int par2, float par3)
+	protected void actionPerformed(GuiButton button)
 	{
-		super.drawScreen(par1, par2, par3);
-		
-		
+		if (button.id == 0 && button.enabled)
+		{
+			container.repair(player);
+		}
 	}
 	
 	@Override
@@ -117,7 +165,7 @@ public class GuiRepairTable extends GuiContainer
 			Slot slot = container.circleSlots[i + 1];
 			ItemStack needed = container.requiredItems.get(i);
 			
-			if (needed != null)
+			if (needed != null && !slot.getHasStack())
 			{
 				drawItemStack(needed, (width - xSize) / 2 + slot.xDisplayPosition, (height - ySize) / 2 +
 					slot.yDisplayPosition, "" + needed.stackSize);
