@@ -1,6 +1,9 @@
 package net.einsteinsci.noobcraft.inventory;
 
+import net.einsteinsci.noobcraft.register.RegisterItems;
+import net.einsteinsci.noobcraft.tileentity.TileEntityBrickOven;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCrafting;

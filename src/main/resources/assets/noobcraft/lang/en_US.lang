@@ -6,6 +6,7 @@ tile.brickOvenLit.name=Brick Oven (Lit)
 tile.smelter.name=Smelter
 tile.smelterLit.name=Smelter (Lit)
 tile.repairTable.name=Repair Table
+tile.Campfire.name=Campfire
 
 item.flintKnife.name=Flint Knife
 item.boneKnife.name=Bone Knife
