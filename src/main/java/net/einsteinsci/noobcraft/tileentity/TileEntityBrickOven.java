@@ -1,13 +1,14 @@
 package net.einsteinsci.noobcraft.tileentity;
 
 import net.einsteinsci.noobcraft.blocks.BlockBrickOven;
+import net.einsteinsci.noobcraft.blocks.BlockUtil;
 import net.einsteinsci.noobcraft.register.recipe.BrickOvenRecipeHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -16,14 +17,11 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityBrickOven extends TileEntity implements IInventory
+public class TileEntityBrickOven extends TileEntity implements ISidedInventory
 {
 	public static final int FUEL = 0;
 	public static final int OUTPUT = 1;
 	public static final int INPUTSTART = 2;
-	// private static final int[] slotsTop = new int[] { 0 };
-	// private static final int[] slotsBottom = new int[] { 2, 1 };
-	// private static final int[] slotsSides = new int[] { 1 };
 	
 	public static final int COOKTIME = 100;
 	
@@ -34,7 +32,8 @@ public class TileEntityBrickOven extends TileEntity implements IInventory
 	
 	public int ovenCookTime;
 	
-	// public ContainerBrickOven container;
+	private int[] slotsOutput = new int[] { OUTPUT };
+	private int[] slotsInput = new int[] { FUEL };
 	
 	private String ovenName;
 	
@@ -468,22 +467,34 @@ public class TileEntityBrickOven extends TileEntity implements IInventory
 		return slot == OUTPUT ? false : slot == FUEL ? isItemFuel(stack) : true;
 	}
 	
-	// @Override
-	// public int[] getAccessibleSlotsFromSide(int side)
-	// {
-	// return side == 0 ? slotsBottom : side == 1 ? slotsTop : slotsSides;
-	// }
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side)
+	{
+		if (side == BlockUtil.Bottom)
+		{
+			return slotsOutput;
+		}
+		else
+		{
+			return slotsInput;
+		}
+	}
 	
-	// @Override
+	@Override
 	public boolean canInsertItem(int par1, ItemStack stack, int par3)
 	{
 		return isItemValidForSlot(par1, stack);
 	}
 	
-	// @Override
-	public boolean canExtractItem(int par1, ItemStack stack, int par3)
+	@Override
+	public boolean canExtractItem(int slot, ItemStack stack, int side)
 	{
-		return par3 != 0 || par1 != 1 || stack.getItem() == Items.bucket;
+		if (side == BlockUtil.Bottom)
+		{
+			return true;
+		}
+		return false;
+		// return side != 0 || slot != 1 || stack.getItem() == Items.bucket;
 	}
 	
 	@Override

@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 
+/** Some issues with this. Please note the server doesn't register items or blocks. At all. */
 public class NoobCraftGuiHandler implements IGuiHandler
 {
 	public static final int KILN_ID = 0;
@@ -55,15 +56,6 @@ public class NoobCraftGuiHandler implements IGuiHandler
 			return new ContainerRepairTable(player.inventory, world, x, y, z);
 		}
 		
-		/*
-		 * if (ID == KILNSTACKED_ID) { TileEntityKiln kilnOne = (TileEntityKiln)world.getTileEntity(x, y, z);
-		 * 
-		 * if (kilnOne.stacked == 1) { TileEntityKiln kilnTop = (TileEntityKiln)world.getTileEntity(x, y + 1, z); return
-		 * new ContainerKilnStacked(player.inventory, kilnTop, kilnOne); } else if (kilnOne.stacked == -1) {
-		 * TileEntityKiln kilnBottom = (TileEntityKiln)world.getTileEntity(x, y - 1, z); return new
-		 * ContainerKilnStacked(player.inventory, kilnOne, kilnBottom); } }
-		 */
-		
 		return null;
 	}
 	
@@ -103,16 +95,6 @@ public class NoobCraftGuiHandler implements IGuiHandler
 			return new GuiRepairTable(player.inventory, world, x, y, z);
 		}
 		
-		/*
-		 * if (ID == KILNSTACKED_ID) { TileEntityKiln kilnOne = (TileEntityKiln)world.getTileEntity(x, y, z);
-		 * 
-		 * if (kilnOne.stacked == 1) { TileEntityKiln kilnTop = (TileEntityKiln)world.getTileEntity(x, y + 1, z); return
-		 * new GuiKilnStacked(player.inventory, kilnTop, kilnOne); } else if (kilnOne.stacked == -1) { TileEntityKiln
-		 * kilnBottom = (TileEntityKiln)world.getTileEntity(x, y - 1, z); return new GuiKilnStacked(player.inventory,
-		 * kilnOne, kilnBottom); } }
-		 */
-		
 		return null;
 	}
-	
 }
