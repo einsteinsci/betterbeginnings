@@ -10,6 +10,10 @@ public class ServerProxy
 		
 	}
 	
+	public void registerTileEntitySpecialRenderer(){
+		
+	}
+	
 	public void registerNetworkStuff()
 	{
 		NetworkRegistry.INSTANCE.registerGuiHandler(ModMain.modInstance, new NoobCraftGuiHandler());

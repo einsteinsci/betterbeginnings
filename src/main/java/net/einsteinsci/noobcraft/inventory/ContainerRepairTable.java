@@ -161,6 +161,7 @@ public class ContainerRepairTable extends Container
 			ItemStack stack2 = circleSlots[0].getStack().copy();
 			stack2.setItemDamage(0);
 			repairTableInventory.setInventorySlotContents(0, stack2);
+			player.inventoryContainer.detectAndSendChanges();
 		}
 	}
 	
