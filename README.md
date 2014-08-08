@@ -3,7 +3,7 @@ NoobCraft
 
 NoobCraft mod for Minecraft v1.7.10. Requires Forge.
 
-Kind of complicated. See the [forum topic](www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/requests-ideas-for-mods/2146340-need-an-idea-why-not-noobcraft-req)
+Kind of complicated. See the [forum topic](www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/requests-ideas-for-mods/2146340-need-an-idea-why-not-noobcraft-req).
 
 Contributing to this project:
 -----------------------------
