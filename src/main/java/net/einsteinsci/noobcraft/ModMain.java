@@ -2,6 +2,7 @@ package net.einsteinsci.noobcraft;
 
 import net.einsteinsci.noobcraft.config.NoobcraftConfig;
 import net.einsteinsci.noobcraft.event.NoobcraftEventHandler;
+import net.einsteinsci.noobcraft.network.RepairTableRepairPacket;
 import net.einsteinsci.noobcraft.register.*;
 import net.einsteinsci.noobcraft.register.achievement.RegisterAchievements;
 import net.minecraft.creativetab.CreativeTabs;
@@ -18,6 +19,8 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -32,6 +35,9 @@ public class ModMain
 	
 	public NoobcraftEventHandler eventHandler = new NoobcraftEventHandler();
 	// public NoobcraftConfig config = new NoobcraftConfig();
+	
+	public static SimpleNetworkWrapper network;
+	public static final int PACKET_REPAIR_TABLE_REPAIR = 0;
 	
 	@Instance(ModMain.MODID)
 	public static ModMain modInstance;
@@ -77,6 +83,10 @@ public class ModMain
 		
 		FMLCommonHandler.instance().bus().register(eventHandler);
 		MinecraftForge.EVENT_BUS.register(eventHandler);
+		
+		network = NetworkRegistry.INSTANCE.newSimpleChannel("noobcraft");
+		network.registerMessage(RepairTableRepairPacket.Handler.class, RepairTableRepairPacket.class,
+			PACKET_REPAIR_TABLE_REPAIR, Side.SERVER);
 		
 		RegisterItems.register();
 		RegisterBlocks.register();

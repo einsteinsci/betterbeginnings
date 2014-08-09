@@ -42,3 +42,5 @@ achievement.flintKnife=Survival of the Fittest
 achievement.flintKnife.desc=Craft a flint knife out of two flint
 achievement.makeSticks=I'm a sapling, I'm a sapling...
 achievement.makeSticks.desc=Make a stick with a sapling and a knife
+
+damage.face=%1$s broke their face on a %2$s

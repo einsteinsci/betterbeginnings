@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.einsteinsci.noobcraft.ModMain;
+import net.einsteinsci.noobcraft.network.RepairTableRepairPacket;
 import net.einsteinsci.noobcraft.register.RegisterBlocks;
 import net.einsteinsci.noobcraft.register.RegisterItems;
 import net.minecraft.entity.player.EntityPlayer;
@@ -158,9 +159,17 @@ public class ContainerRepairTable extends Container
 			
 			// circleSlots[0].getStack().setItemDamage(0);
 			// repairTableInventory.getStackInSlot(0).setItemDamage(0);
-			ItemStack stack2 = circleSlots[0].getStack().copy();
-			stack2.setItemDamage(0);
-			repairTableInventory.setInventorySlotContents(0, stack2);
+			// ItemStack stack2 = circleSlots[0].getStack().copy();
+			// stack2.setItemDamage(0);
+			// repairTableInventory.setInventorySlotContents(0, stack2);
+			
+			// ========================================================================================
+			// BUG HERE
+			// ========================================================================================
+			ModMain.network.sendToServer(new RepairTableRepairPacket(circleSlots[0].getStack()));
+			// ========================================================================================
+			
+			
 			player.inventoryContainer.detectAndSendChanges();
 		}
 	}

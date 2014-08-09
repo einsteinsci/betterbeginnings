@@ -16,7 +16,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.*;
-import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -104,7 +103,7 @@ public class NoobcraftEventHandler
 					Random rand = e.harvester.worldObj.rand;
 					if (rand.nextInt(8) == 0)
 					{
-						e.drops.add(new ItemStack(Blocks.tallgrass));
+						e.drops.add(new ItemStack(Blocks.tallgrass, 1, 1));
 					}
 				}
 			}
@@ -298,7 +297,7 @@ public class NoobcraftEventHandler
 				if (toolUsed.equalsIgnoreCase("face"))
 				{
 					// What do you think the player's 'durability' is?
-					player.attackEntityFrom(DamageSource.cactus, 2);
+					player.attackEntityFrom(new DamageSourceFace(block), 4);
 					ChatUtil.sendChatToPlayer(player, ChatUtil.ORANGE +
 						"[NoobCraft] Ouch! What did you think punching that would do?");
 				}
