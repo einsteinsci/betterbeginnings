@@ -24,13 +24,17 @@ import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@Mod(modid = ModMain.MODID, version = ModMain.VERSION,
+@Mod(modid = ModMain.MODID, version = ModMain.VERSION, name = ModMain.NAME,
 guiFactory = "net.einsteinsci.noobcraft.config.NoobcraftConfigGuiFactory")
 public class ModMain
 {
+	@Instance(ModMain.MODID)
+	public static ModMain modInstance;
+
 	public static final String MODID = "noobcraft";
 	public static final String VERSION = "0.0.3.1";
-	
+	public static final String NAME = "NoobCraft";
+
 	public static Configuration configFile;
 	
 	public NoobcraftEventHandler eventHandler = new NoobcraftEventHandler();
@@ -38,9 +42,6 @@ public class ModMain
 	
 	public static SimpleNetworkWrapper network;
 	public static final int PACKET_REPAIR_TABLE_REPAIR = 0;
-	
-	@Instance(ModMain.MODID)
-	public static ModMain modInstance;
 	
 	@SidedProxy(clientSide = "net.einsteinsci.noobcraft.ClientProxy",
 		serverSide = "net.einsteinsci.noobcraft.ServerProxy")

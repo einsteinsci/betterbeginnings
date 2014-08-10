@@ -3,7 +3,6 @@ package net.einsteinsci.noobcraft.inventory;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.einsteinsci.noobcraft.ModMain;
 import net.einsteinsci.noobcraft.network.RepairTableRepairPacket;
 import net.einsteinsci.noobcraft.register.RegisterBlocks;
 import net.einsteinsci.noobcraft.register.RegisterItems;
@@ -22,6 +21,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
 import org.apache.logging.log4j.Level;
+
+import static net.einsteinsci.noobcraft.ModMain.*;
 
 public class ContainerRepairTable extends Container
 {
@@ -89,10 +90,10 @@ public class ContainerRepairTable extends Container
 			return false;
 		}
 		
-		for (int i = 0; i < requiredItems.size(); ++i)
+		for (ItemStack needed : requiredItems)
 		{
 			boolean foundIt = false;
-			ItemStack needed = requiredItems.get(i);
+			//ItemStack needed = requiredItems.get(i);
 			for (int j = 1; j < circleSlots.length; ++j)
 			{
 				if (circleSlots[j].getStack() != null)
@@ -126,7 +127,7 @@ public class ContainerRepairTable extends Container
 	{
 		if (!canRepair(player))
 		{
-			ModMain.Log(Level.ERROR, "Player is unable to repair tool.");
+			Log(Level.ERROR, "Player " + player.getDisplayName() + " is unable to repair tool.");
 		}
 		
 		for (int i = 0; i < requiredItems.size(); ++i)
@@ -166,7 +167,7 @@ public class ContainerRepairTable extends Container
 			// ========================================================================================
 			// BUG HERE
 			// ========================================================================================
-			ModMain.network.sendToServer(new RepairTableRepairPacket(circleSlots[0].getStack()));
+			network.sendToServer(new RepairTableRepairPacket(circleSlots[0].getStack()));
 			// ========================================================================================
 			
 			
@@ -188,9 +189,12 @@ public class ContainerRepairTable extends Container
 				itemstack1 = itemstack == null ? null : itemstack.copy();
 				inventoryItemStacks.set(i, itemstack1);
 				
-				for (int j = 0; j < crafters.size(); ++j)
+				for (Object obj : crafters)
 				{
-					((ICrafting)crafters.get(j)).sendSlotContents(this, i, itemstack1);
+					if (obj != null)
+					{
+						((ICrafting) obj).sendSlotContents(this, i, itemstack1);
+					}
 				}
 				
 				flag = true;

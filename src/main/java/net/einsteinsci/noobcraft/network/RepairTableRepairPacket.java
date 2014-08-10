@@ -9,7 +9,7 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class RepairTableRepairPacket implements IMessage
 {
-	private ItemStack repairedStack;
+	public ItemStack repairedStack;
 	
 	public RepairTableRepairPacket(ItemStack repaired)
 	{
