@@ -2,6 +2,7 @@ package net.einsteinsci.noobcraft.gui;
 
 import net.einsteinsci.noobcraft.ModMain;
 import net.einsteinsci.noobcraft.inventory.ContainerSmelter;
+import net.einsteinsci.noobcraft.renderer.RenderItemPartialTransparency;
 import net.einsteinsci.noobcraft.tileentity.TileEntitySmelter;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -11,16 +12,14 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 public class GuiSmelter extends GuiContainer
 {
-	RenderItemPartialTransparency partialTransItemRenderer = new RenderItemPartialTransparency();
-
 	private static final ResourceLocation kilnGuiTextures = new ResourceLocation(ModMain.MODID +
 		":textures/gui/container/smelter.png");
+	RenderItemPartialTransparency partialTransItemRenderer = new RenderItemPartialTransparency();
 	private TileEntitySmelter tileSmelter;
 	
 	public GuiSmelter(InventoryPlayer invPlayer, TileEntitySmelter tile)
@@ -59,7 +58,10 @@ public class GuiSmelter extends GuiContainer
 		i1 = tileSmelter.getCookProgressScaled(24);
 		drawTexturedModalRect(k + 79, l + 34, 176, 14, i1 + 1, 16);
 
-		drawItemStack(new ItemStack(Blocks.gravel), 66, 17, "");
+		if (tileSmelter.getStackInSlot(TileEntitySmelter.GRAVEL) == null)
+		{
+			drawItemStack(new ItemStack(Blocks.gravel), k + 66, l + 17, "");
+		}
 	}
 
 	private void drawItemStack(ItemStack stack, int xPos, int yPos, String note)

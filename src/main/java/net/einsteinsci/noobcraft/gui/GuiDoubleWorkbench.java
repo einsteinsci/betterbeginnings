@@ -1,9 +1,12 @@
 package net.einsteinsci.noobcraft.gui;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.einsteinsci.noobcraft.ModMain;
 import net.einsteinsci.noobcraft.inventory.ContainerDoubleWorkbench;
 import net.einsteinsci.noobcraft.register.recipe.AdvancedCraftingHandler;
 import net.einsteinsci.noobcraft.register.recipe.AdvancedRecipe;
+import net.einsteinsci.noobcraft.renderer.RenderItemPartialTransparency;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
@@ -14,30 +17,34 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiDoubleWorkbench extends GuiContainer
 {
 	private static final ResourceLocation workbenchGuiTextures = new ResourceLocation(ModMain.MODID +
-		":textures/gui/container/doubleWorkbench.png");
-	
+																							  ":textures/gui/container/doubleWorkbench.png");
+
 	private final ContainerDoubleWorkbench container;
-	
+
 	private final RenderItemPartialTransparency partialTransItemRenderer = new RenderItemPartialTransparency();
-	
+
 	public GuiDoubleWorkbench(InventoryPlayer invPlayer, World world, int x, int y, int z)
 	{
 		super(new ContainerDoubleWorkbench(invPlayer, world, x, y, z));
-		
+
 		container = (ContainerDoubleWorkbench)inventorySlots;
 	}
-	
+
+	@Override
+	public void drawScreen(int xMouse, int yMouse, float par3)
+	{
+		super.drawScreen(xMouse, yMouse, par3);
+
+		renderTransparentItems();
+	}
+
 	/**
 	 * Draw the foreground layer for the GuiContainer (everything in front of the items)
 	 */
@@ -49,7 +56,19 @@ public class GuiDoubleWorkbench extends GuiContainer
 		// fontRendererObj.drawString(I18n.format("container.inventory", new
 		// Object[0]), 33, ySize - 96 + 2, 4210752);
 	}
-	
+
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
+	{
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		mc.getTextureManager().bindTexture(workbenchGuiTextures);
+		int k = (width - xSize) / 2;
+		int l = (height - ySize) / 2;
+		drawTexturedModalRect(k, l, 0, 0, xSize, ySize);
+
+		// renderTransparentItems();
+	}
+
 	public void renderTransparentItems()
 	{
 		if (AdvancedCraftingHandler.crafting().hasRecipe(container.craftMatrix, container.worldObj))
@@ -61,24 +80,24 @@ public class GuiDoubleWorkbench extends GuiContainer
 					for (int i = 0; i < recipe.getNeededMaterials().length; ++i)
 					{
 						ItemStack needed = recipe.getNeededMaterials()[i];
-						
+
 						if (needed.getItemDamage() == OreDictionary.WILDCARD_VALUE)
 						{
 							needed.setItemDamage(0);
 						}
-						
+
 						Slot slot = container.matSlots[i];
 						if (container.addedMats.getStackInSlot(i) == null)
 						{
 							drawItemStack(needed, (width - xSize) / 2 + slot.xDisplayPosition, (height - ySize) / 2 +
-								slot.yDisplayPosition, "" + needed.stackSize);
+									slot.yDisplayPosition, "" + needed.stackSize);
 						}
 					}
 				}
 			}
 		}
 	}
-	
+
 	private void drawItemStack(ItemStack stack, int xPos, int yPos, String note)
 	{
 		GL11.glTranslatef(0.0F, 0.0F, 32.0F);
@@ -93,7 +112,7 @@ public class GuiDoubleWorkbench extends GuiContainer
 		{
 			font = fontRendererObj;
 		}
-		
+
 		RenderHelper.enableGUIStandardItemLighting();
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
@@ -107,50 +126,7 @@ public class GuiDoubleWorkbench extends GuiContainer
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		RenderHelper.enableStandardItemLighting();
 	}
-	
-	@Override
-	public void drawScreen(int xMouse, int yMouse, float par3)
-	{
-		super.drawScreen(xMouse, yMouse, par3);
-		
-		renderTransparentItems();
-	}
-	
-	@Override
-	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
-	{
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.getTextureManager().bindTexture(workbenchGuiTextures);
-		int k = (width - xSize) / 2;
-		int l = (height - ySize) / 2;
-		drawTexturedModalRect(k, l, 0, 0, xSize, ySize);
-		
-		// renderTransparentItems();
-	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // Buffer ;)
