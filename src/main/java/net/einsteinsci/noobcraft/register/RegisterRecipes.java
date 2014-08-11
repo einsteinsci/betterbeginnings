@@ -1,15 +1,12 @@
 package net.einsteinsci.noobcraft.register;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.einsteinsci.noobcraft.config.NoobcraftConfig;
-import net.einsteinsci.noobcraft.register.recipe.AdvancedCraftingHandler;
-import net.einsteinsci.noobcraft.register.recipe.BrickOvenRecipeHandler;
-import net.einsteinsci.noobcraft.register.recipe.KilnRecipes;
-import net.einsteinsci.noobcraft.register.recipe.SmelterRecipeHandler;
+import net.einsteinsci.noobcraft.register.recipe.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class RegisterRecipes
 {
@@ -73,23 +70,52 @@ public class RegisterRecipes
 		KilnRecipes.addRecipe(new ItemStack(Items.fish, 1, 0), new ItemStack(RegisterItems.charredMeat), 0.1f);
 		KilnRecipes.addRecipe(new ItemStack(Items.fish, 1, 1), new ItemStack(RegisterItems.charredMeat), 0.1f);
 	}
-	
+
+	private static void addBrickOvenRecipes()
+	{
+		BrickOvenRecipeHandler.addShapedRecipe(new ItemStack(Items.golden_apple), "GGG", "GAG", "GGG", 'G',
+											   Items.gold_ingot, 'A', Items.apple);
+		BrickOvenRecipeHandler.addShapedRecipe(new ItemStack(Items.golden_apple, 1, 1), "###", "#A#", "###", '#',
+											   Blocks.gold_block, 'A', Items.apple);
+		BrickOvenRecipeHandler.addShapedRecipe(new ItemStack(Items.golden_carrot), "***", "*C*", "***", '*',
+											   Items.gold_nugget, 'C', Items.carrot);
+		BrickOvenRecipeHandler.addShapedRecipe(new ItemStack(Items.cake), "MMM", "SES", "WWW", 'M', Items.milk_bucket,
+											   'S', Items.sugar, 'E', Items.egg, 'W', Items.wheat);
+		BrickOvenRecipeHandler.addShapedRecipe(new ItemStack(Items.bread, 2), "WWW", 'W', Items.wheat);
+		BrickOvenRecipeHandler.addShapedRecipe(new ItemStack(Items.cookie, 8), "WCW", 'W', Items.wheat, 'C',
+											   new ItemStack(Items.dye, 1, 3));
+
+		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.mushroom_stew), Blocks.brown_mushroom,
+												  Blocks.red_mushroom, Items.bowl);
+		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.cooked_beef), Items.beef);
+		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.cooked_porkchop), Items.porkchop);
+		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.cooked_chicken), Items.chicken);
+		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.cooked_fished), Items.fish);
+		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.cooked_fished, 1, 1), new ItemStack(Items.fish,
+																										  1, 1));
+		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.baked_potato), Items.potato);
+		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.pumpkin_pie), Items.egg, Items.sugar,
+												  Blocks.pumpkin);
+		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.fermented_spider_eye), Items.spider_eye,
+												  Items.sugar, Blocks.brown_mushroom);
+	}
+
 	private static void addSmelterRecipes()
 	{
 		SmelterRecipeHandler.addRecipe(Blocks.iron_ore, new ItemStack(Items.iron_ingot), 0.7f, 1);
 		SmelterRecipeHandler.addRecipe(Blocks.gold_ore, new ItemStack(Items.gold_ingot), 1.0f, 2);
-		
+
 		SmelterRecipeHandler.addRecipe(new ItemStack(Blocks.sand, 1, 0), new ItemStack(Blocks.glass), 0.1f, 1);
 		SmelterRecipeHandler.addRecipe(new ItemStack(Blocks.sand, 1, 1), new ItemStack(Blocks.stained_glass, 1, 1),
-			0.1f, 1); // Red sand makes orange stained glass.
+									   0.1f, 1); // Red sand makes orange stained glass.
 		SmelterRecipeHandler.addRecipe(Blocks.netherrack, new ItemStack(Items.netherbrick), 0.25f, 1);
 		SmelterRecipeHandler.addRecipe(Blocks.stonebrick, new ItemStack(Blocks.stonebrick, 1, 2), 0.1f, 1);
-		
+
 		// Recipes that might be better suited in Kiln only
 		SmelterRecipeHandler.addRecipe(Blocks.cobblestone, new ItemStack(Blocks.stone), 0.1f, 0);
 		SmelterRecipeHandler.addRecipe(Items.brick, new ItemStack(Items.clay_ball), 0.3f, 0);
 		SmelterRecipeHandler.addRecipe(Blocks.clay, new ItemStack(Blocks.hardened_clay), 0.35f, 0);
-		
+
 		// Yes, ore doubling.
 		SmelterRecipeHandler.addRecipe(Blocks.coal_ore, new ItemStack(Items.coal, 2), 0.25f, 2);
 		SmelterRecipeHandler.addRecipe(Blocks.quartz_ore, new ItemStack(Items.quartz, 2), 0.4f, 2);
@@ -97,35 +123,6 @@ public class RegisterRecipes
 		SmelterRecipeHandler.addRecipe(Blocks.redstone_ore, new ItemStack(Items.redstone, 8), 0.8f, 2);
 		SmelterRecipeHandler.addRecipe(Blocks.diamond_ore, new ItemStack(Items.diamond, 2), 1.0f, 3);
 		SmelterRecipeHandler.addRecipe(Blocks.emerald_ore, new ItemStack(Items.emerald, 2), 1.0f, 3);
-	}
-	
-	private static void addBrickOvenRecipes()
-	{
-		BrickOvenRecipeHandler.addShapedRecipe(new ItemStack(Items.golden_apple), "GGG", "GAG", "GGG", 'G',
-			Items.gold_ingot, 'A', Items.apple);
-		BrickOvenRecipeHandler.addShapedRecipe(new ItemStack(Items.golden_apple, 1, 1), "###", "#A#", "###", '#',
-			Blocks.gold_block, 'A', Items.apple);
-		BrickOvenRecipeHandler.addShapedRecipe(new ItemStack(Items.golden_carrot), "***", "*C*", "***", '*',
-			Items.gold_nugget, 'C', Items.carrot);
-		BrickOvenRecipeHandler.addShapedRecipe(new ItemStack(Items.cake), "MMM", "SES", "WWW", 'M', Items.milk_bucket,
-			'S', Items.sugar, 'E', Items.egg, 'W', Items.wheat);
-		BrickOvenRecipeHandler.addShapedRecipe(new ItemStack(Items.bread, 2), "WWW", 'W', Items.wheat);
-		BrickOvenRecipeHandler.addShapedRecipe(new ItemStack(Items.cookie, 8), "WCW", 'W', Items.wheat, 'C',
-			new ItemStack(Items.dye, 1, 3));
-		
-		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.mushroom_stew), Blocks.brown_mushroom,
-			Blocks.red_mushroom, Items.bowl);
-		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.cooked_beef), Items.beef);
-		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.cooked_porkchop), Items.porkchop);
-		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.cooked_chicken), Items.chicken);
-		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.cooked_fished), Items.fish);
-		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.cooked_fished, 1, 1), new ItemStack(Items.fish,
-			1, 1));
-		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.baked_potato), Items.potato);
-		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.pumpkin_pie), Items.egg, Items.sugar,
-			Blocks.pumpkin);
-		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.fermented_spider_eye), Items.spider_eye,
-			Items.sugar, Blocks.brown_mushroom);
 	}
 	
 	public static void addAdvancedRecipes()
@@ -307,6 +304,9 @@ public class RegisterRecipes
 			'/', Items.bone);
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.boneKnife), "S ", " /", 'S', RegisterItems.boneShard,
 			'/', Items.bone);
+
+		// Thread
+		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.thread), "ss", "ss", 's', RegisterItems.silk);
 		
 		// Flint Hatchet
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.flintHatchet), "FS", " /", 'F', Items.flint, 'S',
