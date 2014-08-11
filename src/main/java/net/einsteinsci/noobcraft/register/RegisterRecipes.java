@@ -7,6 +7,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class RegisterRecipes
 {
@@ -296,6 +297,8 @@ public class RegisterRecipes
 	
 	public static void addShapedRecipes()
 	{
+		ShapedOreRecipe r = new ShapedOreRecipe(new ItemStack(Items.chainmail_helmet), "...", ". .", '.', "nuggetIron");
+
 		// Knife
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.flintKnife), "F ", " F", 'F', Items.flint);
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.flintKnife), " F", "F ", 'F', Items.flint);
@@ -307,6 +310,9 @@ public class RegisterRecipes
 
 		// Thread
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.thread), "ss", "ss", 's', RegisterItems.silk);
+
+		// Cloth
+		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.cloth, 3), "ttt", "ttt", 't', RegisterItems.thread);
 		
 		// Flint Hatchet
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.flintHatchet), "FS", " /", 'F', Items.flint, 'S',

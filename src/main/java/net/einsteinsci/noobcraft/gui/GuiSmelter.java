@@ -3,15 +3,22 @@ package net.einsteinsci.noobcraft.gui;
 import net.einsteinsci.noobcraft.ModMain;
 import net.einsteinsci.noobcraft.inventory.ContainerSmelter;
 import net.einsteinsci.noobcraft.tileentity.TileEntitySmelter;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 public class GuiSmelter extends GuiContainer
 {
+	RenderItemPartialTransparency partialTransItemRenderer = new RenderItemPartialTransparency();
+
 	private static final ResourceLocation kilnGuiTextures = new ResourceLocation(ModMain.MODID +
 		":textures/gui/container/smelter.png");
 	private TileEntitySmelter tileSmelter;
@@ -51,5 +58,36 @@ public class GuiSmelter extends GuiContainer
 		
 		i1 = tileSmelter.getCookProgressScaled(24);
 		drawTexturedModalRect(k + 79, l + 34, 176, 14, i1 + 1, 16);
+
+		drawItemStack(new ItemStack(Blocks.gravel), 66, 17, "");
+	}
+
+	private void drawItemStack(ItemStack stack, int xPos, int yPos, String note)
+	{
+		GL11.glTranslatef(0.0F, 0.0F, 32.0F);
+		zLevel = 200.0F;
+		partialTransItemRenderer.zLevel = 200.0F;
+		FontRenderer font = null;
+		if (stack != null)
+		{
+			font = stack.getItem().getFontRenderer(stack);
+		}
+		if (font == null)
+		{
+			font = fontRendererObj;
+		}
+
+		RenderHelper.enableGUIStandardItemLighting();
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+		GL11.glEnable(GL11.GL_LIGHTING);
+		partialTransItemRenderer.renderItemAndEffectIntoGUI(font, mc.getTextureManager(), stack, xPos, yPos);
+		partialTransItemRenderer.renderItemOverlayIntoGUI(font, mc.getTextureManager(), stack, xPos, yPos, note);
+		zLevel = 0.0F;
+		partialTransItemRenderer.zLevel = 0.0F;
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		RenderHelper.enableStandardItemLighting();
 	}
 }

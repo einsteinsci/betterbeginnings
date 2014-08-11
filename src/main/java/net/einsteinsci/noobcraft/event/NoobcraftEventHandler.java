@@ -153,7 +153,7 @@ public class NoobcraftEventHandler
 			}
 
 			// if (toolClass.equalsIgnoreCase("null"))
-			if (requiredToolClass == null || requiredToolClass == "shovel")
+			if (requiredToolClass == null || requiredToolClass.equalsIgnoreCase("shovel"))
 			{
 				// Nobody cares. It's a shovel.
 				wrongTool = false;

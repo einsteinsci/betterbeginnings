@@ -15,9 +15,11 @@ import net.einsteinsci.noobcraft.register.*;
 import net.einsteinsci.noobcraft.register.achievement.RegisterAchievements;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.util.EnumHelper;
 import org.apache.logging.log4j.Level;
 
 @Mod(modid = ModMain.MODID, version = ModMain.VERSION, name = ModMain.NAME,
@@ -39,6 +41,7 @@ public class ModMain
 	};
 	public static final AchievementPage pageNoobCraft = new AchievementPage("Noobcraft",
 																			RegisterAchievements.getAchievements());
+
 	// public NoobcraftConfig config = new NoobcraftConfig();
 	@Instance(ModMain.MODID)
 	public static ModMain modInstance;
@@ -48,6 +51,16 @@ public class ModMain
 		serverSide = "net.einsteinsci.noobcraft.ServerProxy")
 	public static ServerProxy proxy;
 	public NoobcraftEventHandler eventHandler = new NoobcraftEventHandler();
+
+	public static void Log(String text)
+	{
+		Log(Level.INFO, text);
+	}
+
+	public static void Log(Level level, String text)
+	{
+		FMLLog.log("NoobCraft", level, text);
+	}
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e)
@@ -72,16 +85,8 @@ public class ModMain
 		RegisterItems.register();
 		RegisterBlocks.register();
 		RegisterTileEntities.register();
-	}
 
-	public static void Log(String text)
-	{
-		Log(Level.INFO, text);
-	}
-
-	public static void Log(Level level, String text)
-	{
-		FMLLog.log("NoobCraft", level, text);
+		// armorMaterialCloth.customCraftingMaterial = RegisterItems.cloth;
 	}
 	
 	@EventHandler

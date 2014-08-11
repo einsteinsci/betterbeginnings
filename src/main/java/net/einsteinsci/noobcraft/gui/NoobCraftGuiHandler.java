@@ -18,8 +18,6 @@ public class NoobCraftGuiHandler implements IGuiHandler
 	public static final int SMELTER_ID = 4;
 	public static final int REPAIRTABLE_ID = 5;
 	
-	public static final int KILNSTACKED_ID = 5;
-	
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
 	{
