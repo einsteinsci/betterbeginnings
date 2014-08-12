@@ -10,16 +10,15 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.einsteinsci.noobcraft.config.NoobcraftConfig;
 import net.einsteinsci.noobcraft.event.NoobcraftEventHandler;
+import net.einsteinsci.noobcraft.event.Worldgen;
 import net.einsteinsci.noobcraft.network.RepairTableRepairPacket;
 import net.einsteinsci.noobcraft.register.*;
 import net.einsteinsci.noobcraft.register.achievement.RegisterAchievements;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
 import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.util.EnumHelper;
 import org.apache.logging.log4j.Level;
 
 @Mod(modid = ModMain.MODID, version = ModMain.VERSION, name = ModMain.NAME,
@@ -82,7 +81,7 @@ public class ModMain
 		network.registerMessage(RepairTableRepairPacket.Handler.class, RepairTableRepairPacket.class,
 								PACKET_REPAIR_TABLE_REPAIR, Side.SERVER);
 
-		RegisterItems.register();
+		RegisterItems.registerItems();
 		RegisterBlocks.register();
 		RegisterTileEntities.register();
 
@@ -97,6 +96,8 @@ public class ModMain
 		RegisterRecipes.addShapedRecipes();
 		RegisterRecipes.addAdvancedRecipes();
 		RegisterRecipes.addFurnaceRecipes();
+
+		Worldgen.addWorldgen();
 
 		AchievementPage.registerAchievementPage(pageNoobCraft);
 		RemoveRecipes.removeFurnaceRecipes();

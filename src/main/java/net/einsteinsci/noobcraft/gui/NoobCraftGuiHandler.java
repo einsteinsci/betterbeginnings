@@ -8,7 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 
-/** Some issues with this. Please note the server doesn't register items or blocks. At all. */
+/** Some issues with this. Please note the server doesn't registerItems items or blocks. At all. */
 public class NoobCraftGuiHandler implements IGuiHandler
 {
 	public static final int KILN_ID = 0;

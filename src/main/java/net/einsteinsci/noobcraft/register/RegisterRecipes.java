@@ -14,50 +14,58 @@ public class RegisterRecipes
 	public static void addShapelessRecipes()
 	{
 		// Sticks from Saplings & Knife
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.stick), new ItemStack(Blocks.sapling, 1,
-			OreDictionary.WILDCARD_VALUE), new ItemStack(RegisterItems.flintKnife, 1, OreDictionary.WILDCARD_VALUE));
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.stick), new ItemStack(Blocks.sapling, 1,
-			OreDictionary.WILDCARD_VALUE), new ItemStack(RegisterItems.boneKnife, 1, OreDictionary.WILDCARD_VALUE));
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.stick), new ItemStack(Blocks.sapling, 1,
-			OreDictionary.WILDCARD_VALUE), new ItemStack(RegisterItems.ironKnife, 1, OreDictionary.WILDCARD_VALUE));
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.stick), new ItemStack(Blocks.sapling, 1,
-			OreDictionary.WILDCARD_VALUE), new ItemStack(RegisterItems.diamondKnife, 1, OreDictionary.WILDCARD_VALUE));
-		
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.stick),
+										new ItemStack(Blocks.sapling, 1,
+													  OreDictionary.WILDCARD_VALUE),
+										new ItemStack(RegisterItems.flintKnife, 1, OreDictionary.WILDCARD_VALUE));
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.stick),
+										new ItemStack(Blocks.sapling, 1,
+													  OreDictionary.WILDCARD_VALUE),
+										new ItemStack(RegisterItems.boneKnife, 1, OreDictionary.WILDCARD_VALUE));
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.stick),
+										new ItemStack(Blocks.sapling, 1,
+													  OreDictionary.WILDCARD_VALUE),
+										new ItemStack(RegisterItems.ironKnife, 1, OreDictionary.WILDCARD_VALUE));
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.stick),
+										new ItemStack(Blocks.sapling, 1,
+													  OreDictionary.WILDCARD_VALUE),
+										new ItemStack(RegisterItems.diamondKnife, 1, OreDictionary.WILDCARD_VALUE));
+
 		// Bone Shard
 		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.boneShard, 2), Items.bone, new ItemStack(
-			RegisterItems.flintKnife, 1, OreDictionary.WILDCARD_VALUE));
+				RegisterItems.flintKnife, 1, OreDictionary.WILDCARD_VALUE));
 		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.boneShard, 2), Items.bone, new ItemStack(
-			RegisterItems.boneKnife, 1, OreDictionary.WILDCARD_VALUE));
+				RegisterItems.boneKnife, 1, OreDictionary.WILDCARD_VALUE));
 		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.boneShard, 2), Items.bone, new ItemStack(
-			RegisterItems.ironKnife, 1, OreDictionary.WILDCARD_VALUE));
+				RegisterItems.ironKnife, 1, OreDictionary.WILDCARD_VALUE));
 		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.boneShard, 2), Items.bone, new ItemStack(
-			RegisterItems.diamondKnife, 1, OreDictionary.WILDCARD_VALUE));
-		
+				RegisterItems.diamondKnife, 1, OreDictionary.WILDCARD_VALUE));
+
 		// Leather Strip
 		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.leatherStrip, 3), Items.leather, new ItemStack(
-			RegisterItems.flintKnife, 1, OreDictionary.WILDCARD_VALUE));
+				RegisterItems.flintKnife, 1, OreDictionary.WILDCARD_VALUE));
 		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.leatherStrip, 3), Items.leather, new ItemStack(
-			RegisterItems.boneKnife, 1, OreDictionary.WILDCARD_VALUE));
+				RegisterItems.boneKnife, 1, OreDictionary.WILDCARD_VALUE));
 		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.leatherStrip, 3), Items.leather, new ItemStack(
-			RegisterItems.ironKnife, 1, OreDictionary.WILDCARD_VALUE));
+				RegisterItems.ironKnife, 1, OreDictionary.WILDCARD_VALUE));
 		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.leatherStrip, 3), Items.leather, new ItemStack(
-			RegisterItems.diamondKnife, 1, OreDictionary.WILDCARD_VALUE));
-		
-		
+				RegisterItems.diamondKnife, 1, OreDictionary.WILDCARD_VALUE));
+
+
 		// Bonemeal from Bone Shard (a bit more rewarding)
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, 2, 15), RegisterItems.boneShard);
-		
+
 		// Iron Nugget
 		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.ironNugget, 9), Items.iron_ingot);
 	}
-	
+
 	public static void addFurnaceRecipes()
 	{
 		addKilnRecipes();
 		addBrickOvenRecipes();
 		addSmelterRecipes();
 	}
-	
+
 	private static void addKilnRecipes()
 	{
 		KilnRecipes.addRecipe(Items.clay_ball, new ItemStack(Items.brick), 0.35f);
@@ -125,251 +133,431 @@ public class RegisterRecipes
 		SmelterRecipeHandler.addRecipe(Blocks.diamond_ore, new ItemStack(Items.diamond, 2), 1.0f, 3);
 		SmelterRecipeHandler.addRecipe(Blocks.emerald_ore, new ItemStack(Items.emerald, 2), 1.0f, 3);
 	}
-	
+
 	public static void addAdvancedRecipes()
 	{
 		if (NoobcraftConfig.advancedCraftingForLotsOfThings)
 		{
 			// Wooden Door
 			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.wooden_door),
-				new ItemStack[] { new ItemStack(RegisterItems.leatherStrip, 2) }, "##", "##", "##", '#', new ItemStack(
-					Blocks.planks, 1, OreDictionary.WILDCARD_VALUE));
+													  new ItemStack[] {new ItemStack(RegisterItems.leatherStrip, 2)},
+													  "##",
+													  "##",
+													  "##",
+													  '#',
+													  new ItemStack(
+															  Blocks.planks, 1, OreDictionary.WILDCARD_VALUE));
 			// Iron Door
-			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.iron_door), new ItemStack[] { new ItemStack(
-				RegisterItems.ironNugget, 3) }, "II", "II", "II", 'I', Items.iron_ingot);
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.iron_door), new ItemStack[] {new ItemStack(
+					RegisterItems.ironNugget, 3)}, "II", "II", "II", 'I', Items.iron_ingot);
 			// Fence Gate
-			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.fence_gate), new ItemStack[] {
-				new ItemStack(Items.string, 4), new ItemStack(RegisterItems.leatherStrip, 4) }, "/#/", "/#/", '/',
-				Items.stick, '#', new ItemStack(Blocks.planks, 1, OreDictionary.WILDCARD_VALUE));
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.fence_gate),
+													  new ItemStack[] {
+															  new ItemStack(Items.string, 4), new ItemStack(
+															  RegisterItems.leatherStrip,
+															  4)},
+													  "/#/",
+													  "/#/",
+													  '/',
+													  Items.stick,
+													  '#',
+													  new ItemStack(Blocks.planks, 1, OreDictionary.WILDCARD_VALUE));
 			// Trapdoor
-			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.trapdoor), new ItemStack[] { new ItemStack(
-				RegisterItems.leatherStrip, 2) }, "###", "###", '#', new ItemStack(Blocks.planks, 1,
-				OreDictionary.WILDCARD_VALUE));
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.trapdoor), new ItemStack[] {new ItemStack(
+					RegisterItems.leatherStrip, 2)}, "###", "###", '#', new ItemStack(Blocks.planks, 1,
+																					  OreDictionary.WILDCARD_VALUE));
 			// Chest. Yep, you need iron before you can make a chest. If you absolutely must store stuff before you have
 			// iron, use your kiln (provided it isn't kiln-able).
-			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.chest), new ItemStack[] {
-				new ItemStack(RegisterItems.ironNugget, 3), new ItemStack(RegisterItems.leatherStrip, 1) }, "###",
-				"# #", "###", '#', new ItemStack(Blocks.planks, 1, OreDictionary.WILDCARD_VALUE));
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.chest),
+													  new ItemStack[] {
+															  new ItemStack(RegisterItems.ironNugget, 3), new ItemStack(
+															  RegisterItems.leatherStrip,
+															  1)},
+													  "###",
+													  "# #",
+													  "###",
+													  '#',
+													  new ItemStack(Blocks.planks, 1, OreDictionary.WILDCARD_VALUE));
 			// Trapped Chest
-			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.trapped_chest), new ItemStack[] {
-				new ItemStack(Items.string, 2), new ItemStack(Items.redstone, 1) }, "C", "H", 'C', Blocks.chest, 'H',
-				Blocks.tripwire_hook);
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.trapped_chest),
+													  new ItemStack[] {
+															  new ItemStack(Items.string,
+																			2), new ItemStack(Items.redstone, 1)},
+													  "C",
+													  "H",
+													  'C',
+													  Blocks.chest,
+													  'H',
+													  Blocks.tripwire_hook);
 			// Tripwire Hook
-			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.tripwire_hook), new ItemStack[] {
-				new ItemStack(Items.string, 1), new ItemStack(Items.redstone, 1) }, "I", "/", "#", 'I',
-				Items.iron_ingot, '/', Items.stick, '#', new ItemStack(Blocks.planks, 1, OreDictionary.WILDCARD_VALUE));
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.tripwire_hook),
+													  new ItemStack[] {
+															  new ItemStack(Items.string,
+																			1), new ItemStack(Items.redstone, 1)},
+													  "I",
+													  "/",
+													  "#",
+													  'I',
+													  Items.iron_ingot,
+													  '/',
+													  Items.stick,
+													  '#',
+													  new ItemStack(Blocks.planks, 1, OreDictionary.WILDCARD_VALUE));
 			// Piston
-			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.piston), new ItemStack[] { new ItemStack(
-				RegisterItems.ironNugget, 2) }, "###", "CIC", "CRC", '#', new ItemStack(Blocks.planks, 1,
-					OreDictionary.WILDCARD_VALUE), 'I', Items.iron_ingot, 'C', Blocks.cobblestone, 'R', Items.redstone);
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.piston),
+													  new ItemStack[] {new ItemStack(
+															  RegisterItems.ironNugget, 2)},
+													  "###",
+													  "CIC",
+													  "CRC",
+													  '#',
+													  new ItemStack(Blocks.planks, 1,
+																	OreDictionary.WILDCARD_VALUE),
+													  'I',
+													  Items.iron_ingot,
+													  'C',
+													  Blocks.cobblestone,
+													  'R',
+													  Items.redstone);
 		}
-		
+
 		// Bow
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.bow), new ItemStack[] { new ItemStack(
-			RegisterItems.leatherStrip, 3) }, " /s", "/ s", " /s", 's', Items.string, '/', Items.stick);
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.bow), new ItemStack[] { new ItemStack(
-			RegisterItems.leatherStrip, 3) }, "s/ ", "s /", "s/ ", 's', Items.string, '/', Items.stick);
-		
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.bow), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 3)}, " /s", "/ s", " /s", 's', Items.string, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.bow), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 3)}, "s/ ", "s /", "s/ ", 's', Items.string, '/', Items.stick);
+
 		// Bone Pickaxe
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(RegisterItems.bonePickaxe),
-			new ItemStack[] { new ItemStack(RegisterItems.leatherStrip, 2) }, "sBs", " / ", " / ", 's',
-			RegisterItems.boneShard, 'B', Items.bone, '/', Items.stick);
-		
+												  new ItemStack[] {new ItemStack(RegisterItems.leatherStrip, 2)},
+												  "sBs",
+												  " / ",
+												  " / ",
+												  's',
+												  RegisterItems.boneShard,
+												  'B',
+												  Items.bone,
+												  '/',
+												  Items.stick);
+
 		// Leather armor
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.leather_helmet), new ItemStack[] {
-			new ItemStack(Items.string, 3), new ItemStack(Blocks.wool, 2, OreDictionary.WILDCARD_VALUE) }, "LLL",
-			"L L", 'L', Items.leather);
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.leather_chestplate), new ItemStack[] {
-			new ItemStack(Items.string, 2), new ItemStack(Blocks.wool, 4, OreDictionary.WILDCARD_VALUE) }, "L L",
-			"LLL", "LLL", 'L', Items.leather);
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.leather_leggings), new ItemStack[] {
-			new ItemStack(Items.string, 4), new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE) }, "LLL",
-			"L L", "L L", 'L', Items.leather);
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.leather_boots), new ItemStack[] {
-			new ItemStack(Items.string, 2), new ItemStack(Blocks.wool, 3, OreDictionary.WILDCARD_VALUE) }, "L L",
-			"L L", 'L', Items.leather);
-		
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.leather_helmet),
+												  new ItemStack[] {
+														  new ItemStack(Items.string, 3), new ItemStack(Blocks.wool,
+																										2,
+																										OreDictionary.WILDCARD_VALUE)},
+												  "LLL",
+												  "L L",
+												  'L',
+												  Items.leather);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.leather_chestplate),
+												  new ItemStack[] {
+														  new ItemStack(Items.string, 2), new ItemStack(Blocks.wool,
+																										4,
+																										OreDictionary.WILDCARD_VALUE)},
+												  "L L",
+												  "LLL",
+												  "LLL",
+												  'L',
+												  Items.leather);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.leather_leggings),
+												  new ItemStack[] {
+														  new ItemStack(Items.string, 4), new ItemStack(Blocks.wool,
+																										1,
+																										OreDictionary.WILDCARD_VALUE)},
+												  "LLL",
+												  "L L",
+												  "L L",
+												  'L',
+												  Items.leather);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.leather_boots),
+												  new ItemStack[] {
+														  new ItemStack(Items.string, 2), new ItemStack(Blocks.wool,
+																										3,
+																										OreDictionary.WILDCARD_VALUE)},
+												  "L L",
+												  "L L",
+												  'L',
+												  Items.leather);
+
 		// Stone Tools/Weapons
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.stone_pickaxe), new ItemStack[] { new ItemStack(
-			RegisterItems.leatherStrip, 2) }, "###", " / ", " / ", '#', Blocks.stone, '/', Items.stick);
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.stone_sword), new ItemStack[] { new ItemStack(
-			RegisterItems.leatherStrip, 2) }, "#", "#", "/", '#', Blocks.stone, '/', Items.stick);
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.stone_shovel), new ItemStack[] { new ItemStack(
-			RegisterItems.leatherStrip, 1) }, "#", "/", "/", '#', Blocks.stone, '/', Items.stick);
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.stone_axe), new ItemStack[] { new ItemStack(
-			RegisterItems.leatherStrip, 1) }, "##", "#/", " /", '#', Blocks.stone, '/', Items.stick);
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.stone_axe), new ItemStack[] { new ItemStack(
-			RegisterItems.leatherStrip, 1) }, "##", "/#", "/ ", '#', Blocks.stone, '/', Items.stick);
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.stone_hoe), new ItemStack[] { new ItemStack(
-			RegisterItems.leatherStrip, 1) }, "##", " /", " /", '#', Blocks.stone, '/', Items.stick);
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.stone_hoe), new ItemStack[] { new ItemStack(
-			RegisterItems.leatherStrip, 1) }, "##", "/ ", "/ ", '#', Blocks.stone, '/', Items.stick);
-		
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.stone_pickaxe), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 2)}, "###", " / ", " / ", '#', Blocks.stone, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.stone_sword), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 2)}, "#", "#", "/", '#', Blocks.stone, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.stone_shovel), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 1)}, "#", "/", "/", '#', Blocks.stone, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.stone_axe), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 1)}, "##", "#/", " /", '#', Blocks.stone, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.stone_axe), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 1)}, "##", "/#", "/ ", '#', Blocks.stone, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.stone_hoe), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 1)}, "##", " /", " /", '#', Blocks.stone, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.stone_hoe), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 1)}, "##", "/ ", "/ ", '#', Blocks.stone, '/', Items.stick);
+
 		// Iron armor
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.iron_helmet), new ItemStack[] {
-			new ItemStack(RegisterItems.leatherStrip, 3), new ItemStack(RegisterItems.ironNugget, 2),
-			new ItemStack(Blocks.wool, 2, OreDictionary.WILDCARD_VALUE) }, "III", "I I", 'I', Items.iron_ingot);
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.iron_chestplate), new ItemStack[] {
-			new ItemStack(RegisterItems.leatherStrip, 2), new ItemStack(RegisterItems.ironNugget, 6),
-			new ItemStack(Blocks.wool, 4, OreDictionary.WILDCARD_VALUE) }, "I I", "III", "III", 'I', Items.iron_ingot);
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.iron_leggings), new ItemStack[] {
-			new ItemStack(RegisterItems.leatherStrip, 4), new ItemStack(RegisterItems.ironNugget, 4),
-			new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE) }, "III", "I I", "I I", 'I', Items.iron_ingot);
+				new ItemStack(RegisterItems.leatherStrip, 3), new ItemStack(RegisterItems.ironNugget, 2),
+				new ItemStack(Blocks.wool, 2, OreDictionary.WILDCARD_VALUE)}, "III", "I I", 'I', Items.iron_ingot);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.iron_chestplate),
+												  new ItemStack[] {
+														  new ItemStack(RegisterItems.leatherStrip, 2), new ItemStack(
+														  RegisterItems.ironNugget,
+														  6),
+														  new ItemStack(Blocks.wool, 4, OreDictionary.WILDCARD_VALUE)},
+												  "I I",
+												  "III",
+												  "III",
+												  'I',
+												  Items.iron_ingot);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.iron_leggings),
+												  new ItemStack[] {
+														  new ItemStack(RegisterItems.leatherStrip, 4), new ItemStack(
+														  RegisterItems.ironNugget,
+														  4),
+														  new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE)},
+												  "III",
+												  "I I",
+												  "I I",
+												  'I',
+												  Items.iron_ingot);
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.iron_boots), new ItemStack[] {
-			new ItemStack(RegisterItems.leatherStrip, 2), new ItemStack(RegisterItems.ironNugget, 3),
-			new ItemStack(Blocks.wool, 3, OreDictionary.WILDCARD_VALUE) }, "I I", "I I", 'I', Items.iron_ingot);
-		
+				new ItemStack(RegisterItems.leatherStrip, 2), new ItemStack(RegisterItems.ironNugget, 3),
+				new ItemStack(Blocks.wool, 3, OreDictionary.WILDCARD_VALUE)}, "I I", "I I", 'I', Items.iron_ingot);
+
 		// Iron Tools/Weapons
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.iron_pickaxe), new ItemStack[] { new ItemStack(
-			RegisterItems.leatherStrip, 3) }, "III", " / ", " / ", 'I', Items.iron_ingot, '/', Items.stick);
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.iron_sword), new ItemStack[] { new ItemStack(
-			RegisterItems.leatherStrip, 2) }, "I", "I", "/", 'I', Items.iron_ingot, '/', Items.stick);
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.iron_shovel), new ItemStack[] { new ItemStack(
-			RegisterItems.leatherStrip, 2) }, "I", "/", "/", 'I', Items.iron_ingot, '/', Items.stick);
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.iron_axe), new ItemStack[] { new ItemStack(
-			RegisterItems.leatherStrip, 2) }, "II", "I/", " /", 'I', Items.iron_ingot, '/', Items.stick);
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.iron_axe), new ItemStack[] { new ItemStack(
-			RegisterItems.leatherStrip, 2) }, "II", "/I", "/ ", 'I', Items.iron_ingot, '/', Items.stick);
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.iron_hoe), new ItemStack[] { new ItemStack(
-			RegisterItems.leatherStrip, 1) }, "II", " /", " /", 'I', Items.iron_ingot, '/', Items.stick);
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.iron_hoe), new ItemStack[] { new ItemStack(
-			RegisterItems.leatherStrip, 1) }, "II", "/ ", "/ ", 'I', Items.iron_ingot, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.iron_pickaxe), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 3)}, "III", " / ", " / ", 'I', Items.iron_ingot, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.iron_sword), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 2)}, "I", "I", "/", 'I', Items.iron_ingot, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.iron_shovel), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 2)}, "I", "/", "/", 'I', Items.iron_ingot, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.iron_axe), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 2)}, "II", "I/", " /", 'I', Items.iron_ingot, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.iron_axe), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 2)}, "II", "/I", "/ ", 'I', Items.iron_ingot, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.iron_hoe), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 1)}, "II", " /", " /", 'I', Items.iron_ingot, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.iron_hoe), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 1)}, "II", "/ ", "/ ", 'I', Items.iron_ingot, '/', Items.stick);
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(RegisterItems.ironKnife),
-			new ItemStack[] { new ItemStack(RegisterItems.leatherStrip, 2) }, " I", "/ ", 'I', Items.iron_ingot, '/',
-			Items.stick);
+												  new ItemStack[] {new ItemStack(RegisterItems.leatherStrip, 2)},
+												  " I",
+												  "/ ",
+												  'I',
+												  Items.iron_ingot,
+												  '/',
+												  Items.stick);
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(RegisterItems.ironKnife),
-			new ItemStack[] { new ItemStack(RegisterItems.leatherStrip, 2) }, "I ", " /", 'I', Items.iron_ingot, '/',
-			Items.stick);
-		
+												  new ItemStack[] {new ItemStack(RegisterItems.leatherStrip, 2)},
+												  "I ",
+												  " /",
+												  'I',
+												  Items.iron_ingot,
+												  '/',
+												  Items.stick);
+
 		// Diamond armor
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.diamond_helmet),
-			new ItemStack[] { new ItemStack(Items.redstone, 3), new ItemStack(Items.blaze_powder, 2),
-			new ItemStack(RegisterItems.leatherStrip, 3),
-			new ItemStack(Blocks.wool, 2, OreDictionary.WILDCARD_VALUE) }, "DDD", "D D", 'D', Items.diamond);
+												  new ItemStack[] {new ItemStack(Items.redstone,
+																				 3), new ItemStack(Items.blaze_powder,
+																								   2),
+														  new ItemStack(RegisterItems.leatherStrip, 3),
+														  new ItemStack(Blocks.wool, 2, OreDictionary.WILDCARD_VALUE)},
+												  "DDD",
+												  "D D",
+												  'D',
+												  Items.diamond);
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.diamond_chestplate),
-			new ItemStack[] { new ItemStack(Items.redstone, 4), new ItemStack(Items.blaze_powder, 6),
-			new ItemStack(RegisterItems.leatherStrip, 2),
-			new ItemStack(Blocks.wool, 4, OreDictionary.WILDCARD_VALUE) }, "D D", "DDD", "DDD", 'D', Items.diamond);
+												  new ItemStack[] {new ItemStack(Items.redstone,
+																				 4), new ItemStack(Items.blaze_powder,
+																								   6),
+														  new ItemStack(RegisterItems.leatherStrip, 2),
+														  new ItemStack(Blocks.wool, 4, OreDictionary.WILDCARD_VALUE)},
+												  "D D",
+												  "DDD",
+												  "DDD",
+												  'D',
+												  Items.diamond);
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.diamond_leggings),
-			new ItemStack[] { new ItemStack(Items.redstone, 4), new ItemStack(Items.blaze_powder, 3),
-			new ItemStack(RegisterItems.leatherStrip, 4),
-			new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE) }, "DDD", "D D", "D D", 'D', Items.diamond);
+												  new ItemStack[] {new ItemStack(Items.redstone,
+																				 4), new ItemStack(Items.blaze_powder,
+																								   3),
+														  new ItemStack(RegisterItems.leatherStrip, 4),
+														  new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE)},
+												  "DDD",
+												  "D D",
+												  "D D",
+												  'D',
+												  Items.diamond);
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.diamond_boots),
-			new ItemStack[] { new ItemStack(Items.redstone, 2), new ItemStack(Items.blaze_powder, 3),
-			new ItemStack(RegisterItems.leatherStrip, 2),
-			new ItemStack(Blocks.wool, 3, OreDictionary.WILDCARD_VALUE) }, "D D", "D D", 'D', Items.diamond);
-		
+												  new ItemStack[] {new ItemStack(Items.redstone,
+																				 2), new ItemStack(Items.blaze_powder,
+																								   3),
+														  new ItemStack(RegisterItems.leatherStrip, 2),
+														  new ItemStack(Blocks.wool, 3, OreDictionary.WILDCARD_VALUE)},
+												  "D D",
+												  "D D",
+												  'D',
+												  Items.diamond);
+
 		// Diamond Tools/Weapons
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.diamond_pickaxe), new ItemStack[] {
-			new ItemStack(Items.redstone, 5), new ItemStack(Items.blaze_powder, 3),
-			new ItemStack(RegisterItems.leatherStrip, 3) }, "DDD", " / ", " / ", 'D', Items.diamond, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.diamond_pickaxe),
+												  new ItemStack[] {
+														  new ItemStack(Items.redstone,
+																		5), new ItemStack(Items.blaze_powder, 3),
+														  new ItemStack(RegisterItems.leatherStrip, 3)},
+												  "DDD",
+												  " / ",
+												  " / ",
+												  'D',
+												  Items.diamond,
+												  '/',
+												  Items.stick);
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.diamond_sword), new ItemStack[] {
-			new ItemStack(Items.redstone, 4), new ItemStack(Items.blaze_powder, 5),
-			new ItemStack(RegisterItems.leatherStrip, 2) }, "D", "D", "/", 'D', Items.diamond, '/', Items.stick);
+				new ItemStack(Items.redstone, 4), new ItemStack(Items.blaze_powder, 5),
+				new ItemStack(RegisterItems.leatherStrip, 2)}, "D", "D", "/", 'D', Items.diamond, '/', Items.stick);
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.diamond_shovel), new ItemStack[] {
-			new ItemStack(Items.redstone, 2), new ItemStack(Items.blaze_powder, 1),
-			new ItemStack(RegisterItems.leatherStrip, 2) }, "D", "/", "/", 'D', Items.diamond, '/', Items.stick);
+				new ItemStack(Items.redstone, 2), new ItemStack(Items.blaze_powder, 1),
+				new ItemStack(RegisterItems.leatherStrip, 2)}, "D", "/", "/", 'D', Items.diamond, '/', Items.stick);
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.diamond_axe), new ItemStack[] {
-			new ItemStack(Items.redstone, 3), new ItemStack(Items.blaze_powder, 2),
-			new ItemStack(RegisterItems.leatherStrip, 2) }, "DD", "D/", " /", 'D', Items.diamond, '/', Items.stick);
+				new ItemStack(Items.redstone, 3), new ItemStack(Items.blaze_powder, 2),
+				new ItemStack(RegisterItems.leatherStrip, 2)}, "DD", "D/", " /", 'D', Items.diamond, '/', Items.stick);
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.diamond_axe), new ItemStack[] {
-			new ItemStack(Items.redstone, 3), new ItemStack(Items.blaze_powder, 2),
-			new ItemStack(RegisterItems.leatherStrip, 2) }, "DD", "/D", "/ ", 'D', Items.diamond, '/', Items.stick);
+				new ItemStack(Items.redstone, 3), new ItemStack(Items.blaze_powder, 2),
+				new ItemStack(RegisterItems.leatherStrip, 2)}, "DD", "/D", "/ ", 'D', Items.diamond, '/', Items.stick);
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.diamond_hoe), new ItemStack[] {
-			new ItemStack(Items.redstone, 1), new ItemStack(Items.blaze_powder, 1),
-			new ItemStack(RegisterItems.leatherStrip, 1) }, "DD", " /", " /", 'D', Items.diamond, '/', Items.stick);
+				new ItemStack(Items.redstone, 1), new ItemStack(Items.blaze_powder, 1),
+				new ItemStack(RegisterItems.leatherStrip, 1)}, "DD", " /", " /", 'D', Items.diamond, '/', Items.stick);
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.diamond_hoe), new ItemStack[] {
-			new ItemStack(Items.redstone, 1), new ItemStack(Items.blaze_powder, 1),
-			new ItemStack(RegisterItems.leatherStrip, 1) }, "DD", "/ ", "/ ", 'D', Items.diamond, '/', Items.stick);
+				new ItemStack(Items.redstone, 1), new ItemStack(Items.blaze_powder, 1),
+				new ItemStack(RegisterItems.leatherStrip, 1)}, "DD", "/ ", "/ ", 'D', Items.diamond, '/', Items.stick);
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(RegisterItems.diamondKnife), new ItemStack[] {
-			new ItemStack(Items.redstone, 3), new ItemStack(Items.blaze_powder, 3),
-			new ItemStack(RegisterItems.leatherStrip, 1) }, " D", "/ ", 'D', Items.diamond, '/', Items.stick);
+				new ItemStack(Items.redstone, 3), new ItemStack(Items.blaze_powder, 3),
+				new ItemStack(RegisterItems.leatherStrip, 1)}, " D", "/ ", 'D', Items.diamond, '/', Items.stick);
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(RegisterItems.diamondKnife), new ItemStack[] {
-			new ItemStack(Items.redstone, 3), new ItemStack(Items.blaze_powder, 3),
-			new ItemStack(RegisterItems.leatherStrip, 1) }, "D ", " /", 'D', Items.diamond, '/', Items.stick);
-		
+				new ItemStack(Items.redstone, 3), new ItemStack(Items.blaze_powder, 3),
+				new ItemStack(RegisterItems.leatherStrip, 1)}, "D ", " /", 'D', Items.diamond, '/', Items.stick);
+
 		// Repair Table
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(RegisterBlocks.repairTable),
-			new ItemStack[] { new ItemStack(Items.redstone, 32), new ItemStack(Items.blaze_powder, 16),
-				new ItemStack(Items.dye, 32, 4) }, "DID", "OSO", "OOO", 'D', Items.diamond, 'I', Blocks.iron_block,
-			'S', Blocks.bookshelf, 'O', Blocks.obsidian);
+												  new ItemStack[] {new ItemStack(Items.redstone, 32), new ItemStack(
+														  Items.blaze_powder,
+														  16),
+														  new ItemStack(Items.dye, 32, 4)},
+												  "DID",
+												  "OSO",
+												  "OOO",
+												  'D',
+												  Items.diamond,
+												  'I',
+												  Blocks.iron_block,
+												  'S',
+												  Blocks.bookshelf,
+												  'O',
+												  Blocks.obsidian);
 	}
-	
+
 	public static void addShapedRecipes()
 	{
-		ShapedOreRecipe r = new ShapedOreRecipe(new ItemStack(Items.chainmail_helmet), "...", ". .", '.', "nuggetIron");
+		//ShapedOreRecipe r = new ShapedOreRecipe(new ItemStack(Items.chainmail_helmet), "...", ". .", '.', "nuggetIron");
 
 		// Knife
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.flintKnife), "F ", " F", 'F', Items.flint);
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.flintKnife), " F", "F ", 'F', Items.flint);
-		
+
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.boneKnife), " S", "/ ", 'S', RegisterItems.boneShard,
-			'/', Items.bone);
+									 '/', Items.bone);
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.boneKnife), "S ", " /", 'S', RegisterItems.boneShard,
-			'/', Items.bone);
+									 '/', Items.bone);
 
 		// Thread
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.thread), "ss", "ss", 's', RegisterItems.silk);
 
 		// Cloth
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.cloth, 3), "ttt", "ttt", 't', RegisterItems.thread);
-		
+
+		// String
+		GameRegistry.addShapedRecipe(new ItemStack(Items.string, 12),
+									 " # ",
+									 "# #",
+									 " # ",
+									 '#',
+									 new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE));
+
 		// Flint Hatchet
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.flintHatchet), "FS", " /", 'F', Items.flint, 'S',
-			RegisterItems.leatherStrip, '/', Items.stick);
-		
+									 RegisterItems.leatherStrip, '/', Items.stick);
+
 		// Noob Wood Sword
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.noobWoodSword), "#", "#", "/", '#', new ItemStack(
-			Blocks.planks, 1, OreDictionary.WILDCARD_VALUE), '/', Items.stick);
-		
+				Blocks.planks, 1, OreDictionary.WILDCARD_VALUE), '/', Items.stick);
+
 		// Kiln
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterBlocks.kiln), "###", "# #", "###", '#', Blocks.cobblestone);
-		
+
 		// Brick Oven
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterBlocks.brickOven), "BBB", "# #", "###", '#',
-			Blocks.brick_block, 'B', Items.brick);
-		
+									 Blocks.brick_block, 'B', Items.brick);
+
 		// Smelter
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterBlocks.smelter), "###", "#C#", "###", '#', new ItemStack(
-			Blocks.stonebrick, 1, 0), 'C', new ItemStack(Items.coal, 1, 1));
-		
+				Blocks.stonebrick, 1, 0), 'C', new ItemStack(Items.coal, 1, 1));
+
 		// Vanilla Furnace
 		GameRegistry.addShapedRecipe(new ItemStack(Blocks.furnace), "###", "# #", "---", '#', Blocks.cobblestone, '-',
-			Blocks.stone_slab);
-		
+									 Blocks.stone_slab);
+
 		// Gravel->Flint
 		GameRegistry.addShapedRecipe(new ItemStack(Items.flint), "##", "##", '#', Blocks.gravel);
-		
+
 		// Iron Nugget->Ingot
 		GameRegistry.addShapedRecipe(new ItemStack(Items.iron_ingot), "***", "***", "***", '*',
-			RegisterItems.ironNugget);
-		
+									 RegisterItems.ironNugget);
+
 		// Workbench
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterBlocks.doubleWorkbench), "##", "##", '#', new ItemStack(
-			Blocks.planks, 1, OreDictionary.WILDCARD_VALUE));
-		
+				Blocks.planks, 1, OreDictionary.WILDCARD_VALUE));
+
 		if (NoobcraftConfig.canMakeVanillaWorkbench)
 		{
 			// Vanilla Crafting Table
-			GameRegistry.addShapedRecipe(new ItemStack(Blocks.crafting_table), "/*/", "*#*", "/*/", '/', Items.stick,
-				'#', new ItemStack(Blocks.log, 1, OreDictionary.WILDCARD_VALUE), '*', new ItemStack(Blocks.planks, 1,
-					OreDictionary.WILDCARD_VALUE));
-			GameRegistry.addShapedRecipe(new ItemStack(Blocks.crafting_table), "/*/", "*#*", "/*/", '/', Items.stick,
-				'#', new ItemStack(Blocks.log2, 1, OreDictionary.WILDCARD_VALUE), '*', new ItemStack(Blocks.planks, 1,
-					OreDictionary.WILDCARD_VALUE));
+			GameRegistry.addShapedRecipe(new ItemStack(Blocks.crafting_table),
+										 "/*/",
+										 "*#*",
+										 "/*/",
+										 '/',
+										 Items.stick,
+										 '#',
+										 new ItemStack(Blocks.log, 1, OreDictionary.WILDCARD_VALUE),
+										 '*',
+										 new ItemStack(Blocks.planks, 1,
+													   OreDictionary.WILDCARD_VALUE));
+			GameRegistry.addShapedRecipe(new ItemStack(Blocks.crafting_table),
+										 "/*/",
+										 "*#*",
+										 "/*/",
+										 '/',
+										 Items.stick,
+										 '#',
+										 new ItemStack(Blocks.log2, 1, OreDictionary.WILDCARD_VALUE),
+										 '*',
+										 new ItemStack(Blocks.planks, 1,
+													   OreDictionary.WILDCARD_VALUE));
 		}
-		
+
 		if (NoobcraftConfig.canMakeChainArmor)
 		{
 			// Chain Armor
 			GameRegistry.addShapedRecipe(new ItemStack(Items.chainmail_helmet), "***", "* *", '*',
-				RegisterItems.ironNugget);
+										 RegisterItems.ironNugget);
 			GameRegistry.addShapedRecipe(new ItemStack(Items.chainmail_chestplate), "* *", "***", "***", '*',
-				RegisterItems.ironNugget);
+										 RegisterItems.ironNugget);
 			GameRegistry.addShapedRecipe(new ItemStack(Items.chainmail_leggings), "***", "* *", "* *", '*',
-				RegisterItems.ironNugget);
+										 RegisterItems.ironNugget);
 			GameRegistry.addShapedRecipe(new ItemStack(Items.chainmail_boots), "* *", "* *", '*',
-				RegisterItems.ironNugget);
+										 RegisterItems.ironNugget);
 		}
 	}
 }

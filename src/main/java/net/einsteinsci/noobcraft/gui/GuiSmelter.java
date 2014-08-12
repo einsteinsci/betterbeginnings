@@ -33,9 +33,9 @@ public class GuiSmelter extends GuiContainer
 	{
 		String string =
 			tileSmelter.hasCustomInventoryName() ? tileSmelter.getInventoryName() : I18n.format(
-				tileSmelter.getInventoryName(), new Object[0]);
+				tileSmelter.getInventoryName());
 		fontRendererObj.drawString(string, xSize / 2 - fontRendererObj.getStringWidth(string), 6, 4210752);
-		fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, ySize - 94, 4210752);
+		fontRendererObj.drawString(I18n.format("container.inventory"), 8, ySize - 94, 4210752);
 	}
 	
 	@Override

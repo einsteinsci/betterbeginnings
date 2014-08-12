@@ -31,12 +31,13 @@ public class RegisterItems
 	public static final Item ironNugget = new ItemIronNugget();
 	public static final Item charredMeat = new ItemCharredMeat();
 	public static final Item fireBow = new ItemFireBow();
+	public static final Item marshmallow = new ItemMarshmallow();
 	public static final Item clothHat = new ItemClothArmor(armorMaterialCloth, 0, "clothHat");
 	public static final Item clothShirt = new ItemClothArmor(armorMaterialCloth, 1, "clothShirt");
 	public static final Item clothPants = new ItemClothArmor(armorMaterialCloth, 2, "clothPants");
 	public static final Item clothBoots = new ItemClothArmor(armorMaterialCloth, 3, "clothBoots");
 	
-	public static void register()
+	public static void registerItems()
 	{
 		RegisterHelper.registerItem(flintKnife);
 		RegisterHelper.registerItem(boneKnife);
@@ -55,6 +56,7 @@ public class RegisterItems
 		RegisterHelper.registerItem(ironNugget);
 		RegisterHelper.registerItem(charredMeat);
 		RegisterHelper.registerItem(fireBow);
+		RegisterHelper.registerItem(marshmallow);
 
 		RegisterHelper.registerItem(clothHat);
 		RegisterHelper.registerItem(clothShirt);
