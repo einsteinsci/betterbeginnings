@@ -65,6 +65,7 @@ public class NoobcraftEventHandler
 		{
 			e.toolTip.add(ChatUtil.BLUE + "+0 Attack Damage");
 		}
+
 	}
 	
 	@SubscribeEvent
@@ -95,20 +96,35 @@ public class NoobcraftEventHandler
 			}
 		}
 		
-		if (e.block == Blocks.tallgrass && !e.isSilkTouching && e.harvester != null)
+		if ((e.block == Blocks.tallgrass || e.block == Blocks.double_plant || e.block == Blocks.deadbush)&& !e.isSilkTouching && e.harvester != null)
 		{
 			if (e.harvester.getHeldItem() != null)
 			{
-				if (e.harvester.getHeldItem().getItem() instanceof ItemKnife)
+				if(e.harvester.getHeldItem().getItem() instanceof ItemKnife)
 				{
 					Random rand = e.harvester.worldObj.rand;
 					if (rand.nextInt(8) == 0)
 					{
-						e.drops.add(new ItemStack(Blocks.tallgrass,1,1));
+						e.drops.add(e.block == Blocks.tallgrass ? new ItemStack(Blocks.tallgrass,1,e.blockMetadata) : (e.block == Blocks.deadbush ? new ItemStack(Blocks.deadbush,1,e.blockMetadata) : new ItemStack(Blocks.tallgrass,1,1)));
 					}
 				}
 			}
 		}
+		
+		//if (e.block == Blocks.tallgrass && !e.isSilkTouching && e.harvester != null)
+		//{
+		//	if (e.harvester.getHeldItem() != null)
+		//	{
+		//		if (e.harvester.getHeldItem().getItem() instanceof ItemKnife)
+		//		{
+		//			Random rand = e.harvester.worldObj.rand;
+		//			if (rand.nextInt(8) == 0)
+		//			{
+		//				e.drops.add(new ItemStack(Blocks.tallgrass,1,1));
+		//			}
+		//		}
+		//	}
+		//}
 	}
 	
 	@SubscribeEvent

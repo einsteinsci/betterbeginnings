@@ -1,7 +1,14 @@
 package net.einsteinsci.noobcraft.gui;
 
-import net.einsteinsci.noobcraft.inventory.*;
+import net.einsteinsci.noobcraft.inventory.ContainerBrickOven;
+import net.einsteinsci.noobcraft.inventory.ContainerCampfire;
+import net.einsteinsci.noobcraft.inventory.ContainerDoubleWorkbench;
+import net.einsteinsci.noobcraft.inventory.ContainerKiln;
+import net.einsteinsci.noobcraft.inventory.ContainerRepairTable;
+import net.einsteinsci.noobcraft.inventory.ContainerSimpleWorkbench;
+import net.einsteinsci.noobcraft.inventory.ContainerSmelter;
 import net.einsteinsci.noobcraft.tileentity.TileEntityBrickOven;
+import net.einsteinsci.noobcraft.tileentity.TileEntityCampfire;
 import net.einsteinsci.noobcraft.tileentity.TileEntityKiln;
 import net.einsteinsci.noobcraft.tileentity.TileEntitySmelter;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,6 +26,8 @@ public class NoobCraftGuiHandler implements IGuiHandler
 	public static final int REPAIRTABLE_ID = 5;
 	
 	public static final int KILNSTACKED_ID = 5;
+	
+	public static final int CAMPFIRE_ID = 6;
 	
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
@@ -54,6 +63,12 @@ public class NoobCraftGuiHandler implements IGuiHandler
 		if (ID == REPAIRTABLE_ID)
 		{
 			return new ContainerRepairTable(player.inventory, world, x, y, z);
+		}
+		
+		if (ID == CAMPFIRE_ID)
+		{
+			TileEntityCampfire campfire = (TileEntityCampfire)world.getTileEntity(x, y, z);
+			return new ContainerCampfire(player.inventory, campfire);
 		}
 		
 		return null;
@@ -93,6 +108,12 @@ public class NoobCraftGuiHandler implements IGuiHandler
 		if (ID == REPAIRTABLE_ID)
 		{
 			return new GuiRepairTable(player.inventory, world, x, y, z);
+		}
+		
+		if (ID == CAMPFIRE_ID)
+		{
+			TileEntityCampfire campfire = (TileEntityCampfire)world.getTileEntity(x, y, z);
+			return new GuiCampfire(player.inventory, campfire);
 		}
 		
 		return null;

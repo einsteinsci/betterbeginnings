@@ -26,7 +26,7 @@ public class RegisterAchievements
 		makeSticks =
 			new Achievement("achievement.makeSticks", "makeSticks", 2, 1, Items.stick, flintKnife).registerStat();
 		startFire = 
-			new Achievement("achievement.startFire", "startFire", 4,2, RegisterBlocks.campfire, makeSticks).registerStat();
+			new Achievement("achievement.startFire", "startFire", 4,2, RegisterItems.fireBow, makeSticks).registerStat();
 		
 	}
 	

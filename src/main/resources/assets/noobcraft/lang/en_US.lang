@@ -7,11 +7,14 @@ tile.smelter.name=Smelter
 tile.smelterLit.name=Smelter (Lit)
 tile.repairTable.name=Repair Table
 tile.Campfire.name=Campfire
+tile.CampfireLit.name=Campfire Lit
+tile.CampfireKindling.name=Kindling Campfire
 
 item.flintKnife.name=Flint Knife
 item.boneKnife.name=Bone Knife
 item.ironKnife.name=Iron Knife
 item.diamondKnife.name=Diamond Knife
+item.fireBow.name=Fire Bow
 
 item.flintHatchet.name=Flint Hatchet
 item.bonePickaxe.name=Bone Pickaxe
@@ -21,6 +24,8 @@ item.boneShard.name=Bone Shard
 item.leatherStrip.name=Leather Strip
 item.ironNugget.name=Iron Nugget
 item.charredMeat.name=Charred Meat
+item.jerkyBeef.name=Beef Jerky
+item.jerkyRaw.name=Raw Jerky
 
 item.testItem.name=Test Item
 

@@ -13,8 +13,9 @@ public class RegisterBlocks
 	public static final Block smelter = new BlockSmelter(false);
 	public static final Block smelterLit = new BlockSmelter(true);
 	public static final Block repairTable = new BlockRepairTable();
-	public static final Block campfire = new BlockCampfire(false);
-	public static final Block campfireLit = new BlockCampfire(true);
+	public static final Block campfire = new BlockCampfire(false, false);
+	public static final Block campfireLit = new BlockCampfire(true, false);
+	public static final Block campfireKindling = new BlockCampfire(false, true);
 	
 	public static void register()
 	{
@@ -31,7 +32,8 @@ public class RegisterBlocks
 		
 		RegisterHelper.registerBlock(repairTable);
 		
-		RegisterHelper.registerBlock(campfire);
-		RegisterHelper.registerBlock(campfireLit);
+		//RegisterHelper.registerBlock(campfire);
+		//RegisterHelper.registerBlock(campfireLit);
+		//RegisterHelper.registerBlock(campfireKindling);
 	}
 }

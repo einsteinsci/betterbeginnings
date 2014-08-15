@@ -16,6 +16,8 @@ public class NoobcraftConfig
 	public static boolean sendChatMessages;
 	
 	public static int kilnSmeltTime;
+	public static int campfireCookTime;
+	public static int maxKindleTime;
 	
 	public NoobcraftConfig()
 	{
@@ -30,6 +32,8 @@ public class NoobcraftConfig
 		sendChatMessages = true;
 		
 		kilnSmeltTime = 250;
+		campfireCookTime = 450;
+		maxKindleTime = 20;
 	}
 	
 	public static void syncConfig(Configuration config)
@@ -54,6 +58,10 @@ public class NoobcraftConfig
 		
 		kilnSmeltTime =
 			config.getInt("kilnSmeltTime", GENERAL, 250, 2, 1000, "Time in ticks for a kiln to smelt something");
+		campfireCookTime = 
+			config.getInt("campfireCookTime", GENERAL, 450, 2, 1000, "Time in ticks for a campfire to smelt someting");
+		maxKindleTime = 
+			config.getInt("maxKindleTime", GENERAL, 20, 0, 200, "Time in ticks for the campfire to stop kindling.");
 		
 		if (config.hasChanged())
 		{

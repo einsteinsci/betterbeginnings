@@ -5,6 +5,8 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.World;
 
@@ -26,7 +28,7 @@ public class ItemTestItem extends Item
 		String blockName = tested.getUnlocalizedName().substring(5);
 		ChatComponentTranslation trans = new ChatComponentTranslation(blockName);
 		trans.appendText(" : " + world.getBlockMetadata(x, y, z));
-		// player.addChatMessage(trans);
+		player.addChatMessage(trans);
 		
 		/*
 		 * if (tested == RegisterBlocks.kiln || tested == RegisterBlocks.kilnLit) { TileEntityKiln kiln =

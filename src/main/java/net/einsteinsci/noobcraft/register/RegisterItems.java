@@ -26,6 +26,8 @@ public class RegisterItems
 	public static final Item leatherStrip = new ItemLeatherStrip();
 	public static final Item ironNugget = new ItemIronNugget();
 	public static final Item charredMeat = new ItemCharredMeat();
+	public static final Item jerkyRaw = new ItemJerkyRaw();
+	public static final Item jerkyBeef = new ItemJerkyBeef();
 	public static final Item fireBow = new ItemFireBow();
 	
 	public static final Item noobWoodSword = new NoobWoodSword(noobWood);
@@ -46,6 +48,8 @@ public class RegisterItems
 		RegisterHelper.registerItem(leatherStrip);
 		RegisterHelper.registerItem(ironNugget);
 		RegisterHelper.registerItem(charredMeat);
+		RegisterHelper.registerItem(jerkyRaw);
+		RegisterHelper.registerItem(jerkyBeef);
 		RegisterHelper.registerItem(fireBow);
 		
 		RegisterHelper.registerItem(noobWoodSword);

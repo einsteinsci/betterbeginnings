@@ -3,6 +3,8 @@ package net.einsteinsci.noobcraft.register;
 import net.einsteinsci.noobcraft.config.NoobcraftConfig;
 import net.einsteinsci.noobcraft.register.recipe.AdvancedCraftingHandler;
 import net.einsteinsci.noobcraft.register.recipe.BrickOvenRecipeHandler;
+import net.einsteinsci.noobcraft.register.recipe.CampfirePotRecipes;
+import net.einsteinsci.noobcraft.register.recipe.CampfireRecipes;
 import net.einsteinsci.noobcraft.register.recipe.KilnRecipes;
 import net.einsteinsci.noobcraft.register.recipe.SmelterRecipeHandler;
 import net.minecraft.init.Blocks;
@@ -35,6 +37,16 @@ public class RegisterRecipes
 		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.boneShard, 2), Items.bone, new ItemStack(
 			RegisterItems.diamondKnife, 1, OreDictionary.WILDCARD_VALUE));
 		
+		// Raw Jerky
+		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.jerkyRaw, 2), Items.beef, new ItemStack(
+			RegisterItems.flintKnife, 1, OreDictionary.WILDCARD_VALUE));
+		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.jerkyRaw, 2), Items.beef, new ItemStack(
+			RegisterItems.boneKnife, 1, OreDictionary.WILDCARD_VALUE));
+		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.jerkyRaw, 2), Items.beef, new ItemStack(
+			RegisterItems.ironKnife, 1, OreDictionary.WILDCARD_VALUE));
+		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.jerkyRaw, 2), Items.beef, new ItemStack(
+			RegisterItems.diamondKnife, 1, OreDictionary.WILDCARD_VALUE));
+
 		// Leather Strip
 		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.leatherStrip, 3), Items.leather, new ItemStack(
 			RegisterItems.flintKnife, 1, OreDictionary.WILDCARD_VALUE));
@@ -72,8 +84,27 @@ public class RegisterRecipes
 		KilnRecipes.addRecipe(Items.chicken, new ItemStack(RegisterItems.charredMeat), 0.1f);
 		KilnRecipes.addRecipe(new ItemStack(Items.fish, 1, 0), new ItemStack(RegisterItems.charredMeat), 0.1f);
 		KilnRecipes.addRecipe(new ItemStack(Items.fish, 1, 1), new ItemStack(RegisterItems.charredMeat), 0.1f);
+		KilnRecipes.addRecipe(new ItemStack(RegisterItems.jerkyRaw), new ItemStack(RegisterItems.jerkyBeef), 0.1f);
 	}
 	
+	private static void addCampfireRecipes()
+	{
+		CampfireRecipes.addRecipe(Items.beef, new ItemStack(RegisterItems.charredMeat), 0.1F);
+		CampfireRecipes.addRecipe(Items.porkchop, new ItemStack(RegisterItems.charredMeat), 0.1F);
+		CampfireRecipes.addRecipe(Items.chicken, new ItemStack(RegisterItems.charredMeat), 0.1F);
+		CampfireRecipes.addRecipe(new ItemStack(Items.fish, 1, 0), new ItemStack(RegisterItems.charredMeat), 0.1f);
+		CampfireRecipes.addRecipe(new ItemStack(Items.fish, 1, 1), new ItemStack(RegisterItems.charredMeat), 0.1f);
+		CampfireRecipes.addRecipe(new ItemStack(RegisterItems.jerkyRaw), new ItemStack(RegisterItems.jerkyBeef), 0.1f);
+	}
+	private static void addCampfirePotRecipes()
+	{
+		CampfirePotRecipes.addRecipe(Items.beef, new ItemStack(Items.cooked_beef), 0.1F);
+		CampfirePotRecipes.addRecipe(Items.porkchop, new ItemStack(Items.cooked_porkchop), 0.1F);
+		CampfirePotRecipes.addRecipe(Items.chicken, new ItemStack(Items.cooked_chicken), 0.1F);
+		CampfirePotRecipes.addRecipe(new ItemStack(Items.fish, 1, 0), new ItemStack(Items.cooked_fished,1,0), 0.1f);
+		CampfirePotRecipes.addRecipe(new ItemStack(Items.fish, 1, 1), new ItemStack(Items.cooked_fished,1,1), 0.1f);
+		CampfireRecipes.addRecipe(new ItemStack(RegisterItems.jerkyRaw), new ItemStack(RegisterItems.jerkyBeef), 0.1f);
+	}
 	private static void addSmelterRecipes()
 	{
 		SmelterRecipeHandler.addRecipe(Blocks.iron_ore, new ItemStack(Items.iron_ingot), 0.7f, 1);
@@ -126,6 +157,7 @@ public class RegisterRecipes
 			Blocks.pumpkin);
 		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.fermented_spider_eye), Items.spider_eye,
 			Items.sugar, Blocks.brown_mushroom);
+		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(RegisterItems.jerkyRaw), RegisterItems.jerkyBeef);
 	}
 	
 	public static void addAdvancedRecipes()
@@ -308,6 +340,7 @@ public class RegisterRecipes
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.boneKnife), "S ", " /", 'S', RegisterItems.boneShard,
 			'/', Items.bone);
 		
+		
 		// Flint Hatchet
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.flintHatchet), "FS", " /", 'F', Items.flint, 'S',
 			RegisterItems.leatherStrip, '/', Items.stick);
@@ -341,6 +374,10 @@ public class RegisterRecipes
 		// Workbench
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterBlocks.doubleWorkbench), "##", "##", '#', new ItemStack(
 			Blocks.planks, 1, OreDictionary.WILDCARD_VALUE));
+
+		//Campfire
+		GameRegistry.addShapedRecipe(new ItemStack(RegisterBlocks.campfire), " l ", "lsl", "sss", 'l', Blocks.leaves, 's', Items.stick);
+
 		
 		if (NoobcraftConfig.canMakeVanillaWorkbench)
 		{
