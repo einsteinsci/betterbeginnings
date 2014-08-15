@@ -104,7 +104,7 @@ public class NoobcraftEventHandler
 					Random rand = e.harvester.worldObj.rand;
 					if (rand.nextInt(8) == 0)
 					{
-						e.drops.add(new ItemStack(Blocks.tallgrass));
+						e.drops.add(new ItemStack(Blocks.tallgrass,1,1));
 					}
 				}
 			}
@@ -116,7 +116,7 @@ public class NoobcraftEventHandler
 	{
 		if (e.crafting.getItem() == RegisterItems.flintKnife)
 		{
-			e.player.addStat(RegisterAchievements.makeSticks, 1);
+			e.player.addStat(RegisterAchievements.flintKnife, 1);
 			ChatUtil.sendChatToPlayer(e.player, "Flint Knife crafted.");
 		}
 		

@@ -1,5 +1,6 @@
 package net.einsteinsci.noobcraft.register.achievement;
 
+import net.einsteinsci.noobcraft.register.RegisterBlocks;
 import net.einsteinsci.noobcraft.register.RegisterItems;
 import net.minecraft.init.Items;
 import net.minecraft.stats.Achievement;
@@ -10,6 +11,7 @@ public class RegisterAchievements
 	
 	public static Achievement flintKnife;
 	public static Achievement makeSticks;
+	public static Achievement startFire;
 	
 	public static RegisterAchievements getInstance()
 	{
@@ -23,13 +25,17 @@ public class RegisterAchievements
 				.initIndependentStat().registerStat();
 		makeSticks =
 			new Achievement("achievement.makeSticks", "makeSticks", 2, 1, Items.stick, flintKnife).registerStat();
+		startFire = 
+			new Achievement("achievement.startFire", "startFire", 4,2, RegisterBlocks.campfire, makeSticks).registerStat();
+		
 	}
+	
 	
 	public static Achievement[] getAchievements()
 	{
 		addAchievements();
 		
-		Achievement[] result = new Achievement[] { flintKnife, makeSticks };
+		Achievement[] result = new Achievement[] { flintKnife, makeSticks, startFire };
 		
 		return result;
 	}

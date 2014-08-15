@@ -1,5 +1,6 @@
 package net.einsteinsci.noobcraft.event;
 
+import net.einsteinsci.noobcraft.config.NoobcraftConfig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 
@@ -35,6 +36,8 @@ public class ChatUtil
 	
 	public static void sendChatToPlayer(EntityPlayer player, String message)
 	{
-		player.addChatMessage(new ChatComponentText(message));
+		if (NoobcraftConfig.sendChatMessages){
+			player.addChatMessage(new ChatComponentText(message));
+		}
 	}
 }

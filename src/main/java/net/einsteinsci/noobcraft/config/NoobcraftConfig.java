@@ -13,6 +13,7 @@ public class NoobcraftConfig
 	public static boolean canMakeChainArmor;
 	public static boolean flamingAnimalsDropCharredMeat;
 	public static boolean moreBones;
+	public static boolean sendChatMessages;
 	
 	public static int kilnSmeltTime;
 	
@@ -25,6 +26,8 @@ public class NoobcraftConfig
 		canMakeChainArmor = true;
 		flamingAnimalsDropCharredMeat = true;
 		moreBones = true;
+		//Can send messages; They can get annoying after a while so I added a config option
+		sendChatMessages = true;
 		
 		kilnSmeltTime = 250;
 	}
@@ -47,6 +50,7 @@ public class NoobcraftConfig
 			config.getBoolean("flamingAnimalsDropCharredMeat", GENERAL, true,
 				"Animals that die by flame drop charred meat instead of vanilla cooked meat");
 		moreBones = config.getBoolean("moreBones", GENERAL, true, "Almost all mobs drop bones, not just skeletons");
+		sendChatMessages = config.getBoolean("sendChatMessages", GENERAL, true, "Send messages to player. i.e. Sticks crafted.");
 		
 		kilnSmeltTime =
 			config.getInt("kilnSmeltTime", GENERAL, 250, 2, 1000, "Time in ticks for a kiln to smelt something");
