@@ -3,16 +3,16 @@ package net.einsteinsci.noobcraft.items;
 import net.einsteinsci.noobcraft.ModMain;
 import net.minecraft.item.ItemFood;
 
-/**
- * Created by einsteinsci on 8/11/2014.
- */
-public class ItemMarshmallowCooked extends ItemFood
+public class ItemJerkyRaw extends ItemFood
 {
-	public ItemMarshmallowCooked()
+
+	public ItemJerkyRaw()
 	{
-		super(4, 6.0f, false);
-		setUnlocalizedName("marshmallowCooked");
+		super(0, 8.0f, true);
+		setUnlocalizedName("jerkyRaw");
 		setTextureName(ModMain.MODID + ":" + getUnlocalizedName().substring(5));
 		setCreativeTab(ModMain.tabNoobCraft);
+		this.setPotionEffect(17, 30, 1, 60);
 	}
+
 }

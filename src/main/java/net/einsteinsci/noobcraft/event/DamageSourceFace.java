@@ -2,14 +2,12 @@ package net.einsteinsci.noobcraft.event;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.*;
 
 public class DamageSourceFace extends DamageSource
 {
 	public Block faceHurt;
-	
+
 	public DamageSourceFace(Block block)
 	{
 		super("face");
@@ -17,7 +15,7 @@ public class DamageSourceFace extends DamageSource
 		setDamageBypassesArmor();
 		setDifficultyScaled();
 	}
-	
+
 	@Override
 	public IChatComponent func_151519_b(EntityLivingBase mob)
 	{

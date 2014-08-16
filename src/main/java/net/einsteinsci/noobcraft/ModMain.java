@@ -10,7 +10,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.einsteinsci.noobcraft.config.NoobcraftConfig;
 import net.einsteinsci.noobcraft.event.NoobcraftEventHandler;
-import net.einsteinsci.noobcraft.event.Worldgen;
 import net.einsteinsci.noobcraft.network.RepairTableRepairPacket;
 import net.einsteinsci.noobcraft.register.*;
 import net.einsteinsci.noobcraft.register.achievement.RegisterAchievements;
@@ -22,7 +21,7 @@ import net.minecraftforge.common.config.Configuration;
 import org.apache.logging.log4j.Level;
 
 @Mod(modid = ModMain.MODID, version = ModMain.VERSION, name = ModMain.NAME,
-guiFactory = "net.einsteinsci.noobcraft.config.NoobcraftConfigGuiFactory")
+	 guiFactory = "net.einsteinsci.noobcraft.config.NoobcraftConfigGuiFactory")
 public class ModMain
 {
 	public static final String MODID = "noobcraft";
@@ -47,19 +46,9 @@ public class ModMain
 	public static Configuration configFile;
 	public static SimpleNetworkWrapper network;
 	@SidedProxy(clientSide = "net.einsteinsci.noobcraft.ClientProxy",
-		serverSide = "net.einsteinsci.noobcraft.ServerProxy")
+				serverSide = "net.einsteinsci.noobcraft.ServerProxy")
 	public static ServerProxy proxy;
 	public NoobcraftEventHandler eventHandler = new NoobcraftEventHandler();
-
-	public static void Log(String text)
-	{
-		Log(Level.INFO, text);
-	}
-
-	public static void Log(Level level, String text)
-	{
-		FMLLog.log("NoobCraft", level, text);
-	}
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e)
@@ -81,13 +70,23 @@ public class ModMain
 		network.registerMessage(RepairTableRepairPacket.Handler.class, RepairTableRepairPacket.class,
 								PACKET_REPAIR_TABLE_REPAIR, Side.SERVER);
 
-		RegisterItems.registerItems();
+		RegisterItems.register();
 		RegisterBlocks.register();
 		RegisterTileEntities.register();
 
 		// armorMaterialCloth.customCraftingMaterial = RegisterItems.cloth;
 	}
-	
+
+	public static void Log(String text)
+	{
+		Log(Level.INFO, text);
+	}
+
+	public static void Log(Level level, String text)
+	{
+		FMLLog.log("NoobCraft", level, text);
+	}
+
 	@EventHandler
 	public void init(FMLInitializationEvent e)
 	{
@@ -97,12 +96,10 @@ public class ModMain
 		RegisterRecipes.addAdvancedRecipes();
 		RegisterRecipes.addFurnaceRecipes();
 
-		Worldgen.addWorldgen();
-
 		AchievementPage.registerAchievementPage(pageNoobCraft);
 		RemoveRecipes.removeFurnaceRecipes();
 	}
-	
+
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent e)
 	{

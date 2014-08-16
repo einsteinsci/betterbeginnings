@@ -302,9 +302,8 @@ public class RegisterRecipes
 				new ItemStack(Blocks.wool, 2, OreDictionary.WILDCARD_VALUE)}, "III", "I I", 'I', Items.iron_ingot);
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.iron_chestplate),
 												  new ItemStack[] {
-														  new ItemStack(RegisterItems.leatherStrip, 2), new ItemStack(
-														  RegisterItems.ironNugget,
-														  6),
+														  new ItemStack(RegisterItems.leatherStrip, 2), new ItemStack(RegisterItems.ironNugget,
+																													  6),
 														  new ItemStack(Blocks.wool, 4, OreDictionary.WILDCARD_VALUE)},
 												  "I I",
 												  "III",
@@ -313,9 +312,8 @@ public class RegisterRecipes
 												  Items.iron_ingot);
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.iron_leggings),
 												  new ItemStack[] {
-														  new ItemStack(RegisterItems.leatherStrip, 4), new ItemStack(
-														  RegisterItems.ironNugget,
-														  4),
+														  new ItemStack(RegisterItems.leatherStrip, 4), new ItemStack(RegisterItems.ironNugget,
+																													  4),
 														  new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE)},
 												  "III",
 												  "I I",
@@ -461,7 +459,7 @@ public class RegisterRecipes
 
 	public static void addShapedRecipes()
 	{
-		//ShapedOreRecipe r = new ShapedOreRecipe(new ItemStack(Items.chainmail_helmet), "...", ". .", '.', "nuggetIron");
+		ShapedOreRecipe r = new ShapedOreRecipe(new ItemStack(Items.chainmail_helmet), "...", ". .", '.', "nuggetIron");
 
 		// Knife
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.flintKnife), "F ", " F", 'F', Items.flint);
@@ -477,14 +475,6 @@ public class RegisterRecipes
 
 		// Cloth
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.cloth, 3), "ttt", "ttt", 't', RegisterItems.thread);
-
-		// String
-		GameRegistry.addShapedRecipe(new ItemStack(Items.string, 12),
-									 " # ",
-									 "# #",
-									 " # ",
-									 '#',
-									 new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE));
 
 		// Flint Hatchet
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.flintHatchet), "FS", " /", 'F', Items.flint, 'S',
@@ -561,23 +551,6 @@ public class RegisterRecipes
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // PADDING!
