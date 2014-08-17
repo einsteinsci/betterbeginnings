@@ -1,7 +1,7 @@
-NoobCraft
+Better Beginnings Mod
 =========
 
-NoobCraft mod for Minecraft v1.7.10. Requires Forge.
+Better Beginnings mod for Minecraft v1.7.10. Requires Forge (built with 10.13.0.1180).
 
 Kind of complicated. See the [forum topic](www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/requests-ideas-for-mods/2146340-need-an-idea-why-not-noobcraft-req).
 
