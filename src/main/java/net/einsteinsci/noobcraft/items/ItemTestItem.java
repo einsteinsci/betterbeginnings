@@ -26,7 +26,7 @@ public class ItemTestItem extends Item
 		String blockName = tested.getUnlocalizedName().substring(5);
 		ChatComponentTranslation trans = new ChatComponentTranslation(blockName);
 		trans.appendText(" : " + world.getBlockMetadata(x, y, z));
-		// player.addChatMessage(trans);
+		player.addChatMessage(trans);
 		
 		/*
 		 * if (tested == RegisterBlocks.kiln || tested == RegisterBlocks.kilnLit) { TileEntityKiln kiln =

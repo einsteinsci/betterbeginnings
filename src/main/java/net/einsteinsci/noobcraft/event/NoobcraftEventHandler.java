@@ -195,7 +195,7 @@ public class NoobcraftEventHandler
 			}
 		}
 
-		if (e.block == Blocks.tallgrass && !e.isSilkTouching && e.harvester != null)
+		if ((e.block == Blocks.tallgrass || e.block == Blocks.deadbush) && !e.isSilkTouching && e.harvester != null)
 		{
 			if (e.harvester.getHeldItem() != null)
 			{
@@ -204,7 +204,7 @@ public class NoobcraftEventHandler
 					Random rand = e.harvester.worldObj.rand;
 					if (rand.nextInt(8) == 0)
 					{
-						e.drops.add(new ItemStack(Blocks.tallgrass, 1, 1));
+						e.drops.add(new ItemStack(e.block, 1, e.blockMetadata));
 					}
 				}
 			}

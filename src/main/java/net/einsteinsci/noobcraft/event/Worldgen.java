@@ -13,14 +13,14 @@ public class Worldgen
 	public static void addWorldgen()
 	{
 		ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(
-				RegisterItems.marshmallow), 0, 5, 100));
+				RegisterItems.marshmallow), 1, 5, 100));
 		ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST)
-				.addItem(new WeightedRandomChestContent(new ItemStack(RegisterItems.marshmallow), 0, 10, 200));
+				.addItem(new WeightedRandomChestContent(new ItemStack(RegisterItems.marshmallow), 1, 10, 200));
 		ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(
-				RegisterItems.marshmallow), 0, 10, 200));
+				RegisterItems.marshmallow), 1, 10, 200));
 		ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING)
-				.addItem(new WeightedRandomChestContent(new ItemStack(RegisterItems.marshmallow), 0, 12, 150));
+				.addItem(new WeightedRandomChestContent(new ItemStack(RegisterItems.marshmallow), 1, 12, 150));
 		ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR)
-				.addItem(new WeightedRandomChestContent(new ItemStack(RegisterItems.marshmallow), 0, 12, 150));
+				.addItem(new WeightedRandomChestContent(new ItemStack(RegisterItems.marshmallow), 1, 12, 150));
 	}
 }

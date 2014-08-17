@@ -26,6 +26,10 @@ item.silk.name=Silk
 item.thread.name=Thread
 item.cloth.name=Cloth
 item.marshmallow.name=Marshmallow
+item.marshmallowCooked.name=Browned Marshmallow
+item.roastingStick.name=Roasting Stick
+item.roastingStickrawMallow.name=Marshmallow on Stick
+item.roastingStickcookedMallow.name=Browned Marshmallow on Stick
 
 item.clothHat.name=Cloth Hat
 item.clothShirt.name=Cloth Robe
