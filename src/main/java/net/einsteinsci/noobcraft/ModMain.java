@@ -10,14 +10,19 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.einsteinsci.noobcraft.config.NoobcraftConfig;
 import net.einsteinsci.noobcraft.event.NoobcraftEventHandler;
+import net.einsteinsci.noobcraft.event.Worldgen;
 import net.einsteinsci.noobcraft.network.RepairTableRepairPacket;
 import net.einsteinsci.noobcraft.register.*;
 import net.einsteinsci.noobcraft.register.achievement.RegisterAchievements;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.AchievementPage;
+import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+
 import org.apache.logging.log4j.Level;
 
 @Mod(modid = ModMain.MODID, version = ModMain.VERSION, name = ModMain.NAME,
@@ -95,6 +100,7 @@ public class ModMain
 		RegisterRecipes.addShapedRecipes();
 		RegisterRecipes.addAdvancedRecipes();
 		RegisterRecipes.addFurnaceRecipes();
+		Worldgen.addWorldgen();
 
 		AchievementPage.registerAchievementPage(pageNoobCraft);
 		RemoveRecipes.removeFurnaceRecipes();

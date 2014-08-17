@@ -3,6 +3,7 @@ package net.einsteinsci.noobcraft.register;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.einsteinsci.noobcraft.items.*;
 import net.einsteinsci.noobcraft.items.ItemCloth;
+import net.minecraft.block.Block;
 import net.minecraft.item.*;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraftforge.common.util.EnumHelper;
@@ -36,7 +37,11 @@ public class RegisterItems
 	public static final Item charredMeat = new ItemCharredMeat();
 	public static final Item fireBow = new ItemFireBow();
 	public static final Item marshmallow = new ItemMarshmallow();
-
+	public static final Item marshmallowCooked = new ItemMarshmallowCooked();
+	public static final Item roastingStick = new ItemRoastingStick();
+	public static final Item roastingStickrawMallow = new ItemRoastingStickMallow(false);
+	public static final Item roastingStickcookedMallow = new ItemRoastingStickMallow(true);
+	
 	public static void register()
 	{
 		RegisterHelper.registerItem(flintKnife);
@@ -56,7 +61,12 @@ public class RegisterItems
 		RegisterHelper.registerItem(ironNugget);
 		RegisterHelper.registerItem(charredMeat);
 		RegisterHelper.registerItem(fireBow);
+		
 		RegisterHelper.registerItem(marshmallow);
+		RegisterHelper.registerItem(roastingStick);
+		RegisterHelper.registerItem(marshmallowCooked);
+		RegisterHelper.registerItem(roastingStickcookedMallow);
+		RegisterHelper.registerItem(roastingStickrawMallow);
 
 		RegisterHelper.registerItem(clothHat);
 		RegisterHelper.registerItem(clothShirt);
