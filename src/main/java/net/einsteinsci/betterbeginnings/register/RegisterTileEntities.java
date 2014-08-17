@@ -12,5 +12,6 @@ public class RegisterTileEntities
 		GameRegistry.registerTileEntity(TileEntityBrickOven.class, ModMain.MODID + ":TileEntityBrickOven");
 		GameRegistry.registerTileEntity(TileEntitySmelter.class, ModMain.MODID + ":TileEntitySmelter");
 		GameRegistry.registerTileEntity(TileEntityCampfire.class, ModMain.MODID + ":TileEntityCampfire");
+		GameRegistry.registerTileEntity(TileEntityObsidianKiln.class, ModMain.MODID + ":TileEntityObsidianKiln");
 	}
 }

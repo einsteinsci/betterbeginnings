@@ -3,7 +3,7 @@ package net.einsteinsci.betterbeginnings.blocks;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.einsteinsci.betterbeginnings.ModMain;
-import net.einsteinsci.betterbeginnings.gui.NoobCraftGuiHandler;
+import net.einsteinsci.betterbeginnings.gui.BBGuiHandler;
 import net.einsteinsci.betterbeginnings.register.RegisterBlocks;
 import net.einsteinsci.betterbeginnings.util.BlockUtil;
 import net.minecraft.block.Block;
@@ -213,12 +213,12 @@ public class BlockDoubleWorkbench extends Block
 	{
 		if (world.getBlockMetadata(x, y, z) == 0)
 		{
-			player.openGui(ModMain.modInstance, NoobCraftGuiHandler.SIMPLEWORKBENCH_ID, world, x, y, z);
+			player.openGui(ModMain.modInstance, BBGuiHandler.SIMPLEWORKBENCH_ID, world, x, y, z);
 			return true;
 		}
 		else
 		{
-			player.openGui(ModMain.modInstance, NoobCraftGuiHandler.DOUBLEWORKBENCH_ID, world, x, y, z);
+			player.openGui(ModMain.modInstance, BBGuiHandler.DOUBLEWORKBENCH_ID, world, x, y, z);
 			return true;
 		}
 

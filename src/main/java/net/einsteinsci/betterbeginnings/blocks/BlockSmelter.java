@@ -3,7 +3,7 @@ package net.einsteinsci.betterbeginnings.blocks;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.einsteinsci.betterbeginnings.ModMain;
-import net.einsteinsci.betterbeginnings.gui.NoobCraftGuiHandler;
+import net.einsteinsci.betterbeginnings.gui.BBGuiHandler;
 import net.einsteinsci.betterbeginnings.register.RegisterBlocks;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntitySmelter;
 import net.minecraft.block.Block;
@@ -154,7 +154,7 @@ public class BlockSmelter extends BlockContainer
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float clickX,
 									float clickY, float clickZ)
 	{
-		player.openGui(ModMain.modInstance, NoobCraftGuiHandler.SMELTER_ID, world, x, y, z);
+		player.openGui(ModMain.modInstance, BBGuiHandler.SMELTER_ID, world, x, y, z);
 
 		return true;
 	}

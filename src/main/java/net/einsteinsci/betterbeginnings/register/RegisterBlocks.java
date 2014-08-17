@@ -15,6 +15,8 @@ public class RegisterBlocks
 	public static final Block repairTable = new BlockRepairTable();
 	public static final Block campfire = new BlockCampfire(false);
 	public static final Block campfireLit = new BlockCampfire(true);
+	public static final Block obsidianKiln = new BlockObsidianKiln(false);
+	public static final Block obsidianKilnLit = new BlockObsidianKiln(true);
 
 	public static void register()
 	{
@@ -33,5 +35,8 @@ public class RegisterBlocks
 
 		RegisterHelper.registerBlock(campfire);
 		RegisterHelper.registerBlock(campfireLit);
+
+		RegisterHelper.registerBlock(obsidianKiln);
+		RegisterHelper.registerBlock(obsidianKilnLit);
 	}
 }

@@ -1,7 +1,7 @@
 package net.einsteinsci.betterbeginnings;
 
 import cpw.mods.fml.common.network.NetworkRegistry;
-import net.einsteinsci.betterbeginnings.gui.NoobCraftGuiHandler;
+import net.einsteinsci.betterbeginnings.gui.BBGuiHandler;
 
 public class ServerProxy
 {
@@ -17,6 +17,6 @@ public class ServerProxy
 
 	public void registerNetworkStuff()
 	{
-		NetworkRegistry.INSTANCE.registerGuiHandler(ModMain.modInstance, new NoobCraftGuiHandler());
+		NetworkRegistry.INSTANCE.registerGuiHandler(ModMain.modInstance, new BBGuiHandler());
 	}
 }

@@ -9,7 +9,7 @@
   "updateUrl": "",
   "authorList": ["einsteinsci","iLiminate"],
   "credits": "AnonTheMouse for the brilliant idea, and iLiminate for helping with so many things",
-  "logoFile": "/logo.png",
+  "logoFile": "/textures/logo.png",
   "screenshots": [],
   "dependencies": []
 }

@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 /**
  * Some issues with this. Please note the server doesn't register items or blocks. At all.
  */
-public class NoobCraftGuiHandler implements IGuiHandler
+public class BBGuiHandler implements IGuiHandler
 {
 	public static final int KILN_ID = 0;
 	public static final int SIMPLEWORKBENCH_ID = 1;
@@ -17,6 +17,7 @@ public class NoobCraftGuiHandler implements IGuiHandler
 	public static final int BRICKOVEN_ID = 3;
 	public static final int SMELTER_ID = 4;
 	public static final int REPAIRTABLE_ID = 5;
+	public static final int OBSIDIANKILN_ID = 6;
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
@@ -52,6 +53,12 @@ public class NoobCraftGuiHandler implements IGuiHandler
 		if (ID == REPAIRTABLE_ID)
 		{
 			return new ContainerRepairTable(player.inventory, world, x, y, z);
+		}
+
+		if (ID == OBSIDIANKILN_ID)
+		{
+			TileEntityObsidianKiln obsKiln = (TileEntityObsidianKiln)world.getTileEntity(x, y, z);
+			return new ContainerObsidianKiln(player.inventory, obsKiln);
 		}
 
 		return null;
@@ -91,6 +98,12 @@ public class NoobCraftGuiHandler implements IGuiHandler
 		if (ID == REPAIRTABLE_ID)
 		{
 			return new GuiRepairTable(player.inventory, world, x, y, z);
+		}
+
+		if (ID == OBSIDIANKILN_ID)
+		{
+			TileEntityObsidianKiln obsKiln = (TileEntityObsidianKiln)world.getTileEntity(x, y, z);
+			return new GuiObsidianKiln(player.inventory, obsKiln);
 		}
 
 		return null;

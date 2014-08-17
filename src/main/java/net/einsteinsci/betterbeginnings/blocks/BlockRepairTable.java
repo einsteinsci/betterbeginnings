@@ -1,7 +1,7 @@
 package net.einsteinsci.betterbeginnings.blocks;
 
 import net.einsteinsci.betterbeginnings.ModMain;
-import net.einsteinsci.betterbeginnings.gui.NoobCraftGuiHandler;
+import net.einsteinsci.betterbeginnings.gui.BBGuiHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -45,7 +45,7 @@ public class BlockRepairTable extends Block
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float clickX,
 									float clickY, float clickZ)
 	{
-		player.openGui(ModMain.modInstance, NoobCraftGuiHandler.REPAIRTABLE_ID, world, x, y, z);
+		player.openGui(ModMain.modInstance, BBGuiHandler.REPAIRTABLE_ID, world, x, y, z);
 		return true;
 	}
 

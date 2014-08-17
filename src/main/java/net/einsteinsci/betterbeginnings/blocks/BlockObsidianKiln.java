@@ -5,7 +5,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.gui.BBGuiHandler;
 import net.einsteinsci.betterbeginnings.register.RegisterBlocks;
-import net.einsteinsci.betterbeginnings.tileentity.TileEntityBrickOven;
+import net.einsteinsci.betterbeginnings.tileentity.TileEntityObsidianKiln;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -23,7 +23,7 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class BlockBrickOven extends BlockContainer
+public class BlockObsidianKiln extends BlockContainer
 {
 	private static boolean isLit;
 	private final boolean isLit2; // strange why...
@@ -33,17 +33,17 @@ public class BlockBrickOven extends BlockContainer
 	@SideOnly(Side.CLIENT)
 	private IIcon front;
 
-	public BlockBrickOven(boolean lit)
+	public BlockObsidianKiln(boolean lit)
 	{
 		super(Material.rock);
 
 		if (lit)
 		{
-			setBlockName("brickOvenLit");
+			setBlockName("obsidianKilnLit");
 		}
 		else
 		{
-			setBlockName("brickOven");
+			setBlockName("obsidianKiln");
 			setCreativeTab(ModMain.tabBetterBeginnings);
 		}
 
@@ -62,11 +62,11 @@ public class BlockBrickOven extends BlockContainer
 
 		if (lit)
 		{
-			world.setBlock(x, y, z, RegisterBlocks.brickOvenLit);
+			world.setBlock(x, y, z, RegisterBlocks.obsidianKilnLit);
 		}
 		else
 		{
-			world.setBlock(x, y, z, RegisterBlocks.brickOven);
+			world.setBlock(x, y, z, RegisterBlocks.obsidianKiln);
 		}
 
 		isLit = false;
@@ -147,16 +147,15 @@ public class BlockBrickOven extends BlockContainer
 	@Override
 	public Item getItemDropped(int par1, Random rand, int par3)
 	{
-		return Item.getItemFromBlock(RegisterBlocks.brickOven);
+		return Item.getItemFromBlock(RegisterBlocks.kiln);
 	}
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float clickX,
 									float clickY, float clickZ)
 	{
-		player.openGui(ModMain.modInstance, BBGuiHandler.BRICKOVEN_ID, world, x, y, z);
-
-		// player.addChatMessage(new ChatComponentText("Brick Oven opened."));
+		TileEntityObsidianKiln kiln = (TileEntityObsidianKiln)world.getTileEntity(x, y, z);
+		player.openGui(ModMain.modInstance, BBGuiHandler.OBSIDIANKILN_ID, world, x, y, z);
 
 		return true;
 	}
@@ -186,25 +185,27 @@ public class BlockBrickOven extends BlockContainer
 			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
 		}
 
+		TileEntityObsidianKiln kiln = (TileEntityObsidianKiln)world.getTileEntity(x, y, z);
 		if (stack.hasDisplayName())
 		{
-			((TileEntityBrickOven)world.getTileEntity(x, y, z)).furnaceName(stack.getDisplayName());
+			kiln.furnaceName(stack.getDisplayName());
 		}
 	}
 
 	@Override
 	public Item getItem(World world, int x, int y, int z)
 	{
-		return Item.getItemFromBlock(RegisterBlocks.brickOven);
+		return Item.getItemFromBlock(RegisterBlocks.obsidianKiln);
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerBlockIcons(IIconRegister iconregister)
 	{
-		blockIcon = iconregister.registerIcon(ModMain.MODID + ":brickOvenSide");
-		front = iconregister.registerIcon(isLit2 ? ModMain.MODID + ":brickOvenLit" : ModMain.MODID + ":brickOvenUnlit");
-		top = iconregister.registerIcon(ModMain.MODID + ":brickOvenTop");
+		blockIcon = iconregister.registerIcon(ModMain.MODID + ":obsidianKilnSide");
+		front = iconregister
+				.registerIcon(isLit2 ? ModMain.MODID + ":obsidianKilnLit" : ModMain.MODID + ":obsidianKilnUnlit");
+		top = iconregister.registerIcon(ModMain.MODID + ":obsidianKilnTop");
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -254,9 +255,9 @@ public class BlockBrickOven extends BlockContainer
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta)
 	{
+		TileEntityObsidianKiln tileEntityKiln = (TileEntityObsidianKiln)world.getTileEntity(x, y, z);
 		if (!isLit)
 		{
-			TileEntityBrickOven tileEntityKiln = (TileEntityBrickOven)world.getTileEntity(x, y, z);
 			if (tileEntityKiln != null)
 			{
 				for (int i = 0; i < tileEntityKiln.getSizeInventory(); i++)
@@ -265,9 +266,9 @@ public class BlockBrickOven extends BlockContainer
 
 					if (stack != null)
 					{
-						float velX = random.nextFloat() * 0.6f + 0.1f;
-						float velY = random.nextFloat() * 0.6f + 0.1f;
-						float velZ = random.nextFloat() * 0.6f + 0.1f;
+						float velX = random.nextFloat() * 0.6f;
+						float velY = random.nextFloat() * 0.6f + 0.2f;
+						float velZ = random.nextFloat() * 0.6f;
 
 						while (stack.stackSize > 0)
 						{
@@ -292,7 +293,7 @@ public class BlockBrickOven extends BlockContainer
 
 							float f3 = 0.025f;
 							entityItem.motionX = (float)random.nextGaussian() * f3;
-							entityItem.motionY = (float)random.nextGaussian() * f3 + 0.3f;
+							entityItem.motionY = (float)random.nextGaussian() * f3 + 0.1f;
 							entityItem.motionX = (float)random.nextGaussian() * f3;
 							world.spawnEntityInWorld(entityItem);
 						}
@@ -302,15 +303,13 @@ public class BlockBrickOven extends BlockContainer
 				world.func_147453_f(x, y, z, block);
 			}
 		}
+
 		super.breakBlock(world, x, y, z, block, meta);
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int par2)
 	{
-		return new TileEntityBrickOven();
+		return new TileEntityObsidianKiln();
 	}
 }
-
-
-// Buffer

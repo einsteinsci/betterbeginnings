@@ -7,6 +7,8 @@ tile.smelter.name=Smelter
 tile.smelterLit.name=Smelter (Lit)
 tile.repairTable.name=Repair Table
 tile.Campfire.name=Campfire
+tile.obsidianKiln.name=Obsidian Kiln
+tile.obsidianKilnLit.name=Obsidian Kiln (Lit)
 
 item.flintKnife.name=Flint Knife
 item.boneKnife.name=Bone Knife
@@ -51,6 +53,7 @@ container.repairTable.level= Levels
 container.repairTable.repair=Repair
 container.repairTable.notNeeded.0=Repair not
 container.repairTable.notNeeded.1=needed!
+container.obsidianKiln=Obsidian Kiln
 
 achievement.flintKnife=Survival of the Fittest
 achievement.flintKnife.desc=Craft a flint knife out of two flint

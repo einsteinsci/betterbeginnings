@@ -14,8 +14,6 @@ public class BBConfig
 	public static boolean flamingAnimalsDropCharredMeat;
 	public static boolean moreBones;
 
-	public static int kilnSmeltTime;
-
 	public BBConfig()
 	{
 		greetUser = true;
@@ -25,8 +23,6 @@ public class BBConfig
 		canMakeChainArmor = true;
 		flamingAnimalsDropCharredMeat = true;
 		moreBones = true;
-
-		kilnSmeltTime = 250;
 	}
 
 	public static void syncConfig(Configuration config)
@@ -50,9 +46,6 @@ public class BBConfig
 				config.getBoolean("flamingAnimalsDropCharredMeat", GENERAL, true,
 								  "Animals that die by flame drop charred meat instead of vanilla cooked meat");
 		moreBones = config.getBoolean("moreBones", GENERAL, true, "Almost all mobs drop bones, not just skeletons");
-
-		kilnSmeltTime =
-				config.getInt("kilnSmeltTime", GENERAL, 250, 2, 1000, "Time in ticks for a kiln to smelt something");
 
 		if (config.hasChanged())
 		{

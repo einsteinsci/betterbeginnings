@@ -3,7 +3,7 @@ package net.einsteinsci.betterbeginnings.blocks;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.einsteinsci.betterbeginnings.ModMain;
-import net.einsteinsci.betterbeginnings.gui.NoobCraftGuiHandler;
+import net.einsteinsci.betterbeginnings.gui.BBGuiHandler;
 import net.einsteinsci.betterbeginnings.register.RegisterBlocks;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityKiln;
 import net.minecraft.block.Block;
@@ -169,11 +169,11 @@ public class BlockKiln extends BlockContainer
 									float clickY, float clickZ)
 	{
 		TileEntityKiln kiln = (TileEntityKiln)world.getTileEntity(x, y, z);
-		player.openGui(ModMain.modInstance, NoobCraftGuiHandler.KILN_ID, world, x, y, z);
+		player.openGui(ModMain.modInstance, BBGuiHandler.KILN_ID, world, x, y, z);
 		/*
-		 * if (kiln.stacked == 0) { // player.openGui(ModMain.modInstance, NoobCraftGuiHandler.KILN_ID, world, x, y, z);
+		 * if (kiln.stacked == 0) { // player.openGui(ModMain.modInstance, BBGuiHandler.KILN_ID, world, x, y, z);
 		 * } else { // ChatUtil.sendChatToPlayer(player, "DOUBLE KILN!"); // player.openGui(ModMain.modInstance,
-		 * NoobCraftGuiHandler.KILNSTACKED_ID, world, x, y, z); }
+		 * BBGuiHandler.KILNSTACKED_ID, world, x, y, z); }
 		 */
 
 		return true;
