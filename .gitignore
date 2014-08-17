@@ -10,6 +10,7 @@
 *.iws
 *.psd
 *.idea/*
+*.db
 
 *.classpath
 *.project
