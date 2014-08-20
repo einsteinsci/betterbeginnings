@@ -3,6 +3,7 @@ package net.einsteinsci.betterbeginnings.register;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.einsteinsci.betterbeginnings.items.*;
 import net.einsteinsci.betterbeginnings.items.ItemCloth;
+import net.minecraft.block.Block;
 import net.minecraft.item.*;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraftforge.common.util.EnumHelper;
@@ -24,6 +25,7 @@ public class RegisterItems
 	public static final Item boneKnife = new ItemKnifeBone();
 	public static final Item ironKnife = new ItemKnifeIron();
 	public static final Item diamondKnife = new ItemKnifeDiamond();
+	public static final Item goldKnife = new ItemKnifeGold();
 	public static final Item flintHatchet = new ItemFlintHatchet();
 	public static final Item bonePickaxe = new ItemBonePickaxe();
 	public static final Item boneShard = new ItemBoneShard();
@@ -41,11 +43,13 @@ public class RegisterItems
 	public static final Item roastingStickrawMallow = new ItemRoastingStickMallow(false);
 	public static final Item roastingStickcookedMallow = new ItemRoastingStickMallow(true);
 
+
 	public static void register()
 	{
 		RegisterHelper.registerItem(flintKnife);
 		RegisterHelper.registerItem(boneKnife);
 		RegisterHelper.registerItem(ironKnife);
+		RegisterHelper.registerItem(goldKnife);
 		RegisterHelper.registerItem(diamondKnife);
 
 		RegisterHelper.registerItem(flintHatchet);
