@@ -26,7 +26,7 @@ public class BlockRepairTable extends BlockContainer
 	public BlockRepairTable()
 	{
 		super(Material.rock);
-		setBlockName("repairTable");
+		setBlockName("inputs");
 		setBlockTextureName(ModMain.MODID + ":" + getUnlocalizedName().substring(5));
 		setCreativeTab(ModMain.tabBetterBeginnings);
 		setHardness(2.0f);
@@ -52,7 +52,7 @@ public class BlockRepairTable extends BlockContainer
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float clickX,
-									float clickY, float clickZ)
+	                                float clickY, float clickZ)
 	{
 		player.openGui(ModMain.modInstance, BBGuiHandler.REPAIRTABLE_ID, world, x, y, z);
 		return true;
@@ -92,11 +92,11 @@ public class BlockRepairTable extends BlockContainer
 						stack.stackSize -= j;
 						EntityItem entityItem =
 								new EntityItem(world,
-											   x + velX,
-											   y + velY,
-											   z + velZ,
-											   new ItemStack(stack.getItem(), j,
-															 stack.getItemDamage()));
+								               x + velX,
+								               y + velY,
+								               z + velZ,
+								               new ItemStack(stack.getItem(), j,
+								                             stack.getItemDamage()));
 
 						if (stack.hasTagCompound())
 						{

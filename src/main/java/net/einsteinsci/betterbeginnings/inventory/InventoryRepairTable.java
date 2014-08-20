@@ -95,7 +95,7 @@ public class InventoryRepairTable implements IInventory
 	@Override
 	public String getInventoryName()
 	{
-		return "container.repairTable";
+		return "container.inputs";
 	}
 
 	@Override

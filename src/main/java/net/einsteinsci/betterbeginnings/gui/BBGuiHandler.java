@@ -16,7 +16,8 @@ public class BBGuiHandler implements IGuiHandler
 	public static final int DOUBLEWORKBENCH_ID = 2;
 	public static final int BRICKOVEN_ID = 3;
 	public static final int SMELTER_ID = 4;
-	public static final int REPAIRTABLE_ID = 5;
+	public static final int REPAIRTABLE_ID = 500;
+	public static final int INFUSIONREPAIR_ID = 5;
 	public static final int OBSIDIANKILN_ID = 6;
 
 	@Override
@@ -54,6 +55,11 @@ public class BBGuiHandler implements IGuiHandler
 		{
 			TileEntityRepairTable repair = (TileEntityRepairTable)world.getTileEntity(x, y, z);
 			return new ContainerRepairTable(player.inventory, repair);
+		}
+
+		if (ID == INFUSIONREPAIR_ID)
+		{
+			return new ContainerInfusionRepair(player.inventory, world, x, y, z);
 		}
 
 		if (ID == OBSIDIANKILN_ID)
@@ -100,6 +106,11 @@ public class BBGuiHandler implements IGuiHandler
 		{
 			TileEntityRepairTable repair = (TileEntityRepairTable)world.getTileEntity(x, y, z);
 			return new GuiRepairTable(player.inventory, repair);
+		}
+
+		if (ID == INFUSIONREPAIR_ID)
+		{
+			return new GuiInfusionRepair(player.inventory, world, x, y, z);
 		}
 
 		if (ID == OBSIDIANKILN_ID)

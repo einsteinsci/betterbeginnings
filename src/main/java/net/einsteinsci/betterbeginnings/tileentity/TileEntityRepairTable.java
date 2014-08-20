@@ -17,6 +17,7 @@ import java.util.List;
 
 import static net.einsteinsci.betterbeginnings.ModMain.Log;
 
+@Deprecated
 public class TileEntityRepairTable extends TileEntity implements IInventory
 {
 	public List<ItemStack> requiredItems = new ArrayList<ItemStack>();
@@ -539,7 +540,7 @@ public class TileEntityRepairTable extends TileEntity implements IInventory
 	@Override
 	public String getInventoryName()
 	{
-		return hasCustomInventoryName() ? customName : "container.repairTable";
+		return hasCustomInventoryName() ? customName : "container.inputs";
 	}
 
 	@Override

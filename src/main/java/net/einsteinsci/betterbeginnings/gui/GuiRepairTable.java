@@ -21,10 +21,11 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 @SideOnly(Side.CLIENT)
+@Deprecated
 public class GuiRepairTable extends GuiContainer
 {
 	private static final ResourceLocation craftingTableGuiTextures = new ResourceLocation(ModMain.MODID +
-																								  ":textures/gui/container/repairTable.png");
+			                                                                                      ":textures/gui/container/inputs.png");
 	//private ContainerRepairTable container;
 	private RenderItemPartialTransparency partialTransItemRenderer = new RenderItemPartialTransparency();
 	private EntityPlayer player;
@@ -48,7 +49,7 @@ public class GuiRepairTable extends GuiContainer
 
 		buttonList.clear();
 		buttonList.add(new GuiButton(0, (width - xSize) / 2 + 6, (height - ySize) / 2 + 55, 64, 20, I18n
-				.format("container.repairTable.repair")));
+				.format("container.inputs.repair")));
 		GuiButton repairButton = (GuiButton)buttonList.get(0);
 		if (repairButton != null)
 		{
@@ -63,19 +64,19 @@ public class GuiRepairTable extends GuiContainer
 	protected void drawGuiContainerForegroundLayer(int par1, int par2)
 	{
 		// I'm guessing the really big number at the end is the z layer.
-		// fontRendererObj.drawString(I18n.format("container.repairTable", new Object[0]), 8, 6, 4210752);
+		// fontRendererObj.drawString(I18n.format("container.inputs", new Object[0]), 8, 6, 4210752);
 		ItemStack stack = container.circleSlots[0].getStack();
 		if ((container.requiredLevels != 0 || container.takenLevels != 0) && stack != null)
 		{
 			if (stack.isItemDamaged())
 			{
-				fontRendererObj.drawString(ChatUtil.BLACK + I18n.format("container.repairTable.minLevel") + ": ", 8, 6,
+				fontRendererObj.drawString(ChatUtil.BLACK + I18n.format("container.inputs.minLevel") + ": ", 8, 6,
 										   4210752);
-				fontRendererObj.drawString("" + container.requiredLevels + I18n.format("container.repairTable.level"),
+				fontRendererObj.drawString("" + container.requiredLevels + I18n.format("container.inputs.level"),
 										   16, 16, 4210752);
-				fontRendererObj.drawString(ChatUtil.BLACK + I18n.format("container.repairTable.levelCost") + ": ", 8,
+				fontRendererObj.drawString(ChatUtil.BLACK + I18n.format("container.inputs.levelCost") + ": ", 8,
 										   28, 4210752);
-				fontRendererObj.drawString("" + container.takenLevels + I18n.format("container.repairTable.level"), 16,
+				fontRendererObj.drawString("" + container.takenLevels + I18n.format("container.inputs.level"), 16,
 										   38, 4210752);
 			}
 		}
@@ -84,8 +85,8 @@ public class GuiRepairTable extends GuiContainer
 		{
 			if (!stack.isItemDamaged())
 			{
-				fontRendererObj.drawString(I18n.format("container.repairTable.notNeeded.0"), 8, 6, 4210752);
-				fontRendererObj.drawString(I18n.format("container.repairTable.notNeeded.1"), 8, 16, 4210752);
+				fontRendererObj.drawString(I18n.format("container.inputs.notNeeded.0"), 8, 6, 4210752);
+				fontRendererObj.drawString(I18n.format("container.inputs.notNeeded.1"), 8, 16, 4210752);
 			}
 		}
 

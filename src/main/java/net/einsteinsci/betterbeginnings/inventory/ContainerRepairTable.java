@@ -23,6 +23,7 @@ import java.util.List;
 import static net.einsteinsci.betterbeginnings.ModMain.Log;
 import static net.einsteinsci.betterbeginnings.ModMain.network;
 
+@Deprecated
 public class ContainerRepairTable extends Container
 {
 	public List<ItemStack> requiredItems = new ArrayList<ItemStack>();
