@@ -18,7 +18,7 @@ public class BlockCampfire extends BlockContainer
 		this.setBlockTextureName(ModMain.MODID + ":CampfireImg");
 		if (!lit)
 		{
-			this.setCreativeTab(ModMain.tabBetterBeginnings);
+			//this.setCreativeTab(ModMain.tabBetterBeginnings);
 			this.setBlockName("Campfire");
 		}
 		else

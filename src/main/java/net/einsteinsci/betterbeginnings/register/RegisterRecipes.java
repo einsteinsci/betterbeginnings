@@ -27,6 +27,10 @@ public class RegisterRecipes
 													  OreDictionary.WILDCARD_VALUE),
 										new ItemStack(RegisterItems.ironKnife, 1, OreDictionary.WILDCARD_VALUE));
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.stick),
+				new ItemStack(Blocks.sapling, 1,
+							  OreDictionary.WILDCARD_VALUE),
+				new ItemStack(RegisterItems.goldKnife, 1, OreDictionary.WILDCARD_VALUE));
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.stick),
 										new ItemStack(Blocks.sapling, 1,
 													  OreDictionary.WILDCARD_VALUE),
 										new ItemStack(RegisterItems.diamondKnife, 1, OreDictionary.WILDCARD_VALUE));
@@ -39,6 +43,8 @@ public class RegisterRecipes
 		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.boneShard, 2), Items.bone, new ItemStack(
 				RegisterItems.ironKnife, 1, OreDictionary.WILDCARD_VALUE));
 		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.boneShard, 2), Items.bone, new ItemStack(
+				RegisterItems.goldKnife, 1, OreDictionary.WILDCARD_VALUE));
+		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.boneShard, 2), Items.bone, new ItemStack(
 				RegisterItems.diamondKnife, 1, OreDictionary.WILDCARD_VALUE));
 
 		// Leather Strip
@@ -48,6 +54,8 @@ public class RegisterRecipes
 				RegisterItems.boneKnife, 1, OreDictionary.WILDCARD_VALUE));
 		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.leatherStrip, 3), Items.leather, new ItemStack(
 				RegisterItems.ironKnife, 1, OreDictionary.WILDCARD_VALUE));
+		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.leatherStrip, 3), Items.leather, new ItemStack(
+				RegisterItems.goldKnife, 1, OreDictionary.WILDCARD_VALUE));
 		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.leatherStrip, 3), Items.leather, new ItemStack(
 				RegisterItems.diamondKnife, 1, OreDictionary.WILDCARD_VALUE));
 
@@ -107,6 +115,7 @@ public class RegisterRecipes
 												  Blocks.pumpkin);
 		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.fermented_spider_eye), Items.spider_eye,
 												  Items.sugar, Blocks.brown_mushroom);
+		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(RegisterItems.roastingStickcookedMallow), RegisterItems.roastingStickrawMallow);
 	}
 
 	private static void addSmelterRecipes()
@@ -357,7 +366,69 @@ public class RegisterRecipes
 												  Items.iron_ingot,
 												  '/',
 												  Items.stick);
+		//Gold armor
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.golden_helmet), new ItemStack[] {
+			new ItemStack(RegisterItems.leatherStrip, 3), new ItemStack(Items.gold_nugget, 2),
+			new ItemStack(Blocks.wool, 2, OreDictionary.WILDCARD_VALUE)}, "III", "I I", 'I', Items.gold_ingot);
+	AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.golden_chestplate),
+											  new ItemStack[] {
+													  new ItemStack(RegisterItems.leatherStrip, 2), new ItemStack(
+													  Items.gold_nugget,
+													  6),
+													  new ItemStack(Blocks.wool, 4, OreDictionary.WILDCARD_VALUE)},
+											  "I I",
+											  "III",
+											  "III",
+											  'I',
+											  Items.gold_ingot);
+	AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.golden_leggings),
+											  new ItemStack[] {
+													  new ItemStack(RegisterItems.leatherStrip, 4), new ItemStack(
+													  Items.gold_nugget,
+													  4),
+													  new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE)},
+											  "III",
+											  "I I",
+											  "I I",
+											  'I',
+											  Items.gold_ingot);
+	AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.golden_boots), new ItemStack[] {
+			new ItemStack(RegisterItems.leatherStrip, 2), new ItemStack(Items.gold_nugget, 3),
+			new ItemStack(Blocks.wool, 3, OreDictionary.WILDCARD_VALUE)}, "I I", "I I", 'I', Items.gold_ingot);
 
+
+		//Gold Weapons/Tools
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.golden_pickaxe), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 3)}, "III", " / ", " / ", 'I', Items.gold_ingot, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.golden_sword), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 2)}, "I", "I", "/", 'I', Items.gold_ingot, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.golden_shovel), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 2)}, "I", "/", "/", 'I', Items.gold_ingot, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.golden_axe), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 2)}, "II", "I/", " /", 'I', Items.gold_ingot, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.golden_axe), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 2)}, "II", "/I", "/ ", 'I', Items.gold_ingot, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.golden_hoe), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 1)}, "II", " /", " /", 'I', Items.gold_ingot, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.golden_hoe), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 1)}, "II", "/ ", "/ ", 'I', Items.gold_ingot, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(RegisterItems.goldKnife),
+												  new ItemStack[] {new ItemStack(RegisterItems.leatherStrip, 2)},
+												  " I",
+												  "/ ",
+												  'I',
+												  Items.gold_ingot,
+												  '/',
+												  Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(RegisterItems.goldKnife),
+												  new ItemStack[] {new ItemStack(RegisterItems.leatherStrip, 2)},
+												  "I ",
+												  " /",
+												  'I',
+												  Items.gold_ingot,
+												  '/',
+												  Items.stick);
+		
 		// Diamond armor
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.diamond_helmet),
 												  new ItemStack[] {new ItemStack(Items.redstone,
@@ -463,6 +534,9 @@ public class RegisterRecipes
 	{
 		ShapedOreRecipe r = new ShapedOreRecipe(new ItemStack(Items.chainmail_helmet), "...", ". .", '.', "nuggetIron");
 
+		//Roasting stick
+		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.roastingStick), " s", "s ", 's', Items.stick);
+		
 		// Knife
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.flintKnife), "F ", " F", 'F', Items.flint);
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.flintKnife), " F", "F ", 'F', Items.flint);

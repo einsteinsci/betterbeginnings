@@ -35,11 +35,13 @@ public class ItemRoastingStickMallow extends Item
 		if (isCooked)
 		{
 			player.inventory.addItemStackToInventory(new ItemStack(RegisterItems.marshmallowCooked));
+			player.inventory.addItemStackToInventory(new ItemStack(RegisterItems.roastingStick));
 			player.inventory.consumeInventoryItem(stack.getItem());
 		}
 		else
 		{
 			player.inventory.addItemStackToInventory(new ItemStack(RegisterItems.marshmallow));
+			player.inventory.addItemStackToInventory(new ItemStack(RegisterItems.roastingStick));
 			player.inventory.consumeInventoryItem(stack.getItem());
 		}
 		player.inventoryContainer.detectAndSendChanges();
