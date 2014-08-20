@@ -1,5 +1,7 @@
 package net.einsteinsci.betterbeginnings.gui;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.inventory.ContainerSmelter;
 import net.einsteinsci.betterbeginnings.renderer.RenderItemPartialTransparency;
@@ -15,6 +17,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+@SideOnly(Side.CLIENT)
 public class GuiSmelter extends GuiContainer
 {
 	private static final ResourceLocation kilnGuiTextures = new ResourceLocation(ModMain.MODID +

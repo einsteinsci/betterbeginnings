@@ -12,6 +12,7 @@ import net.einsteinsci.betterbeginnings.config.BBConfig;
 import net.einsteinsci.betterbeginnings.event.BBEventHandler;
 import net.einsteinsci.betterbeginnings.event.Worldgen;
 import net.einsteinsci.betterbeginnings.network.RepairTableRepairPacket;
+import net.einsteinsci.betterbeginnings.network.ServerProxy;
 import net.einsteinsci.betterbeginnings.register.*;
 import net.einsteinsci.betterbeginnings.register.achievement.RegisterAchievements;
 import net.minecraft.creativetab.CreativeTabs;
@@ -41,13 +42,12 @@ public class ModMain
 	public static final AchievementPage pageBetterBeginnings = new AchievementPage("Better Beginnings",
 																			RegisterAchievements.getAchievements());
 
-	// public BBConfig config = new BBConfig();
 	@Instance(ModMain.MODID)
 	public static ModMain modInstance;
 	public static Configuration configFile;
 	public static SimpleNetworkWrapper network;
-	@SidedProxy(clientSide = "net.einsteinsci.betterbeginnings.ClientProxy",
-				serverSide = "net.einsteinsci.betterbeginnings.ServerProxy")
+	@SidedProxy(clientSide = "net.einsteinsci.betterbeginnings.network.ClientProxy",
+				serverSide = "net.einsteinsci.betterbeginnings.network.ServerProxy")
 	public static ServerProxy proxy;
 	public BBEventHandler eventHandler = new BBEventHandler();
 

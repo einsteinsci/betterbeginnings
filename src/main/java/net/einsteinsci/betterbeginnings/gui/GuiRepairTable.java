@@ -5,6 +5,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.inventory.ContainerRepairTable;
 import net.einsteinsci.betterbeginnings.renderer.RenderItemPartialTransparency;
+import net.einsteinsci.betterbeginnings.tileentity.TileEntityRepairTable;
 import net.einsteinsci.betterbeginnings.util.ChatUtil;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -16,7 +17,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
@@ -25,15 +25,18 @@ public class GuiRepairTable extends GuiContainer
 {
 	private static final ResourceLocation craftingTableGuiTextures = new ResourceLocation(ModMain.MODID +
 																								  ":textures/gui/container/repairTable.png");
-	private ContainerRepairTable container;
+	//private ContainerRepairTable container;
 	private RenderItemPartialTransparency partialTransItemRenderer = new RenderItemPartialTransparency();
 	private EntityPlayer player;
+	private TileEntityRepairTable repairTable;
+	private ContainerRepairTable container;
 
-	public GuiRepairTable(InventoryPlayer invPlayer, World world, int x, int y, int z)
+	public GuiRepairTable(InventoryPlayer invPlayer, TileEntityRepairTable repair)
 	{
-		super(new ContainerRepairTable(invPlayer, world, x, y, z));
-
+		super(new ContainerRepairTable(invPlayer, repair));
 		container = (ContainerRepairTable)inventorySlots;
+
+		repairTable = repair;
 
 		player = invPlayer.player;
 	}

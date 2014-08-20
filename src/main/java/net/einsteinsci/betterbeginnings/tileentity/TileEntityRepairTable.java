@@ -1,19 +1,14 @@
-package net.einsteinsci.betterbeginnings.inventory;
+package net.einsteinsci.betterbeginnings.tileentity;
 
-import net.einsteinsci.betterbeginnings.network.RepairTableRepairPacket;
-import net.einsteinsci.betterbeginnings.register.RegisterBlocks;
 import net.einsteinsci.betterbeginnings.register.RegisterItems;
-import net.einsteinsci.betterbeginnings.tileentity.TileEntityRepairTable;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.*;
-import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.world.World;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Level;
 
@@ -21,197 +16,81 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static net.einsteinsci.betterbeginnings.ModMain.Log;
-import static net.einsteinsci.betterbeginnings.ModMain.network;
 
-public class ContainerRepairTable extends Container
+public class TileEntityRepairTable extends TileEntity implements IInventory
 {
 	public List<ItemStack> requiredItems = new ArrayList<ItemStack>();
 	public int requiredLevels = 0;
 	public int takenLevels = 0;
-	public Slot[] circleSlots = new Slot[9];
-	TileEntityRepairTable repairTable;
-	private World worldObj;
-	private int posX;
-	private int posY;
-	private int posZ;
+	public ItemStack[] stacks = new ItemStack[9];
+	public String customName;
 
-	public ContainerRepairTable(InventoryPlayer invPlayer, TileEntityRepairTable repair)
+	public TileEntityRepairTable()
 	{
-		repairTable = repair;
-
-		worldObj = repair.getWorldObj();
-		posX = repair.xCoord;
-		posY = repair.yCoord;
-		posZ = repair.zCoord;
-		int l;
-		int i1;
-		circleSlots[0] = new Slot(repairTable, 0, 116, 35);
-
-		circleSlots[1] = new Slot(repairTable, 1, 116, 6);
-		circleSlots[2] = new Slot(repairTable, 2, 139, 12);
-		circleSlots[3] = new Slot(repairTable, 3, 145, 35);
-		circleSlots[4] = new Slot(repairTable, 4, 139, 58);
-		circleSlots[5] = new Slot(repairTable, 5, 116, 63);
-		circleSlots[6] = new Slot(repairTable, 6, 93, 58);
-		circleSlots[7] = new Slot(repairTable, 7, 87, 35);
-		circleSlots[8] = new Slot(repairTable, 8, 93, 12);
-
-		for (Slot slot : circleSlots)
-		{
-			addSlotToContainer(slot);
-		}
-
-		for (l = 0; l < 3; ++l)
-		{
-			for (i1 = 0; i1 < 9; ++i1)
-			{
-				addSlotToContainer(new Slot(invPlayer, i1 + l * 9 + 9, 8 + i1 * 18, 84 + l * 18));
-			}
-		}
-
-		for (l = 0; l < 9; ++l)
-		{
-			addSlotToContainer(new Slot(invPlayer, l, 8 + l * 18, 142));
-		}
-	}
-
-	public void repair(EntityPlayer player)
-	{
-		if (!canRepair(player))
-		{
-			Log(Level.ERROR, "Player " + player.getDisplayName() + " is unable to repair tool.");
-		}
-
-		for (int i = 0; i < requiredItems.size(); ++i)
-		{
-			boolean foundIt = false;
-			ItemStack needed = requiredItems.get(i);
-			for (int j = 1; j < circleSlots.length; ++j)
-			{
-				if (circleSlots[j].getStack() != null)
-				{
-					ItemStack tested = circleSlots[j].getStack();
-					if (tested.getItem() == needed.getItem() &&
-							(tested.getItemDamage() == needed.getItemDamage() || needed
-									.getItemDamage() == OreDictionary.WILDCARD_VALUE) &&
-							tested.stackSize >= needed.stackSize)
-					{
-						tested.stackSize -= needed.stackSize;
-						if (tested.stackSize == 0)
-						{
-							tested = null;
-						}
-						break;
-					}
-				}
-			}
-		}
-
-		if (!player.capabilities.isCreativeMode)
-		{
-			player.experienceLevel -= takenLevels;
-
-			// circleSlots[0].getStack().setItemDamage(0);
-			// repairTableInventory.getStackInSlot(0).setItemDamage(0);
-			// ItemStack stack2 = circleSlots[0].getStack().copy();
-			// stack2.setItemDamage(0);
-			// repairTableInventory.setInventorySlotContents(0, stack2);
-
-			// ========================================================================================
-			// BUG HERE
-			// ========================================================================================
-			network.sendToServer(new RepairTableRepairPacket(posX, posY, posZ));
-			// ========================================================================================
-
-
-			player.inventoryContainer.detectAndSendChanges();
-		}
-	}
-
-	public boolean canRepair(EntityPlayer player)
-	{
-		if (circleSlots[0].getStack() != null)
-		{
-			if (!circleSlots[0].getStack().isItemDamaged())
-			{
-				return false;
-			}
-		}
-		else
-		{
-			return false;
-		}
-
-		for (ItemStack needed : requiredItems)
-		{
-			boolean foundIt = false;
-			//ItemStack needed = requiredItems.get(i);
-			for (int j = 1; j < circleSlots.length; ++j)
-			{
-				if (circleSlots[j].getStack() != null)
-				{
-					ItemStack tested = circleSlots[j].getStack();
-					if (tested.getItem() == needed.getItem() &&
-							(tested.getItemDamage() == needed.getItemDamage() || needed
-									.getItemDamage() == OreDictionary.WILDCARD_VALUE) &&
-							tested.stackSize >= needed.stackSize)
-					{
-						foundIt = true;
-						break;
-					}
-				}
-			}
-
-			if (!foundIt)
-			{
-				return false;
-			}
-		}
-
-		if (player.experienceLevel < requiredLevels && !player.capabilities.isCreativeMode)
-		{
-			return false;
-		}
-
-		return true;
+		super();
 	}
 
 	@Override
-	public void detectAndSendChanges()
+	public void readFromNBT(NBTTagCompound tagCompound)
 	{
-		boolean flag = false;
-		for (int i = 0; i < inventorySlots.size(); ++i)
+		super.readFromNBT(tagCompound);
+
+		// ItemStacks
+		NBTTagList tagList = tagCompound.getTagList("Items", 10);
+
+		for (int i = 0; i < tagList.tagCount(); ++i)
 		{
-			ItemStack itemstack = ((Slot)inventorySlots.get(i)).getStack();
-			ItemStack itemstack1 = (ItemStack)inventoryItemStacks.get(i);
+			NBTTagCompound itemTag = tagList.getCompoundTagAt(i);
+			byte slot = itemTag.getByte("Slot");
 
-			if (!ItemStack.areItemStacksEqual(itemstack1, itemstack))
+			if (slot >= 0 && slot < stacks.length)
 			{
-				itemstack1 = itemstack == null ? null : itemstack.copy();
-				inventoryItemStacks.set(i, itemstack1);
-
-				for (Object obj : crafters)
-				{
-					if (obj != null)
-					{
-						((ICrafting)obj).sendSlotContents(this, i, itemstack1);
-					}
-				}
-
-				flag = true;
+				stacks[slot] = ItemStack.loadItemStackFromNBT(itemTag);
 			}
 		}
 
-		if (flag)
+		if (tagCompound.hasKey("CustomName", 8))
 		{
-			getRequiredItems();
+			customName = tagCompound.getString("CustomName");
 		}
 	}
 
-	// Warning: REALLY BIG METHOD
+	@Override
+	public void writeToNBT(NBTTagCompound tagCompound)
+	{
+		super.writeToNBT(tagCompound);
+
+		NBTTagList tagList = new NBTTagList();
+
+		for (int i = 0; i < stacks.length; ++i)
+		{
+			if (stacks[i] != null)
+			{
+				NBTTagCompound itemTag = new NBTTagCompound();
+				stacks[i].writeToNBT(itemTag);
+				itemTag.setByte("Slot", (byte)i);
+				tagList.appendTag(itemTag);
+			}
+		}
+
+		tagCompound.setTag("Items", tagList);
+		if (hasCustomInventoryName())
+		{
+			tagCompound.setString("CustomName", customName);
+		}
+	}
+
+	@Override
+	public void updateEntity()
+	{
+		getRequiredItems();
+	}
+
+	// WARNING: REALLY BIG METHOD
+	@Deprecated
 	public void getRequiredItems()
 	{
-		ItemStack repaired = repairTable.getStackInSlot(0);
+		ItemStack repaired = getStackInSlot(0);
 		requiredItems.clear();
 		requiredLevels = 0;
 		takenLevels = 0;
@@ -248,7 +127,7 @@ public class ContainerRepairTable extends Container
 		else if (repaired.getItem() instanceof ItemTool)
 		{
 			ItemTool tool = (ItemTool)repaired.getItem();
-			ToolMaterial material = ToolMaterial.valueOf(tool.getToolMaterialName());
+			Item.ToolMaterial material = Item.ToolMaterial.valueOf(tool.getToolMaterialName());
 
 			switch (material)
 			{
@@ -287,7 +166,7 @@ public class ContainerRepairTable extends Container
 		else if (repaired.getItem() instanceof ItemSword)
 		{
 			ItemSword sword = (ItemSword)repaired.getItem();
-			ToolMaterial material = ToolMaterial.valueOf(sword.getToolMaterialName());
+			Item.ToolMaterial material = Item.ToolMaterial.valueOf(sword.getToolMaterialName());
 
 			switch (material)
 			{
@@ -482,90 +361,232 @@ public class ContainerRepairTable extends Container
 		}
 	}
 
-	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int slotId)
+	public void repairCenter()
 	{
-		ItemStack itemstack = null;
-		Slot slot = (Slot)inventorySlots.get(slotId);
+		stacks[0].setItemDamage(0);
+	}
 
-		if (slot != null && slot.getHasStack())
+	@Deprecated
+	public void repair(EntityPlayer player)
+	{
+		if (!canRepair(player))
 		{
-			ItemStack itemstack1 = slot.getStack();
-			itemstack = itemstack1.copy();
+			Log(Level.ERROR, "Player " + player.getDisplayName() + " is unable to repair tool.");
+		}
 
-			if (slotId < 9)
+		for (int i = 0; i < requiredItems.size(); ++i)
+		{
+			boolean foundIt = false;
+			ItemStack needed = requiredItems.get(i);
+			for (int j = 1; j < stacks.length; ++j)
 			{
-				if (!mergeItemStack(itemstack1, 9, 45, false))
+				if (stacks[j] != null)
 				{
-					return null;
-				}
-			}
-			else if (slotId >= 9 && slotId <= 44)
-			{
-				if (itemstack != null)
-				{
-					if (itemstack.getItem().isDamageable())
+					ItemStack tested = stacks[j];
+					if (tested.getItem() == needed.getItem() &&
+							(tested.getItemDamage() == needed.getItemDamage() || needed
+									.getItemDamage() == OreDictionary.WILDCARD_VALUE) &&
+							tested.stackSize >= needed.stackSize)
 					{
-						if (!mergeItemStack(itemstack1, 0, 1, false))
+						tested.stackSize -= needed.stackSize;
+						if (tested.stackSize == 0)
 						{
-							return null;
+							tested = null;
 						}
-					}
-					else if (!mergeItemStack(itemstack1, 1, 9, false))
-					{
-						return null;
+						break;
 					}
 				}
 			}
-			else if (!mergeItemStack(itemstack1, 9, 45, false))
+		}
+
+		if (!player.capabilities.isCreativeMode)
+		{
+			player.experienceLevel -= takenLevels;
+		}
+
+		// circleSlots[0].getStack().setItemDamage(0);
+		// repairTableInventory.getStackInSlot(0).setItemDamage(0);
+		// ItemStack stack2 = circleSlots[0].getStack().copy();
+		// stack2.setItemDamage(0);
+		// repairTableInventory.setInventorySlotContents(0, stack2);
+
+		// ========================================================================================
+		// BUG HERE
+		// ========================================================================================
+		//ModMain.network.sendToServer(new RepairTableRepairPacket(circleSlots[0].getStack()));
+		// ========================================================================================
+
+
+		player.inventoryContainer.detectAndSendChanges();
+	}
+
+	public boolean canRepair(EntityPlayer player)
+	{
+		if (stacks[0] != null)
+		{
+			if (!stacks[0].isItemDamaged())
 			{
-				return null;
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
+
+		for (ItemStack needed : requiredItems)
+		{
+			boolean foundIt = false;
+			//ItemStack needed = requiredItems.get(i);
+			for (int j = 1; j < stacks.length; ++j)
+			{
+				if (stacks[j] != null)
+				{
+					ItemStack tested = stacks[j];
+					if (tested.getItem() == needed.getItem() &&
+							(tested.getItemDamage() == needed.getItemDamage() || needed
+									.getItemDamage() == OreDictionary.WILDCARD_VALUE) &&
+							tested.stackSize >= needed.stackSize)
+					{
+						foundIt = true;
+						break;
+					}
+				}
 			}
 
-			if (itemstack1.stackSize == 0)
+			if (!foundIt)
 			{
-				slot.putStack((ItemStack)null);
+				return false;
+			}
+		}
+
+		if (player.experienceLevel < requiredLevels && !player.capabilities.isCreativeMode)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public int getSizeInventory()
+	{
+		return stacks.length;
+	}
+
+	@Override
+	public ItemStack getStackInSlot(int i)
+	{
+		return stacks[i];
+	}
+
+	@Override
+	public ItemStack decrStackSize(int slot, int amount)
+	{
+		if (stacks[slot] != null)
+		{
+			ItemStack stack;
+			if (stacks[slot].stackSize <= amount)
+			{
+				stack = stacks[slot];
+				stacks[slot] = null;
+				return stack;
 			}
 			else
 			{
-				slot.onSlotChanged();
-			}
+				stack = stacks[slot].splitStack(amount);
 
-			if (itemstack1.stackSize == itemstack.stackSize)
-			{
-				return null;
-			}
-
-			slot.onPickupFromSlot(player, itemstack1);
-		}
-
-		return itemstack;
-	}
-
-	@Override
-	public void onContainerClosed(EntityPlayer player)
-	{
-		super.onContainerClosed(player);
-
-		if (!worldObj.isRemote)
-		{
-			for (int i = 0; i < 9; ++i)
-			{
-				ItemStack itemstack = repairTable.getStackInSlotOnClosing(i);
-
-				if (itemstack != null)
+				if (stacks[slot].stackSize == 0)
 				{
-					player.dropPlayerItemWithRandomChoice(itemstack, false);
+					stacks[slot] = null;
 				}
+
+				return stack;
 			}
+		}
+		else
+		{
+			return null;
 		}
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer player)
+	public ItemStack getStackInSlotOnClosing(int slot)
 	{
-		return worldObj.getBlock(posX, posY, posZ) == RegisterBlocks.repairTable &&
-				worldObj.getBlockMetadata(posX, posY, posZ) == 0 &&
-				player.getDistanceSq(posX + 0.5D, posY + 0.5D, posZ + 0.5D) <= 64.0D;
+		if (stacks[slot] != null)
+		{
+			ItemStack stack = stacks[slot];
+			stacks[slot] = null;
+			return stack;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	@Override
+	public void setInventorySlotContents(int slot, ItemStack stack)
+	{
+		stacks[slot] = stack;
+
+		if (stack != null && stack.stackSize > getInventoryStackLimit())
+		{
+			stack.stackSize = getInventoryStackLimit();
+		}
+	}
+
+	@Override
+	public String getInventoryName()
+	{
+		return hasCustomInventoryName() ? customName : "container.repairTable";
+	}
+
+	@Override
+	public boolean hasCustomInventoryName()
+	{
+		return customName != null && customName.length() > 0;
+	}
+
+	@Override
+	public int getInventoryStackLimit()
+	{
+		return 64;
+	}
+
+	@Override
+	public boolean isUseableByPlayer(EntityPlayer player)
+	{
+		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this)
+		{
+			return false;
+		}
+		else
+		{
+			return player.getDistanceSq(xCoord + 0.5d, yCoord + 0.5d, zCoord + 0.5d) <= 64.0d;
+		}
+	}
+
+	@Override
+	public void openInventory()
+	{
+
+	}
+
+	@Override
+	public void closeInventory()
+	{
+
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int slot, ItemStack stack)
+	{
+		if (slot == 0)
+		{
+			return stack.isItemStackDamageable();
+		}
+
+		return true;
 	}
 }

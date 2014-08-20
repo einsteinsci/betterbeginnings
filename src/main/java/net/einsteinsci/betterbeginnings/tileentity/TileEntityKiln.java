@@ -320,27 +320,7 @@ public class TileEntityKiln extends TileEntity implements ISidedInventory
 	@Override
 	public ItemStack getStackInSlot(int i)
 	{
-		// if (stacked == 0)
-		{
-			return kilnStacks[i];
-		}
-
-		/*
-		 * if (stacked == -1) { TileEntityKiln below = (TileEntityKiln)worldObj.getTileEntity(xCoord, yCoord - 1,
-		 * zCoord); if (i == ContainerKilnStacked.INPUTTOP) { return kilnStacks[0]; } else if (i ==
-		 * ContainerKilnStacked.OUTPUTTOP) { return kilnStacks[2]; } else if (i == ContainerKilnStacked.INPUTBOTTOM) {
-		 * return below.kilnStacks[0]; } else if (i == ContainerKilnStacked.OUTPUTBOTTOM) { return below.kilnStacks[2];
-		 * } else if (i == ContainerKilnStacked.FUEL) { return below.kilnStacks[1]; }
-		 *
-		 * return kilnStacks[i]; } else if (stacked == 1) { TileEntityKiln above =
-		 * (TileEntityKiln)worldObj.getTileEntity(xCoord, yCoord + 1, zCoord); if (i == ContainerKilnStacked.INPUTTOP) {
-		 * return above.kilnStacks[0]; } else if (i == ContainerKilnStacked.OUTPUTTOP) { return above.kilnStacks[2]; }
-		 * else if (i == ContainerKilnStacked.INPUTBOTTOM) { return kilnStacks[0]; } else if (i ==
-		 * ContainerKilnStacked.OUTPUTBOTTOM) { return kilnStacks[2]; } else if (i == ContainerKilnStacked.FUEL) {
-		 * return kilnStacks[1]; }
-		 *
-		 * return kilnStacks[i]; } else { return kilnStacks[i]; }
-		 */
+		return kilnStacks[i];
 	}
 
 	@Override
@@ -391,28 +371,7 @@ public class TileEntityKiln extends TileEntity implements ISidedInventory
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack stack)
 	{
-		// if (stacked == 0)
-		// {
 		kilnStacks[slot] = stack;
-		// }
-
-		/*
-		 * if (stacked == -1) { TileEntityKiln below = (TileEntityKiln)worldObj.getTileEntity(xCoord, yCoord - 1,
-		 * zCoord); if (slot == ContainerKilnStacked.INPUTTOP) { kilnStacks[0] = stack; } else if (slot ==
-		 * ContainerKilnStacked.OUTPUTTOP) { kilnStacks[2] = stack; } else if (slot == ContainerKilnStacked.INPUTBOTTOM)
-		 * { below.kilnStacks[0] = stack; } else if (slot == ContainerKilnStacked.OUTPUTBOTTOM) { below.kilnStacks[2] =
-		 * stack; } else if (slot == ContainerKilnStacked.FUEL) { below.kilnStacks[1] = stack; }
-		 *
-		 * kilnStacks[slot] = stack; } else if (stacked == 1) { TileEntityKiln above =
-		 * (TileEntityKiln)worldObj.getTileEntity(xCoord, yCoord + 1, zCoord); if (slot ==
-		 * ContainerKilnStacked.INPUTTOP) { above.kilnStacks[0] = stack; } else if (slot ==
-		 * ContainerKilnStacked.OUTPUTTOP) { above.kilnStacks[2] = stack; } else if (slot ==
-		 * ContainerKilnStacked.INPUTBOTTOM) { kilnStacks[0] = stack; } else if (slot ==
-		 * ContainerKilnStacked.OUTPUTBOTTOM) { kilnStacks[2] = stack; } else if (slot == ContainerKilnStacked.FUEL) {
-		 * kilnStacks[1] = stack; }
-		 *
-		 * kilnStacks[slot] = stack; } else { kilnStacks[slot] = stack; }
-		 */
 
 		if (stack != null && stack.stackSize > getInventoryStackLimit())
 		{

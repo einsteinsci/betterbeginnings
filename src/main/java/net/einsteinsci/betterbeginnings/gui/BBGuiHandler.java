@@ -52,7 +52,8 @@ public class BBGuiHandler implements IGuiHandler
 
 		if (ID == REPAIRTABLE_ID)
 		{
-			return new ContainerRepairTable(player.inventory, world, x, y, z);
+			TileEntityRepairTable repair = (TileEntityRepairTable)world.getTileEntity(x, y, z);
+			return new ContainerRepairTable(player.inventory, repair);
 		}
 
 		if (ID == OBSIDIANKILN_ID)
@@ -97,7 +98,8 @@ public class BBGuiHandler implements IGuiHandler
 
 		if (ID == REPAIRTABLE_ID)
 		{
-			return new GuiRepairTable(player.inventory, world, x, y, z);
+			TileEntityRepairTable repair = (TileEntityRepairTable)world.getTileEntity(x, y, z);
+			return new GuiRepairTable(player.inventory, repair);
 		}
 
 		if (ID == OBSIDIANKILN_ID)

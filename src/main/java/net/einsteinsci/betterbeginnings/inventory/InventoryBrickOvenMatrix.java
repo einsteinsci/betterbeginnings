@@ -67,7 +67,7 @@ public class InventoryBrickOvenMatrix extends InventoryCrafting implements IInve
 	}
 
 	/**
-	 * Returns the name of the inventory
+	 * Returns the customName of the inventory
 	 */
 	@Override
 	public String getInventoryName()
@@ -171,7 +171,7 @@ public class InventoryBrickOvenMatrix extends InventoryCrafting implements IInve
 	}
 
 	/**
-	 * Do not make give this method the name canInteractWith because it clashes
+	 * Do not make give this method the customName canInteractWith because it clashes
 	 * with Container
 	 */
 	@Override
