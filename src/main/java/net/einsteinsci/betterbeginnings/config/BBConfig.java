@@ -13,7 +13,8 @@ public class BBConfig
 	public static boolean canMakeChainArmor;
 	public static boolean flamingAnimalsDropCharredMeat;
 	public static boolean moreBones;
-
+	public static boolean spawnMarshmallows;
+	
 	public BBConfig()
 	{
 		greetUser = true;
@@ -23,6 +24,7 @@ public class BBConfig
 		canMakeChainArmor = true;
 		flamingAnimalsDropCharredMeat = true;
 		moreBones = true;
+		spawnMarshmallows = true;
 	}
 
 	public static void syncConfig(Configuration config)
@@ -46,7 +48,7 @@ public class BBConfig
 				config.getBoolean("flamingAnimalsDropCharredMeat", GENERAL, true,
 								  "Animals that die by flame drop charred meat instead of vanilla cooked meat");
 		moreBones = config.getBoolean("moreBones", GENERAL, true, "Almost all mobs drop bones, not just skeletons");
-
+		spawnMarshmallows = config.getBoolean("spawnMarshmallows", GENERAL, true, "Marshmallows spawn in dungeons, mineshafts, desert temples, and jungle temples.");
 		if (config.hasChanged())
 		{
 			config.save();
