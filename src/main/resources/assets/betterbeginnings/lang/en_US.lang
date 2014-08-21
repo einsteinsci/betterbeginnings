@@ -9,6 +9,8 @@ tile.infusionRepairStation.name=Infusion Repair Station
 tile.Campfire.name=Campfire
 tile.obsidianKiln.name=Obsidian Kiln
 tile.obsidianKilnLit.name=Obsidian Kiln (Lit)
+tile.enderSmelter.name=Ender Smelter
+tile.enderSmelterLit.name=Ender Smelter (Lit)
 
 item.flintKnife.name=Flint Knife
 item.boneKnife.name=Bone Knife
@@ -47,17 +49,11 @@ container.craftingdouble=Advanced Crafting
 container.kiln=Kiln
 container.brickoven=Brick Oven
 container.smelter=Smelter
-container.repairTable=Repair Table
-container.repairTable.minLevel=Minimum level
-container.repairTable.levelCost=Level cost
-container.repairTable.level= Levels
-container.repairTable.repair=Repair
-container.repairTable.notNeeded.0=Repair not
-container.repairTable.notNeeded.1=needed!
 container.infusion.needed=Needed
 container.infusion.taken=Taken
 container.infusion.level=L
 container.obsidianKiln=Obsidian Kiln
+container.enderSmelter=Ender Smelter
 
 achievement.flintKnife=Survival of the Fittest
 achievement.flintKnife.desc=Craft a flint knife out of two flint

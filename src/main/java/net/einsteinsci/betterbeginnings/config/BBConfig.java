@@ -15,6 +15,7 @@ public class BBConfig
 	public static boolean flamingAnimalsDropCharredMeat;
 	public static boolean moreBones;
 	public static boolean spawnMarshmallows;
+	public static boolean canSmelterDoKilnStuff;
 	
 	public BBConfig()
 	{
@@ -26,6 +27,7 @@ public class BBConfig
 		flamingAnimalsDropCharredMeat = true;
 		moreBones = true;
 		spawnMarshmallows = true;
+		canSmelterDoKilnStuff = true;
 	}
 
 	public static void syncConfig(Configuration config)
@@ -49,7 +51,15 @@ public class BBConfig
 				config.getBoolean("flamingAnimalsDropCharredMeat", GENERAL, true,
 								  "Animals that die by flame drop charred meat instead of vanilla cooked meat");
 		moreBones = config.getBoolean("moreBones", GENERAL, true, "Almost all mobs drop bones, not just skeletons");
-		spawnMarshmallows = config.getBoolean("spawnMarshmallows", GENERAL, true, "Marshmallows spawn in dungeons, mineshafts, desert temples, and jungle temples.");
+		spawnMarshmallows = config.getBoolean("spawnMarshmallows",
+		                                      GENERAL,
+		                                      true,
+		                                      "Marshmallows spawn in dungeons, mineshafts, desert temples, and jungle temples.");
+		canSmelterDoKilnStuff = config.getBoolean("canSmelterDoKilnStuff",
+		                                          CRAFTING,
+		                                          false,
+		                                          "Allow smelter to make glass, bricks, smooth stone, etc.");
+
 		if (config.hasChanged())
 		{
 			config.save();

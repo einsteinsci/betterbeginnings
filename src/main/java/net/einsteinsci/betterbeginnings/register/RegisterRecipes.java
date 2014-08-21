@@ -119,27 +119,31 @@ public class RegisterRecipes
 
 	private static void addSmelterRecipes()
 	{
-		SmelterRecipeHandler.addRecipe(Blocks.iron_ore, new ItemStack(Items.iron_ingot), 0.7f, 1);
-		SmelterRecipeHandler.addRecipe(Blocks.gold_ore, new ItemStack(Items.gold_ingot), 1.0f, 2);
-
-		SmelterRecipeHandler.addRecipe(new ItemStack(Blocks.sand, 1, 0), new ItemStack(Blocks.glass), 0.1f, 1);
-		SmelterRecipeHandler.addRecipe(new ItemStack(Blocks.sand, 1, 1), new ItemStack(Blocks.stained_glass, 1, 1),
-									   0.1f, 1); // Red sand makes orange stained glass.
-		SmelterRecipeHandler.addRecipe(Blocks.netherrack, new ItemStack(Items.netherbrick), 0.25f, 1);
-		SmelterRecipeHandler.addRecipe(Blocks.stonebrick, new ItemStack(Blocks.stonebrick, 1, 2), 0.1f, 1);
+		SmelterRecipeHandler.addRecipe(Blocks.iron_ore, new ItemStack(Items.iron_ingot), 0.7f, 1, 1, 0.3f);
+		SmelterRecipeHandler.addRecipe(Blocks.gold_ore, new ItemStack(Items.gold_ingot), 1.0f, 2, 1, 0.2f);
 
 		// Recipes that might be better suited in Kiln only
-		SmelterRecipeHandler.addRecipe(Blocks.cobblestone, new ItemStack(Blocks.stone), 0.1f, 0);
-		SmelterRecipeHandler.addRecipe(Items.brick, new ItemStack(Items.clay_ball), 0.3f, 0);
-		SmelterRecipeHandler.addRecipe(Blocks.clay, new ItemStack(Blocks.hardened_clay), 0.35f, 0);
+		if (BBConfig.canSmelterDoKilnStuff)
+		{
+			SmelterRecipeHandler
+					.addRecipe(new ItemStack(Blocks.sand, 1, 0), new ItemStack(Blocks.glass), 0.1f, 1, 0, 0.0f);
+			SmelterRecipeHandler
+					.addRecipe(new ItemStack(Blocks.sand, 1, 1), new ItemStack(Blocks.stained_glass, 1, 1),
+					           0.1f, 1, 0, 0.0f); // Red sand makes orange stained glass.
+			SmelterRecipeHandler.addRecipe(Blocks.netherrack, new ItemStack(Items.netherbrick), 0.25f, 1, 1, 0.25f);
+			SmelterRecipeHandler.addRecipe(Blocks.stonebrick, new ItemStack(Blocks.stonebrick, 1, 2), 0.1f, 1, 0, 0.0f);
 
-		// Yes, ore doubling.
-		SmelterRecipeHandler.addRecipe(Blocks.coal_ore, new ItemStack(Items.coal, 2), 0.25f, 2);
-		SmelterRecipeHandler.addRecipe(Blocks.quartz_ore, new ItemStack(Items.quartz, 2), 0.4f, 2);
-		SmelterRecipeHandler.addRecipe(Blocks.lapis_ore, new ItemStack(Items.dye, 12, 4), 0.5f, 2);
-		SmelterRecipeHandler.addRecipe(Blocks.redstone_ore, new ItemStack(Items.redstone, 8), 0.8f, 2);
-		SmelterRecipeHandler.addRecipe(Blocks.diamond_ore, new ItemStack(Items.diamond, 2), 1.0f, 3);
-		SmelterRecipeHandler.addRecipe(Blocks.emerald_ore, new ItemStack(Items.emerald, 2), 1.0f, 3);
+			SmelterRecipeHandler.addRecipe(Blocks.cobblestone, new ItemStack(Blocks.stone), 0.1f, 0, 0, 0.0f);
+			SmelterRecipeHandler.addRecipe(Items.brick, new ItemStack(Items.clay_ball), 0.3f, 0, 0, 0.0f);
+			SmelterRecipeHandler.addRecipe(Blocks.clay, new ItemStack(Blocks.hardened_clay), 0.35f, 0, 0, 0.0f);
+		}
+
+		SmelterRecipeHandler.addRecipe(Blocks.coal_ore, new ItemStack(Items.coal, 1), 0.25f, 2, 2, 0.8f);
+		SmelterRecipeHandler.addRecipe(Blocks.quartz_ore, new ItemStack(Items.quartz, 2), 0.4f, 2, 4, 0.6f);
+		SmelterRecipeHandler.addRecipe(Blocks.lapis_ore, new ItemStack(Items.dye, 8, 4), 0.5f, 2, 8, 0.8f);
+		SmelterRecipeHandler.addRecipe(Blocks.redstone_ore, new ItemStack(Items.redstone, 4), 0.8f, 2, 4, 0.6f);
+		SmelterRecipeHandler.addRecipe(Blocks.diamond_ore, new ItemStack(Items.diamond, 1), 1.0f, 3, 2, 0.3f);
+		SmelterRecipeHandler.addRecipe(Blocks.emerald_ore, new ItemStack(Items.emerald, 1), 1.0f, 3, 2, 0.5f);
 	}
 
 	public static void addAdvancedRecipes()
@@ -525,6 +529,20 @@ public class RegisterRecipes
 		                                          "OKO",
 		                                          "ROR",
 		                                          'R', Items.redstone, 'O', Blocks.obsidian, 'K', RegisterBlocks.kiln);
+
+		// Ender Smelter
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(RegisterBlocks.enderSmelter),
+		                                          new ItemStack[] {new ItemStack(Items.ender_pearl, 4),
+				                                          new ItemStack(RegisterItems.ironNugget, 4)},
+		                                          "#E#",
+		                                          "#S#",
+		                                          "#E#",
+		                                          '#',
+		                                          Blocks.end_stone,
+		                                          'S',
+		                                          RegisterBlocks.smelter,
+		                                          'E',
+		                                          Items.ender_eye);
 	}
 
 	public static void addShapedRecipes()

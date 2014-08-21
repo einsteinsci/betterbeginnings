@@ -12,9 +12,7 @@ public class SmelterRecipeHandler
 {
 	private static final SmelterRecipeHandler SMELTINGBASE = new SmelterRecipeHandler();
 
-	// private Map smeltingList = new HashMap();
 	private Map experienceList = new HashMap();
-	// private Map gravelMap = new HashMap();
 
 	private List<SmelterRecipe> recipes = new ArrayList<SmelterRecipe>();
 
@@ -23,14 +21,14 @@ public class SmelterRecipeHandler
 		// nothing here
 	}
 
-	public static void addRecipe(Item input, ItemStack output, float experience, int gravel)
+	public static void addRecipe(Item input, ItemStack output, float experience, int gravel, int bonus, float chance)
 	{
-		smelting().addLists(input, output, experience, gravel);
+		smelting().addLists(input, output, experience, gravel, bonus, chance);
 	}
 
-	public void addLists(Item input, ItemStack output, float experience, int gravel)
+	public void addLists(Item input, ItemStack output, float experience, int gravel, int bonus, float chance)
 	{
-		putLists(new ItemStack(input, 1, OreDictionary.WILDCARD_VALUE), output, experience, gravel);
+		putLists(new ItemStack(input, 1, OreDictionary.WILDCARD_VALUE), output, experience, gravel, bonus, chance);
 	}
 
 	public static SmelterRecipeHandler smelting()
@@ -38,23 +36,23 @@ public class SmelterRecipeHandler
 		return SMELTINGBASE;
 	}
 
-	public void putLists(ItemStack input, ItemStack output, float experience, int gravel)
+	public void putLists(ItemStack input, ItemStack output, float experience, int gravel, int bonus, float chance)
 	{
 		// smeltingList.put(input, output);
 		experienceList.put(output, Float.valueOf(experience));
 		// gravelMap.put(output, Integer.valueOf(gravel));
 
-		recipes.add(new SmelterRecipe(output, input, experience, gravel));
+		recipes.add(new SmelterRecipe(output, input, experience, gravel, bonus, chance));
 	}
 
-	public static void addRecipe(Block input, ItemStack output, float experience, int gravel)
+	public static void addRecipe(Block input, ItemStack output, float experience, int gravel, int bonus, float chance)
 	{
-		smelting().addLists(Item.getItemFromBlock(input), output, experience, gravel);
+		smelting().addLists(Item.getItemFromBlock(input), output, experience, gravel, bonus, chance);
 	}
 
-	public static void addRecipe(ItemStack input, ItemStack output, float experience, int gravel)
+	public static void addRecipe(ItemStack input, ItemStack output, float experience, int gravel, int bonus, float chance)
 	{
-		smelting().putLists(input, output, experience, gravel);
+		smelting().putLists(input, output, experience, gravel, bonus, chance);
 	}
 
 	public ItemStack getSmeltingResult(ItemStack input)
@@ -68,21 +66,6 @@ public class SmelterRecipeHandler
 		}
 
 		return null;
-
-		// Iterator iterator = smeltingList.entrySet().iterator();
-		// Entry entry;
-		//
-		// do
-		// {
-		// if (!iterator.hasNext())
-		// {
-		// return null;
-		// }
-		//
-		// entry = (Entry)iterator.next();
-		// } while (!canBeSmelted(input, (ItemStack)entry.getKey()));
-		//
-		// return (ItemStack)entry.getValue();
 	}
 
 	public int getGravelCount(ItemStack stack)
@@ -96,21 +79,6 @@ public class SmelterRecipeHandler
 		}
 
 		return -1;
-
-		// Iterator iterator = gravelMap.entrySet().iterator();
-		// Entry entry;
-		//
-		// do
-		// {
-		// if (!iterator.hasNext())
-		// {
-		// return 0;
-		// }
-		//
-		// entry = (Entry)iterator.next();
-		// } while (!canBeSmelted(stack, (ItemStack)entry.getKey()));
-		//
-		// return (int)entry.getValue();
 	}
 
 	public float giveExperience(ItemStack stack)
@@ -141,5 +109,31 @@ public class SmelterRecipeHandler
 		return stack2.getItem() == stack.getItem() &&
 				(stack2.getItemDamage() == OreDictionary.WILDCARD_VALUE || stack2.getItemDamage() == stack
 						.getItemDamage());
+	}
+
+	public int getBonus(ItemStack input)
+	{
+		for (SmelterRecipe recipe : recipes)
+		{
+			if (recipe.getInput().getItem() == input.getItem())
+			{
+				return recipe.getBonus();
+			}
+		}
+
+		return 0;
+	}
+
+	public float getBonusChance(ItemStack input)
+	{
+		for (SmelterRecipe recipe : recipes)
+		{
+			if (recipe.getInput().getItem() == input.getItem())
+			{
+				return recipe.getBonusChance();
+			}
+		}
+
+		return 0.0f;
 	}
 }
