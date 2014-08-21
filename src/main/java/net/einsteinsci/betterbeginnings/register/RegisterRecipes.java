@@ -512,7 +512,7 @@ public class RegisterRecipes
 				new ItemStack(RegisterItems.leatherStrip, 1)}, "D ", " /", 'D', Items.diamond, '/', Items.stick);
 
 		// Repair Table
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(RegisterBlocks.repairTable),
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(RegisterBlocks.infusionRepairStation),
 												  new ItemStack[] {new ItemStack(Items.redstone, 32), new ItemStack(
 														  Items.blaze_powder,
 														  16),

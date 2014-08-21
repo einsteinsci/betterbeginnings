@@ -5,13 +5,13 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
-public class InventoryRepairTable implements IInventory
+public class InventoryInfusionRepair implements IInventory
 {
 	public ItemStack[] stackList;
 	public Container eventHandler;
 	private int inventorySize;
 
-	public InventoryRepairTable(Container container, int size)
+	public InventoryInfusionRepair(Container container, int size)
 	{
 		stackList = new ItemStack[size];
 		eventHandler = container;

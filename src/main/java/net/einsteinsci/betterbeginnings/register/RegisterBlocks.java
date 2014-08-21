@@ -12,7 +12,6 @@ public class RegisterBlocks
 	public static final Block brickOvenLit = new BlockBrickOven(true);
 	public static final Block smelter = new BlockSmelter(false);
 	public static final Block smelterLit = new BlockSmelter(true);
-	public static final Block repairTable = new BlockRepairTable();
 	public static final Block infusionRepairStation = new BlockInfusionRepairStation();
 	public static final Block campfire = new BlockCampfire(false);
 	public static final Block campfireLit = new BlockCampfire(true);
@@ -32,7 +31,6 @@ public class RegisterBlocks
 		RegisterHelper.registerBlock(smelter);
 		RegisterHelper.registerBlock(smelterLit);
 
-		//RegisterHelper.registerBlock(repairTable);
 		RegisterHelper.registerBlock(infusionRepairStation);
 
 		RegisterHelper.registerBlock(campfire);

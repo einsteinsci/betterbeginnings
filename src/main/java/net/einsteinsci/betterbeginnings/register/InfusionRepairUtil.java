@@ -1,6 +1,6 @@
 package net.einsteinsci.betterbeginnings.register;
 
-import net.einsteinsci.betterbeginnings.inventory.InventoryRepairTable;
+import net.einsteinsci.betterbeginnings.inventory.InventoryInfusionRepair;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -16,12 +16,12 @@ import java.util.ArrayList;
  */
 public class InfusionRepairUtil
 {
-	public static boolean canRepair(InventoryRepairTable repairTable, EntityPlayer player)
+	public static boolean canRepair(InventoryInfusionRepair repairTable, EntityPlayer player)
 	{
 		return canRepairIgnoreXp(repairTable) && player.experienceLevel > getNeededLevels(repairTable);
 	}
 
-	public static boolean canRepairIgnoreXp(InventoryRepairTable repairTable)
+	public static boolean canRepairIgnoreXp(InventoryInfusionRepair repairTable)
 	{
 		ArrayList<ItemStack> requiredItems = getRequiredStacks(repairTable);
 
@@ -63,7 +63,7 @@ public class InfusionRepairUtil
 		return true;
 	}
 
-	public static int getNeededLevels(InventoryRepairTable repairTable)
+	public static int getNeededLevels(InventoryInfusionRepair repairTable)
 	{
 		ItemStack infusedItem = repairTable.getStackInSlot(0);
 
@@ -174,7 +174,7 @@ public class InfusionRepairUtil
 		return 0;
 	}
 
-	public static ArrayList<ItemStack> getRequiredStacks(InventoryRepairTable repairTable)
+	public static ArrayList<ItemStack> getRequiredStacks(InventoryInfusionRepair repairTable)
 	{
 		ArrayList<ItemStack> requiredItems = new ArrayList<ItemStack>();
 
@@ -396,7 +396,7 @@ public class InfusionRepairUtil
 		return requiredItems;
 	}
 
-	public static int getTakenLevels(InventoryRepairTable repairTable)
+	public static int getTakenLevels(InventoryInfusionRepair repairTable)
 	{
 		ItemStack infusedItem = repairTable.getStackInSlot(0);
 

@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 public class ContainerInfusionRepair extends Container
 {
 	public Slot[] circleSlots = new Slot[9];
-	public InventoryRepairTable inputs = new InventoryRepairTable(this, 9);
+	public InventoryInfusionRepair inputs = new InventoryInfusionRepair(this, 9);
 	public IInventory output = new InventoryCraftResult();
 	public World worldObj;
 	EntityPlayer player;

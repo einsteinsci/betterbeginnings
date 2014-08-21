@@ -33,7 +33,7 @@ public class SlotInfusionRepairResult extends SlotCrafting
 		FMLCommonHandler.instance().firePlayerCraftingEvent(player, stack, inputSlots);
 		onCrafting(stack);
 
-		InventoryRepairTable inputs = (InventoryRepairTable)inputSlots;
+		InventoryInfusionRepair inputs = (InventoryInfusionRepair)inputSlots;
 
 		ArrayList<ItemStack> required = InfusionRepairUtil.getRequiredStacks(inputs);
 

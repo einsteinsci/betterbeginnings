@@ -11,7 +11,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.einsteinsci.betterbeginnings.config.BBConfig;
 import net.einsteinsci.betterbeginnings.event.BBEventHandler;
 import net.einsteinsci.betterbeginnings.event.Worldgen;
-import net.einsteinsci.betterbeginnings.network.RepairTableRepairPacket;
 import net.einsteinsci.betterbeginnings.network.ServerProxy;
 import net.einsteinsci.betterbeginnings.register.*;
 import net.einsteinsci.betterbeginnings.register.achievement.RegisterAchievements;
@@ -23,7 +22,7 @@ import net.minecraftforge.common.config.Configuration;
 import org.apache.logging.log4j.Level;
 
 @Mod(modid = ModMain.MODID, version = ModMain.VERSION, name = ModMain.NAME,
-	 guiFactory = "net.einsteinsci.betterbeginnings.config.BBConfigGuiFactory")
+     guiFactory = "net.einsteinsci.betterbeginnings.config.BBConfigGuiFactory")
 public class ModMain
 {
 	public static final String MODID = "betterbeginnings";
@@ -40,14 +39,15 @@ public class ModMain
 		}
 	};
 	public static final AchievementPage pageBetterBeginnings = new AchievementPage("Better Beginnings",
-																			RegisterAchievements.getAchievements());
+	                                                                               RegisterAchievements
+			                                                                               .getAchievements());
 
 	@Instance(ModMain.MODID)
 	public static ModMain modInstance;
 	public static Configuration configFile;
 	public static SimpleNetworkWrapper network;
 	@SidedProxy(clientSide = "net.einsteinsci.betterbeginnings.network.ClientProxy",
-				serverSide = "net.einsteinsci.betterbeginnings.network.ServerProxy")
+	            serverSide = "net.einsteinsci.betterbeginnings.network.ServerProxy")
 	public static ServerProxy proxy;
 	public BBEventHandler eventHandler = new BBEventHandler();
 
@@ -67,8 +67,6 @@ public class ModMain
 		MinecraftForge.EVENT_BUS.register(eventHandler);
 
 		network = NetworkRegistry.INSTANCE.newSimpleChannel("betterbeginnings");
-		network.registerMessage(RepairTableRepairPacket.Handler.class, RepairTableRepairPacket.class,
-								PACKET_REPAIR_TABLE_REPAIR, Side.SERVER);
 
 		RegisterItems.register();
 		RegisterBlocks.register();
@@ -104,7 +102,6 @@ public class ModMain
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent e)
 	{
-		// RemoveRecipes.removeFurnaceRecipes();
 		RegisterItems.tweakVanilla();
 	}
 }
