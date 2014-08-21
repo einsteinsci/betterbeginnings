@@ -61,6 +61,12 @@ public class ItemKnife extends ItemTool
 		return false;
 	}
 
+	@Override
+	public boolean doesContainerItemLeaveCraftingGrid(ItemStack stack)
+	{
+		return false;
+	}
+
 	// ...which also requires this...
 	@Override
 	public ItemStack getContainerItem(ItemStack itemStack)
