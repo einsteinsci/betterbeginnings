@@ -7,7 +7,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class RegisterRecipes
 {
@@ -476,16 +475,13 @@ public class RegisterRecipes
 		// Diamond Tools/Weapons
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.diamond_pickaxe),
 												  new ItemStack[] {
-														  new ItemStack(Items.redstone,
-																		5), new ItemStack(Items.blaze_powder, 3),
+														  new ItemStack(Items.redstone, 5),
 														  new ItemStack(RegisterItems.leatherStrip, 3)},
 												  "DDD",
 												  " / ",
 												  " / ",
-												  'D',
-												  Items.diamond,
-												  '/',
-												  Items.stick);
+												  'D', Items.diamond,
+												  '/', Items.stick);
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.diamond_sword), new ItemStack[] {
 				new ItemStack(Items.redstone, 4), new ItemStack(Items.blaze_powder, 5),
 				new ItemStack(RegisterItems.leatherStrip, 2)}, "D", "D", "/", 'D', Items.diamond, '/', Items.stick);
@@ -513,27 +509,26 @@ public class RegisterRecipes
 
 		// Repair Table
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(RegisterBlocks.infusionRepairStation),
-												  new ItemStack[] {new ItemStack(Items.redstone, 32), new ItemStack(
-														  Items.blaze_powder,
-														  16),
+		                                          new ItemStack[] {new ItemStack(Items.redstone, 32),
+				                                          new ItemStack(Items.blaze_powder, 16),
 														  new ItemStack(Items.dye, 32, 4)},
 												  "DID",
 												  "OSO",
 												  "OOO",
-												  'D',
-												  Items.diamond,
-												  'I',
-												  Blocks.iron_block,
-												  'S',
-												  Blocks.bookshelf,
-												  'O',
-												  Blocks.obsidian);
+												  'D', Items.diamond, 'I', Blocks.iron_block,
+												  'S', Blocks.bookshelf, 'O', Blocks.obsidian);
+
+		// Obsidian Kiln
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(RegisterBlocks.obsidianKiln),
+		                                          new ItemStack[] {new ItemStack(Items.redstone, 16)},
+		                                          "ROR",
+		                                          "OKO",
+		                                          "ROR",
+		                                          'R', Items.redstone, 'O', Blocks.obsidian, 'K', RegisterBlocks.kiln);
 	}
 
 	public static void addShapedRecipes()
 	{
-		ShapedOreRecipe r = new ShapedOreRecipe(new ItemStack(Items.chainmail_helmet), "...", ". .", '.', "nuggetIron");
-
 		//Roasting stick
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.roastingStick), " s", "s ", 's', Items.stick);
 		

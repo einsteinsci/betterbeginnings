@@ -28,7 +28,6 @@ public class ModMain
 	public static final String MODID = "betterbeginnings";
 	public static final String VERSION = "0.0.6.0";
 	public static final String NAME = "Better Beginnings";
-	public static final int PACKET_REPAIR_TABLE_REPAIR = 0;
 	public static final CreativeTabs tabBetterBeginnings = new CreativeTabs("tabBetterBeginnings")
 	{
 		@Override
@@ -71,8 +70,6 @@ public class ModMain
 		RegisterItems.register();
 		RegisterBlocks.register();
 		RegisterTileEntities.register();
-
-		// armorMaterialCloth.customCraftingMaterial = RegisterItems.cloth;
 	}
 
 	public static void Log(String text)
