@@ -217,8 +217,7 @@ public class BBEventHandler
 	{
 		if (e.crafting.getItem() == RegisterItems.flintKnife)
 		{
-			e.player.addStat(RegisterAchievements.makeSticks, 1);
-			ChatUtil.sendChatToPlayer(e.player, "Flint Knife crafted.");
+			e.player.addStat(RegisterAchievements.flintKnife, 1);
 		}
 
 		for (int i = 0; i < e.craftMatrix.getSizeInventory(); ++i)

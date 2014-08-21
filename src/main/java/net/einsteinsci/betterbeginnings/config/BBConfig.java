@@ -5,6 +5,7 @@ import net.minecraftforge.common.config.Configuration;
 public class BBConfig
 {
 	public static final String GENERAL = Configuration.CATEGORY_GENERAL;
+	public static final String CRAFTING = "crafting";
 
 	public static boolean greetUser;
 	public static boolean advancedCraftingForLotsOfThings;
@@ -31,18 +32,18 @@ public class BBConfig
 	{
 		greetUser = config.getBoolean("greetUser", GENERAL, true, "Greet user upon login");
 		advancedCraftingForLotsOfThings =
-				config.getBoolean("advancedCraftingForLotsOfThings", GENERAL, true,
+				config.getBoolean("advancedCraftingForLotsOfThings", CRAFTING, true,
 								  "Require Advanced Crafting for things like doors, pistons, chests, etc.");
 		canMakeVanillaWorkbench =
-				config.getBoolean("canMakeVanillaWorkbench", GENERAL, true,
+				config.getBoolean("canMakeVanillaWorkbench", CRAFTING, true,
 								  "Provide alternative recipe for vanilla crafting table");
 		canMakeVanillaFurnace =
 				config.getBoolean("canMakeVanillaFurnace",
-								  GENERAL,
+				                  CRAFTING,
 								  true,
 								  "Provide alternative recipe for vanilla furnace");
 		canMakeChainArmor =
-				config.getBoolean("canMakeChainArmor", GENERAL, true,
+				config.getBoolean("canMakeChainArmor", CRAFTING, true,
 								  "Allow vanilla chain armor to be craftable from iron nuggets");
 		flamingAnimalsDropCharredMeat =
 				config.getBoolean("flamingAnimalsDropCharredMeat", GENERAL, true,
