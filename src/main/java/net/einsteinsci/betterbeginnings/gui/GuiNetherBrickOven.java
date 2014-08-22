@@ -55,7 +55,10 @@ public class GuiNetherBrickOven extends GuiContainer
 	private void drawFluidTooltip(int x, int y)
 	{
 		List<String> lines = new ArrayList<>();
-		lines.add("" + tileBrickOven.getFuelLevel() + " mB");
+		TileEntityNetherBrickOven oven = (TileEntityNetherBrickOven)tileBrickOven.getWorldObj().
+				getTileEntity(tileBrickOven.xCoord, tileBrickOven.yCoord, tileBrickOven.zCoord);
+
+		lines.add("" + oven.getFuelLevel() + " mB");
 		func_146283_a(lines, x, y); //Draw tooltip
 	}
 
@@ -71,7 +74,7 @@ public class GuiNetherBrickOven extends GuiContainer
 		int i1;
 
 		i1 = tileBrickOven.getCookProgressScaled(24);
-		drawTexturedModalRect(k + 89, l + 20, 176, 14, i1 + 1, 16);
+		drawTexturedModalRect(k + 103, l + 34, 176, 14, i1 + 1, 16);
 
 		int tankFillPx = tileBrickOven.getFuelLevelScaled(48);
 		drawTexturedModalRect(k + 17, l + 57 - tankFillPx, 176, 78 - tankFillPx, 16, tankFillPx);

@@ -140,6 +140,7 @@ public class BrickOvenRecipeHandler
 
 		BrickOvenShapelessRecipe recipe = new BrickOvenShapelessRecipe(output, arraylist);
 		recipes.add(recipe);
+
 		return recipe;
 	}
 

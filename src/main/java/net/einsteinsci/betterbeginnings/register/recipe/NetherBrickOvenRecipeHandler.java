@@ -1,6 +1,5 @@
 package net.einsteinsci.betterbeginnings.register.recipe;
 
-import net.einsteinsci.betterbeginnings.tileentity.TileEntityBrickOven;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityNetherBrickOven;
 import net.minecraft.item.ItemStack;
 
@@ -28,7 +27,7 @@ public class NetherBrickOvenRecipeHandler extends BrickOvenRecipeHandler
 		ItemStack itemstack1 = null;
 		int j;
 
-		for (j = TileEntityBrickOven.INPUTSTART; j < oven.getSizeInventory(); ++j)
+		for (j = TileEntityNetherBrickOven.INPUTSTART; j < oven.getSizeInventory(); ++j)
 		{
 			ItemStack itemstack2 = oven.getStackInSlot(j);
 			// System.out.println("\nBrickOvenRecipeHandler.findMatchingRecipe(): j = " + j);
@@ -49,7 +48,7 @@ public class NetherBrickOvenRecipeHandler extends BrickOvenRecipeHandler
 			}
 		}
 
-		for (IBrickOvenRecipe recipe : recipes)
+		for (IBrickOvenRecipe recipe : BrickOvenRecipeHandler.instance().recipes)
 		{
 			// IBrickOvenRecipe recipe = (IBrickOvenRecipe)recipes.get(j);
 

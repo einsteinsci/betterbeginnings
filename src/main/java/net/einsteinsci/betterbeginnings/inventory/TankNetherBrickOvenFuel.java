@@ -40,4 +40,14 @@ public class TankNetherBrickOvenFuel extends FluidTank implements IFluidTank
 		}
 		return false;
 	}
+
+	@Override
+	public int getFluidAmount()
+	{
+		if (fluid == null)
+		{
+			return 0;
+		}
+		return fluid.amount;
+	}
 }

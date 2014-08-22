@@ -34,8 +34,8 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 	//public int ovenBurnTime;
 	//public int currentItemBurnLength;
 	public int ovenCookTime;
+	public TankNetherBrickOvenFuel fuelTank;
 	private ItemStack[] ovenStacks = new ItemStack[11];
-	private TankNetherBrickOvenFuel fuelTank;
 	private String ovenName;
 
 	public TileEntityNetherBrickOven()
@@ -129,7 +129,6 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 			{
 				if (fuelTank.fillFromContainer(ovenStacks[FUELINPUT]))
 				{
-					//fuelTank.fill(fluid, true);
 					ovenStacks[FUELINPUT] = ovenStacks[FUELINPUT].getItem().getContainerItem(ovenStacks[FUELINPUT]);
 				}
 			}

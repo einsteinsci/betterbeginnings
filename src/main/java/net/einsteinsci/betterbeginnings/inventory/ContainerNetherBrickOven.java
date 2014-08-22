@@ -17,8 +17,6 @@ public class ContainerNetherBrickOven extends Container
 {
 	private TileEntityNetherBrickOven tileBrickOven;
 	private int lastCookTime;
-	private int lastBurnTime;
-	private int lastItemBurnTime;
 
 	public ContainerNetherBrickOven(InventoryPlayer playerInv, TileEntityNetherBrickOven tileEntityBrickOven)
 	{
