@@ -7,7 +7,6 @@ import net.einsteinsci.betterbeginnings.register.recipe.NetherBrickOvenRecipeHan
 import net.einsteinsci.betterbeginnings.util.BlockUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -31,6 +30,7 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 	 * Fuel used in mb per operation *
 	 */
 	public static final float FUELFORLAVA = 8; // 512 mb per stack
+	public static final int MINIMUMTEMPERATURE = 500;
 	//public int ovenBurnTime;
 	//public int currentItemBurnLength;
 	public int ovenCookTime;
@@ -127,7 +127,11 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 
 			if (ovenStacks[FUELINPUT] != null)
 			{
-
+				if (fuelTank.fillFromContainer(ovenStacks[FUELINPUT]))
+				{
+					//fuelTank.fill(fluid, true);
+					ovenStacks[FUELINPUT] = ovenStacks[FUELINPUT].getItem().getContainerItem(ovenStacks[FUELINPUT]);
+				}
 			}
 		}
 
@@ -182,7 +186,48 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 
 	public void smeltItem()
 	{
+		if (canSmelt())
+		{
+			ItemStack itemStack = NetherBrickOvenRecipeHandler.instance().findMatchingRecipe(this);
 
+			if (ovenStacks[OUTPUT] == null)
+			{
+				ovenStacks[OUTPUT] = itemStack.copy();
+			}
+			else if (ovenStacks[OUTPUT].getItem() == itemStack.getItem())
+			{
+				ovenStacks[OUTPUT].stackSize += itemStack.stackSize;
+			}
+
+			for (int i = INPUTSTART; i < ovenStacks.length; ++i)
+			{
+				ItemStack stack = ovenStacks[i];
+
+				if (stack != null)
+				{
+					ItemStack containerItem = null;
+
+					if (ovenStacks[i].getItem().hasContainerItem(ovenStacks[i]))
+					{
+						containerItem = ovenStacks[i].getItem().getContainerItem(ovenStacks[i]);
+					}
+
+					--ovenStacks[i].stackSize;
+
+					if (ovenStacks[i].stackSize <= 0)
+					{
+						ovenStacks[i] = null;
+					}
+
+					if (containerItem != null)
+					{
+						ovenStacks[i] = containerItem;
+					}
+				}
+			}
+
+			fuelTank.getFluid().amount -= getFuelNeededForSmelt();
+		}
 	}
 
 	public int getFuelNeededForSmelt()
@@ -406,9 +451,14 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 
 	public boolean isItemFuelContainer(ItemStack stack)
 	{
-		if (stack != null)
+		if (FluidContainerRegistry.isContainer(stack))
 		{
-			return stack.getItem() instanceof ItemBucket;
+			FluidStack fluid = FluidContainerRegistry.getFluidForFilledItem(stack);
+
+			if (fluid != null)
+			{
+				return fluid.getFluid().getTemperature() > MINIMUMTEMPERATURE;
+			}
 		}
 
 		return false;
@@ -428,5 +478,18 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 	public ItemStack getStackInRowAndColumn(int row, int column)
 	{
 		return getStackInSlot(INPUTSTART + row + column * 3);
+	}
+
+	public int getFuelLevelScaled(int maxLevel)
+	{
+		float level = fuelTank.getFluidAmount() / fuelTank.getCapacity();
+		float scaled = level * maxLevel;
+
+		return (int)scaled;
+	}
+
+	public int getFuelLevel()
+	{
+		return fuelTank.getFluidAmount();
 	}
 }

@@ -63,6 +63,12 @@ public class BBGuiHandler implements IGuiHandler
 			return new ContainerObsidianKiln(player.inventory, obsKiln);
 		}
 
+		if (ID == NETHERBRICKOVEN_ID)
+		{
+			TileEntityNetherBrickOven nbOven = (TileEntityNetherBrickOven)world.getTileEntity(x, y, z);
+			return new ContainerNetherBrickOven(player.inventory, nbOven);
+		}
+
 		if (ID == ENDERSMELTER_ID)
 		{
 			TileEntityEnderSmelter enderSmelter = (TileEntityEnderSmelter)world.getTileEntity(x, y, z);
@@ -112,6 +118,12 @@ public class BBGuiHandler implements IGuiHandler
 		{
 			TileEntityObsidianKiln obsKiln = (TileEntityObsidianKiln)world.getTileEntity(x, y, z);
 			return new GuiObsidianKiln(player.inventory, obsKiln);
+		}
+
+		if (ID == NETHERBRICKOVEN_ID)
+		{
+			TileEntityNetherBrickOven nbOven = (TileEntityNetherBrickOven)world.getTileEntity(x, y, z);
+			return new GuiNetherBrickOven(player.inventory, nbOven);
 		}
 
 		if (ID == ENDERSMELTER_ID)

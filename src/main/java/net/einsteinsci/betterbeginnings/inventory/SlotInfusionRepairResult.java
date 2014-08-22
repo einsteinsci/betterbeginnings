@@ -18,19 +18,17 @@ import java.util.ArrayList;
 public class SlotInfusionRepairResult extends SlotCrafting
 {
 	IInventory inputSlots;
-	EntityPlayer entPlayer;
 
-	public SlotInfusionRepairResult(EntityPlayer player, IInventory inputs, IInventory output, int slotId, int xPos, int yPos)
+	public SlotInfusionRepairResult(EntityPlayer entityPlayer, IInventory inputs, IInventory output, int slotId, int xPos, int yPos)
 	{
-		super(player, inputs, output, slotId, xPos, yPos);
+		super(entityPlayer, inputs, output, slotId, xPos, yPos);
 
 		inputSlots = inputs;
-		entPlayer = player;
 	}
 
-	public void onPickupFromSlot(EntityPlayer player, ItemStack stack)
+	public void onPickupFromSlot(EntityPlayer entityPlayer, ItemStack stack)
 	{
-		FMLCommonHandler.instance().firePlayerCraftingEvent(player, stack, inputSlots);
+		FMLCommonHandler.instance().firePlayerCraftingEvent(entityPlayer, stack, inputSlots);
 		onCrafting(stack);
 
 		InventoryInfusionRepair inputs = (InventoryInfusionRepair)inputSlots;
@@ -49,35 +47,38 @@ public class SlotInfusionRepairResult extends SlotCrafting
 
 					ItemStack itemstack1 = inputSlots.getStackInSlot(i);
 
-					if (itemstack1.getItem().hasContainerItem(itemstack1))
+					if (itemstack1 != null)
 					{
-						ItemStack containerStack = itemstack1.getItem().getContainerItem(itemstack1);
-
-						if (containerStack != null && containerStack.isItemStackDamageable() && containerStack
-								.getItemDamage() > containerStack.getMaxDamage())
+						if (itemstack1.getItem().hasContainerItem(itemstack1))
 						{
-							MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(entPlayer, containerStack));
-							continue;
-						}
+							ItemStack containerStack = itemstack1.getItem().getContainerItem(itemstack1);
 
-						if (!itemstack1.getItem()
-								.doesContainerItemLeaveCraftingGrid(itemstack1) || !entPlayer.inventory
-								.addItemStackToInventory(containerStack))
-						{
-							if (inputSlots.getStackInSlot(i) == null)
+							if (containerStack != null && containerStack.isItemStackDamageable() && containerStack
+									.getItemDamage() > containerStack.getMaxDamage())
 							{
-								inputSlots.setInventorySlotContents(i, containerStack);
+								MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(entityPlayer, containerStack));
+								continue;
 							}
-							else
+
+							if (!itemstack1.getItem()
+									.doesContainerItemLeaveCraftingGrid(itemstack1) || !entityPlayer.inventory
+									.addItemStackToInventory(containerStack))
 							{
-								entPlayer.dropPlayerItemWithRandomChoice(containerStack, false);
+								if (inputSlots.getStackInSlot(i) == null)
+								{
+									inputSlots.setInventorySlotContents(i, containerStack);
+								}
+								else
+								{
+									entityPlayer.dropPlayerItemWithRandomChoice(containerStack, false);
+								}
 							}
 						}
 					}
 
-					if (!entPlayer.capabilities.isCreativeMode)
+					if (!entityPlayer.capabilities.isCreativeMode)
 					{
-						entPlayer.addExperienceLevel(-InfusionRepairUtil.getTakenLevels(inputs));
+						entityPlayer.addExperienceLevel(-InfusionRepairUtil.getTakenLevels(inputs));
 					}
 
 					break;

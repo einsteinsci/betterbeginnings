@@ -3,9 +3,11 @@ package net.einsteinsci.betterbeginnings.blocks;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.einsteinsci.betterbeginnings.ModMain;
+import net.einsteinsci.betterbeginnings.gui.BBGuiHandler;
 import net.einsteinsci.betterbeginnings.register.RegisterBlocks;
-import net.einsteinsci.betterbeginnings.tileentity.TileEntityBrickOven;
+import net.einsteinsci.betterbeginnings.tileentity.TileEntityNetherBrickOven;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
@@ -24,7 +26,7 @@ import java.util.Random;
 /**
  * Created by einsteinsci on 8/21/2014.
  */
-public class BlockNetherBrickOven extends Block
+public class BlockNetherBrickOven extends BlockContainer
 {
 	private static boolean isLit;
 	private final boolean isLit2; // strange why...
@@ -145,6 +147,68 @@ public class BlockNetherBrickOven extends Block
 		}
 	}
 
+	@Override
+	public Item getItemDropped(int par1, Random rand, int par3)
+	{
+		return Item.getItemFromBlock(RegisterBlocks.brickOven);
+	}
+
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float clickX,
+	                                float clickY, float clickZ)
+	{
+		player.openGui(ModMain.modInstance, BBGuiHandler.NETHERBRICKOVEN_ID, world, x, y, z);
+
+		return true;
+	}
+
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack)
+	{
+		int dir = MathHelper.floor_double(entity.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+
+		if (dir == 0)
+		{
+			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
+		}
+
+		if (dir == 1)
+		{
+			world.setBlockMetadataWithNotify(x, y, z, 5, 2);
+		}
+
+		if (dir == 2)
+		{
+			world.setBlockMetadataWithNotify(x, y, z, 3, 2);
+		}
+
+		if (dir == 3)
+		{
+			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
+		}
+
+		if (stack.hasDisplayName())
+		{
+			((TileEntityNetherBrickOven)world.getTileEntity(x, y, z)).furnaceName(stack.getDisplayName());
+		}
+	}
+
+	@Override
+	public Item getItem(World world, int x, int y, int z)
+	{
+		return Item.getItemFromBlock(RegisterBlocks.netherBrickOven);
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void registerBlockIcons(IIconRegister iconregister)
+	{
+		blockIcon = iconregister.registerIcon(ModMain.MODID + ":netherBrickOvenSide");
+		front = iconregister
+				.registerIcon(isLit2 ? ModMain.MODID + ":netherBrickOvenLit" : ModMain.MODID + ":netherBrickOvenUnlit");
+		top = iconregister.registerIcon(ModMain.MODID + ":netherBrickOvenTop");
+	}
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z)
@@ -194,7 +258,7 @@ public class BlockNetherBrickOven extends Block
 	{
 		if (!isLit)
 		{
-			TileEntityBrickOven tileEntityKiln = null; //(TileEntityBrickOven)world.getTileEntity(x, y, z);
+			TileEntityNetherBrickOven tileEntityKiln = (TileEntityNetherBrickOven)world.getTileEntity(x, y, z);
 			if (tileEntityKiln != null)
 			{
 				for (int i = 0; i < tileEntityKiln.getSizeInventory(); i++)
@@ -244,64 +308,8 @@ public class BlockNetherBrickOven extends Block
 	}
 
 	@Override
-	public Item getItemDropped(int par1, Random rand, int par3)
+	public TileEntity createNewTileEntity(World world, int par2)
 	{
-		return Item.getItemFromBlock(RegisterBlocks.brickOven);
-	}
-
-	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float clickX,
-	                                float clickY, float clickZ)
-	{
-		//player.openGui(ModMain.modInstance, BBGuiHandler.BRICKOVEN_ID, world, x, y, z);
-
-		return false;
-	}
-
-	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack)
-	{
-		int dir = MathHelper.floor_double(entity.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-
-		if (dir == 0)
-		{
-			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
-		}
-
-		if (dir == 1)
-		{
-			world.setBlockMetadataWithNotify(x, y, z, 5, 2);
-		}
-
-		if (dir == 2)
-		{
-			world.setBlockMetadataWithNotify(x, y, z, 3, 2);
-		}
-
-		if (dir == 3)
-		{
-			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
-		}
-
-		if (stack.hasDisplayName())
-		{
-			//((TileEntityBrickOven)world.getTileEntity(x, y, z)).furnaceName(stack.getDisplayName());
-		}
-	}
-
-	@Override
-	public Item getItem(World world, int x, int y, int z)
-	{
-		return Item.getItemFromBlock(RegisterBlocks.netherBrickOven);
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void registerBlockIcons(IIconRegister iconregister)
-	{
-		blockIcon = iconregister.registerIcon(ModMain.MODID + ":netherBrickOvenSide");
-		front = iconregister
-				.registerIcon(isLit2 ? ModMain.MODID + ":netherBrickOvenLit" : ModMain.MODID + ":netherBrickOvenUnlit");
-		top = iconregister.registerIcon(ModMain.MODID + ":netherBrickOvenTop");
+		return new TileEntityNetherBrickOven();
 	}
 }

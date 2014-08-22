@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 public class ContainerInfusionRepair extends Container
 {
 	public Slot[] circleSlots = new Slot[9];
+	public Slot resultSlot;
 	public InventoryInfusionRepair inputs = new InventoryInfusionRepair(this, 9);
 	public IInventory output = new InventoryCraftResult();
 	public World worldObj;
@@ -45,7 +46,8 @@ public class ContainerInfusionRepair extends Container
 			addSlotToContainer(slot);
 		}
 
-		addSlotToContainer(new SlotInfusionRepairResult(invPlayer.player, inputs, output, 9, 136, 35));
+		resultSlot = new SlotInfusionRepairResult(invPlayer.player, inputs, output, 9, 136, 35);
+		addSlotToContainer(resultSlot);
 
 		for (int i = 0; i < 3; ++i)
 		{
@@ -61,6 +63,22 @@ public class ContainerInfusionRepair extends Container
 		}
 
 		onCraftMatrixChanged(inputs);
+	}
+
+	public void detectAndSendChanges()
+	{
+		if (InfusionRepairUtil.canRepair(inputs, player))
+		{
+			ItemStack result = inputs.getStackInSlot(0).copy();
+			result.setItemDamage(0);
+			output.setInventorySlotContents(0, result);
+			resultSlot.setBackgroundIcon(result.getItem().getIconFromDamage(0));
+		}
+		else
+		{
+			output.setInventorySlotContents(0, null);
+			resultSlot.setBackgroundIcon(null);
+		}
 	}
 
 	@Override
@@ -152,18 +170,7 @@ public class ContainerInfusionRepair extends Container
 	@Override
 	public void onCraftMatrixChanged(IInventory craftInv)
 	{
-		//super.onCraftMatrixChanged(craftInv);
-
-		if (InfusionRepairUtil.canRepair(inputs, player))
-		{
-			ItemStack result = inputs.getStackInSlot(0).copy();
-			result.setItemDamage(0);
-			output.setInventorySlotContents(0, result);
-		}
-		else
-		{
-			output.setInventorySlotContents(0, null);
-		}
+		detectAndSendChanges();
 	}
 
 	@Override

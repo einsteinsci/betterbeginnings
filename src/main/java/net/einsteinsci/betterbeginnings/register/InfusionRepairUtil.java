@@ -18,7 +18,7 @@ public class InfusionRepairUtil
 {
 	public static boolean canRepair(InventoryInfusionRepair repairTable, EntityPlayer player)
 	{
-		return canRepairIgnoreXp(repairTable) && player.experienceLevel > getNeededLevels(repairTable);
+		return canRepairIgnoreXp(repairTable) && player.experienceLevel >= getNeededLevels(repairTable);
 	}
 
 	public static boolean canRepairIgnoreXp(InventoryInfusionRepair repairTable)
