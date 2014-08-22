@@ -9,6 +9,8 @@ tile.infusionRepairStation.name=Infusion Repair Station
 tile.Campfire.name=Campfire
 tile.obsidianKiln.name=Obsidian Kiln
 tile.obsidianKilnLit.name=Obsidian Kiln (Lit)
+tile.netherBrickOven.name=Nether Brick Oven
+tile.netherBrickOvenLit.name=Nether Brick Oven (Lit)
 tile.enderSmelter.name=Ender Smelter
 tile.enderSmelterLit.name=Ender Smelter (Lit)
 
@@ -53,6 +55,7 @@ container.infusion.needed=Needed
 container.infusion.taken=Taken
 container.infusion.level=L
 container.obsidianKiln=Obsidian Kiln
+container.netherbrickoven=Nether Brick Oven
 container.enderSmelter=Ender Smelter
 
 achievement.flintKnife=Survival of the Fittest
