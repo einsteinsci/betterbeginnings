@@ -24,7 +24,7 @@ public class TileEntityBrickOven extends TileEntity implements ISidedInventory
 	public static final int OUTPUT = 1;
 	private int[] slotsOutput = new int[] {OUTPUT};
 	public static final int INPUTSTART = 2;
-	public static final int COOKTIME = 100;
+	public static final int COOKTIME = 120;
 	public int ovenBurnTime;
 	public int currentItemBurnLength;
 	public int ovenCookTime;

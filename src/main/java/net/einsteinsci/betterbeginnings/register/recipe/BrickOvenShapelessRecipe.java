@@ -1,6 +1,7 @@
 package net.einsteinsci.betterbeginnings.register.recipe;
 
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityBrickOven;
+import net.einsteinsci.betterbeginnings.tileentity.TileEntityNetherBrickOven;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -68,11 +69,59 @@ public class BrickOvenShapelessRecipe implements IBrickOvenRecipe
 		return arraylist.isEmpty();
 	}
 
+	@Override
+	public boolean matches(TileEntityNetherBrickOven oven)
+	{
+		ArrayList<ItemStack> arraylist = new ArrayList<ItemStack>(recipeItems);
+
+		for (int col = 0; col < 3; ++col)
+		{
+			for (int row = 0; row < 3; ++row)
+			{
+				ItemStack itemstack = oven.getStackInRowAndColumn(row, col);
+
+				if (itemstack != null)
+				{
+					boolean flag = false;
+					Iterator iterator = arraylist.iterator();
+
+					while (iterator.hasNext())
+					{
+						ItemStack itemstack1 = (ItemStack)iterator.next();
+
+						if (itemstack.getItem() == itemstack1.getItem() &&
+								(itemstack1.getItemDamage() == OreDictionary.WILDCARD_VALUE || itemstack
+										.getItemDamage() == itemstack1
+										.getItemDamage()))
+						{
+							flag = true;
+							arraylist.remove(itemstack1);
+							break;
+						}
+					}
+
+					if (!flag)
+					{
+						return false;
+					}
+				}
+			}
+		}
+
+		return arraylist.isEmpty();
+	}
+
 	/**
 	 * Returns an Item that is the result of this recipe
 	 */
 	@Override
 	public ItemStack getCraftingResult(TileEntityBrickOven oven)
+	{
+		return recipeOutput.copy();
+	}
+
+	@Override
+	public ItemStack getCraftingResult(TileEntityNetherBrickOven oven)
 	{
 		return recipeOutput.copy();
 	}

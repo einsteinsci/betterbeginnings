@@ -11,7 +11,7 @@ import java.util.*;
 public class BrickOvenRecipeHandler
 {
 	private static final BrickOvenRecipeHandler INSTANCE = new BrickOvenRecipeHandler();
-	private List<IBrickOvenRecipe> recipes = new ArrayList<IBrickOvenRecipe>();
+	protected List<IBrickOvenRecipe> recipes = new ArrayList<IBrickOvenRecipe>();
 
 	// private Map experienceList;
 
