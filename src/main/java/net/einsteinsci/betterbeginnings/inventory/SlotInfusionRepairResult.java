@@ -39,51 +39,55 @@ public class SlotInfusionRepairResult extends SlotCrafting
 		{
 			for (int i = 0; i < inputSlots.getSizeInventory(); ++i)
 			{
-				if (requiredStack.getItem() == inputSlots.getStackInSlot(i).getItem() &&
-						(requiredStack.getItemDamage() == OreDictionary.WILDCARD_VALUE ||
-								requiredStack.getItemDamage() == inputSlots.getStackInSlot(i).getItemDamage()))
+				if (requiredStack != null && inputSlots.getStackInSlot(i) != null)
 				{
-					inputSlots.decrStackSize(i, requiredStack.stackSize);
-
-					ItemStack itemstack1 = inputSlots.getStackInSlot(i);
-
-					if (itemstack1 != null)
+					if (requiredStack.getItem() == inputSlots.getStackInSlot(i).getItem() &&
+							(requiredStack.getItemDamage() == OreDictionary.WILDCARD_VALUE ||
+									requiredStack.getItemDamage() == inputSlots.getStackInSlot(i).getItemDamage()))
 					{
-						if (itemstack1.getItem().hasContainerItem(itemstack1))
+						inputSlots.decrStackSize(i, requiredStack.stackSize);
+
+						ItemStack itemstack1 = inputSlots.getStackInSlot(i);
+
+						if (itemstack1 != null)
 						{
-							ItemStack containerStack = itemstack1.getItem().getContainerItem(itemstack1);
-
-							if (containerStack != null && containerStack.isItemStackDamageable() && containerStack
-									.getItemDamage() > containerStack.getMaxDamage())
+							if (itemstack1.getItem().hasContainerItem(itemstack1))
 							{
-								MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(entityPlayer, containerStack));
-								continue;
-							}
+								ItemStack containerStack = itemstack1.getItem().getContainerItem(itemstack1);
 
-							if (!itemstack1.getItem()
-									.doesContainerItemLeaveCraftingGrid(itemstack1) || !entityPlayer.inventory
-									.addItemStackToInventory(containerStack))
-							{
-								if (inputSlots.getStackInSlot(i) == null)
+								if (containerStack != null && containerStack.isItemStackDamageable() && containerStack
+										.getItemDamage() > containerStack.getMaxDamage())
 								{
-									inputSlots.setInventorySlotContents(i, containerStack);
+									MinecraftForge.EVENT_BUS
+											.post(new PlayerDestroyItemEvent(entityPlayer, containerStack));
+									continue;
 								}
-								else
+
+								if (!itemstack1.getItem()
+										.doesContainerItemLeaveCraftingGrid(itemstack1) || !entityPlayer.inventory
+										.addItemStackToInventory(containerStack))
 								{
-									entityPlayer.dropPlayerItemWithRandomChoice(containerStack, false);
+									if (inputSlots.getStackInSlot(i) == null)
+									{
+										inputSlots.setInventorySlotContents(i, containerStack);
+									}
+									else
+									{
+										entityPlayer.dropPlayerItemWithRandomChoice(containerStack, false);
+									}
 								}
 							}
 						}
-					}
 
-					if (!entityPlayer.capabilities.isCreativeMode)
-					{
-						entityPlayer.addExperienceLevel(-InfusionRepairUtil.getTakenLevels(inputs));
+						break;
 					}
-
-					break;
 				}
 			}
+		}
+
+		if (!entityPlayer.capabilities.isCreativeMode)
+		{
+			entityPlayer.addExperienceLevel(-InfusionRepairUtil.getTakenLevels(inputs));
 		}
 
 		inputSlots.setInventorySlotContents(0, null);

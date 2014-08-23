@@ -185,6 +185,11 @@ public class InfusionRepairUtil
 			return requiredItems;
 		}
 
+		if (!repaired.isItemDamaged())
+		{
+			return requiredItems;
+		}
+
 		if (repaired.getItem() == RegisterItems.noobWoodSword)
 		{
 			requiredItems.add(new ItemStack(Blocks.planks, 1, OreDictionary.WILDCARD_VALUE));
