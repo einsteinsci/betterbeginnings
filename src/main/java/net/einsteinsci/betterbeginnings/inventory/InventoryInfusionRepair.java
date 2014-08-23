@@ -9,13 +9,11 @@ public class InventoryInfusionRepair implements IInventory
 {
 	public ItemStack[] stackList;
 	public Container eventHandler;
-	private int inventorySize;
 
 	public InventoryInfusionRepair(Container container, int size)
 	{
 		stackList = new ItemStack[size];
 		eventHandler = container;
-		inventorySize = size;
 	}
 
 	@Override

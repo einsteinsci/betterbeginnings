@@ -119,7 +119,7 @@ public class GuiDoubleWorkbench extends GuiContainer
 		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
 		GL11.glEnable(GL11.GL_LIGHTING);
 		partialTransItemRenderer.renderItemAndEffectIntoGUI(font, mc.getTextureManager(), stack, xPos, yPos);
-		partialTransItemRenderer.renderItemOverlayIntoGUI(font, mc.getTextureManager(), stack, xPos, yPos - 0, note);
+		partialTransItemRenderer.renderItemOverlayIntoGUI(font, mc.getTextureManager(), stack, xPos, yPos, note);
 		zLevel = 0.0F;
 		partialTransItemRenderer.zLevel = 0.0F;
 		GL11.glEnable(GL11.GL_LIGHTING);

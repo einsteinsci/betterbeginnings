@@ -1,8 +1,12 @@
 package net.einsteinsci.betterbeginnings.tileentity;
 
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.einsteinsci.betterbeginnings.ModMain;
+import net.einsteinsci.betterbeginnings.blocks.BlockNetherBrickOven;
 import net.einsteinsci.betterbeginnings.inventory.TankNetherBrickOvenFuel;
+import net.einsteinsci.betterbeginnings.network.PacketNetherBrickOvenFuelLevel;
 import net.einsteinsci.betterbeginnings.register.recipe.NetherBrickOvenRecipeHandler;
 import net.einsteinsci.betterbeginnings.util.BlockUtil;
 import net.minecraft.entity.player.EntityPlayer;
@@ -106,6 +110,7 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 	@Override
 	public void updateEntity()
 	{
+		boolean flag = canSmelt();
 		boolean flag1 = false;
 
 		if (!worldObj.isRemote)
@@ -130,8 +135,19 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 				if (fuelTank.fillFromContainer(ovenStacks[FUELINPUT]))
 				{
 					ovenStacks[FUELINPUT] = ovenStacks[FUELINPUT].getItem().getContainerItem(ovenStacks[FUELINPUT]);
+
+					NetworkRegistry.TargetPoint point = new NetworkRegistry.TargetPoint(worldObj.provider.dimensionId,
+					                                                                    xCoord, yCoord, zCoord, 16.0d);
+					ModMain.network.sendToAllAround(
+							new PacketNetherBrickOvenFuelLevel(xCoord, yCoord, zCoord, fuelTank.getFluid()), point);
 				}
 			}
+		}
+
+		if (flag != canSmelt())
+		{
+			flag1 = true;
+			BlockNetherBrickOven.updateBlockState(canSmelt(), worldObj, xCoord, yCoord, zCoord);
 		}
 
 		if (flag1)
@@ -227,6 +243,11 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 
 			fuelTank.getFluid().amount -= getFuelNeededForSmelt();
 		}
+
+		NetworkRegistry.TargetPoint point = new NetworkRegistry.TargetPoint(worldObj.provider.dimensionId, xCoord,
+		                                                                    yCoord, zCoord, 16.0d);
+		ModMain.network.sendToAllAround(new PacketNetherBrickOvenFuelLevel(xCoord, yCoord, zCoord, fuelTank.getFluid()),
+		                                point);
 	}
 
 	public int getFuelNeededForSmelt()
@@ -481,8 +502,10 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 
 	public int getFuelLevelScaled(int maxLevel)
 	{
-		float level = fuelTank.getFluidAmount() / fuelTank.getCapacity();
-		float scaled = level * maxLevel;
+		float levelAbs = getFuelLevel();
+		float capacity = fuelTank.getCapacity();
+		float level = levelAbs / capacity;
+		float scaled = level * (float)maxLevel;
 
 		return (int)scaled;
 	}
@@ -490,5 +513,11 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 	public int getFuelLevel()
 	{
 		return fuelTank.getFluidAmount();
+	}
+
+	//I think this will only be called on the client side
+	public void setFuelLevel(FluidStack fluid)
+	{
+		fuelTank.setFluid(fluid);
 	}
 }

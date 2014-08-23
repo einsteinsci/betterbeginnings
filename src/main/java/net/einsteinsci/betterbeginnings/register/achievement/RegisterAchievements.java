@@ -20,9 +20,7 @@ public class RegisterAchievements
 	{
 		addAchievements();
 
-		Achievement[] result = new Achievement[] {flintKnife, makeSticks};
-
-		return result;
+		return new Achievement[] {flintKnife, makeSticks};
 	}
 
 	public static void addAchievements()

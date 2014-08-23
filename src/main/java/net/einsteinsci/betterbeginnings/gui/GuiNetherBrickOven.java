@@ -37,8 +37,8 @@ public class GuiNetherBrickOven extends GuiContainer
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
 		String string =
-				tileBrickOven.hasCustomInventoryName() ? tileBrickOven.getInventoryName() : I18n.format(
-						tileBrickOven.getInventoryName());
+				tileBrickOven.hasCustomInventoryName() ? tileBrickOven.getInventoryName() :
+						I18n.format(tileBrickOven.getInventoryName());
 		fontRendererObj.drawString(string, 40, 6, 4210752);
 
 		int k = (width - xSize) / 2;
@@ -74,6 +74,6 @@ public class GuiNetherBrickOven extends GuiContainer
 		drawTexturedModalRect(k + 103, l + 34, 176, 14, i1 + 1, 16);
 
 		int tankFillPx = tileBrickOven.getFuelLevelScaled(48);
-		drawTexturedModalRect(k + 17, l + 57 - tankFillPx, 176, 78 - tankFillPx, 16, tankFillPx);
+		drawTexturedModalRect(k + 17, l + 58 - tankFillPx, 176, 31, 16, tankFillPx);
 	}
 }

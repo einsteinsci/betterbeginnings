@@ -8,7 +8,6 @@ import net.minecraft.item.ItemStack;
 public class InventoryWorkbenchAdditionalMaterials implements IInventory
 {
 	private ItemStack[] stackList;
-	private int inventoryWidth;
 
 	private Container eventHandler;
 
@@ -16,7 +15,6 @@ public class InventoryWorkbenchAdditionalMaterials implements IInventory
 	{
 		stackList = new ItemStack[size];
 		eventHandler = container;
-		inventoryWidth = size;
 	}
 
 	@Override

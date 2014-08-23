@@ -11,6 +11,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.einsteinsci.betterbeginnings.config.BBConfig;
 import net.einsteinsci.betterbeginnings.event.BBEventHandler;
 import net.einsteinsci.betterbeginnings.event.Worldgen;
+import net.einsteinsci.betterbeginnings.network.PacketNetherBrickOvenFuelLevel;
 import net.einsteinsci.betterbeginnings.network.ServerProxy;
 import net.einsteinsci.betterbeginnings.register.*;
 import net.einsteinsci.betterbeginnings.register.achievement.RegisterAchievements;
@@ -62,10 +63,13 @@ public class ModMain
 		proxy.registerNetworkStuff();
 		proxy.registerRenderThings();
 
+
 		FMLCommonHandler.instance().bus().register(eventHandler);
 		MinecraftForge.EVENT_BUS.register(eventHandler);
 
-		network = NetworkRegistry.INSTANCE.newSimpleChannel("betterbeginnings");
+		network = NetworkRegistry.INSTANCE.newSimpleChannel("bbchannel");
+		network.registerMessage(PacketNetherBrickOvenFuelLevel.PacketHandler.class,
+		                        PacketNetherBrickOvenFuelLevel.class, 0, Side.CLIENT);
 
 		RegisterItems.register();
 		RegisterBlocks.register();

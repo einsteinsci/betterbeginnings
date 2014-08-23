@@ -52,7 +52,7 @@ public class SlotAdvancedCrafting extends Slot
 	protected void onCrafting(ItemStack stack, int resultCount)
 	{
 		amountCrafted += resultCount;
-		this.onCrafting(stack);
+		onCrafting(stack);
 	}
 
 	/**
@@ -123,7 +123,7 @@ public class SlotAdvancedCrafting extends Slot
 	public void onPickupFromSlot(EntityPlayer player, ItemStack resultStack)
 	{
 		FMLCommonHandler.instance().firePlayerCraftingEvent(player, resultStack, craftMatrix);
-		this.onCrafting(resultStack);
+		onCrafting(resultStack);
 
 		// Decrease crafted materials
 		for (int i = 0; i < craftMatrix.getSizeInventory(); ++i)

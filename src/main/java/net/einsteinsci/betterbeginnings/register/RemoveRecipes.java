@@ -80,11 +80,8 @@ public class RemoveRecipes
 		while (iterator.hasNext())
 		{
 			ItemStack stack = iterator.next().getRecipeOutput();
-			if (stack == null)
-			{
-				continue;
-			}
-			else
+
+			if (stack != null)
 			{
 				Item item = stack.getItem();
 				if (item != null && removedRecipes.contains(item))

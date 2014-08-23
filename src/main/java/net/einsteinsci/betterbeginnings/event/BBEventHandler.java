@@ -21,8 +21,7 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.world.BlockEvent;
 
-import java.util.Iterator;
-import java.util.Random;
+import java.util.*;
 
 public class BBEventHandler
 {
@@ -88,10 +87,7 @@ public class BBEventHandler
 		String toolUsed = "face";
 
 		// Blocks that should be "pickaxe" but are actually null
-		if (block == Blocks.coal_block || block == Blocks.redstone_block || block == Blocks.stained_hardened_clay ||
-				block == Blocks.hardened_clay || block == Blocks.quartz_block || block == Blocks.brick_block ||
-				block == Blocks.ice ||            // not sure if this one is null already
-				block == Blocks.packed_ice)
+		if (shouldBePickaxe(block))
 		{
 			requiredToolClass = "pickaxe";
 		}
@@ -177,7 +173,23 @@ public class BBEventHandler
 			}
 		}
 	}
-	
+
+	private boolean shouldBePickaxe(Block block)
+	{
+		List<Block> should = new ArrayList<>();
+
+		should.add(Blocks.coal_block);
+		should.add(Blocks.redstone_block);
+		should.add(Blocks.stained_hardened_clay);
+		should.add(Blocks.hardened_clay);
+		should.add(Blocks.quartz_block);
+		should.add(Blocks.brick_block);
+		should.add(Blocks.ice);
+		should.add(Blocks.packed_ice);
+
+		return should.contains(block);
+	}
+
 	@SubscribeEvent
 	public void onBlockDrops(BlockEvent.HarvestDropsEvent e)
 	{

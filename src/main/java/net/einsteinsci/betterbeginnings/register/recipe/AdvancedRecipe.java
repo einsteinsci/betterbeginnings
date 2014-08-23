@@ -44,7 +44,7 @@ public class AdvancedRecipe
 
 	// @Override
 	public boolean matches(InventoryCrafting invCrafting, InventoryWorkbenchAdditionalMaterials materials,
-						   World p_77569_2_)
+	                       World p_77569_2_)
 	{
 		for (int i = 0; i <= 3 - recipeWidth; ++i)
 		{
@@ -67,7 +67,7 @@ public class AdvancedRecipe
 
 	// Not sure what that fourth flag is...
 	private boolean checkMatch(InventoryCrafting crafting, InventoryWorkbenchAdditionalMaterials materials, int width,
-							   int height, boolean flag4)
+	                           int height, boolean flag4)
 	{
 		for (int k = 0; k < 3; ++k)
 		{
@@ -153,7 +153,7 @@ public class AdvancedRecipe
 		return true;
 	}
 
-	public boolean matchesMostly(InventoryCrafting invCrafting, World p_77569_2_)
+	public boolean matchesMostly(InventoryCrafting invCrafting, World world)
 	{
 		for (int i = 0; i <= 3 - recipeWidth; ++i)
 		{
