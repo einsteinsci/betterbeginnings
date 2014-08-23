@@ -6,6 +6,7 @@ import cpw.mods.fml.common.gameevent.PlayerEvent;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.config.BBConfig;
 import net.einsteinsci.betterbeginnings.items.ItemKnife;
+import net.einsteinsci.betterbeginnings.register.RegisterBlocks;
 import net.einsteinsci.betterbeginnings.register.RegisterItems;
 import net.einsteinsci.betterbeginnings.register.achievement.RegisterAchievements;
 import net.einsteinsci.betterbeginnings.util.ChatUtil;
@@ -17,6 +18,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.*;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -67,15 +69,49 @@ public class BBEventHandler
 		{
 			e.toolTip.add(ChatUtil.BLUE + "+0 Attack Damage");
 		}
+
+		if (isWIP(e.itemStack))
+		{
+			e.toolTip.add(ChatUtil.RED + "WIP. May not be fully functional.");
+		}
 	}
-	
+
+	public boolean isWIP(ItemStack stack)
+	{
+		List<ItemStack> wip = new ArrayList<>();
+
+		wip.add(new ItemStack(RegisterItems.fireBow));
+		wip.add(new ItemStack(RegisterBlocks.campfire));
+		wip.add(new ItemStack(RegisterItems.cloth));
+		wip.add(new ItemStack(RegisterItems.clothBoots));
+		wip.add(new ItemStack(RegisterItems.clothPants));
+		wip.add(new ItemStack(RegisterItems.clothShirt));
+		wip.add(new ItemStack(RegisterItems.clothHat));
+		wip.add(new ItemStack(RegisterItems.silk));
+		wip.add(new ItemStack(RegisterItems.roastingStick));
+		wip.add(new ItemStack(RegisterItems.roastingStickrawMallow));
+		wip.add(new ItemStack(RegisterItems.roastingStickcookedMallow));
+		wip.add(new ItemStack(RegisterItems.marshmallow));
+		wip.add(new ItemStack(RegisterItems.marshmallowCooked));
+
+		for (ItemStack test : wip)
+		{
+			if (stack.getItem() == test.getItem())
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	@SubscribeEvent
 	public void onBlockBreak(BlockEvent.BreakEvent e)
 	{
 		Block block = e.block;
 		EntityPlayer player = e.getPlayer();
 		ItemStack heldItemStack = player.getHeldItem();
-		
+
 		handleWrongTool(e, block, player, heldItemStack);
 	}
 
@@ -272,41 +308,44 @@ public class BBEventHandler
 
 		if (BBConfig.moreBones)
 		{
-			int maxBones = 0;
-			int maxShards = 0;
+			if (!BBConfig.moreBonesPeacefulOnly || e.entity.worldObj.difficultySetting == EnumDifficulty.PEACEFUL)
+			{
+				int maxBones = 0;
+				int maxShards = 0;
 
-			if (e.entityLiving instanceof EntityCow)
-			{
-				maxBones = 4;
-			}
-			if (e.entityLiving instanceof EntitySheep || e.entityLiving instanceof EntityPig)
-			{
-				maxBones = 3;
-			}
-			if (e.entityLiving instanceof EntityChicken || e.entityLiving instanceof EntityOcelot)
-			{
-				maxShards = 3;
-			}
-			if (e.entityLiving instanceof EntityZombie)
-			{
-				maxBones = 2;
-				maxShards = 3;
-			}
-
-			if (maxBones > 0 && e.recentlyHit && !e.entityLiving.isChild())
-			{
-				int dropCount = rand.nextInt(maxBones + e.lootingLevel);
-				for (int i = 0; i < dropCount; ++i)
+				if (e.entityLiving instanceof EntityCow)
 				{
-					e.entityLiving.dropItem(Items.bone, 1);
+					maxBones = 4;
 				}
-			}
-			if (maxShards > 0 && e.recentlyHit && !e.entityLiving.isChild())
-			{
-				int dropCount = rand.nextInt(maxShards + e.lootingLevel);
-				for (int i = 0; i < dropCount; ++i)
+				if (e.entityLiving instanceof EntitySheep || e.entityLiving instanceof EntityPig)
 				{
-					e.entityLiving.dropItem(RegisterItems.boneShard, 1);
+					maxBones = 3;
+				}
+				if (e.entityLiving instanceof EntityChicken || e.entityLiving instanceof EntityOcelot)
+				{
+					maxShards = 3;
+				}
+				if (e.entityLiving instanceof EntityZombie)
+				{
+					maxBones = 2;
+					maxShards = 3;
+				}
+
+				if (maxBones > 0 && e.recentlyHit && !e.entityLiving.isChild())
+				{
+					int dropCount = rand.nextInt(maxBones + e.lootingLevel);
+					for (int i = 0; i < dropCount; ++i)
+					{
+						e.entityLiving.dropItem(Items.bone, 1);
+					}
+				}
+				if (maxShards > 0 && e.recentlyHit && !e.entityLiving.isChild())
+				{
+					int dropCount = rand.nextInt(maxShards + e.lootingLevel);
+					for (int i = 0; i < dropCount; ++i)
+					{
+						e.entityLiving.dropItem(RegisterItems.boneShard, 1);
+					}
 				}
 			}
 

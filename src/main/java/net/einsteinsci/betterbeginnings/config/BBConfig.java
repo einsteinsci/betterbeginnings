@@ -14,20 +14,22 @@ public class BBConfig
 	public static boolean canMakeChainArmor;
 	public static boolean flamingAnimalsDropCharredMeat;
 	public static boolean moreBones;
+	public static boolean moreBonesPeacefulOnly;
 	public static boolean spawnMarshmallows;
 	public static boolean canSmelterDoKilnStuff;
-	
+
 	public BBConfig()
 	{
 		greetUser = true;
 		advancedCraftingForLotsOfThings = true;
-		canMakeVanillaWorkbench = true;
-		canMakeVanillaFurnace = true;
+		canMakeVanillaWorkbench = false;
+		canMakeVanillaFurnace = false;
 		canMakeChainArmor = true;
 		flamingAnimalsDropCharredMeat = true;
 		moreBones = true;
+		moreBonesPeacefulOnly = true;
 		spawnMarshmallows = true;
-		canSmelterDoKilnStuff = true;
+		canSmelterDoKilnStuff = false;
 	}
 
 	public static void syncConfig(Configuration config)
@@ -51,6 +53,8 @@ public class BBConfig
 				config.getBoolean("flamingAnimalsDropCharredMeat", GENERAL, true,
 								  "Animals that die by flame drop charred meat instead of vanilla cooked meat");
 		moreBones = config.getBoolean("moreBones", GENERAL, true, "Almost all mobs drop bones, not just skeletons");
+		moreBonesPeacefulOnly = config.getBoolean("moreBonesPeacefulOnly", GENERAL, true,
+		                                          "Non-skeleton mobs only drop bones on peaceful. Requires 'moreBones' to be true in order to do anything.");
 		spawnMarshmallows = config.getBoolean("spawnMarshmallows",
 		                                      GENERAL,
 		                                      true,

@@ -530,6 +530,16 @@ public class RegisterRecipes
 		                                          "ROR",
 		                                          'R', Items.redstone, 'O', Blocks.obsidian, 'K', RegisterBlocks.kiln);
 
+		// Nether Brick Oven
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(RegisterBlocks.netherBrickOven),
+		                                          new ItemStack[] {new ItemStack(Items.blaze_powder, 4), new ItemStack(
+				                                          Blocks.obsidian, 1)},
+		                                          "NNN",
+		                                          "NBN",
+		                                          "NGN",
+		                                          'N', Blocks.nether_brick, 'G', Blocks.glass, 'B',
+		                                          RegisterBlocks.brickOven);
+
 		// Ender Smelter
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(RegisterBlocks.enderSmelter),
 		                                          new ItemStack[] {new ItemStack(Items.ender_pearl, 4),
