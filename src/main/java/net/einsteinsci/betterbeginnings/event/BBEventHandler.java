@@ -78,7 +78,7 @@ public class BBEventHandler
 
 	public boolean isWIP(ItemStack stack)
 	{
-		List<ItemStack> wip = new ArrayList<>();
+		List<ItemStack> wip = new ArrayList<ItemStack>();
 
 		wip.add(new ItemStack(RegisterItems.fireBow));
 		wip.add(new ItemStack(RegisterBlocks.campfire));
@@ -212,7 +212,7 @@ public class BBEventHandler
 
 	private boolean shouldBePickaxe(Block block)
 	{
-		List<Block> should = new ArrayList<>();
+		List<Block> should = new ArrayList<Block>();
 
 		should.add(Blocks.coal_block);
 		should.add(Blocks.redstone_block);

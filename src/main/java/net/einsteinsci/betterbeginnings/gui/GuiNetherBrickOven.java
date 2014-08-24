@@ -53,7 +53,7 @@ public class GuiNetherBrickOven extends GuiContainer
 
 	private void drawFluidTooltip(int x, int y)
 	{
-		List<String> lines = new ArrayList<>();
+		List<String> lines = new ArrayList<String>();
 
 		lines.add("" + tileBrickOven.getFuelLevel() + " mB");
 		func_146283_a(lines, x, y); //Draw tooltip
