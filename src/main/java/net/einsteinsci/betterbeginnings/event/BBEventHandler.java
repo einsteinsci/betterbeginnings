@@ -78,7 +78,7 @@ public class BBEventHandler
 
 	public boolean isWIP(ItemStack stack)
 	{
-		List<ItemStack> wip = new ArrayList<>();
+		List<ItemStack> wip = new ArrayList<ItemStack>();
 
 		wip.add(new ItemStack(RegisterItems.fireBow));
 		wip.add(new ItemStack(RegisterBlocks.campfire));
