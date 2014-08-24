@@ -648,6 +648,11 @@ public class RegisterRecipes
 			GameRegistry.addShapedRecipe(new ItemStack(Items.chainmail_boots), "* *", "* *", '*',
 										 RegisterItems.ironNugget);
 		}
+
+		// Craft vanilla benches into BB workbenches
+
+		GameRegistry
+				.addShapedRecipe(new ItemStack(RegisterBlocks.doubleWorkbench, 2), "##", '#', Blocks.crafting_table);
 	}
 }
 
