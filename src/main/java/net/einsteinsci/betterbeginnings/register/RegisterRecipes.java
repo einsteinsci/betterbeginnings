@@ -6,62 +6,22 @@ import net.einsteinsci.betterbeginnings.register.recipe.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.*;
 
 public class RegisterRecipes
 {
 	public static void addShapelessRecipes()
 	{
 		// Sticks from Saplings & Knife
-		//GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.stick), "treeSapling", "itemKnife"));
-
-
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.stick),
-										new ItemStack(Blocks.sapling, 1,
-													  OreDictionary.WILDCARD_VALUE),
-										new ItemStack(RegisterItems.flintKnife, 1, OreDictionary.WILDCARD_VALUE));
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.stick),
-										new ItemStack(Blocks.sapling, 1,
-													  OreDictionary.WILDCARD_VALUE),
-										new ItemStack(RegisterItems.boneKnife, 1, OreDictionary.WILDCARD_VALUE));
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.stick),
-										new ItemStack(Blocks.sapling, 1,
-													  OreDictionary.WILDCARD_VALUE),
-										new ItemStack(RegisterItems.ironKnife, 1, OreDictionary.WILDCARD_VALUE));
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.stick),
-				new ItemStack(Blocks.sapling, 1,
-							  OreDictionary.WILDCARD_VALUE),
-				new ItemStack(RegisterItems.goldKnife, 1, OreDictionary.WILDCARD_VALUE));
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.stick),
-										new ItemStack(Blocks.sapling, 1,
-													  OreDictionary.WILDCARD_VALUE),
-										new ItemStack(RegisterItems.diamondKnife, 1, OreDictionary.WILDCARD_VALUE));
-
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.stick), "treeSapling", "itemKnife"));
 
 		// Bone Shard
-		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.boneShard, 2), Items.bone, new ItemStack(
-				RegisterItems.flintKnife, 1, OreDictionary.WILDCARD_VALUE));
-		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.boneShard, 2), Items.bone, new ItemStack(
-				RegisterItems.boneKnife, 1, OreDictionary.WILDCARD_VALUE));
-		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.boneShard, 2), Items.bone, new ItemStack(
-				RegisterItems.ironKnife, 1, OreDictionary.WILDCARD_VALUE));
-		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.boneShard, 2), Items.bone, new ItemStack(
-				RegisterItems.goldKnife, 1, OreDictionary.WILDCARD_VALUE));
-		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.boneShard, 2), Items.bone, new ItemStack(
-				RegisterItems.diamondKnife, 1, OreDictionary.WILDCARD_VALUE));
+		GameRegistry.addRecipe(
+				new ShapelessOreRecipe(new ItemStack(RegisterItems.boneShard, 2), Items.bone, "itemKnife"));
 
 		// Leather Strip
-		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.leatherStrip, 3), Items.leather, new ItemStack(
-				RegisterItems.flintKnife, 1, OreDictionary.WILDCARD_VALUE));
-		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.leatherStrip, 3), Items.leather, new ItemStack(
-				RegisterItems.boneKnife, 1, OreDictionary.WILDCARD_VALUE));
-		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.leatherStrip, 3), Items.leather, new ItemStack(
-				RegisterItems.ironKnife, 1, OreDictionary.WILDCARD_VALUE));
-		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.leatherStrip, 3), Items.leather, new ItemStack(
-				RegisterItems.goldKnife, 1, OreDictionary.WILDCARD_VALUE));
-		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.leatherStrip, 3), Items.leather, new ItemStack(
-				RegisterItems.diamondKnife, 1, OreDictionary.WILDCARD_VALUE));
-
+		GameRegistry.addRecipe(
+				new ShapelessOreRecipe(new ItemStack(RegisterItems.leatherStrip, 3), Items.leather, "itemKnife"));
 
 		// Bonemeal from Bone Shard (a bit more rewarding)
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, 2, 15), RegisterItems.boneShard);
@@ -125,8 +85,8 @@ public class RegisterRecipes
 
 	private static void addSmelterRecipes()
 	{
-		SmelterRecipeHandler.addRecipe(Blocks.iron_ore, new ItemStack(Items.iron_ingot), 0.7f, 1, 1, 0.3f);
-		SmelterRecipeHandler.addRecipe(Blocks.gold_ore, new ItemStack(Items.gold_ingot), 1.0f, 2, 1, 0.2f);
+		RegisterHelper.registerSmelterOreRecipe("oreIron", new ItemStack(Items.iron_ingot), 0.7f, 1, 1, 0.3f);
+		RegisterHelper.registerSmelterOreRecipe("oreGold", new ItemStack(Items.gold_ingot), 1.0f, 2, 1, 0.2f);
 
 		// Recipes that might be better suited in Kiln only
 		if (BBConfig.canSmelterDoKilnStuff)
@@ -139,17 +99,18 @@ public class RegisterRecipes
 			SmelterRecipeHandler.addRecipe(Blocks.netherrack, new ItemStack(Items.netherbrick), 0.25f, 1, 1, 0.25f);
 			SmelterRecipeHandler.addRecipe(Blocks.stonebrick, new ItemStack(Blocks.stonebrick, 1, 2), 0.1f, 1, 0, 0.0f);
 
-			SmelterRecipeHandler.addRecipe(Blocks.cobblestone, new ItemStack(Blocks.stone), 0.1f, 0, 0, 0.0f);
-			SmelterRecipeHandler.addRecipe(Items.brick, new ItemStack(Items.clay_ball), 0.3f, 0, 0, 0.0f);
+			RegisterHelper.registerSmelterOreRecipe("cobblestone", new ItemStack(Blocks.stone), 0.1f, 0, 0, 0.0f);
+			SmelterRecipeHandler.addRecipe(Items.clay_ball, new ItemStack(Items.brick), 0.3f, 0, 0, 0.0f);
 			SmelterRecipeHandler.addRecipe(Blocks.clay, new ItemStack(Blocks.hardened_clay), 0.35f, 0, 0, 0.0f);
 		}
 
-		SmelterRecipeHandler.addRecipe(Blocks.coal_ore, new ItemStack(Items.coal, 1), 0.25f, 2, 2, 0.8f);
-		SmelterRecipeHandler.addRecipe(Blocks.quartz_ore, new ItemStack(Items.quartz, 2), 0.4f, 2, 4, 0.6f);
-		SmelterRecipeHandler.addRecipe(Blocks.lapis_ore, new ItemStack(Items.dye, 8, 4), 0.5f, 2, 8, 0.8f);
-		SmelterRecipeHandler.addRecipe(Blocks.redstone_ore, new ItemStack(Items.redstone, 4), 0.8f, 2, 4, 0.6f);
-		SmelterRecipeHandler.addRecipe(Blocks.diamond_ore, new ItemStack(Items.diamond, 1), 1.0f, 3, 2, 0.3f);
-		SmelterRecipeHandler.addRecipe(Blocks.emerald_ore, new ItemStack(Items.emerald, 1), 1.0f, 3, 2, 0.5f);
+		// Silk touch recipes
+		RegisterHelper.registerSmelterOreRecipe("oreCoal", new ItemStack(Items.coal, 1), 0.25f, 2, 2, 0.8f);
+		RegisterHelper.registerSmelterOreRecipe("oreQuartz", new ItemStack(Items.quartz, 2), 0.4f, 2, 4, 0.6f);
+		RegisterHelper.registerSmelterOreRecipe("oreLapis", new ItemStack(Items.dye, 8, 4), 0.5f, 2, 8, 0.8f);
+		RegisterHelper.registerSmelterOreRecipe("oreRedstone", new ItemStack(Items.redstone, 4), 0.8f, 2, 4, 0.6f);
+		RegisterHelper.registerSmelterOreRecipe("oreDiamond", new ItemStack(Items.diamond, 1), 1.0f, 3, 2, 0.3f);
+		RegisterHelper.registerSmelterOreRecipe("oreEmerald", new ItemStack(Items.emerald, 1), 1.0f, 3, 2, 0.5f);
 	}
 
 	public static void addAdvancedRecipes()
@@ -564,7 +525,9 @@ public class RegisterRecipes
 	public static void addShapedRecipes()
 	{
 		//Roasting stick
-		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.roastingStick), " s", "s ", 's', Items.stick);
+		//GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.roastingStick), " s", "s ", 's', Items.stick);
+		GameRegistry.addRecipe(
+				new ShapedOreRecipe(new ItemStack(RegisterItems.roastingStick), " s", "s ", 's', "stickWood"));
 		
 		// Knife
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.flintKnife), "F ", " F", 'F', Items.flint);
@@ -582,19 +545,28 @@ public class RegisterRecipes
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.cloth, 3), "ttt", "ttt", 't', RegisterItems.thread);
 
 		// Flint Hatchet
-		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.flintHatchet), "FS", " /", 'F', Items.flint, 'S',
-									 RegisterItems.leatherStrip, '/', Items.stick);
+		GameRegistry.addRecipe(
+				new ShapedOreRecipe(new ItemStack(RegisterItems.flintHatchet), "FL", " /", 'F', Items.flint, 'L',
+				                    RegisterItems.leatherStrip, '/', "stickWood"));
+		//GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.flintHatchet), "FS", " /", 'F', Items.flint, 'S',
+		//							 RegisterItems.leatherStrip, '/', Items.stick);
 
 		// Noob Wood Sword
-		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.noobWoodSword), "#", "#", "/", '#', new ItemStack(
-				Blocks.planks, 1, OreDictionary.WILDCARD_VALUE), '/', Items.stick);
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(RegisterItems.noobWoodSword), "#", "#", "/",
+		                                           '#', "plankWood", '/', "stickWood"));
+		//GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.noobWoodSword), "#", "#", "/", '#', new ItemStack(
+		//		Blocks.planks, 1, OreDictionary.WILDCARD_VALUE), '/', Items.stick);
 
 		// Kiln
-		GameRegistry.addShapedRecipe(new ItemStack(RegisterBlocks.kiln), "###", "# #", "###", '#', Blocks.cobblestone);
+		GameRegistry.addRecipe(
+				new ShapedOreRecipe(new ItemStack(RegisterBlocks.kiln), "###", "# #", "###", '#', "cobblestone"));
+		//GameRegistry.addShapedRecipe(new ItemStack(RegisterBlocks.kiln), "###", "# #", "###", '#', Blocks.cobblestone);
 
 		// Brick Oven
-		GameRegistry.addShapedRecipe(new ItemStack(RegisterBlocks.brickOven), "BBB", "# #", "###", '#',
-									 Blocks.brick_block, 'B', Items.brick);
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(RegisterBlocks.brickOven), "BBB", "# #", "###",
+		                                           '#', Blocks.brick_block, 'B', "ingotBrick"));
+		//GameRegistry.addShapedRecipe(new ItemStack(RegisterBlocks.brickOven), "BBB", "# #", "###", '#',
+		//							 Blocks.brick_block, 'B', Items.brick);
 
 		// Smelter
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterBlocks.smelter), "###", "#C#", "###", '#', new ItemStack(
