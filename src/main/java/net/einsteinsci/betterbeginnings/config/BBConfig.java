@@ -6,30 +6,41 @@ public class BBConfig
 {
 	public static final String GENERAL = Configuration.CATEGORY_GENERAL;
 	public static final String CRAFTING = "crafting";
+	public static final String SMELTING = "smelting";
 
 	public static boolean greetUser;
 	public static boolean advancedCraftingForLotsOfThings;
+	public static boolean requireAdvancedCrafting;
+	public static boolean removeCraftedFoodRecipes;
 	public static boolean canMakeVanillaWorkbench;
 	public static boolean canMakeVanillaFurnace;
 	public static boolean canMakeChainArmor;
+	public static boolean removeWoodToolRecipes;
 	public static boolean flamingAnimalsDropCharredMeat;
 	public static boolean moreBones;
 	public static boolean moreBonesPeacefulOnly;
 	public static boolean spawnMarshmallows;
 	public static boolean canSmelterDoKilnStuff;
+	public static boolean removeSmeltingRecipes;
+	public static boolean removeOnlyVanillaSmeltingRecipes;
 
 	public BBConfig()
 	{
 		greetUser = true;
 		advancedCraftingForLotsOfThings = true;
+		requireAdvancedCrafting = true;
+		removeCraftedFoodRecipes = true;
 		canMakeVanillaWorkbench = false;
 		canMakeVanillaFurnace = false;
 		canMakeChainArmor = true;
+		removeWoodToolRecipes = true;
 		flamingAnimalsDropCharredMeat = true;
 		moreBones = true;
 		moreBonesPeacefulOnly = true;
 		spawnMarshmallows = true;
 		canSmelterDoKilnStuff = false;
+		removeSmeltingRecipes = true;
+		removeOnlyVanillaSmeltingRecipes = true;
 	}
 
 	public static void syncConfig(Configuration config)
@@ -38,6 +49,11 @@ public class BBConfig
 		advancedCraftingForLotsOfThings =
 				config.getBoolean("advancedCraftingForLotsOfThings", CRAFTING, true,
 								  "Require Advanced Crafting for things like doors, pistons, chests, etc.");
+		requireAdvancedCrafting = config.getBoolean("requireAdvancedCrafting", CRAFTING, true,
+		                                            "Disable vanilla crafting for recipes that require advanced crafting table." +
+				                                            " Setting this to false sort of makes this part of the mod pointless.");
+		removeCraftedFoodRecipes = config.getBoolean("removeCraftedFoodRecipes", CRAFTING, true,
+		                                             "Remove crafting recipes of vanilla food items, enforcing the use of the ovens.");
 		canMakeVanillaWorkbench =
 				config.getBoolean("canMakeVanillaWorkbench", CRAFTING, true,
 								  "Provide alternative recipe for vanilla crafting table");
@@ -49,6 +65,9 @@ public class BBConfig
 		canMakeChainArmor =
 				config.getBoolean("canMakeChainArmor", CRAFTING, true,
 								  "Allow vanilla chain armor to be craftable from iron nuggets");
+		removeWoodToolRecipes = config.getBoolean("removeToolRecipes", CRAFTING, true,
+		                                          "Remove recipes for wooden pickaxe, axe, shovel, and hoe.");
+
 		flamingAnimalsDropCharredMeat =
 				config.getBoolean("flamingAnimalsDropCharredMeat", GENERAL, true,
 								  "Animals that die by flame drop charred meat instead of vanilla cooked meat");
@@ -60,9 +79,14 @@ public class BBConfig
 		                                      true,
 		                                      "Marshmallows spawn in dungeons, mineshafts, desert temples, and jungle temples.");
 		canSmelterDoKilnStuff = config.getBoolean("canSmelterDoKilnStuff",
-		                                          CRAFTING,
+		                                          SMELTING,
 		                                          false,
 		                                          "Allow smelter to make glass, bricks, smooth stone, etc.");
+
+		removeSmeltingRecipes = config.getBoolean("removeSmeltingRecipes", SMELTING, true,
+		                                          "Remove recipes that normally use the vanilla furnace");
+		removeOnlyVanillaSmeltingRecipes = config.getBoolean("removeOnlyVanillaSmeltingRecipes", SMELTING, true,
+		                                                     "Only remove furnace recipes for vanilla items/blocks. Requires removeSmeltingRecipes.");
 
 		if (config.hasChanged())
 		{

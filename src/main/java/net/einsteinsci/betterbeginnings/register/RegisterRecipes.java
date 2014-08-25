@@ -13,6 +13,9 @@ public class RegisterRecipes
 	public static void addShapelessRecipes()
 	{
 		// Sticks from Saplings & Knife
+		//GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.stick), "treeSapling", "itemKnife"));
+
+
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.stick),
 										new ItemStack(Blocks.sapling, 1,
 													  OreDictionary.WILDCARD_VALUE),
@@ -33,6 +36,7 @@ public class RegisterRecipes
 										new ItemStack(Blocks.sapling, 1,
 													  OreDictionary.WILDCARD_VALUE),
 										new ItemStack(RegisterItems.diamondKnife, 1, OreDictionary.WILDCARD_VALUE));
+
 
 		// Bone Shard
 		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.boneShard, 2), Items.bone, new ItemStack(
@@ -114,7 +118,9 @@ public class RegisterRecipes
 												  Blocks.pumpkin);
 		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.fermented_spider_eye), Items.spider_eye,
 												  Items.sugar, Blocks.brown_mushroom);
-		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(RegisterItems.roastingStickcookedMallow), RegisterItems.roastingStickrawMallow);
+		BrickOvenRecipeHandler
+				.addShapelessRecipe(new ItemStack(Items.magma_cream), Items.slime_ball, Items.blaze_powder);
+		//BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(RegisterItems.roastingStickcookedMallow), RegisterItems.roastingStickrawMallow);
 	}
 
 	private static void addSmelterRecipes()

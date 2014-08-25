@@ -11,6 +11,7 @@ import net.einsteinsci.betterbeginnings.register.RegisterItems;
 import net.einsteinsci.betterbeginnings.register.achievement.RegisterAchievements;
 import net.einsteinsci.betterbeginnings.util.ChatUtil;
 import net.minecraft.block.Block;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.*;
 import net.minecraft.entity.passive.*;
@@ -64,10 +65,15 @@ public class BBEventHandler
 		{
 			e.toolTip.add("Don't bring it to a gunfight");
 		}
-		
-		if (item == RegisterItems.noobWoodSword)
+
+		if (item == RegisterItems.noobWoodSword && EnchantmentHelper.getEnchantments(e.itemStack).isEmpty())
 		{
 			e.toolTip.add(ChatUtil.BLUE + "+0 Attack Damage");
+		}
+
+		if (item == RegisterItems.testItem)
+		{
+			e.toolTip.add("For dev testing only. What it does changes from one version to the next.");
 		}
 
 		if (isWIP(e.itemStack))

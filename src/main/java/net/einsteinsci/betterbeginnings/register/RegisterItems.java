@@ -83,6 +83,11 @@ public class RegisterItems
 	public static void oreDictRegistry()
 	{
 		OreDictionary.registerOre("nuggetIron", ironNugget);
+		OreDictionary.registerOre("itemKnife", flintKnife);
+		OreDictionary.registerOre("itemKnife", boneKnife);
+		OreDictionary.registerOre("itemKnife", ironKnife);
+		OreDictionary.registerOre("itemKnife", goldKnife);
+		OreDictionary.registerOre("itemKnife", diamondKnife);
 	}
 
 	public static void tweakVanilla()
