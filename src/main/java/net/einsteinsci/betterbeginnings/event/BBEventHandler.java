@@ -73,7 +73,7 @@ public class BBEventHandler
 
 		if (item == RegisterItems.testItem)
 		{
-			e.toolTip.add("For dev testing only. What it does changes from one version to the next.");
+			e.toolTip.add(ChatUtil.PINK + "For dev testing only. What it does changes from one version to the next.");
 		}
 
 		if (isWIP(e.itemStack))
@@ -88,12 +88,10 @@ public class BBEventHandler
 
 		wip.add(new ItemStack(RegisterItems.fireBow));
 		wip.add(new ItemStack(RegisterBlocks.campfire));
-		wip.add(new ItemStack(RegisterItems.cloth));
 		wip.add(new ItemStack(RegisterItems.clothBoots));
 		wip.add(new ItemStack(RegisterItems.clothPants));
 		wip.add(new ItemStack(RegisterItems.clothShirt));
 		wip.add(new ItemStack(RegisterItems.clothHat));
-		wip.add(new ItemStack(RegisterItems.silk));
 		wip.add(new ItemStack(RegisterItems.roastingStick));
 		wip.add(new ItemStack(RegisterItems.roastingStickrawMallow));
 		wip.add(new ItemStack(RegisterItems.roastingStickcookedMallow));
@@ -271,7 +269,7 @@ public class BBEventHandler
 	{
 		if (e.crafting.getItem() == RegisterItems.flintKnife)
 		{
-			e.player.addStat(RegisterAchievements.flintKnife, 1);
+			e.player.addStat(RegisterAchievements.get("flintKnife"), 1);
 		}
 
 		for (int i = 0; i < e.craftMatrix.getSizeInventory(); ++i)
@@ -281,7 +279,7 @@ public class BBEventHandler
 				ItemStack current = e.craftMatrix.getStackInSlot(i);
 				if (current.getItem() instanceof ItemKnife && e.crafting.getItem() == Items.stick)
 				{
-					e.player.addStat(RegisterAchievements.makeSticks, 1);
+					e.player.addStat(RegisterAchievements.get("makeSticks"), 1);
 				}
 			}
 		}
@@ -294,14 +292,17 @@ public class BBEventHandler
 
 		if (e.entityLiving instanceof EntitySpider) // Includes cave spiders
 		{
-			Iterator iterator = e.drops.iterator();
-			while (iterator.hasNext())
+			if (!BBConfig.spidersDropString)
 			{
-				EntityItem entityItem = (EntityItem)iterator.next();
-				Item item = entityItem.getEntityItem().getItem();
-				if (item == Items.string)
+				Iterator iterator = e.drops.iterator();
+				while (iterator.hasNext())
 				{
-					iterator.remove();
+					EntityItem entityItem = (EntityItem)iterator.next();
+					Item item = entityItem.getEntityItem().getItem();
+					if (item == Items.string)
+					{
+						iterator.remove();
+					}
 				}
 			}
 

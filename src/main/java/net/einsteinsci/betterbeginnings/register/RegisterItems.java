@@ -3,6 +3,7 @@ package net.einsteinsci.betterbeginnings.register;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.einsteinsci.betterbeginnings.items.*;
 import net.einsteinsci.betterbeginnings.items.ItemCloth;
+import net.minecraft.init.Items;
 import net.minecraft.item.*;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraftforge.common.util.EnumHelper;
@@ -41,7 +42,7 @@ public class RegisterItems
 	public static final Item roastingStick = new ItemRoastingStick();
 	public static final Item roastingStickrawMallow = new ItemRoastingStickMallow(false);
 	public static final Item roastingStickcookedMallow = new ItemRoastingStickMallow(true);
-
+	public static final Item twine = new ItemTwine();
 
 	public static void register()
 	{
@@ -59,6 +60,7 @@ public class RegisterItems
 		RegisterHelper.registerItem(silk);
 		RegisterHelper.registerItem(thread);
 		RegisterHelper.registerItem(cloth);
+		RegisterHelper.registerItem(twine);
 		RegisterHelper.registerItem(leatherStrip);
 		RegisterHelper.registerItem(ironNugget);
 		RegisterHelper.registerItem(charredMeat);
@@ -88,6 +90,10 @@ public class RegisterItems
 		OreDictionary.registerOre("itemKnife", new ItemStack(ironKnife, 1, OreDictionary.WILDCARD_VALUE));
 		OreDictionary.registerOre("itemKnife", new ItemStack(goldKnife, 1, OreDictionary.WILDCARD_VALUE));
 		OreDictionary.registerOre("itemKnife", new ItemStack(diamondKnife, 1, OreDictionary.WILDCARD_VALUE));
+
+		OreDictionary.registerOre("itemString", new ItemStack(Items.string));
+		OreDictionary.registerOre("itemString", new ItemStack(thread));
+		OreDictionary.registerOre("itemString", new ItemStack(twine));
 	}
 
 	public static void tweakVanilla()

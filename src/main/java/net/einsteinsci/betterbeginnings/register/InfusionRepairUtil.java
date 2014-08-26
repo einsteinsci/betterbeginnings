@@ -72,6 +72,11 @@ public class InfusionRepairUtil
 			return 0;
 		}
 
+		if (infusedItem.getItem() instanceof ItemBow)
+		{
+			return 10;
+		}
+
 		if (infusedItem.getItem() == RegisterItems.noobWoodSword)
 		{
 			return 1;
@@ -188,6 +193,12 @@ public class InfusionRepairUtil
 		if (!repaired.isItemDamaged())
 		{
 			return requiredItems;
+		}
+
+		if (repaired.getItem() instanceof ItemBow)
+		{
+			requiredItems.add(new ItemStack(Items.stick, 2));
+			requiredItems.add(new ItemStack(Items.string, 2));
 		}
 
 		if (repaired.getItem() == RegisterItems.noobWoodSword)
@@ -366,7 +377,7 @@ public class InfusionRepairUtil
 								requiredItems.add(new ItemStack(Items.sugar, 4 * level));
 								break;
 							case 33: // Silk Touch
-								requiredItems.add(new ItemStack(Blocks.wool, 8 * level));
+								requiredItems.add(new ItemStack(RegisterItems.cloth, 8 * level));
 								break;
 							case 34: // Unbreaking
 								requiredItems.add(new ItemStack(Blocks.obsidian, level));

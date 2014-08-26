@@ -28,6 +28,14 @@ public class RegisterRecipes
 
 		// Iron Nugget
 		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.ironNugget, 9), Items.iron_ingot);
+
+		// String
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.string, 4),
+		                                              new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE),
+		                                              "itemKnife"));
+
+		// Twine
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(RegisterItems.twine, 2), Blocks.vine, "itemKnife"));
 	}
 
 	public static void addFurnaceRecipes()
@@ -160,7 +168,7 @@ public class RegisterRecipes
 			// Trapped Chest
 			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.trapped_chest),
 													  new ItemStack[] {
-															  new ItemStack(Items.string,
+															  new ItemStack(RegisterItems.thread,
 																			2), new ItemStack(Items.redstone, 1)},
 													  "C",
 													  "H",
@@ -171,7 +179,7 @@ public class RegisterRecipes
 			// Tripwire Hook
 			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.tripwire_hook),
 													  new ItemStack[] {
-															  new ItemStack(Items.string,
+															  new ItemStack(RegisterItems.thread,
 																			1), new ItemStack(Items.redstone, 1)},
 													  "I",
 													  "/",
@@ -205,6 +213,22 @@ public class RegisterRecipes
 				RegisterItems.leatherStrip, 3)}, " /s", "/ s", " /s", 's', Items.string, '/', Items.stick);
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.bow), new ItemStack[] {new ItemStack(
 				RegisterItems.leatherStrip, 3)}, "s/ ", "s /", "s/ ", 's', Items.string, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.bow), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 3)}, " /s", "/ s", " /s", 's', RegisterItems.thread, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.bow), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 3)}, "s/ ", "s /", "s/ ", 's', RegisterItems.thread, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.bow), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 3)}, " /s", "/ s", " /s", 's', RegisterItems.twine, '/', Items.stick);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.bow), new ItemStack[] {new ItemStack(
+				RegisterItems.leatherStrip, 3)}, "s/ ", "s /", "s/ ", 's', RegisterItems.twine, '/', Items.stick);
+
+		// Fishing rod
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.fishing_rod), new ItemStack[] {new ItemStack(
+				RegisterItems.ironNugget)}, "  /", " /s", "/ s", '/', Items.stick, 's', Items.string);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.fishing_rod), new ItemStack[] {new ItemStack(
+				RegisterItems.ironNugget)}, "  /", " /s", "/ s", '/', Items.stick, 's', RegisterItems.thread);
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.fishing_rod), new ItemStack[] {new ItemStack(
+				RegisterItems.ironNugget)}, "  /", " /s", "/ s", '/', Items.stick, 's', RegisterItems.twine);
 
 		// Bone Pickaxe
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(RegisterItems.bonePickaxe),
@@ -542,7 +566,7 @@ public class RegisterRecipes
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.thread), "ss", "ss", 's', RegisterItems.silk);
 
 		// Cloth
-		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.cloth, 3), "ttt", "ttt", 't', RegisterItems.thread);
+		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.cloth, 4), "ttt", "ttt", 't', RegisterItems.thread);
 
 		// Flint Hatchet
 		GameRegistry.addRecipe(
@@ -594,24 +618,16 @@ public class RegisterRecipes
 										 "/*/",
 										 "*#*",
 										 "/*/",
-										 '/',
-										 Items.stick,
-										 '#',
-										 new ItemStack(Blocks.log, 1, OreDictionary.WILDCARD_VALUE),
-										 '*',
-										 new ItemStack(Blocks.planks, 1,
-													   OreDictionary.WILDCARD_VALUE));
+										 '/', Items.stick,
+										 '#', new ItemStack(Blocks.log, 1, OreDictionary.WILDCARD_VALUE),
+										 '*', new ItemStack(Blocks.planks, 1, OreDictionary.WILDCARD_VALUE));
 			GameRegistry.addShapedRecipe(new ItemStack(Blocks.crafting_table),
 										 "/*/",
 										 "*#*",
 										 "/*/",
-										 '/',
-										 Items.stick,
-										 '#',
-										 new ItemStack(Blocks.log2, 1, OreDictionary.WILDCARD_VALUE),
-										 '*',
-										 new ItemStack(Blocks.planks, 1,
-													   OreDictionary.WILDCARD_VALUE));
+										 '/', Items.stick,
+										 '#', new ItemStack(Blocks.log2, 1, OreDictionary.WILDCARD_VALUE),
+										 '*', new ItemStack(Blocks.planks, 1, OreDictionary.WILDCARD_VALUE));
 		}
 
 		if (BBConfig.canMakeChainArmor)
@@ -628,9 +644,13 @@ public class RegisterRecipes
 		}
 
 		// Craft vanilla benches into BB workbenches
-
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(RegisterBlocks.doubleWorkbench, 2), "##", '#',
+		                                           "craftingTableWood"));
 		GameRegistry
 				.addShapedRecipe(new ItemStack(RegisterBlocks.doubleWorkbench, 2), "##", '#', Blocks.crafting_table);
+
+		// Craft BB workbenches into vanilla ones
+		//GameRegistry.addShapedRecipe(new ItemStack(Blocks.crafting_table), "#", '#', RegisterBlocks.doubleWorkbench);
 	}
 }
 

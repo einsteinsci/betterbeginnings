@@ -147,12 +147,12 @@ public class BlockObsidianKiln extends BlockContainer
 	@Override
 	public Item getItemDropped(int par1, Random rand, int par3)
 	{
-		return Item.getItemFromBlock(RegisterBlocks.kiln);
+		return Item.getItemFromBlock(RegisterBlocks.obsidianKiln);
 	}
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float clickX,
-									float clickY, float clickZ)
+	                                float clickY, float clickZ)
 	{
 		TileEntityObsidianKiln kiln = (TileEntityObsidianKiln)world.getTileEntity(x, y, z);
 		player.openGui(ModMain.modInstance, BBGuiHandler.OBSIDIANKILN_ID, world, x, y, z);
@@ -279,11 +279,11 @@ public class BlockObsidianKiln extends BlockContainer
 							stack.stackSize -= j;
 							EntityItem entityItem =
 									new EntityItem(world,
-												   x + velX,
-												   y + velY,
-												   z + velZ,
-												   new ItemStack(stack.getItem(), j,
-																 stack.getItemDamage()));
+									               x + velX,
+									               y + velY,
+									               z + velZ,
+									               new ItemStack(stack.getItem(), j,
+									                             stack.getItemDamage()));
 
 							if (stack.hasTagCompound())
 							{

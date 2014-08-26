@@ -51,6 +51,22 @@ public class ModMain
 	public static ServerProxy proxy;
 	public BBEventHandler eventHandler = new BBEventHandler();
 
+	public static void LogDebug(String text)
+	{
+		if (BBConfig.debugLogging)
+		{
+			Log(Level.DEBUG, text);
+		}
+	}
+
+	public static void LogDebug(Level level, String text)
+	{
+		if (BBConfig.debugLogging)
+		{
+			Log(level, text);
+		}
+	}
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e)
 	{

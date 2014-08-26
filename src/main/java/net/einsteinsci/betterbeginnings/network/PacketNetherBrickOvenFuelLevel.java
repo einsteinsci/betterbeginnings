@@ -29,8 +29,6 @@ public class PacketNetherBrickOvenFuelLevel implements IMessage
 			TileEntityNetherBrickOven oven = (TileEntityNetherBrickOven)player.worldObj.getTileEntity(
 					message.xPos, message.yPos, message.zPos);
 			oven.setFuelLevel(message.fluid);
-			ModMain.Log("Recieved fuel level packet from (" + message.xPos + ", " + message.yPos + ", " +
-					            message.zPos + ")"); //DEBUG
 
 			return null;
 		}

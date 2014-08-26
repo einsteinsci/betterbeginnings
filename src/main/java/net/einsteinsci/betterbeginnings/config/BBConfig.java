@@ -9,6 +9,7 @@ public class BBConfig
 	public static final String SMELTING = "smelting";
 
 	public static boolean greetUser;
+	public static boolean debugLogging;
 	public static boolean advancedCraftingForLotsOfThings;
 	public static boolean requireAdvancedCrafting;
 	public static boolean removeCraftedFoodRecipes;
@@ -17,6 +18,7 @@ public class BBConfig
 	public static boolean canMakeChainArmor;
 	public static boolean removeWoodToolRecipes;
 	public static boolean flamingAnimalsDropCharredMeat;
+	public static boolean spidersDropString;
 	public static boolean moreBones;
 	public static boolean moreBonesPeacefulOnly;
 	public static boolean spawnMarshmallows;
@@ -27,6 +29,7 @@ public class BBConfig
 	public BBConfig()
 	{
 		greetUser = true;
+		debugLogging = false;
 		advancedCraftingForLotsOfThings = true;
 		requireAdvancedCrafting = true;
 		removeCraftedFoodRecipes = true;
@@ -35,6 +38,7 @@ public class BBConfig
 		canMakeChainArmor = true;
 		removeWoodToolRecipes = true;
 		flamingAnimalsDropCharredMeat = true;
+		spidersDropString = false;
 		moreBones = true;
 		moreBonesPeacefulOnly = true;
 		spawnMarshmallows = true;
@@ -46,6 +50,7 @@ public class BBConfig
 	public static void syncConfig(Configuration config)
 	{
 		greetUser = config.getBoolean("greetUser", GENERAL, true, "Greet user upon login");
+		debugLogging = config.getBoolean("debugLogging", GENERAL, false, "Log all kinds of stuff, for debug purposes");
 		advancedCraftingForLotsOfThings =
 				config.getBoolean("advancedCraftingForLotsOfThings", CRAFTING, true,
 								  "Require Advanced Crafting for things like doors, pistons, chests, etc.");
@@ -71,6 +76,8 @@ public class BBConfig
 		flamingAnimalsDropCharredMeat =
 				config.getBoolean("flamingAnimalsDropCharredMeat", GENERAL, true,
 								  "Animals that die by flame drop charred meat instead of vanilla cooked meat");
+		spidersDropString = config
+				.getBoolean("spidersDropString", GENERAL, false, "Spiders drop vanilla string as well as silk.");
 		moreBones = config.getBoolean("moreBones", GENERAL, true, "Almost all mobs drop bones, not just skeletons");
 		moreBonesPeacefulOnly = config.getBoolean("moreBonesPeacefulOnly", GENERAL, true,
 		                                          "Non-skeleton mobs only drop bones on peaceful. Requires 'moreBones' to be true in order to do anything.");

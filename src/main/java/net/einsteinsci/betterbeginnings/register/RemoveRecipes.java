@@ -46,6 +46,7 @@ public class RemoveRecipes
 			}
 
 			removedRecipes.add(Items.bow);
+			removedRecipes.add(Items.fishing_rod);
 
 			removedRecipes.add(Items.leather_helmet);
 			removedRecipes.add(Items.leather_chestplate);
