@@ -1,6 +1,5 @@
 package net.einsteinsci.betterbeginnings.network;
 
-import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.*;
 import io.netty.buffer.ByteBuf;
 import net.einsteinsci.betterbeginnings.ModMain;
@@ -55,12 +54,12 @@ public class PacketNetherBrickOvenFuelLevel implements IMessage
 	@Override
 	public void fromBytes(ByteBuf buf)
 	{
-		xPos = ByteBufUtils.readVarInt(buf, INTSIZE);
-		yPos = ByteBufUtils.readVarInt(buf, INTSIZE);
-		zPos = ByteBufUtils.readVarInt(buf, INTSIZE);
+		xPos = buf.readInt();
+		yPos = buf.readInt();
+		zPos = buf.readInt();
 
-		int fluidId = ByteBufUtils.readVarInt(buf, INTSIZE);
-		int level = ByteBufUtils.readVarInt(buf, INTSIZE);
+		int fluidId = buf.readInt();
+		int level = buf.readInt();
 
 		if (level != 0)
 		{
@@ -75,19 +74,19 @@ public class PacketNetherBrickOvenFuelLevel implements IMessage
 	@Override
 	public void toBytes(ByteBuf buf)
 	{
-		ByteBufUtils.writeVarInt(buf, xPos, INTSIZE);
-		ByteBufUtils.writeVarInt(buf, yPos, INTSIZE);
-		ByteBufUtils.writeVarInt(buf, zPos, INTSIZE);
+		buf.writeInt(xPos);
+		buf.writeInt(yPos);
+		buf.writeInt(zPos);
 
 		if (fluid != null)
 		{
-			ByteBufUtils.writeVarInt(buf, fluid.getFluid().getID(), INTSIZE);
-			ByteBufUtils.writeVarInt(buf, fluid.amount, INTSIZE);
+			buf.writeInt(fluid.getFluid().getID());
+			buf.writeInt(fluid.amount);
 		}
 		else
 		{
-			ByteBufUtils.writeVarInt(buf, 0, INTSIZE);
-			ByteBufUtils.writeVarInt(buf, 0, INTSIZE);
+			buf.writeInt(0);
+			buf.writeInt(0);
 		}
 	}
 }

@@ -14,10 +14,10 @@ public class ItemRoastingStick extends Item
 	public ItemRoastingStick()
 	{
 		setUnlocalizedName("roastingStick");
-		this.shouldRotateAroundWhenRendering();
+		//shouldRotateAroundWhenRendering();
 		setTextureName(ModMain.MODID + ":" + getUnlocalizedName().substring(5));
-		this.setCreativeTab(ModMain.tabBetterBeginnings);
-		this.setMaxStackSize(5);
+		setCreativeTab(ModMain.tabBetterBeginnings);
+		setMaxStackSize(5);
 	}
 
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)

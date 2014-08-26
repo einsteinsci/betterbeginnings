@@ -23,10 +23,10 @@ public class ItemRoastingStickMallow extends Item
 			setUnlocalizedName("roastingStickrawMallow");
 		}
 		isCooked = cooked;
-		this.shouldRotateAroundWhenRendering();
+		//shouldRotateAroundWhenRendering();
 		setTextureName(ModMain.MODID + ":" + getUnlocalizedName().substring(5));
-		this.setCreativeTab(ModMain.tabBetterBeginnings);
-		this.setMaxStackSize(1);
+		setCreativeTab(ModMain.tabBetterBeginnings);
+		setMaxStackSize(1);
 	}
 
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)

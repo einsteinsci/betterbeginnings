@@ -150,7 +150,7 @@ public class BlockNetherBrickOven extends BlockContainer
 	@Override
 	public Item getItemDropped(int par1, Random rand, int par3)
 	{
-		return Item.getItemFromBlock(RegisterBlocks.brickOven);
+		return Item.getItemFromBlock(RegisterBlocks.netherBrickOven);
 	}
 
 	@Override
