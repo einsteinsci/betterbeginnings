@@ -246,14 +246,14 @@ public class TileEntityEnderSmelter extends TileEntity implements ISidedInventor
 				smelterStacks[OUTPUT].stackSize += resultSize;
 			}
 
+			int gravelUsed = SmelterRecipeHandler.smelting().getGravelCount(smelterStacks[INPUT]);
+
 			--smelterStacks[INPUT].stackSize;
 
 			if (smelterStacks[INPUT].stackSize <= 0)
 			{
 				smelterStacks[INPUT] = null;
 			}
-
-			int gravelUsed = SmelterRecipeHandler.smelting().getGravelCount(smelterStacks[INPUT]);
 			smelterStacks[GRAVEL].stackSize -= gravelUsed;
 
 			if (smelterStacks[GRAVEL].stackSize <= 0)
