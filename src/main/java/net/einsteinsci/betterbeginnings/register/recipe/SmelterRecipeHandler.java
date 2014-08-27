@@ -38,9 +38,7 @@ public class SmelterRecipeHandler
 
 	public void putLists(ItemStack input, ItemStack output, float experience, int gravel, int bonus, float chance)
 	{
-		// smeltingList.put(input, output);
 		experienceList.put(output, Float.valueOf(experience));
-		// gravelMap.put(output, Integer.valueOf(gravel));
 
 		recipes.add(new SmelterRecipe(output, input, experience, gravel, bonus, chance));
 	}
@@ -72,9 +70,12 @@ public class SmelterRecipeHandler
 	{
 		for (SmelterRecipe recipe : recipes)
 		{
-			if (recipe.getInput().getItem() == stack.getItem())
+			if (recipe.getInput() != null)
 			{
-				return recipe.getGravel();
+				if (recipe.getInput().getItem() == stack.getItem())
+				{
+					return recipe.getGravel();
+				}
 			}
 		}
 
