@@ -185,9 +185,19 @@ public class ContainerDoubleWorkbench extends Container
 
 		if (!worldObj.isRemote)
 		{
-			for (int i = 0; i < 9; ++i)
+			for (int i = 0; i < craftMatrix.getSizeInventory(); ++i)
 			{
 				ItemStack itemstack = craftMatrix.getStackInSlotOnClosing(i);
+
+				if (itemstack != null)
+				{
+					player.dropPlayerItemWithRandomChoice(itemstack, false);
+				}
+			}
+
+			for (int i = 0; i < addedMats.getSizeInventory(); ++i)
+			{
+				ItemStack itemstack = addedMats.getStackInSlotOnClosing(i);
 
 				if (itemstack != null)
 				{
