@@ -267,6 +267,31 @@ public class BBEventHandler
 	@SubscribeEvent
 	public void onItemCrafted(PlayerEvent.ItemCraftedEvent e)
 	{
+		// To fix duplication glitch #27
+		if (e.crafting.getItem() instanceof ItemKnife)
+		{
+			for (int i = 0; i < e.craftMatrix.getSizeInventory(); i++)
+			{
+				ItemStack stack = e.craftMatrix.getStackInSlot(i);
+				if (stack != null)
+				{
+					if (stack.getItem() instanceof ItemKnife)
+					{
+						--stack.stackSize;
+
+						if (stack.stackSize <= 0)
+						{
+							e.craftMatrix.setInventorySlotContents(i, null);
+						}
+						else
+						{
+							e.craftMatrix.setInventorySlotContents(i, stack);
+						}
+					}
+				}
+			}
+		}
+
 		if (e.crafting.getItem() == RegisterItems.flintKnife)
 		{
 			e.player.addStat(RegisterAchievements.get("flintKnife"), 1);
