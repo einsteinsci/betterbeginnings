@@ -11,7 +11,7 @@ public class RegisterAchievements
 {
 	public static final RegisterAchievements instance = new RegisterAchievements();
 
-	public static Map<String, Achievement> achievements;
+	private static Map<String, Achievement> achievements;
 	
 	public static RegisterAchievements getInstance()
 	{

@@ -231,14 +231,14 @@ public class TileEntitySmelter extends TileEntity implements ISidedInventory
 				smelterStacks[OUTPUT].stackSize += itemStack.stackSize;
 			}
 
+			int gravelUsed = SmelterRecipeHandler.smelting().getGravelCount(smelterStacks[INPUT]);
+
 			--smelterStacks[INPUT].stackSize;
 
 			if (smelterStacks[INPUT].stackSize <= 0)
 			{
 				smelterStacks[INPUT] = null;
 			}
-
-			int gravelUsed = SmelterRecipeHandler.smelting().getGravelCount(smelterStacks[INPUT]);
 			smelterStacks[GRAVEL].stackSize -= gravelUsed;
 
 			if (smelterStacks[GRAVEL].stackSize <= 0)
