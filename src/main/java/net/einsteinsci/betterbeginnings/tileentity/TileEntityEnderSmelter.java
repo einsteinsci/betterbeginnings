@@ -34,6 +34,7 @@ public class TileEntityEnderSmelter extends TileEntity implements ISidedInventor
 	public int smelterBurnTime;
 	public int currentItemBurnLength;
 	public int smelterCookTime;
+	public boolean oreDoubled = false;
 	private ItemStack[] smelterStacks = new ItemStack[4];
 	private String smelterName;
 
@@ -93,6 +94,8 @@ public class TileEntityEnderSmelter extends TileEntity implements ISidedInventor
 		{
 			smelterName = tagCompound.getString("CustomName");
 		}
+
+		oreDoubled = tagCompound.getByte("oreDoubled") == 1;
 	}
 
 	@Override
@@ -120,6 +123,8 @@ public class TileEntityEnderSmelter extends TileEntity implements ISidedInventor
 		{
 			tagCompound.setString("CustomName", smelterName);
 		}
+
+		tagCompound.setByte("oreDoubled", oreDoubled ? (byte)1 : (byte)0);
 	}
 
 	@Override
@@ -235,6 +240,7 @@ public class TileEntityEnderSmelter extends TileEntity implements ISidedInventor
 			if (random.nextFloat() < chance)
 			{
 				resultSize += bonus;
+				oreDoubled = true;
 			}
 
 			if (smelterStacks[OUTPUT] == null)

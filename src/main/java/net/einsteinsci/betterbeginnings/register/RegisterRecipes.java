@@ -48,6 +48,7 @@ public class RegisterRecipes
 	private static void addKilnRecipes()
 	{
 		KilnRecipes.addRecipe(Items.clay_ball, new ItemStack(Items.brick), 0.35f);
+		KilnRecipes.addRecipe(Blocks.clay, new ItemStack(Blocks.hardened_clay), 0.1f);
 		KilnRecipes.addRecipe(Blocks.cobblestone, new ItemStack(Blocks.stone), 0.1f);
 		KilnRecipes.addRecipe(Blocks.log, new ItemStack(Items.coal, 1, 1), 0.15f);
 		KilnRecipes.addRecipe(Blocks.log2, new ItemStack(Items.coal, 1, 1), 0.15f);

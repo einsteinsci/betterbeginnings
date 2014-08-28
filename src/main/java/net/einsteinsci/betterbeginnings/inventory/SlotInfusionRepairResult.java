@@ -2,6 +2,8 @@ package net.einsteinsci.betterbeginnings.inventory;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.einsteinsci.betterbeginnings.register.InfusionRepairUtil;
+import net.einsteinsci.betterbeginnings.register.RegisterItems;
+import net.einsteinsci.betterbeginnings.register.achievement.RegisterAchievements;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.SlotCrafting;
@@ -91,5 +93,13 @@ public class SlotInfusionRepairResult extends SlotCrafting
 		}
 
 		inputSlots.setInventorySlotContents(0, null);
+
+		if (stack != null)
+		{
+			if (stack.getItem() == RegisterItems.noobWoodSword)
+			{
+				RegisterAchievements.achievementGet(entityPlayer, "repairNoobSword");
+			}
+		}
 	}
 }

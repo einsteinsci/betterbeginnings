@@ -38,9 +38,6 @@ public class ModMain
 			return RegisterItems.flintKnife;
 		}
 	};
-	public static final AchievementPage pageBetterBeginnings = new AchievementPage("Better Beginnings",
-	                                                                               RegisterAchievements
-			                                                                               .getAchievements());
 
 	@Instance(ModMain.MODID)
 	public static ModMain modInstance;
@@ -57,6 +54,11 @@ public class ModMain
 		{
 			Log(Level.DEBUG, text);
 		}
+	}
+
+	public static void Log(Level level, String text)
+	{
+		FMLLog.log(NAME, level, text);
 	}
 
 	public static void LogDebug(Level level, String text)
@@ -97,11 +99,6 @@ public class ModMain
 		Log(Level.INFO, text);
 	}
 
-	public static void Log(Level level, String text)
-	{
-		FMLLog.log("Better Beginnings", level, text);
-	}
-
 	@EventHandler
 	public void init(FMLInitializationEvent e)
 	{
@@ -110,15 +107,17 @@ public class ModMain
 		RegisterRecipes.addShapedRecipes();
 		RegisterRecipes.addAdvancedRecipes();
 		RegisterRecipes.addFurnaceRecipes();
-		Worldgen.addWorldgen();
 
-		AchievementPage.registerAchievementPage(pageBetterBeginnings);
 		RemoveRecipes.removeFurnaceRecipes();
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent e)
 	{
+
 		RegisterItems.tweakVanilla();
+		Worldgen.addWorldgen();
+		AchievementPage.registerAchievementPage(new AchievementPage(NAME, RegisterAchievements.getAchievements()));
+		Log("Finished post-initialization.");
 	}
 }

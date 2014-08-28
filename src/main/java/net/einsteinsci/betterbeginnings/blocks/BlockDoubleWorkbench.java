@@ -5,6 +5,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.gui.BBGuiHandler;
 import net.einsteinsci.betterbeginnings.register.RegisterBlocks;
+import net.einsteinsci.betterbeginnings.register.achievement.RegisterAchievements;
 import net.einsteinsci.betterbeginnings.util.BlockUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -209,7 +210,7 @@ public class BlockDoubleWorkbench extends Block
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int face, float posX,
-									float posY, float posZ)
+	                                float posY, float posZ)
 	{
 		if (world.getBlockMetadata(x, y, z) == 0)
 		{
@@ -236,28 +237,42 @@ public class BlockDoubleWorkbench extends Block
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack)
 	{
+		boolean isDouble = false;
+
 		if (BlockUtil.getBlockFromDirection(world, x, y, z, BlockUtil.North) == RegisterBlocks.doubleWorkbench)
 		{
 			world.setBlockMetadataWithNotify(x, y, z, BlockUtil.North, 3);
 			world.setBlockMetadataWithNotify(x, y, z - 1, BlockUtil.South, 3);
+			isDouble = true;
 		}
 
 		if (BlockUtil.getBlockFromDirection(world, x, y, z, BlockUtil.South) == RegisterBlocks.doubleWorkbench)
 		{
 			world.setBlockMetadataWithNotify(x, y, z, BlockUtil.South, 3);
 			world.setBlockMetadataWithNotify(x, y, z + 1, BlockUtil.North, 3);
+			isDouble = true;
 		}
 
 		if (BlockUtil.getBlockFromDirection(world, x, y, z, BlockUtil.West) == RegisterBlocks.doubleWorkbench)
 		{
 			world.setBlockMetadataWithNotify(x, y, z, BlockUtil.West, 3);
 			world.setBlockMetadataWithNotify(x - 1, y, z, BlockUtil.East, 3);
+			isDouble = true;
 		}
 
 		if (BlockUtil.getBlockFromDirection(world, x, y, z, BlockUtil.East) == RegisterBlocks.doubleWorkbench)
 		{
 			world.setBlockMetadataWithNotify(x, y, z, BlockUtil.East, 3);
 			world.setBlockMetadataWithNotify(x + 1, y, z, BlockUtil.West, 3);
+			isDouble = true;
+		}
+
+		if (isDouble)
+		{
+			if (entity instanceof EntityPlayer)
+			{
+				RegisterAchievements.achievementGet((EntityPlayer)entity, "doubleWorkbench");
+			}
 		}
 	}
 

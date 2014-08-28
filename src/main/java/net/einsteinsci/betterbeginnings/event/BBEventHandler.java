@@ -263,6 +263,15 @@ public class BBEventHandler
 			}
 		}
 	}
+
+	@SubscribeEvent
+	public void onItemSmelted(PlayerEvent.ItemSmeltedEvent e)
+	{
+		if (e.smelting.getItem() == Items.golden_apple && e.smelting.getItemDamage() == 1)
+		{
+			RegisterAchievements.achievementGet(e.player, "notchApple");
+		}
+	}
 	
 	@SubscribeEvent
 	public void onItemCrafted(PlayerEvent.ItemCraftedEvent e)
@@ -294,7 +303,21 @@ public class BBEventHandler
 
 		if (e.crafting.getItem() == RegisterItems.flintKnife)
 		{
-			e.player.addStat(RegisterAchievements.get("flintKnife"), 1);
+			RegisterAchievements.achievementGet(e.player, "flintKnife");
+		}
+		else if (e.crafting.getItem() instanceof ItemKnife)
+		{
+			RegisterAchievements.achievementGet(e.player, "upgradeKnife");
+		}
+
+		if (e.crafting.getItem() == Items.string)
+		{
+			RegisterAchievements.achievementGet(e.player, "makeString");
+		}
+
+		if (e.crafting.getItem() == RegisterItems.twine)
+		{
+			RegisterAchievements.achievementGet(e.player, "makeTwine");
 		}
 
 		for (int i = 0; i < e.craftMatrix.getSizeInventory(); ++i)
@@ -304,9 +327,69 @@ public class BBEventHandler
 				ItemStack current = e.craftMatrix.getStackInSlot(i);
 				if (current.getItem() instanceof ItemKnife && e.crafting.getItem() == Items.stick)
 				{
-					e.player.addStat(RegisterAchievements.get("makeSticks"), 1);
+					RegisterAchievements.achievementGet(e.player, "makeSticks");
 				}
 			}
+		}
+
+		if (e.crafting.getItem() == RegisterItems.flintHatchet)
+		{
+			RegisterAchievements.achievementGet(e.player, "makeHatchet");
+		}
+
+		if (e.crafting.getItem() instanceof ItemSword)
+		{
+			RegisterAchievements.achievementGet(e.player, "makeSword");
+		}
+
+		if (e.crafting.getItem() == Item.getItemFromBlock(RegisterBlocks.infusionRepairStation))
+		{
+			RegisterAchievements.achievementGet(e.player, "infusionRepair");
+		}
+
+		if (e.crafting.getItem() == RegisterItems.boneShard)
+		{
+			RegisterAchievements.achievementGet(e.player, "boneShards");
+		}
+
+		if (e.crafting.getItem() == RegisterItems.bonePickaxe)
+		{
+			RegisterAchievements.achievementGet(e.player, "bonePick");
+		}
+
+		if (e.crafting.getItem() == Item.getItemFromBlock(RegisterBlocks.kiln))
+		{
+			RegisterAchievements.achievementGet(e.player, "makeKiln");
+		}
+
+		if (e.crafting.getItem() == Item.getItemFromBlock(RegisterBlocks.obsidianKiln))
+		{
+			RegisterAchievements.achievementGet(e.player, "obsidianKiln");
+		}
+
+		if (e.crafting.getItem() == Item.getItemFromBlock(RegisterBlocks.smelter))
+		{
+			RegisterAchievements.achievementGet(e.player, "makeSmelter");
+		}
+
+		if (e.crafting.getItem() == Item.getItemFromBlock(RegisterBlocks.enderSmelter))
+		{
+			RegisterAchievements.achievementGet(e.player, "enderSmelter");
+		}
+
+		if (e.crafting.getItem() == Item.getItemFromBlock(RegisterBlocks.brickOven))
+		{
+			RegisterAchievements.achievementGet(e.player, "makeBrickOven");
+		}
+
+		if (e.crafting.getItem() == Items.cake)
+		{
+			RegisterAchievements.achievementGet(e.player, "cake");
+		}
+
+		if (e.crafting.getItem() == Item.getItemFromBlock(RegisterBlocks.netherBrickOven))
+		{
+			RegisterAchievements.achievementGet(e.player, "netherBrickOven");
 		}
 	}
 
