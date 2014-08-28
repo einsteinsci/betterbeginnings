@@ -17,7 +17,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "MC1.7.10-b0.8.3"
+version = "MC1.7.10-b0.8.4"
 group = "net.einsteinsci.betterbeginnings" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "betterbeginnings"
 
