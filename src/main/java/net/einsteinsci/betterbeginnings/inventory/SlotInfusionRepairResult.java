@@ -30,7 +30,6 @@ public class SlotInfusionRepairResult extends SlotCrafting
 
 	public void onPickupFromSlot(EntityPlayer entityPlayer, ItemStack stack)
 	{
-		FMLCommonHandler.instance().firePlayerCraftingEvent(entityPlayer, stack, inputSlots);
 		onCrafting(stack);
 
 		InventoryInfusionRepair inputs = (InventoryInfusionRepair)inputSlots;
@@ -100,6 +99,8 @@ public class SlotInfusionRepairResult extends SlotCrafting
 			{
 				RegisterAchievements.achievementGet(entityPlayer, "repairNoobSword");
 			}
+
+			FMLCommonHandler.instance().firePlayerCraftingEvent(entityPlayer, stack, inputSlots);
 		}
 	}
 }

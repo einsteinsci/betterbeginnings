@@ -237,7 +237,7 @@ public class InfusionRepairUtil
 					requiredItems.add(new ItemStack(Items.gold_nugget, 2));
 					break;
 				case EMERALD: // See "WTF" below.
-					requiredItems.add(new ItemStack(Items.redstone, 32));
+					requiredItems.add(new ItemStack(Items.redstone, 24));
 					break;
 				default:
 					requiredItems.add(new ItemStack(Items.emerald, 4));
@@ -263,7 +263,7 @@ public class InfusionRepairUtil
 					requiredItems.add(new ItemStack(Items.gold_nugget, 2));
 					break;
 				case EMERALD: // See "WTF" below.
-					requiredItems.add(new ItemStack(Items.redstone, 32));
+					requiredItems.add(new ItemStack(Items.redstone, 16));
 					break;
 				default:
 					if (material == RegisterItems.noobWood)
@@ -294,7 +294,7 @@ public class InfusionRepairUtil
 				case GOLD:
 					requiredItems.add(new ItemStack(Items.gold_nugget, 2));
 				case DIAMOND: // WTF MOJANG?! (See above)
-					requiredItems.add(new ItemStack(Items.redstone, 32));
+					requiredItems.add(new ItemStack(Items.redstone, 24));
 				default:
 					requiredItems.add(new ItemStack(Items.emerald, 4));
 					break;
