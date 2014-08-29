@@ -20,6 +20,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.*;
 import net.minecraft.world.EnumDifficulty;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -116,7 +117,54 @@ public class BBEventHandler
 		EntityPlayer player = e.getPlayer();
 		ItemStack heldItemStack = player.getHeldItem();
 
-		handleWrongTool(e, block, player, heldItemStack);
+		handleWrongToolCompat(e, block, player, heldItemStack);
+	}
+
+	public void handleWrongToolCompat(BlockEvent.BreakEvent e, Block block, EntityPlayer player, ItemStack held)
+	{
+		boolean correctTool = false;
+		boolean usedFace = false;
+		if (held == null)
+		{
+			usedFace = true;
+		}
+		else
+		{
+			if (!held.isItemStackDamageable())
+			{
+				usedFace = true;
+			}
+
+			correctTool = ForgeHooks.isToolEffective(held, block, e.blockMetadata);
+		}
+
+		String intended = block.getHarvestTool(e.blockMetadata);
+		if (block.getUnlocalizedName() == Blocks.snow.getUnlocalizedName() ||
+				block.getUnlocalizedName() == Blocks.snow_layer.getUnlocalizedName())
+		{
+			intended = null;
+		}
+
+		if (intended == null || intended == "shovel" || player.capabilities.isCreativeMode)
+		{
+			correctTool = true;
+		}
+
+		if (!correctTool)
+		{
+			e.setCanceled(true);
+			if (usedFace)
+			{
+				// What do you think the player's 'durability' is?
+				player.attackEntityFrom(new DamageSourceFace(block), 4);
+				ChatUtil.sendChatToPlayer(player, ChatUtil.ORANGE +
+						"[Better Beginnings] Ouch! What did you think punching that would do?");
+			}
+			else
+			{
+				ChatUtil.sendChatToPlayer(player, ChatUtil.ORANGE + "[Better Beginnings] Wrong tool!");
+			}
+		}
 	}
 
 	public void handleWrongTool(BlockEvent.BreakEvent e, Block block, EntityPlayer player, ItemStack heldItemStack)
