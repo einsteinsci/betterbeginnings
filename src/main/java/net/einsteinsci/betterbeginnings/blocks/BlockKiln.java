@@ -40,9 +40,11 @@ public class BlockKiln extends BlockContainer
 		if (lit)
 		{
 			setBlockName("kilnLit");
+			this.setLightLevel(0.875F);
 		}
 		else
 		{
+			this.setLightLevel(0F);
 			setBlockName("kiln");
 			setCreativeTab(ModMain.tabBetterBeginnings);
 		}

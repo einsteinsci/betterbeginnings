@@ -39,10 +39,12 @@ public class BlockSmelter extends BlockContainer
 
 		if (lit)
 		{
+			this.setLightLevel(0.875F);
 			setBlockName("smelterLit");
 		}
 		else
 		{
+			this.setLightLevel(0F);
 			setBlockName("smelter");
 			setCreativeTab(ModMain.tabBetterBeginnings);
 		}

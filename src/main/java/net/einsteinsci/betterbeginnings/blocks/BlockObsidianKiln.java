@@ -39,10 +39,12 @@ public class BlockObsidianKiln extends BlockContainer
 
 		if (lit)
 		{
+			this.setLightLevel(0.875F);
 			setBlockName("obsidianKilnLit");
 		}
 		else
 		{
+			this.setLightLevel(0F);
 			setBlockName("obsidianKiln");
 			setCreativeTab(ModMain.tabBetterBeginnings);
 		}
