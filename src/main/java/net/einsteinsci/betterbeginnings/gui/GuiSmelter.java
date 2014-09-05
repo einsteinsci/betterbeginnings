@@ -20,7 +20,7 @@ import org.lwjgl.opengl.GL12;
 @SideOnly(Side.CLIENT)
 public class GuiSmelter extends GuiContainer
 {
-	private static final ResourceLocation kilnGuiTextures = new ResourceLocation(ModMain.MODID +
+	private static final ResourceLocation smelterGuiTextures = new ResourceLocation(ModMain.MODID +
 																						 ":textures/gui/container/smelter.png");
 	RenderItemPartialTransparency partialTransItemRenderer = new RenderItemPartialTransparency();
 	private TileEntitySmelter tileSmelter;
@@ -45,7 +45,7 @@ public class GuiSmelter extends GuiContainer
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
 		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		mc.getTextureManager().bindTexture(kilnGuiTextures);
+		mc.getTextureManager().bindTexture(smelterGuiTextures);
 		int k = (width - xSize) / 2;
 		int l = (height - ySize) / 2;
 

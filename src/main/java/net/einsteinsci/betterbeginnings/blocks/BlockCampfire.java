@@ -16,6 +16,7 @@ public class BlockCampfire extends BlockContainer
 		this.setResistance(5.0F);
 		this.setHardness(2.0F);
 		this.setBlockTextureName(ModMain.MODID + ":CampfireImg");
+		this.setBlockBounds(0.1F, 0.0F, 0.1F, 1.0F, 0.5F, 1.0F);
 		if (!lit)
 		{
 			//this.setCreativeTab(ModMain.tabBetterBeginnings);
