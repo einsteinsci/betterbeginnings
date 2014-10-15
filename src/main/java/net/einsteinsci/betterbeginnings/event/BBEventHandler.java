@@ -134,7 +134,6 @@ public class BBEventHandler
 			{
 				usedFace = true;
 			}
-
 			correctTool = ForgeHooks.isToolEffective(held, block, e.blockMetadata);
 		}
 
@@ -145,9 +144,32 @@ public class BBEventHandler
 			intended = null;
 		}
 
-		if (intended == null || intended == "shovel" || player.capabilities.isCreativeMode)
+		if (intended == null || intended == "shovel" || player.capabilities.isCreativeMode || shouldBeNull(block))
 		{
 			correctTool = true;
+		}
+
+		if (shouldBePickaxe(block))
+		{
+			if (held != null)
+			{
+				if (held.getItem() instanceof ItemTool)
+				{
+					ItemTool tool = (ItemTool)held.getItem();
+					if (!tool.getToolClasses(held).contains("pickaxe"))
+					{
+						correctTool = false;
+					}
+				}
+				else
+				{
+					correctTool = false;
+				}
+			}
+			else
+			{
+				correctTool = false;
+			}
 		}
 
 		if (!correctTool)
@@ -167,6 +189,52 @@ public class BBEventHandler
 		}
 	}
 
+	private boolean shouldBeNull(Block block)
+	{
+		List<Block> should = new ArrayList<Block>();
+
+		should.add(Blocks.pumpkin);
+		should.add(Blocks.lit_pumpkin);
+		should.add(Blocks.melon_block);
+		should.add(Blocks.ice);
+		should.add(Blocks.snow);
+		should.add(Blocks.snow_layer);
+
+		return should.contains(block);
+	}
+
+	private boolean shouldBePickaxe(Block block)
+	{
+		List<Block> should = new ArrayList<Block>();
+
+		should.add(Blocks.coal_block);
+		should.add(Blocks.redstone_block);
+		should.add(Blocks.stained_hardened_clay);
+		should.add(Blocks.hardened_clay);
+		should.add(Blocks.quartz_block);
+		should.add(Blocks.brick_block);
+		should.add(Blocks.packed_ice);
+		should.add(Blocks.furnace);
+		should.add(Blocks.lit_furnace);
+
+		should.add(RegisterBlocks.kiln);
+		should.add(RegisterBlocks.kilnLit);
+		should.add(RegisterBlocks.brickOven);
+		should.add(RegisterBlocks.brickOvenLit);
+		should.add(RegisterBlocks.smelter);
+		should.add(RegisterBlocks.smelterLit);
+		should.add(RegisterBlocks.obsidianKiln);
+		should.add(RegisterBlocks.obsidianKilnLit);
+		should.add(RegisterBlocks.netherBrickOven);
+		should.add(RegisterBlocks.netherBrickOvenLit);
+		should.add(RegisterBlocks.enderSmelter);
+		should.add(RegisterBlocks.enderSmelterLit);
+		should.add(RegisterBlocks.infusionRepairStation);
+
+		return should.contains(block);
+	}
+
+	@Deprecated
 	public void handleWrongTool(BlockEvent.BreakEvent e, Block block, EntityPlayer player, ItemStack heldItemStack)
 	{
 		Item heldItem = null;
@@ -260,22 +328,6 @@ public class BBEventHandler
 				}
 			}
 		}
-	}
-
-	private boolean shouldBePickaxe(Block block)
-	{
-		List<Block> should = new ArrayList<Block>();
-
-		should.add(Blocks.coal_block);
-		should.add(Blocks.redstone_block);
-		should.add(Blocks.stained_hardened_clay);
-		should.add(Blocks.hardened_clay);
-		should.add(Blocks.quartz_block);
-		should.add(Blocks.brick_block);
-		should.add(Blocks.ice);
-		should.add(Blocks.packed_ice);
-
-		return should.contains(block);
 	}
 
 	@SubscribeEvent
