@@ -5,7 +5,9 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.config.BBConfig;
+import net.einsteinsci.betterbeginnings.items.ItemHammer;
 import net.einsteinsci.betterbeginnings.items.ItemKnife;
+import net.einsteinsci.betterbeginnings.items.ItemRockHammer;
 import net.einsteinsci.betterbeginnings.register.RegisterBlocks;
 import net.einsteinsci.betterbeginnings.register.RegisterItems;
 import net.einsteinsci.betterbeginnings.register.achievement.RegisterAchievements;
@@ -26,6 +28,8 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.world.BlockEvent;
 
 import java.util.*;
+
+import scala.Int;
 
 public class BBEventHandler
 {
@@ -120,6 +124,28 @@ public class BBEventHandler
 		handleWrongToolCompat(e, block, player, heldItemStack);
 	}
 
+	public ItemStack dropItemForBlock(Block blockb,BlockEvent.BreakEvent e) //For hammer
+	{
+		String blockname = blockb.getLocalizedName().toLowerCase(); 
+        switch (blockname) {
+            case "stone":  return new ItemStack(Blocks.cobblestone);
+            case "cobblestone":  return new ItemStack(Blocks.gravel);
+            case "dirt": return new ItemStack(Blocks.sand);
+            case "sandstone":
+            case "gravel": return new ItemStack(Blocks.sand);
+            default: 
+            	ArrayList drops = e.block.getDrops(e.world, e.x, e.y, e.z, e.blockMetadata, 0);
+            	System.out.println(drops);
+            	int size = drops.size();
+            	if(ItemRockHammer.GetBreakable().contains(blockb))
+            	{
+            	return (ItemStack) (size >= 1 ? drops.get(size-1) : new ItemStack(Blocks.air));
+            	}
+            	return new ItemStack(Blocks.air);
+        }
+    
+	}
+	
 	public void handleWrongToolCompat(BlockEvent.BreakEvent e, Block block, EntityPlayer player, ItemStack held)
 	{
 		boolean correctTool = false;
@@ -134,9 +160,35 @@ public class BBEventHandler
 			{
 				usedFace = true;
 			}
+
 			correctTool = ForgeHooks.isToolEffective(held, block, e.blockMetadata);
 		}
-
+		if(held != null)
+		{
+		Item heldItem = held.getItem();
+		if (heldItem instanceof ItemHammer)
+		{
+			ItemHammer hammer = (ItemHammer)heldItem;
+			if (!ItemHammer.GetBreakable().contains(block))
+			{
+				correctTool = false;
+			}
+			correctTool = true;
+			usedFace = false;
+			e.setCanceled(true);
+			e.world.setBlock(e.x, e.y, e.z, Blocks.air);
+			ItemStack dropItem = dropItemForBlock(block,e);
+			
+            float f = 0.7F;
+            double d0 = (double)(e.world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
+            double d1 = (double)(e.world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
+            double d2 = (double)(e.world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
+            EntityItem entityitem = new EntityItem(e.world, (double)e.x + d0, (double)e.y + d1, (double)e.z + d2, dropItem);
+            entityitem.delayBeforeCanPickup = 10;
+            e.world.spawnEntityInWorld(entityitem);
+			
+		}
+		}
 		String intended = block.getHarvestTool(e.blockMetadata);
 		if (block.getUnlocalizedName() == Blocks.snow.getUnlocalizedName() ||
 				block.getUnlocalizedName() == Blocks.snow_layer.getUnlocalizedName())
@@ -144,32 +196,9 @@ public class BBEventHandler
 			intended = null;
 		}
 
-		if (intended == null || intended == "shovel" || player.capabilities.isCreativeMode || shouldBeNull(block))
+		if (intended == null || intended == "shovel" || player.capabilities.isCreativeMode)
 		{
 			correctTool = true;
-		}
-
-		if (shouldBePickaxe(block))
-		{
-			if (held != null)
-			{
-				if (held.getItem() instanceof ItemTool)
-				{
-					ItemTool tool = (ItemTool)held.getItem();
-					if (!tool.getToolClasses(held).contains("pickaxe"))
-					{
-						correctTool = false;
-					}
-				}
-				else
-				{
-					correctTool = false;
-				}
-			}
-			else
-			{
-				correctTool = false;
-			}
 		}
 
 		if (!correctTool)
@@ -189,52 +218,6 @@ public class BBEventHandler
 		}
 	}
 
-	private boolean shouldBeNull(Block block)
-	{
-		List<Block> should = new ArrayList<Block>();
-
-		should.add(Blocks.pumpkin);
-		should.add(Blocks.lit_pumpkin);
-		should.add(Blocks.melon_block);
-		should.add(Blocks.ice);
-		should.add(Blocks.snow);
-		should.add(Blocks.snow_layer);
-
-		return should.contains(block);
-	}
-
-	private boolean shouldBePickaxe(Block block)
-	{
-		List<Block> should = new ArrayList<Block>();
-
-		should.add(Blocks.coal_block);
-		should.add(Blocks.redstone_block);
-		should.add(Blocks.stained_hardened_clay);
-		should.add(Blocks.hardened_clay);
-		should.add(Blocks.quartz_block);
-		should.add(Blocks.brick_block);
-		should.add(Blocks.packed_ice);
-		should.add(Blocks.furnace);
-		should.add(Blocks.lit_furnace);
-
-		should.add(RegisterBlocks.kiln);
-		should.add(RegisterBlocks.kilnLit);
-		should.add(RegisterBlocks.brickOven);
-		should.add(RegisterBlocks.brickOvenLit);
-		should.add(RegisterBlocks.smelter);
-		should.add(RegisterBlocks.smelterLit);
-		should.add(RegisterBlocks.obsidianKiln);
-		should.add(RegisterBlocks.obsidianKilnLit);
-		should.add(RegisterBlocks.netherBrickOven);
-		should.add(RegisterBlocks.netherBrickOvenLit);
-		should.add(RegisterBlocks.enderSmelter);
-		should.add(RegisterBlocks.enderSmelterLit);
-		should.add(RegisterBlocks.infusionRepairStation);
-
-		return should.contains(block);
-	}
-
-	@Deprecated
 	public void handleWrongTool(BlockEvent.BreakEvent e, Block block, EntityPlayer player, ItemStack heldItemStack)
 	{
 		Item heldItem = null;
@@ -247,14 +230,13 @@ public class BBEventHandler
 		{
 			requiredToolClass = "pickaxe";
 		}
-
 		// Blocks that should be breakable regardless of tool
 		if (block.getUnlocalizedName() == Blocks.snow.getUnlocalizedName() ||
 				block.getUnlocalizedName() == Blocks.snow_layer.getUnlocalizedName())
 		{
 			requiredToolClass = null;
 		}
-
+		
 		if (!player.capabilities.isCreativeMode)
 		{
 			boolean wrongTool = false;
@@ -295,6 +277,16 @@ public class BBEventHandler
 					}
 					toolUsed = "knife";
 				}
+				else if (heldItem instanceof ItemHammer)
+				{
+					ItemHammer hammer = (ItemHammer)heldItem;
+					if (!ItemHammer.GetBreakable().contains(block))
+					{
+						wrongTool = true;
+						System.out.println("Tool not compatable, RIP English");
+					}
+					toolUsed = "hammer";
+				}
 				else if (!(heldItem instanceof ItemTool))
 				{
 					wrongTool = true;
@@ -311,7 +303,7 @@ public class BBEventHandler
 				// Nobody cares. It's a shovel.
 				wrongTool = false;
 			}
-
+			
 			if (wrongTool)
 			{
 				e.setCanceled(true);
@@ -320,7 +312,8 @@ public class BBEventHandler
 					// What do you think the player's 'durability' is?
 					player.attackEntityFrom(new DamageSourceFace(block), 4);
 					ChatUtil.sendChatToPlayer(player, ChatUtil.ORANGE +
-							"[Better Beginnings] Ouch! What did you think punching that would do?");
+							"[Better Beginnings] Ouch! What did you think punching "
+							+ "that would do?");
 				}
 				else
 				{
@@ -329,6 +322,23 @@ public class BBEventHandler
 			}
 		}
 	}
+
+	private boolean shouldBePickaxe(Block block)
+	{
+		List<Block> should = new ArrayList<Block>();
+
+		should.add(Blocks.coal_block);
+		should.add(Blocks.redstone_block);
+		should.add(Blocks.stained_hardened_clay);
+		should.add(Blocks.hardened_clay);
+		should.add(Blocks.quartz_block);
+		should.add(Blocks.brick_block);
+		should.add(Blocks.ice);
+		should.add(Blocks.packed_ice);
+
+		return should.contains(block);
+	}
+	
 
 	@SubscribeEvent
 	public void onBlockDrops(BlockEvent.HarvestDropsEvent e)

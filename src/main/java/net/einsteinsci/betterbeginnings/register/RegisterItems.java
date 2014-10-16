@@ -3,6 +3,7 @@ package net.einsteinsci.betterbeginnings.register;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.einsteinsci.betterbeginnings.items.*;
 import net.einsteinsci.betterbeginnings.items.ItemCloth;
+import net.minecraft.block.material.Material;
 import net.minecraft.init.Items;
 import net.minecraft.item.*;
 import net.minecraft.item.Item.ToolMaterial;
@@ -43,6 +44,7 @@ public class RegisterItems
 	public static final Item roastingStickrawMallow = new ItemRoastingStickMallow(false);
 	public static final Item roastingStickcookedMallow = new ItemRoastingStickMallow(true);
 	public static final Item twine = new ItemTwine();
+	public static final Item rockHammer = new ItemRockHammer(ToolMaterial.IRON);
 
 	public static void register()
 	{
@@ -65,6 +67,7 @@ public class RegisterItems
 		RegisterHelper.registerItem(ironNugget);
 		RegisterHelper.registerItem(charredMeat);
 		RegisterHelper.registerItem(fireBow);
+		RegisterHelper.registerItem(rockHammer);
 
 		RegisterHelper.registerItem(marshmallow);
 		RegisterHelper.registerItem(roastingStick);
