@@ -35,8 +35,6 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 	 */
 	public static final float FUELFORLAVA = 8; // 512 mb per stack
 	public static final int MINIMUMTEMPERATURE = 500;
-	//public int ovenBurnTime;
-	//public int currentItemBurnLength;
 	public int ovenCookTime;
 	public TankNetherBrickOvenFuel fuelTank;
 	private ItemStack[] ovenStacks = new ItemStack[11];
@@ -390,12 +388,17 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill)
 	{
-		return fuelTank.fill(resource, doFill);
+		int result = fuelTank.fill(resource, doFill);
+		markDirty();
+		return result;
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain)
 	{
+		return null;
+
+		/*
 		if (resource.isFluidEqual(fuelTank.getFluid()))
 		{
 			return fuelTank.drain(resource.amount, doDrain);
@@ -404,34 +407,44 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 		{
 			return fuelTank.drain(0, doDrain);
 		}
+		*/
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain)
 	{
-		return fuelTank.drain(maxDrain, doDrain);
+		return null;
+		//return fuelTank.drain(maxDrain, doDrain);
 	}
 
 	@Override
 	public boolean canFill(ForgeDirection from, Fluid fluid)
 	{
+		return true;
+
+		/*
 		if (fuelTank.getFluid() == null)
 		{
 			return true;
 		}
 
 		return fuelTank.getFluidAmount() < fuelTank.getCapacity() && fuelTank.getFluid().getFluid() == fluid;
+		*/
 	}
 
 	@Override
 	public boolean canDrain(ForgeDirection from, Fluid fluid)
 	{
+		return false;
+
+		/*
 		if (fuelTank.getFluid() == null)
 		{
 			return false;
 		}
 
 		return fuelTank.getFluidAmount() > 0 && fuelTank.getFluid().getFluid() == fluid;
+		*/
 	}
 
 	@Override

@@ -17,12 +17,12 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "MC1.7.10-b0.8.4"
+version = "MC1.7.10-b0.8.5"
 group = "net.einsteinsci.betterbeginnings" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "betterbeginnings"
 
 minecraft {
-    version = "1.7.10-10.13.0.1180"
+    version = "1.7.10-10.13.1.1219"
     assetDir = "eclipse/assets"
 }
 
