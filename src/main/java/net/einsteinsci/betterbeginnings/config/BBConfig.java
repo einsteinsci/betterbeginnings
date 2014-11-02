@@ -2,6 +2,8 @@ package net.einsteinsci.betterbeginnings.config;
 
 import net.minecraftforge.common.config.Configuration;
 
+import java.util.*;
+
 public class BBConfig
 {
 	public static final String GENERAL = Configuration.CATEGORY_GENERAL;
@@ -26,6 +28,11 @@ public class BBConfig
 	public static boolean removeSmeltingRecipes;
 	public static boolean removeOnlyVanillaSmeltingRecipes;
 
+	public static List<String> alwaysBreakable;
+	public static List<String> alsoAxes;
+	public static List<String> alsoPickaxes;
+	public static List<String> alsoKnives;
+
 	public BBConfig()
 	{
 		greetUser = true;
@@ -45,10 +52,14 @@ public class BBConfig
 		canSmelterDoKilnStuff = false;
 		removeSmeltingRecipes = true;
 		removeOnlyVanillaSmeltingRecipes = true;
+
+		alwaysBreakable = new ArrayList<String>();
 	}
 
 	public static void syncConfig(Configuration config)
 	{
+		// Booleans
+
 		greetUser = config.getBoolean("greetUser", GENERAL, true, "Greet user upon login");
 		debugLogging = config.getBoolean("debugLogging", GENERAL, false, "Log all kinds of stuff, for debug purposes");
 		advancedCraftingForLotsOfThings =
@@ -94,6 +105,30 @@ public class BBConfig
 		                                          "Remove recipes that normally use the vanilla furnace");
 		removeOnlyVanillaSmeltingRecipes = config.getBoolean("removeOnlyVanillaSmeltingRecipes", SMELTING, true,
 		                                                     "Only remove furnace recipes for vanilla items/blocks. Requires removeSmeltingRecipes.");
+
+		// Arrays
+
+		String[] _alwaysBreakable = config.getStringList("alwaysBreakable", GENERAL, new String[] {},
+		                                                 "List of blocks always breakable. Use this format: 'modid:blockName'.");
+		alwaysBreakable.clear();
+		Collections.addAll(alwaysBreakable, _alwaysBreakable);
+
+		String[] _alsoAxes = config.getStringList("alsoAxes", GENERAL, new String[] {},
+		                                          "List of items that qualify as axes for breakable checks. Use this format: 'modid:itemName'.");
+		alsoAxes.clear();
+		Collections.addAll(alsoAxes, _alsoAxes);
+
+		String[] _alsoPickaxes = config.getStringList("alsoPickaxes", GENERAL, new String[] {},
+		                                              "List of items that qualify as pickaxes for breakable checks. Use this format: 'modid:itemName'.");
+		alsoPickaxes.clear();
+		Collections.addAll(alsoPickaxes, _alsoPickaxes);
+
+		String[] _alsoKnives = config.getStringList("alsoKnives", GENERAL, new String[] {},
+		                                            "List of items that qualify as knives for breakable checks. Use this format: 'modid:itemName'.");
+		alsoKnives.clear();
+		Collections.addAll(alsoKnives, _alsoKnives);
+
+		// Save
 
 		if (config.hasChanged())
 		{

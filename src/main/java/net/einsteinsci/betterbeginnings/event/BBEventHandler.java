@@ -3,6 +3,7 @@ package net.einsteinsci.betterbeginnings.event;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
+import cpw.mods.fml.common.registry.GameData;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.config.BBConfig;
 import net.einsteinsci.betterbeginnings.items.ItemHammer;
@@ -201,6 +202,12 @@ public class BBEventHandler
 		should.add(Blocks.snow);
 		should.add(Blocks.snow_layer);
 
+		for (String s : BBConfig.alwaysBreakable)
+		{
+			Block always = GameData.getBlockRegistry().getObject(s);
+			should.add(always);
+		}
+
 		return should.contains(block);
 	}
 
@@ -263,7 +270,8 @@ public class BBEventHandler
 			if (heldItemStack != null && requiredToolClass != null)
 			{
 				heldItem = heldItemStack.getItem();
-				if (heldItem instanceof ItemAxe)
+				if (heldItem instanceof ItemAxe ||
+						BBConfig.alsoAxes.contains(heldItem.getUnlocalizedName()))
 				{
 					if (!requiredToolClass.equalsIgnoreCase("axe"))
 					{
@@ -271,7 +279,8 @@ public class BBEventHandler
 					}
 					toolUsed = "axe";
 				}
-				else if (heldItem instanceof ItemPickaxe)
+				else if (heldItem instanceof ItemPickaxe ||
+						BBConfig.alsoPickaxes.contains(heldItem.getUnlocalizedName()))
 				{
 					if (!requiredToolClass.equalsIgnoreCase("pickaxe"))
 					{
@@ -287,9 +296,9 @@ public class BBEventHandler
 					}
 					toolUsed = "shovel";
 				}
-				else if (heldItem instanceof ItemKnife)
+				else if (heldItem instanceof ItemKnife ||
+						BBConfig.alsoKnives.contains(heldItem.getUnlocalizedName()))
 				{
-					ItemKnife knife = (ItemKnife)heldItem;
 					if (!ItemKnife.GetBreakable().contains(block))
 					{
 						wrongTool = true;
@@ -298,7 +307,6 @@ public class BBEventHandler
 				}
 				else if (heldItem instanceof ItemHammer)
 				{
-					ItemHammer hammer = (ItemHammer)heldItem;
 					if (!ItemHammer.GetBreakable().contains(block))
 					{
 						wrongTool = true;
@@ -316,10 +324,9 @@ public class BBEventHandler
 				wrongTool = true;
 			}
 
-			// if (toolClass.equalsIgnoreCase("null"))
 			if (requiredToolClass == null || requiredToolClass.equalsIgnoreCase("shovel"))
 			{
-				// Nobody cares. It's a shovel.
+				// It's a shovel. Nobody cares.
 				wrongTool = false;
 			}
 
