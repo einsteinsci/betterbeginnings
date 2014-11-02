@@ -43,6 +43,26 @@ public class RemoveRecipes
 				removedRecipes.add(Item.getItemFromBlock(Blocks.trapped_chest));
 				removedRecipes.add(Item.getItemFromBlock(Blocks.piston));
 				removedRecipes.add(Item.getItemFromBlock(Blocks.tripwire_hook));
+				removedRecipes.add(Item.getItemFromBlock(Blocks.dispenser));
+				removedRecipes.add(Item.getItemFromBlock(Blocks.noteblock));
+				removedRecipes.add(Item.getItemFromBlock(Blocks.golden_rail));
+				removedRecipes.add(Item.getItemFromBlock(Blocks.detector_rail));
+				removedRecipes.add(Item.getItemFromBlock(Blocks.tnt));
+				removedRecipes.add(Item.getItemFromBlock(Blocks.bookshelf));
+				removedRecipes.add(Item.getItemFromBlock(Blocks.ladder));
+				removedRecipes.add(Item.getItemFromBlock(Blocks.rail));
+				removedRecipes.add(Item.getItemFromBlock(Blocks.enchanting_table));
+				removedRecipes.add(Item.getItemFromBlock(Blocks.beacon));
+				removedRecipes.add(Item.getItemFromBlock(Blocks.anvil));
+				removedRecipes.add(Item.getItemFromBlock(Blocks.hopper));
+				removedRecipes.add(Item.getItemFromBlock(Blocks.activator_rail));
+				removedRecipes.add(Item.getItemFromBlock(Blocks.dropper));
+				removedRecipes.add(Items.minecart);
+				removedRecipes.add(Items.compass);
+				removedRecipes.add(Items.clock);
+				removedRecipes.add(Items.bed);
+				removedRecipes.add(Items.brewing_stand);
+				removedRecipes.add(Items.cauldron);
 			}
 
 			removedRecipes.add(Items.bow);

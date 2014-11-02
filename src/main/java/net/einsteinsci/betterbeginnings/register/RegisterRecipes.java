@@ -207,6 +207,142 @@ public class RegisterRecipes
 													  Blocks.cobblestone,
 													  'R',
 													  Items.redstone);
+			// Dispenser
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.dispenser),
+			                                          new ItemStack[] {new ItemStack(RegisterItems.ironNugget, 2)},
+			                                          "###", "#B#", "#R#",
+			                                          '#', Blocks.cobblestone,
+			                                          'B', new ItemStack(Items.bow, 1, 0),
+			                                          'R', Items.redstone);
+			// Note Block
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.noteblock),
+			                                          new ItemStack[] {new ItemStack(Items.string, 2)},
+			                                          "###", "#R#", "###",
+			                                          '#',
+			                                          new ItemStack(Blocks.planks, 1, OreDictionary.WILDCARD_VALUE),
+			                                          'R', Items.redstone);
+			// Gold Rail
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.golden_rail, 6),
+			                                          new ItemStack[] {new ItemStack(Items.gold_nugget, 2)},
+			                                          "G G", "G/G", "GRG",
+			                                          'G', Items.gold_ingot,
+			                                          '/', Items.stick,
+			                                          'R', Items.redstone);
+			// Detector Rail
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.detector_rail, 6),
+			                                          new ItemStack[] {new ItemStack(RegisterItems.ironNugget, 2),
+					                                          new ItemStack(Items.stick, 4)},
+			                                          "I I", "I_I", "IRI",
+			                                          'I', Items.iron_ingot,
+			                                          '_', Blocks.stone_pressure_plate,
+			                                          'R', Items.redstone);
+			// TNT
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.tnt, 2),
+			                                          new ItemStack[] {new ItemStack(Items.string, 3)},
+			                                          "G#G", "#G#", "G#G",
+			                                          'G', Items.gunpowder,
+			                                          '#', Blocks.sand);
+			// Bookshelf
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.bookshelf),
+			                                          new ItemStack[] {new ItemStack(RegisterItems.ironNugget, 1)},
+			                                          "###", "BBB", "###",
+			                                          '#',
+			                                          new ItemStack(Blocks.planks, 1, OreDictionary.WILDCARD_VALUE),
+			                                          'B', Items.book);
+			// Ladder
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.ladder, 4),
+			                                          new ItemStack[] {new ItemStack(Items.string, 1)},
+			                                          "/ /", "///", "/ /",
+			                                          '/', Items.stick);
+			// Rail
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.rail, 16),
+			                                          new ItemStack[] {new ItemStack(RegisterItems.ironNugget, 1)},
+			                                          "I I", "I/I", "I I",
+			                                          'I', Items.iron_ingot,
+			                                          '/', Items.stick);
+			// Enchanting Table
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.enchanting_table),
+			                                          new ItemStack[] {new ItemStack(Items.leather),
+					                                          new ItemStack(Items.dye, 1, 1),  //Rose Red
+					                                          new ItemStack(Items.dye, 1, 4)}, //Lapis
+			                                          " B ", "D#D", "###",
+			                                          'B', Items.book,
+			                                          'D', Items.diamond,
+			                                          '#', Blocks.obsidian);
+			// Beacon
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.beacon),
+			                                          new ItemStack[] {new ItemStack(Blocks.diamond_block, 1),
+					                                          new ItemStack(Items.blaze_rod, 4),
+					                                          new ItemStack(Items.potionitem, 1, 16)}, //Awkward potion
+			                                          "+++", "+S+", "###",
+			                                          '+', Blocks.glass,
+			                                          'S', Items.nether_star,
+			                                          '#', Blocks.obsidian);
+			// Anvil
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.anvil),
+			                                          new ItemStack[] {new ItemStack(RegisterItems.ironNugget, 4)},
+			                                          "###", " I ", "III",
+			                                          '#', Blocks.iron_block,
+			                                          'I', Items.iron_ingot);
+			// Hopper
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.hopper, 4),
+			                                          new ItemStack[] {new ItemStack(RegisterItems.ironNugget, 2),
+					                                          new ItemStack(Blocks.stone_pressure_plate, 1)},
+			                                          "I I", "I#I", " I ",
+			                                          'I', Items.iron_ingot,
+			                                          '#', Blocks.chest);
+			// Activator Rail
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.activator_rail, 6),
+			                                          new ItemStack[] {new ItemStack(RegisterItems.ironNugget, 4)},
+			                                          "I/I", "IiI", "I/I",
+			                                          'I', Items.iron_ingot,
+			                                          '/', Items.stick,
+			                                          'i', Blocks.redstone_torch);
+			// Dropper
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.dropper),
+			                                          new ItemStack[] {new ItemStack(RegisterItems.ironNugget, 2)},
+			                                          "###", "# #", "#R#",
+			                                          '#', Blocks.cobblestone,
+			                                          'R', Items.redstone);
+			// Minecart
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.minecart),
+			                                          new ItemStack[] {new ItemStack(RegisterItems.ironNugget, 2),
+					                                          new ItemStack(RegisterItems.leatherStrip, 1)},
+			                                          "I I", "III",
+			                                          'I', Items.iron_ingot);
+			// Compass
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.compass),
+			                                          new ItemStack[] {new ItemStack(RegisterItems.ironNugget, 3),
+					                                          new ItemStack(Items.potionitem, 1, 0)}, //Water Bottle
+			                                          " I ", "IRI", " I ",
+			                                          'I', Items.iron_ingot,
+			                                          'R', Items.redstone);
+			// Clock
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.clock),
+			                                          new ItemStack[] {new ItemStack(Items.gold_nugget, 3),
+					                                          new ItemStack(Items.dye, 1, 0)}, //Ink sac
+			                                          " G ", "GRG", " G ",
+			                                          'G', Items.gold_ingot,
+			                                          'R', Items.redstone);
+			// Bed
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.bed),
+			                                          new ItemStack[] {new ItemStack(RegisterItems.ironNugget, 2)},
+			                                          "***", "###",
+			                                          '*', new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE),
+			                                          '#',
+			                                          new ItemStack(Blocks.planks, 1, OreDictionary.WILDCARD_VALUE));
+			// Brewing Stand
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.brewing_stand),
+			                                          new ItemStack[] {new ItemStack(Items.gold_nugget, 1),
+					                                          new ItemStack(RegisterItems.ironNugget, 3)},
+			                                          " / ", "###",
+			                                          '/', Items.blaze_rod,
+			                                          '#', Blocks.cobblestone);
+			// Cauldron
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.cauldron),
+			                                          new ItemStack[] {new ItemStack(RegisterItems.ironNugget, 3)},
+			                                          "I I", "I I", "III",
+			                                          'I', Items.iron_ingot);
 		}
 
 		// Bow
@@ -639,6 +775,3 @@ public class RegisterRecipes
 		}
 	}
 }
-
-
-// PADDING!

@@ -3,7 +3,6 @@ package net.einsteinsci.betterbeginnings.register;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.einsteinsci.betterbeginnings.items.*;
 import net.einsteinsci.betterbeginnings.items.ItemCloth;
-import net.minecraft.block.material.Material;
 import net.minecraft.init.Items;
 import net.minecraft.item.*;
 import net.minecraft.item.Item.ToolMaterial;
@@ -104,5 +103,10 @@ public class RegisterItems
 		((ItemFood)GameRegistry.findItem("minecraft", "beef")).setPotionEffect(17, 20, 0, 20);
 		((ItemFood)GameRegistry.findItem("minecraft", "porkchop")).setPotionEffect(17, 25, 0, 25);
 		((ItemFood)GameRegistry.findItem("minecraft", "fish")).setPotionEffect(17, 30, 1, 60); // Both fish types here
+
+		GameRegistry.findItem("minecraft", "minecart").setMaxStackSize(16);
+		GameRegistry.findItem("minecraft", "wooden_door").setMaxStackSize(16);
+		GameRegistry.findItem("minecraft", "iron_door").setMaxStackSize(16);
+		GameRegistry.findItem("minecraft", "potion").setMaxStackSize(16);
 	}
 }

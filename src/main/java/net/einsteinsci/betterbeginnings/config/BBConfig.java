@@ -27,6 +27,7 @@ public class BBConfig
 	public static boolean canSmelterDoKilnStuff;
 	public static boolean removeSmeltingRecipes;
 	public static boolean removeOnlyVanillaSmeltingRecipes;
+	public static boolean makeStuffStackable;
 
 	public static List<String> alwaysBreakable;
 	public static List<String> alsoAxes;
@@ -52,6 +53,7 @@ public class BBConfig
 		canSmelterDoKilnStuff = false;
 		removeSmeltingRecipes = true;
 		removeOnlyVanillaSmeltingRecipes = true;
+		makeStuffStackable = true;
 
 		alwaysBreakable = new ArrayList<String>();
 	}
@@ -105,6 +107,8 @@ public class BBConfig
 		                                          "Remove recipes that normally use the vanilla furnace");
 		removeOnlyVanillaSmeltingRecipes = config.getBoolean("removeOnlyVanillaSmeltingRecipes", SMELTING, true,
 		                                                     "Only remove furnace recipes for vanilla items/blocks. Requires removeSmeltingRecipes.");
+		makeStuffStackable = config.getBoolean("makeStuffStackable", GENERAL, true,
+		                                       "Makes items that should be stackable (doors, minecarts, potions) stackable.");
 
 		// Arrays
 
