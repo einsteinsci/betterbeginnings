@@ -612,25 +612,6 @@ public class RegisterRecipes
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterBlocks.doubleWorkbench), "##", "##", '#', new ItemStack(
 				Blocks.planks, 1, OreDictionary.WILDCARD_VALUE));
 
-		if (BBConfig.canMakeVanillaWorkbench)
-		{
-			// Vanilla Crafting Table
-			GameRegistry.addShapedRecipe(new ItemStack(Blocks.crafting_table),
-										 "/*/",
-										 "*#*",
-										 "/*/",
-										 '/', Items.stick,
-										 '#', new ItemStack(Blocks.log, 1, OreDictionary.WILDCARD_VALUE),
-										 '*', new ItemStack(Blocks.planks, 1, OreDictionary.WILDCARD_VALUE));
-			GameRegistry.addShapedRecipe(new ItemStack(Blocks.crafting_table),
-										 "/*/",
-										 "*#*",
-										 "/*/",
-										 '/', Items.stick,
-										 '#', new ItemStack(Blocks.log2, 1, OreDictionary.WILDCARD_VALUE),
-										 '*', new ItemStack(Blocks.planks, 1, OreDictionary.WILDCARD_VALUE));
-		}
-
 		if (BBConfig.canMakeChainArmor)
 		{
 			// Chain Armor
@@ -651,7 +632,11 @@ public class RegisterRecipes
 				.addShapedRecipe(new ItemStack(RegisterBlocks.doubleWorkbench, 2), "##", '#', Blocks.crafting_table);
 
 		// Craft BB workbenches into vanilla ones
-		//GameRegistry.addShapedRecipe(new ItemStack(Blocks.crafting_table), "#", '#', RegisterBlocks.doubleWorkbench);
+		if (BBConfig.canMakeVanillaWorkbench)
+		{
+			GameRegistry.addShapedRecipe(
+					new ItemStack(Blocks.crafting_table), "#", '#', RegisterBlocks.doubleWorkbench);
+		}
 	}
 }
 
