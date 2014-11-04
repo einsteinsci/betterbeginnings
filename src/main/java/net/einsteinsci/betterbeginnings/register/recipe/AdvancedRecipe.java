@@ -44,7 +44,7 @@ public class AdvancedRecipe
 
 	// @Override
 	public boolean matches(InventoryCrafting invCrafting, InventoryWorkbenchAdditionalMaterials materials,
-	                       World p_77569_2_)
+	                       World world)
 	{
 		for (int i = 0; i <= 3 - recipeWidth; ++i)
 		{
