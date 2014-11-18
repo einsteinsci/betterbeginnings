@@ -6,7 +6,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class AdvancedRecipe
 {
@@ -21,19 +20,20 @@ public class AdvancedRecipe
 	/**
 	 * Is a array of ItemStack that composes the recipe.
 	 */
-	public final ItemStack[] recipeItems;
+	public final OreRecipeElement[] recipeItems;
 	/**
 	 * Is the ItemStack that you get when craft the recipe.
 	 */
 	private ItemStack recipeOutput;
 
 	// additional materials in the side slots
-	private ItemStack[] addedMaterials;
+	private OreRecipeElement[] addedMaterials;
 
 	// ...something...
 	private boolean strangeFlag;
 
-	public AdvancedRecipe(int width, int height, ItemStack[] items, ItemStack output, ItemStack[] materials)
+	public AdvancedRecipe(int width, int height, OreRecipeElement[] items, ItemStack output,
+	                      OreRecipeElement[] materials)
 	{
 		recipeWidth = width;
 		recipeHeight = height;
@@ -75,7 +75,7 @@ public class AdvancedRecipe
 			{
 				int i1 = k - width;
 				int j1 = l - height;
-				ItemStack neededCraftingStack = null;
+				OreRecipeElement neededCraftingStack = null;
 
 				if (i1 >= 0 && j1 >= 0 && i1 < recipeWidth && j1 < recipeHeight)
 				{
@@ -99,19 +99,13 @@ public class AdvancedRecipe
 						return false;
 					}
 
-					if (neededCraftingStack.getItem() != craftingStackInQuestion.getItem())
-					{
-						return false;
-					}
-
-					if (neededCraftingStack.getItemDamage() != OreDictionary.WILDCARD_VALUE &&
-							neededCraftingStack.getItemDamage() != craftingStackInQuestion.getItemDamage())
+					if (!neededCraftingStack.matches(craftingStackInQuestion))
 					{
 						return false;
 					}
 				}
 
-				for (ItemStack requiredMatStack : addedMaterials)
+				for (OreRecipeElement requiredMatStack : addedMaterials)
 				{
 					boolean foundIt = false;
 					for (int i2 = 0; i2 < materials.getSizeInventory(); ++i2)
@@ -119,21 +113,7 @@ public class AdvancedRecipe
 						ItemStack testedMatStack = materials.getStackInSlot(i2);
 						if (testedMatStack != null)
 						{
-							if (testedMatStack.getItem() == requiredMatStack.getItem())
-							{
-								foundIt = true;
-							}
-
-							if (requiredMatStack.getItemDamage() != OreDictionary.WILDCARD_VALUE &&
-									requiredMatStack.getItemDamage() != testedMatStack.getItemDamage())
-							{
-								foundIt = false;
-							}
-
-							if (testedMatStack.stackSize < requiredMatStack.stackSize)
-							{
-								foundIt = false;
-							}
+							foundIt = requiredMatStack.matchesCheckSize(testedMatStack);
 						}
 
 						if (foundIt)
@@ -182,7 +162,7 @@ public class AdvancedRecipe
 			{
 				int i1 = k - width;
 				int j1 = l - height;
-				ItemStack neededCraftingStack = null;
+				OreRecipeElement neededCraftingStack = null;
 
 				if (i1 >= 0 && j1 >= 0 && i1 < recipeWidth && j1 < recipeHeight)
 				{
@@ -200,19 +180,13 @@ public class AdvancedRecipe
 
 				if (craftingStackInQuestion != null || neededCraftingStack != null)
 				{
-					if (craftingStackInQuestion == null && neededCraftingStack != null ||
-							craftingStackInQuestion != null && neededCraftingStack == null)
+					// If one is null but not the other
+					if (craftingStackInQuestion == null || neededCraftingStack == null)
 					{
 						return false;
 					}
 
-					if (neededCraftingStack.getItem() != craftingStackInQuestion.getItem())
-					{
-						return false;
-					}
-
-					if (neededCraftingStack.getItemDamage() != OreDictionary.WILDCARD_VALUE &&
-							neededCraftingStack.getItemDamage() != craftingStackInQuestion.getItemDamage())
+					if (!neededCraftingStack.matches(craftingStackInQuestion))
 					{
 						return false;
 					}
@@ -225,9 +199,9 @@ public class AdvancedRecipe
 
 	public int getNeededMaterialCount(Item material)
 	{
-		for (ItemStack stack : addedMaterials)
+		for (OreRecipeElement stack : addedMaterials)
 		{
-			if (stack.getItem() == material)
+			if (stack.matches(new ItemStack(material)))
 			{
 				return stack.stackSize;
 			}
@@ -236,7 +210,7 @@ public class AdvancedRecipe
 		return 0;
 	}
 
-	public ItemStack[] getNeededMaterials()
+	public OreRecipeElement[] getNeededMaterials()
 	{
 		return addedMaterials;
 	}
@@ -282,9 +256,9 @@ public class AdvancedRecipe
 
 	public boolean hasMaterial(ItemStack stack)
 	{
-		for (ItemStack s : addedMaterials)
+		for (OreRecipeElement s : addedMaterials)
 		{
-			if (stack.getItem() == s.getItem())
+			if (s.matches(stack))
 			{
 				return true;
 			}

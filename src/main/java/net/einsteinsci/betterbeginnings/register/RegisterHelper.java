@@ -6,7 +6,8 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import java.util.List;
 
 public class RegisterHelper
 {
@@ -22,16 +23,26 @@ public class RegisterHelper
 		GameRegistry.registerItem(item, item.getUnlocalizedName().substring(5));
 	}
 
-	public static void registerAdvancedOreRecipe(ItemStack result, Object... args)
-	{
-		throw new NotImplementedException();
-	}
-
-	public static void registerSmelterOreRecipe(String input, ItemStack output, float experience, int gravel, int bonus, float chance)
+	public static void registerSmelterOreRecipe(String input, ItemStack output, float experience, int gravel, int bonus,
+	                                            float chance)
 	{
 		for (ItemStack stack : OreDictionary.getOres(input))
 		{
 			SmelterRecipeHandler.addRecipe(stack, output, experience, gravel, bonus, chance);
+		}
+	}
+
+	public static void registerSmelterOreRecipe(String input, String output, float experience, int gravel, int bonus,
+	                                            float chance)
+	{
+		for (ItemStack stack : OreDictionary.getOres(input))
+		{
+			List<ItemStack> valid = OreDictionary.getOres(output);
+			if (!valid.isEmpty())
+			{
+				SmelterRecipeHandler.addRecipe(stack, OreDictionary.getOres(output).get(0),
+				                               experience, gravel, bonus, chance);
+			}
 		}
 	}
 }

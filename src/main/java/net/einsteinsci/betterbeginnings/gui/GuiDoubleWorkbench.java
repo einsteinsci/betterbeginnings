@@ -4,8 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.inventory.ContainerDoubleWorkbench;
-import net.einsteinsci.betterbeginnings.register.recipe.AdvancedCraftingHandler;
-import net.einsteinsci.betterbeginnings.register.recipe.AdvancedRecipe;
+import net.einsteinsci.betterbeginnings.register.recipe.*;
 import net.einsteinsci.betterbeginnings.renderer.RenderItemPartialTransparency;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -79,7 +78,8 @@ public class GuiDoubleWorkbench extends GuiContainer
 				{
 					for (int i = 0; i < recipe.getNeededMaterials().length; ++i)
 					{
-						ItemStack needed = recipe.getNeededMaterials()[i];
+						OreRecipeElement neededElement = recipe.getNeededMaterials()[i];
+						ItemStack needed = neededElement.getFirst().copy();
 
 						if (needed.getItemDamage() == OreDictionary.WILDCARD_VALUE)
 						{
@@ -92,6 +92,14 @@ public class GuiDoubleWorkbench extends GuiContainer
 							drawItemStack(needed, (width - xSize) / 2 + slot.xDisplayPosition, (height - ySize) / 2 +
 									slot.yDisplayPosition, "" + needed.stackSize);
 						}
+					}
+
+					ItemStack result = recipe.getRecipeOutput();
+					Slot slot = container.resultSlot;
+					if (container.craftResult.getStackInSlot(0) == null)
+					{
+						drawItemStack(result, (width - xSize) / 2 + slot.xDisplayPosition, (height - ySize) / 2 +
+								slot.yDisplayPosition, "");
 					}
 				}
 			}

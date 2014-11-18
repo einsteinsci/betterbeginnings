@@ -76,6 +76,7 @@ public class ModMain
 
 		configFile = new Configuration(e.getSuggestedConfigurationFile());
 		configFile.load();
+		BBConfig.initialize();
 		BBConfig.syncConfig(configFile);
 
 		proxy.registerNetworkStuff();

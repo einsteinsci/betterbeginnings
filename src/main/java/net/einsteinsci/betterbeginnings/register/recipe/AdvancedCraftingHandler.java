@@ -20,81 +20,107 @@ public class AdvancedCraftingHandler
 
 	}
 
-	public static void addAdvancedRecipe(ItemStack result, ItemStack[] additionalMaterials, Object... args)
+	public static void addAdvancedRecipe(ItemStack result, Object[] additionalMaterials, Object... args)
 	{
 		crafting().addRecipe(result, additionalMaterials, args);
 	}
 
-	public AdvancedRecipe addRecipe(ItemStack result, ItemStack[] additionalMaterials, Object... args)
+	public AdvancedRecipe addRecipe(ItemStack result, Object[] additionalMaterials, Object... args)
 	{
-		String s = "";
+		String totalRecipe = "";
 		int i = 0;
-		int j = 0;
-		int k = 0;
+		int width = 0;
+		int height = 0;
 
+		List<OreRecipeElement> addedMatList = new ArrayList<OreRecipeElement>();
+		String lastString = "";
+		for (Object mat : additionalMaterials)
+		{
+			if (mat instanceof ItemStack)
+			{
+				addedMatList.add(new OreRecipeElement((ItemStack)mat));
+			}
+			else if (mat instanceof String)
+			{
+				lastString = (String)mat;
+			}
+			else if (mat instanceof Integer)
+			{
+				addedMatList.add(new OreRecipeElement(lastString, (Integer)mat));
+			}
+		}
+		OreRecipeElement[] addedMats = addedMatList.toArray(new OreRecipeElement[0]);
+
+		// First String(s) in args
 		if (args[i] instanceof String[])
 		{
-			String[] astring = (String[])args[i++];
+			String[] astring = (String[])args[i];
+			i++;
 
-			for (int l = 0; l < astring.length; ++l)
+			for (String s1 : astring)
 			{
-				String s1 = astring[l];
-				++k;
-				j = s1.length();
-				s = s + s1;
+				height++;
+				width = s1.length();
+				totalRecipe += s1;
 			}
 		}
 		else
 		{
 			while (args[i] instanceof String)
 			{
-				String s2 = (String)args[i++];
-				++k;
-				j = s2.length();
-				s = s + s2;
+				String s2 = (String)args[i];
+				i++;
+				height++;
+				width = s2.length();
+				totalRecipe += s2;
 			}
 		}
 
-		HashMap hashmap;
+		HashMap hashmap = new HashMap();
 
-		for (hashmap = new HashMap(); i < args.length; i += 2)
+		for (; i < args.length; i += 2)
 		{
 			Character character = (Character)args[i];
-			ItemStack itemstack1 = null;
+			OreRecipeElement stackInRecipe = null;
 
 			if (args[i + 1] instanceof Item)
 			{
-				itemstack1 = new ItemStack((Item)args[i + 1]);
+				stackInRecipe = new OreRecipeElement(new ItemStack((Item)args[i + 1], 1, OreDictionary.WILDCARD_VALUE));
 			}
 			else if (args[i + 1] instanceof Block)
 			{
-				itemstack1 = new ItemStack((Block)args[i + 1], 1, OreDictionary.WILDCARD_VALUE);
+				stackInRecipe = new OreRecipeElement(
+						new ItemStack((Block)args[i + 1], 1, OreDictionary.WILDCARD_VALUE));
 			}
 			else if (args[i + 1] instanceof ItemStack)
 			{
-				itemstack1 = (ItemStack)args[i + 1];
+				stackInRecipe = new OreRecipeElement((ItemStack)args[i + 1]);
+			}
+			else if (args[i + 1] instanceof String)
+			{
+				stackInRecipe = new OreRecipeElement((String)args[i + 1], 1);
 			}
 
-			hashmap.put(character, itemstack1);
+			hashmap.put(character, stackInRecipe);
 		}
 
-		ItemStack[] aitemstack = new ItemStack[j * k];
+		OreRecipeElement[] neededItems = new OreRecipeElement[width * height];
 
-		for (int i1 = 0; i1 < j * k; ++i1)
+		for (int j = 0; j < width * height; ++j)
 		{
-			char c0 = s.charAt(i1);
+			char iterChar = totalRecipe.charAt(j);
 
-			if (hashmap.containsKey(Character.valueOf(c0)))
+			if (hashmap.containsKey(Character.valueOf(iterChar)))
 			{
-				aitemstack[i1] = ((ItemStack)hashmap.get(Character.valueOf(c0))).copy();
+				neededItems[j] = ((OreRecipeElement)hashmap.get(Character.valueOf(iterChar))).copy();
 			}
 			else
 			{
-				aitemstack[i1] = null;
+				neededItems[j] = null;
 			}
 		}
 
-		AdvancedRecipe advancedrecipes = new AdvancedRecipe(j, k, aitemstack, result, additionalMaterials);
+		AdvancedRecipe advancedrecipes = new AdvancedRecipe(width, height, neededItems, result, addedMats);
 		recipes.add(advancedrecipes);
 		return advancedrecipes;
 	}

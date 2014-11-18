@@ -38,7 +38,15 @@ public class KilnRecipes
 	public void putLists(ItemStack itemStack, ItemStack itemStack2, float experience)
 	{
 		smeltingList.put(itemStack, itemStack2);
-		experienceList.put(itemStack2, Float.valueOf(experience));
+		experienceList.put(itemStack2, experience);
+	}
+
+	public static void addRecipe(String input, ItemStack output, float experience)
+	{
+		for (ItemStack stack : OreDictionary.getOres(input))
+		{
+			smelting().putLists(stack, output, experience);
+		}
 	}
 
 	public static void addRecipe(Block input, ItemStack output, float experience)

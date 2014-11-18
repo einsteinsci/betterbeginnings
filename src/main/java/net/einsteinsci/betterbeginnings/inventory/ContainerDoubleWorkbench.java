@@ -19,6 +19,7 @@ public class ContainerDoubleWorkbench extends Container
 	public IInventory craftResult = new InventoryCraftResult();
 	public World worldObj;
 	public Slot[] matSlots = new Slot[4];
+	public Slot resultSlot;
 	private int posX;
 	private int posY;
 	private int posZ;
@@ -29,7 +30,8 @@ public class ContainerDoubleWorkbench extends Container
 		posX = x;
 		posY = y;
 		posZ = z;
-		addSlotToContainer(new SlotAdvancedCrafting(invPlayer.player, craftMatrix, craftResult, addedMats, 0, 129, 35));
+		resultSlot = new SlotAdvancedCrafting(invPlayer.player, craftMatrix, craftResult, addedMats, 0, 129, 35);
+		addSlotToContainer(resultSlot);
 		int i;
 		int j;
 

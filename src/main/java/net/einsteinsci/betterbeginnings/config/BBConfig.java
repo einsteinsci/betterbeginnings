@@ -34,7 +34,7 @@ public class BBConfig
 	public static List<String> alsoPickaxes;
 	public static List<String> alsoKnives;
 
-	public BBConfig()
+	public static void initialize()
 	{
 		greetUser = true;
 		debugLogging = false;
@@ -56,6 +56,9 @@ public class BBConfig
 		makeStuffStackable = true;
 
 		alwaysBreakable = new ArrayList<String>();
+		alsoAxes = new ArrayList<String>();
+		alsoPickaxes = new ArrayList<String>();
+		alsoKnives = new ArrayList<String>();
 	}
 
 	public static void syncConfig(Configuration config)
