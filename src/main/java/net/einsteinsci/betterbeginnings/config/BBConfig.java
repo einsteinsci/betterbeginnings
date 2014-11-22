@@ -63,79 +63,91 @@ public class BBConfig
 
 	public static void syncConfig(Configuration config)
 	{
-		// Booleans
+		//////////////
+		// Booleans //
+		//////////////
 
-		greetUser = config.getBoolean("greetUser", GENERAL, true, "Greet user upon login");
-		debugLogging = config.getBoolean("debugLogging", GENERAL, false, "Log all kinds of stuff, for debug purposes");
-		advancedCraftingForLotsOfThings =
-				config.getBoolean("advancedCraftingForLotsOfThings", CRAFTING, true,
-								  "Require Advanced Crafting for things like doors, pistons, chests, etc.");
-		requireAdvancedCrafting = config.getBoolean("requireAdvancedCrafting", CRAFTING, true,
-		                                            "Disable vanilla crafting for recipes that require advanced crafting table." +
-				                                            " Setting this to false sort of makes this part of the mod pointless.");
-		removeCraftedFoodRecipes = config.getBoolean("removeCraftedFoodRecipes", CRAFTING, true,
-		                                             "Remove crafting recipes of vanilla food items, enforcing the use of the ovens.");
-		canMakeVanillaWorkbench =
-				config.getBoolean("canMakeVanillaWorkbench", CRAFTING, true,
-								  "Provide alternative recipe for vanilla crafting table");
-		canMakeVanillaFurnace =
-				config.getBoolean("canMakeVanillaFurnace",
-				                  CRAFTING,
-								  true,
-								  "Provide alternative recipe for vanilla furnace");
-		canMakeChainArmor =
-				config.getBoolean("canMakeChainArmor", CRAFTING, true,
-								  "Allow vanilla chain armor to be craftable from iron nuggets");
-		removeWoodToolRecipes = config.getBoolean("removeToolRecipes", CRAFTING, true,
+		// General
+		greetUser = config.getBoolean("Greet user", GENERAL, true, "Greet user upon login");
+		debugLogging = config.getBoolean("Debug logging", GENERAL, false, "Log all kinds of stuff, for debug purposes");
+		flamingAnimalsDropCharredMeat = config.getBoolean("Burn, Baby, Burn", GENERAL, true,
+		                                                  "Animals that die by flame drop charred meat instead of vanilla cooked meat");
+		spidersDropString = config.getBoolean("Spiders drop string", GENERAL, false,
+		                                      "Spiders drop vanilla string as well as silk.");
+		moreBones = config.getBoolean("All bones", GENERAL, true,
+		                              "Almost all mobs drop bones, not just skeletons");
+		moreBonesPeacefulOnly = config.getBoolean("More bones only works on peaceful", GENERAL, true,
+		                                          "Non-skeleton mobs only drop bones on peaceful. Requires" +
+				                                          " 'All bones' to be true in order to do anything.");
+		spawnMarshmallows = config.getBoolean("Generate marshmallows", GENERAL, true,
+		                                      "Marshmallows spawn in dungeons, mineshafts, desert temples, " +
+				                                      "and jungle temples.");
+		makeStuffStackable = config.getBoolean("Make stuff stackable", GENERAL, true,
+		                                       "Makes items that should be stackable (doors, " +
+				                                       "minecarts, potions) stackable.");
+
+		// Crafting
+		advancedCraftingForLotsOfThings = config.getBoolean("Advanced crafting for lots of things", CRAFTING, true,
+		                                                    "Require Advanced Crafting for things like doors, " +
+				                                                    "pistons, chests, etc.");
+		requireAdvancedCrafting = config.getBoolean("Require Advanced Crafting", CRAFTING, true,
+		                                            "Disable vanilla crafting for recipes that require advanced " +
+				                                            "crafting table. Setting this to false sort of makes " +
+				                                            "this part of the mod pointless.");
+		removeCraftedFoodRecipes = config.getBoolean("Remove Crafted Food Recipes", CRAFTING, true,
+		                                             "Remove crafting recipes of vanilla food items, enforcing the " +
+				                                             "use of the ovens.");
+		canMakeVanillaWorkbench = config.getBoolean("Enable vanilla workbench recipe", CRAFTING, true,
+		                                            "Provide alternative recipe for vanilla crafting table");
+		canMakeVanillaFurnace = config.getBoolean("Enable vanilla furnace recipe", CRAFTING, true,
+		                                          "Provide alternative recipe for vanilla furnace");
+		canMakeChainArmor = config.getBoolean("Enable chain armor", CRAFTING, true,
+		                                      "Allow vanilla chain armor to be craftable from iron nuggets");
+		removeWoodToolRecipes = config.getBoolean("Remove wooden tool recipes", CRAFTING, true,
 		                                          "Remove recipes for wooden pickaxe, axe, shovel, and hoe.");
 
-		flamingAnimalsDropCharredMeat =
-				config.getBoolean("flamingAnimalsDropCharredMeat", GENERAL, true,
-								  "Animals that die by flame drop charred meat instead of vanilla cooked meat");
-		spidersDropString = config
-				.getBoolean("spidersDropString", GENERAL, false, "Spiders drop vanilla string as well as silk.");
-		moreBones = config.getBoolean("moreBones", GENERAL, true, "Almost all mobs drop bones, not just skeletons");
-		moreBonesPeacefulOnly = config.getBoolean("moreBonesPeacefulOnly", GENERAL, true,
-		                                          "Non-skeleton mobs only drop bones on peaceful. Requires 'moreBones' to be true in order to do anything.");
-		spawnMarshmallows = config.getBoolean("spawnMarshmallows",
-		                                      GENERAL,
-		                                      true,
-		                                      "Marshmallows spawn in dungeons, mineshafts, desert temples, and jungle temples.");
-		canSmelterDoKilnStuff = config.getBoolean("canSmelterDoKilnStuff",
-		                                          SMELTING,
-		                                          false,
+		// Smelting
+		canSmelterDoKilnStuff = config.getBoolean("Smelter can make kiln products", SMELTING, false,
 		                                          "Allow smelter to make glass, bricks, smooth stone, etc.");
 
-		removeSmeltingRecipes = config.getBoolean("removeSmeltingRecipes", SMELTING, true,
+		removeSmeltingRecipes = config.getBoolean("Disable vanilla smelting", SMELTING, true,
 		                                          "Remove recipes that normally use the vanilla furnace");
-		removeOnlyVanillaSmeltingRecipes = config.getBoolean("removeOnlyVanillaSmeltingRecipes", SMELTING, true,
-		                                                     "Only remove furnace recipes for vanilla items/blocks. Requires removeSmeltingRecipes.");
-		makeStuffStackable = config.getBoolean("makeStuffStackable", GENERAL, true,
-		                                       "Makes items that should be stackable (doors, minecarts, potions) stackable.");
+		removeOnlyVanillaSmeltingRecipes = config.getBoolean("Only remove smelting recipes for vanilla items",
+		                                                     SMELTING, true,
+		                                                     "Only remove furnace recipes for vanilla items/blocks. " +
+				                                                     "Requires 'Disable vanilla smelting'.");
 
-		// Arrays
+		////////////
+		// Arrays //
+		////////////
 
-		String[] _alwaysBreakable = config.getStringList("alwaysBreakable", GENERAL, new String[] {},
-		                                                 "List of blocks always breakable. Use this format: 'modid:blockName'.");
+		String[] _alwaysBreakable = config.getStringList("Always breakable", GENERAL, new String[] {},
+		                                                 "List of blocks always breakable. Use this format: " +
+				                                                 "'modid:blockName'.");
 		alwaysBreakable.clear();
 		Collections.addAll(alwaysBreakable, _alwaysBreakable);
 
-		String[] _alsoAxes = config.getStringList("alsoAxes", GENERAL, new String[] {},
-		                                          "List of items that qualify as axes for breakable checks. Use this format: 'modid:itemName'.");
+		String[] _alsoAxes = config.getStringList("Also axes", GENERAL, new String[] {},
+		                                          "List of items that qualify as axes for breakable checks. " +
+				                                          "Use this format: 'modid:itemName'.");
 		alsoAxes.clear();
 		Collections.addAll(alsoAxes, _alsoAxes);
 
-		String[] _alsoPickaxes = config.getStringList("alsoPickaxes", GENERAL, new String[] {},
-		                                              "List of items that qualify as pickaxes for breakable checks. Use this format: 'modid:itemName'.");
+		String[] _alsoPickaxes = config.getStringList("Also pickaxes", GENERAL, new String[] {},
+		                                              "List of items that qualify as pickaxes for breakable checks. " +
+				                                              "Use this format: 'modid:itemName'.");
 		alsoPickaxes.clear();
 		Collections.addAll(alsoPickaxes, _alsoPickaxes);
 
-		String[] _alsoKnives = config.getStringList("alsoKnives", GENERAL, new String[] {},
-		                                            "List of items that qualify as knives for breakable checks. Use this format: 'modid:itemName'.");
+		String[] _alsoKnives = config.getStringList("Also knives", GENERAL, new String[] {},
+		                                            "List of items that qualify as knives for breakable checks. " +
+				                                            "Use this format: 'modid:itemName'.");
 		alsoKnives.clear();
 		Collections.addAll(alsoKnives, _alsoKnives);
 
-		// Save
+		//////////
+		// Save //
+		//////////
 
 		if (config.hasChanged())
 		{

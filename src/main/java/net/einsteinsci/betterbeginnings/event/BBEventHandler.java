@@ -6,7 +6,6 @@ import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.registry.GameData;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.config.BBConfig;
-import net.einsteinsci.betterbeginnings.items.ItemHammer;
 import net.einsteinsci.betterbeginnings.items.ItemKnife;
 import net.einsteinsci.betterbeginnings.register.RegisterBlocks;
 import net.einsteinsci.betterbeginnings.register.RegisterItems;
@@ -122,6 +121,7 @@ public class BBEventHandler
 		handleWrongToolCompat(e, block, player, heldItemStack);
 	}
 
+	// Here it is!
 	public void handleWrongToolCompat(BlockEvent.BreakEvent e, Block block, EntityPlayer player, ItemStack held)
 	{
 		boolean correctTool = false;
@@ -140,13 +140,26 @@ public class BBEventHandler
 		}
 
 		String intended = block.getHarvestTool(e.blockMetadata);
+
+		if (held != null)
+		{
+			String name = Item.itemRegistry.getNameForObject(held.getItem());
+			if (intended == "axe" && BBConfig.alsoAxes.contains(name) ||
+					intended == "pickaxe" && BBConfig.alsoPickaxes.contains(name) ||
+					intended == "knife" && BBConfig.alsoKnives.contains(name))
+			{
+				correctTool = true;
+			}
+		}
+
 		if (block.getUnlocalizedName() == Blocks.snow.getUnlocalizedName() ||
 				block.getUnlocalizedName() == Blocks.snow_layer.getUnlocalizedName())
 		{
 			intended = null;
 		}
 
-		if (intended == null || intended == "shovel" || player.capabilities.isCreativeMode || shouldBeNull(block))
+		if (intended == null || intended == "shovel" ||
+				player.capabilities.isCreativeMode || shouldBeNull(block))
 		{
 			correctTool = true;
 		}
@@ -182,7 +195,9 @@ public class BBEventHandler
 				// What do you think the player's 'durability' is?
 				player.attackEntityFrom(new DamageSourceFace(block), 4);
 				ChatUtil.sendChatToPlayer(player, ChatUtil.ORANGE +
-						"[Better Beginnings] Ouch! What did you think punching that would do?");
+						"[Better Beginnings]" + (player.getEntityWorld().difficultySetting == EnumDifficulty.PEACEFUL ?
+						" Ooof! " : " Ouch! ") + "What did you think punching that " +
+						ChatUtil.ORANGE + "would do?"); // Redo color because...glitches
 			}
 			else
 			{
@@ -240,112 +255,6 @@ public class BBEventHandler
 		should.add(RegisterBlocks.infusionRepairStation);
 
 		return should.contains(block);
-	}
-
-	@Deprecated
-	public void handleWrongTool(BlockEvent.BreakEvent e, Block block, EntityPlayer player, ItemStack heldItemStack)
-	{
-		Item heldItem = null;
-
-		String requiredToolClass = block.getHarvestTool(e.blockMetadata);
-		String toolUsed = "face";
-
-		// Blocks that should be "pickaxe" but are actually null
-		if (shouldBePickaxe(block))
-		{
-			requiredToolClass = "pickaxe";
-		}
-
-		// Blocks that should be breakable regardless of tool
-		if (block.getUnlocalizedName() == Blocks.snow.getUnlocalizedName() ||
-				block.getUnlocalizedName() == Blocks.snow_layer.getUnlocalizedName())
-		{
-			requiredToolClass = null;
-		}
-
-		if (!player.capabilities.isCreativeMode)
-		{
-			boolean wrongTool = false;
-
-			if (heldItemStack != null && requiredToolClass != null)
-			{
-				heldItem = heldItemStack.getItem();
-				if (heldItem instanceof ItemAxe ||
-						BBConfig.alsoAxes.contains(heldItem.getUnlocalizedName()))
-				{
-					if (!requiredToolClass.equalsIgnoreCase("axe"))
-					{
-						wrongTool = true;
-					}
-					toolUsed = "axe";
-				}
-				else if (heldItem instanceof ItemPickaxe ||
-						BBConfig.alsoPickaxes.contains(heldItem.getUnlocalizedName()))
-				{
-					if (!requiredToolClass.equalsIgnoreCase("pickaxe"))
-					{
-						wrongTool = true;
-					}
-					toolUsed = "pickaxe";
-				}
-				else if (heldItem instanceof ItemSpade)
-				{
-					if (!requiredToolClass.equalsIgnoreCase("shovel"))
-					{
-						wrongTool = true;
-					}
-					toolUsed = "shovel";
-				}
-				else if (heldItem instanceof ItemKnife ||
-						BBConfig.alsoKnives.contains(heldItem.getUnlocalizedName()))
-				{
-					if (!ItemKnife.GetBreakable().contains(block))
-					{
-						wrongTool = true;
-					}
-					toolUsed = "knife";
-				}
-				else if (heldItem instanceof ItemHammer)
-				{
-					if (!ItemHammer.GetBreakable().contains(block))
-					{
-						wrongTool = true;
-						System.out.println("Tool not compatable, RIP English");
-					}
-					toolUsed = "hammer";
-				}
-				else if (!(heldItem instanceof ItemTool))
-				{
-					wrongTool = true;
-				}
-			}
-			else
-			{
-				wrongTool = true;
-			}
-
-			if (requiredToolClass == null || requiredToolClass.equalsIgnoreCase("shovel"))
-			{
-				// It's a shovel. Nobody cares.
-				wrongTool = false;
-			}
-
-			if (wrongTool)
-			{
-				e.setCanceled(true);
-				if (toolUsed.equalsIgnoreCase("face"))
-				{
-					// What do you think the player's 'durability' is?
-					player.attackEntityFrom(new DamageSourceFace(block), 4);
-					ChatUtil.sendChatToPlayer(player, ChatUtil.ORANGE +
-							"[Better Beginnings] Ouch! What did you think punching that would do?");
-				}
-				else
-				{
-					ChatUtil.sendChatToPlayer(player, ChatUtil.ORANGE + "[Better Beginnings] Wrong tool!");
-				}
-			}
-		}
 	}
 
 	@SubscribeEvent
