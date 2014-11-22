@@ -6,6 +6,7 @@ import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.registry.GameData;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.config.BBConfig;
+import net.einsteinsci.betterbeginnings.items.ItemHammer;
 import net.einsteinsci.betterbeginnings.items.ItemKnife;
 import net.einsteinsci.betterbeginnings.register.RegisterBlocks;
 import net.einsteinsci.betterbeginnings.register.RegisterItems;
@@ -99,6 +100,7 @@ public class BBEventHandler
 		wip.add(new ItemStack(RegisterItems.roastingStickcookedMallow));
 		wip.add(new ItemStack(RegisterItems.marshmallow));
 		wip.add(new ItemStack(RegisterItems.marshmallowCooked));
+		wip.add(new ItemStack(RegisterItems.rockHammer));
 
 		for (ItemStack test : wip)
 		{
@@ -144,7 +146,8 @@ public class BBEventHandler
 		if (held != null)
 		{
 			String name = Item.itemRegistry.getNameForObject(held.getItem());
-			if (intended == "axe" && BBConfig.alsoAxes.contains(name) ||
+			if (held.getItem() instanceof ItemHammer ||
+					intended == "axe" && BBConfig.alsoAxes.contains(name) ||
 					intended == "pickaxe" && BBConfig.alsoPickaxes.contains(name) ||
 					intended == "knife" && BBConfig.alsoKnives.contains(name))
 			{
@@ -267,13 +270,26 @@ public class BBEventHandler
 	@SubscribeEvent
 	public void onBlockDrops(BlockEvent.HarvestDropsEvent e)
 	{
-		if (e.block == Blocks.vine && !e.isSilkTouching && e.harvester != null)
+		Block block = e.block;
+		EntityPlayer player = e.harvester;
+
+		// All onBlockDrops activity that does not have to do with players must
+		// occur before here.
+		if (player == null)
 		{
-			if (e.harvester.getHeldItem() != null)
+			return;
+		}
+
+		ItemStack held = player.getHeldItem();
+		Random rand = player.worldObj.rand;
+
+		// Knife silk-touching for vines
+		if (block == Blocks.vine && !e.isSilkTouching)
+		{
+			if (held != null)
 			{
-				if (e.harvester.getHeldItem().getItem() instanceof ItemKnife)
+				if (held.getItem() instanceof ItemKnife)
 				{
-					Random rand = e.harvester.worldObj.rand;
 					if (rand.nextInt(8) == 0)
 					{
 						e.drops.add(new ItemStack(Blocks.vine));
@@ -282,17 +298,31 @@ public class BBEventHandler
 			}
 		}
 
-		if ((e.block == Blocks.tallgrass || e.block == Blocks.deadbush) && !e.isSilkTouching && e.harvester != null)
+		// Knife silk-touching for grass/bushes
+		if ((block == Blocks.tallgrass || block == Blocks.deadbush) && !e.isSilkTouching)
 		{
-			if (e.harvester.getHeldItem() != null)
+			if (held != null)
 			{
-				if (e.harvester.getHeldItem().getItem() instanceof ItemKnife)
+				if (held.getItem() instanceof ItemKnife)
 				{
-					Random rand = e.harvester.worldObj.rand;
 					if (rand.nextInt(8) == 0)
 					{
-						e.drops.add(new ItemStack(e.block, 1, e.blockMetadata));
+						e.drops.add(new ItemStack(block, 1, e.blockMetadata));
 					}
+				}
+			}
+		}
+
+		// Hammer
+		if (held != null)
+		{
+			if (held.getItem() instanceof ItemHammer)
+			{
+				ItemStack crushResult = ItemHammer.getCrushResult(block);
+				if (crushResult != null)
+				{
+					e.drops.clear();
+					e.drops.add(crushResult);
 				}
 			}
 		}

@@ -1,19 +1,18 @@
 package net.einsteinsci.betterbeginnings.items;
 
-import java.util.Set;
-
+import com.google.common.collect.Sets;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 
-import com.google.common.collect.Sets;
+import java.util.Set;
 
 
-public class ItemRockHammer extends ItemHammer {
-	
+public class ItemRockHammer extends ItemHammer
+{
+
 
 	public static final float DAMAGE = 2.0F;
 
@@ -33,7 +32,7 @@ public class ItemRockHammer extends ItemHammer {
 		s.add(Blocks.cobblestone);
 		s.add(Blocks.gravel);
 		s.add(Blocks.sandstone);
-		s.add(new ItemStack(Blocks.sandstone,2));
+		s.add(new ItemStack(Blocks.sandstone, 2));
 		s.add(Blocks.dirt);
 
 
@@ -51,7 +50,4 @@ public class ItemRockHammer extends ItemHammer {
 
 		return false;
 	}
-	
-	
-	
 }

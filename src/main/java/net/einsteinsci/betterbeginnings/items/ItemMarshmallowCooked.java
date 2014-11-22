@@ -14,5 +14,6 @@ public class ItemMarshmallowCooked extends ItemFood
 		setUnlocalizedName("marshmallowCooked");
 		setTextureName(ModMain.MODID + ":" + getUnlocalizedName().substring(5));
 		setCreativeTab(ModMain.tabBetterBeginnings);
+		setPotionEffect(1, 15, 0, 0.8f);
 	}
 }
