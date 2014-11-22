@@ -208,6 +208,13 @@ public class BBEventHandler
 
 	private boolean shouldBeNull(Block block)
 	{
+		String blockName = Block.blockRegistry.getNameForObject(block);
+
+		if (BBConfig.alwaysBreakable.contains(blockName))
+		{
+			return true;
+		}
+
 		List<Block> should = new ArrayList<Block>();
 
 		should.add(Blocks.pumpkin);
