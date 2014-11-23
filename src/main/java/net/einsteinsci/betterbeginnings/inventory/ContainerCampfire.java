@@ -11,19 +11,24 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerCampfire extends Container
 {
+	private static final int SLOT_INPUT = TileEntityCampfire.SLOT_INPUT;
+	private static final int SLOT_OUTPUT = TileEntityCampfire.SLOT_OUTPUT;
+	private static final int SLOT_PAN = TileEntityCampfire.SLOT_PAN;
+	private static final int SLOT_FUEL = TileEntityCampfire.SLOT_FUEL;
 	public int lastItemBurnTime;
 	public int lastCookTime;
 	private TileEntityCampfire tileCampfire;
 	private int lastBurnTime;
+	private int lastDecayTime;
 
 	public ContainerCampfire(InventoryPlayer inventory, TileEntityCampfire campfire)
 	{
 
 		tileCampfire = campfire;
-		addSlotToContainer(new Slot(tileCampfire, 0, 58, 12));
-		addSlotToContainer(new Slot(tileCampfire, 1, 32, 35));
-		addSlotToContainer(new Slot(tileCampfire, 2, 58, 57));
-		addSlotToContainer(new SlotFurnace(inventory.player, campfire, 3, 118, 34));
+		addSlotToContainer(new Slot(tileCampfire, SLOT_INPUT, 58, 12));
+		addSlotToContainer(new Slot(tileCampfire, SLOT_PAN, 32, 35));
+		addSlotToContainer(new Slot(tileCampfire, SLOT_FUEL, 58, 57));
+		addSlotToContainer(new SlotFurnace(inventory.player, campfire, SLOT_OUTPUT, 118, 34));
 
 		int i;
 		for (i = 0; i < 3; ++i)
@@ -47,15 +52,16 @@ public class ContainerCampfire extends Container
 		craft.sendProgressBarUpdate(this, 0, tileCampfire.cookTime);
 		craft.sendProgressBarUpdate(this, 1, tileCampfire.burnTime);
 		craft.sendProgressBarUpdate(this, 2, tileCampfire.currentItemBurnTime);
+		craft.sendProgressBarUpdate(this, 3, tileCampfire.decayTime);
 	}
 
 	public void detectAndSendChanges()
 	{
 		super.detectAndSendChanges();
 
-		for (int i = 0; i < crafters.size(); ++i)
+		for (Object crafter : crafters)
 		{
-			ICrafting craft = (ICrafting)crafters.get(i);
+			ICrafting craft = (ICrafting)crafter;
 
 			if (lastCookTime != tileCampfire.cookTime)
 			{
@@ -69,11 +75,16 @@ public class ContainerCampfire extends Container
 			{
 				craft.sendProgressBarUpdate(this, 2, tileCampfire.currentItemBurnTime);
 			}
+			if (lastDecayTime != tileCampfire.decayTime)
+			{
+				craft.sendProgressBarUpdate(this, 3, tileCampfire.decayTime);
+			}
 		}
 
 		lastBurnTime = tileCampfire.burnTime;
 		lastCookTime = tileCampfire.cookTime;
 		lastItemBurnTime = tileCampfire.currentItemBurnTime;
+		lastDecayTime = tileCampfire.decayTime;
 	}
 
 	@Override
@@ -129,7 +140,7 @@ public class ContainerCampfire extends Container
 			}
 			if (itemstack1.stackSize == 0)
 			{
-				slot.putStack((ItemStack)null);
+				slot.putStack(null);
 			}
 			else
 			{
@@ -145,25 +156,29 @@ public class ContainerCampfire extends Container
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void updateProgressBar(int slot, int newValue)
+	public void updateProgressBar(int barId, int newValue)
 	{
-		if (slot == 0)
+		if (barId == 0)
 		{
-			this.tileCampfire.cookTime = newValue;
+			tileCampfire.cookTime = newValue;
 		}
-		if (slot == 1)
+		if (barId == 1)
 		{
-			this.tileCampfire.burnTime = newValue;
+			tileCampfire.burnTime = newValue;
 		}
-		if (slot == 2)
+		if (barId == 2)
 		{
-			this.tileCampfire.currentItemBurnTime = newValue;
+			tileCampfire.currentItemBurnTime = newValue;
+		}
+		if (barId == 3)
+		{
+			tileCampfire.decayTime = newValue;
 		}
 	}
 
 	public boolean canInteractWith(EntityPlayer player)
 	{
-		return this.tileCampfire.isUseableByPlayer(player);
+		return tileCampfire.isUseableByPlayer(player);
 	}
 
 }

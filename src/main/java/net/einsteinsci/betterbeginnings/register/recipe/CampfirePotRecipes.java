@@ -96,6 +96,6 @@ public class CampfirePotRecipes
 			return stack.getItem().getSmeltingExperience(stack);
 		}
 
-		return ((Float)entry.getValue()).floatValue();
+		return (Float)entry.getValue();
 	}
 }

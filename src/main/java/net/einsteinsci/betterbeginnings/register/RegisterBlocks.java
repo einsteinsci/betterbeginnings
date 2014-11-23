@@ -38,8 +38,8 @@ public class RegisterBlocks
 
 		RegisterHelper.registerBlock(infusionRepairStation);
 
-		RegisterHelper.registerBlock(campfire);
-		RegisterHelper.registerBlock(campfireLit);
+		//RegisterHelper.registerBlock(campfire);
+		//RegisterHelper.registerBlock(campfireLit);
 
 		RegisterHelper.registerBlock(obsidianKiln);
 		RegisterHelper.registerBlock(obsidianKilnLit);

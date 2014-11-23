@@ -1,30 +1,64 @@
 package net.einsteinsci.betterbeginnings.blocks;
 
 import net.einsteinsci.betterbeginnings.ModMain;
+import net.einsteinsci.betterbeginnings.gui.BBGuiHandler;
+import net.einsteinsci.betterbeginnings.register.RegisterBlocks;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityCampfire;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class BlockCampfire extends BlockContainer
 {
+	private static boolean isAlteringLit;
+	private final boolean isLit; // strange why...
+	private final Random random = new Random();
 
-	public BlockCampfire(Boolean lit)
+	public BlockCampfire(boolean lit)
 	{
 		super(Material.rock);
-		this.setResistance(5.0F);
-		this.setHardness(2.0F);
-		this.setBlockTextureName(ModMain.MODID + ":CampfireImg");
-		this.setBlockBounds(0.1F, 0.0F, 0.1F, 1.0F, 0.5F, 1.0F);
+		setResistance(5.0F);
+		setHardness(2.0F);
+		setBlockTextureName(ModMain.MODID + ":CampfireImg");
+		setBlockBounds(0.1F, 0.0F, 0.1F, 1.0F, 0.5F, 1.0F);
+
 		if (!lit)
 		{
-			//this.setCreativeTab(ModMain.tabBetterBeginnings);
-			this.setBlockName("Campfire");
+			setCreativeTab(ModMain.tabBetterBeginnings);
+			setBlockName("campfire");
 		}
 		else
 		{
-			this.setBlockName("Campfire Lit");
+			setBlockName("campfireLit");
+		}
+
+		isLit = isAlteringLit;
+	}
+
+	public static void updateBlockState(boolean lit, World world, int x, int y, int z)
+	{
+		TileEntity tileEntity = world.getTileEntity(x, y, z);
+		isAlteringLit = true;
+
+		if (lit)
+		{
+			world.setBlock(x, y, z, RegisterBlocks.campfireLit);
+		}
+		else
+		{
+			world.setBlock(x, y, z, RegisterBlocks.campfire);
+		}
+
+		isAlteringLit = false;
+
+		if (tileEntity != null)
+		{
+			tileEntity.validate();
+			world.setTileEntity(x, y, z, tileEntity);
 		}
 	}
 
@@ -46,11 +80,20 @@ public class BlockCampfire extends BlockContainer
 	/**
 	 * Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y, z
 	 */
-	public boolean canPlaceBlockAt(World p_149742_1_, int p_149742_2_, int p_149742_3_, int p_149742_4_)
+	public boolean canPlaceBlockAt(World world, int x, int y, int z)
 	{
-		return p_149742_1_.getBlock(p_149742_2_, p_149742_3_, p_149742_4_)
-				.isReplaceable(p_149742_1_, p_149742_2_, p_149742_3_, p_149742_4_) && World
-				.doesBlockHaveSolidTopSurface(p_149742_1_, p_149742_2_, p_149742_3_ - 1, p_149742_4_);
+		return world.getBlock(x, y, z)
+				.isReplaceable(world, x, y, z) && World
+				.doesBlockHaveSolidTopSurface(world, x, y - 1, z);
+	}
+
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float clickX,
+	                                float clickY, float clickZ)
+	{
+		player.openGui(ModMain.modInstance, BBGuiHandler.CAMPFIRE_ID, world, x, y, z);
+
+		return true;
 	}
 
 	@Override
@@ -58,6 +101,4 @@ public class BlockCampfire extends BlockContainer
 	{
 		return new TileEntityCampfire();
 	}
-
-
 }

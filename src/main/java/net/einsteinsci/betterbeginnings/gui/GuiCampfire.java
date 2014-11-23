@@ -13,20 +13,20 @@ public class GuiCampfire extends GuiContainer
 {
 
 	private static final ResourceLocation campfireGuiTextures = new ResourceLocation(ModMain.MODID +
-																							 ":textures/gui/container/campfire.png");
+			                                                                                 ":textures/gui/container/campfire.png");
 	private TileEntityCampfire tileCampfire;
 
 	public GuiCampfire(InventoryPlayer invPlayer, TileEntityCampfire tile)
 	{
 		super(new ContainerCampfire(invPlayer, tile));
 		tileCampfire = tile;
-		this.xSize = 176;
-		this.ySize = 166;
+		xSize = 176;
+		ySize = 166;
 	}
 
 	public void drawGuiContainerForegroundLayer(int par1, int par2)
 	{
-		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 4, 4210752);
+		fontRendererObj.drawString(I18n.format("container.inventory"), 8, ySize - 96 + 4, 4210752);
 	}
 
 	public void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
@@ -37,16 +37,21 @@ public class GuiCampfire extends GuiContainer
 		int l = (height - ySize) / 2;
 
 		drawTexturedModalRect(k, l, 0, 0, xSize, ySize);
-		int i1;
+		int i;
 
 		if (tileCampfire.isBurning())
 		{
-			System.out.println("Burning");
-			i1 = tileCampfire.getBurnTimeRemainingScaled(12);
-			drawTexturedModalRect(k + 56, l + 36 + 12 - i1, 176, 12 - i1, 14, i1 + 2);
+			i = tileCampfire.getBurnTimeRemainingScaled(22);
+			drawTexturedModalRect(k + 58, l + 32 + 22 - i, 176, 22 - i, 14, i);
 		}
-		i1 = tileCampfire.getCookProgressScaled(24);
-		drawTexturedModalRect(k + 79, l + 34, 176, 14, i1 + 1, 16);
-	}
+		if (tileCampfire.isDecaying())
+		{
+			i = tileCampfire.getBurnTimeRemainingScaled(16);
+			// x y u v w h
+			drawTexturedModalRect(k + 77, l + 57 + 16 - i, 176, 54 - i, 3, i);
+		}
 
+		i = tileCampfire.getCookProgressScaled(23);
+		drawTexturedModalRect(k + 82, l + 34, 177, 22, i, 16);
+	}
 }

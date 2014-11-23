@@ -28,6 +28,7 @@ public class BBConfig
 	public static boolean removeSmeltingRecipes;
 	public static boolean removeOnlyVanillaSmeltingRecipes;
 	public static boolean makeStuffStackable;
+	public static boolean canCampfireDoAllKilnStuff;
 
 	public static List<String> alwaysBreakable;
 	public static List<String> alsoAxes;
@@ -54,6 +55,7 @@ public class BBConfig
 		removeSmeltingRecipes = true;
 		removeOnlyVanillaSmeltingRecipes = true;
 		makeStuffStackable = true;
+		canCampfireDoAllKilnStuff = false;
 
 		alwaysBreakable = new ArrayList<String>();
 		alsoAxes = new ArrayList<String>();
@@ -116,6 +118,9 @@ public class BBConfig
 		                                                     SMELTING, true,
 		                                                     "Only remove furnace recipes for vanilla items/blocks. " +
 				                                                     "Requires 'Disable vanilla smelting'.");
+		canCampfireDoAllKilnStuff = config.getBoolean("Can campfire handle all kiln smelting", SMELTING, true,
+		                                              "Allow campfire to process all recipes kiln can, instead of " +
+				                                              "just a few.");
 
 		////////////
 		// Arrays //

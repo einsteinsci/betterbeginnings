@@ -40,11 +40,11 @@ public class BlockKiln extends BlockContainer
 		if (lit)
 		{
 			setBlockName("kilnLit");
-			this.setLightLevel(0.875F);
+			setLightLevel(0.875F);
 		}
 		else
 		{
-			this.setLightLevel(0F);
+			setLightLevel(0F);
 			setBlockName("kiln");
 			setCreativeTab(ModMain.tabBetterBeginnings);
 		}
@@ -153,30 +153,10 @@ public class BlockKiln extends BlockContainer
 	}
 
 	@Override
-	public boolean canPlaceBlockAt(World world, int x, int y, int z)
-	{
-		/*
-		 * if (world.getBlock(x, y + 1, z) == RegisterBlocks.kiln || world.getBlock(x, y + 1, z) ==
-		 * RegisterBlocks.kilnLit) { if (((TileEntityKiln)world.getTileEntity(x, y + 1, z)).stacked != 0) { return
-		 * false; } } if (world.getBlock(x, y - 1, z) == RegisterBlocks.kiln || world.getBlock(x, y - 1, z) ==
-		 * RegisterBlocks.kilnLit) { if (((TileEntityKiln)world.getTileEntity(x, y - 1, z)).stacked != 0) { return
-		 * false; } }
-		 */
-
-		return true;
-	}
-
-	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float clickX,
-									float clickY, float clickZ)
+	                                float clickY, float clickZ)
 	{
-		TileEntityKiln kiln = (TileEntityKiln)world.getTileEntity(x, y, z);
 		player.openGui(ModMain.modInstance, BBGuiHandler.KILN_ID, world, x, y, z);
-		/*
-		 * if (kiln.stacked == 0) { // player.openGui(ModMain.modInstance, BBGuiHandler.KILN_ID, world, x, y, z);
-		 * } else { // ChatUtil.sendChatToPlayer(player, "DOUBLE KILN!"); // player.openGui(ModMain.modInstance,
-		 * BBGuiHandler.KILNSTACKED_ID, world, x, y, z); }
-		 */
 
 		return true;
 	}
@@ -209,28 +189,8 @@ public class BlockKiln extends BlockContainer
 		TileEntityKiln kiln = (TileEntityKiln)world.getTileEntity(x, y, z);
 		if (stack.hasDisplayName())
 		{
-			kiln.furnaceName(stack.getDisplayName());
+			kiln.setKilnName(stack.getDisplayName());
 		}
-		
-		/*
-		 * Block above = world.getBlock(x, y + 1, z); Block below = world.getBlock(x, y - 1, z); if (above ==
-		 * RegisterBlocks.kiln || above == RegisterBlocks.kilnLit) // If you placed the bottom { if (above ==
-		 * RegisterBlocks.kilnLit) { world.setBlock(x, y, z, RegisterBlocks.kilnLit); }
-		 * 
-		 * // Match the metadata world.setBlockMetadataWithNotify(x, y, z, world.getBlockMetadata(x, y + 1, z), 3);
-		 * 
-		 * //kiln.stacked = 1;
-		 * 
-		 * TileEntityKiln kilnAbove = (TileEntityKiln)world.getTileEntity(x, y + 1, z); //kilnAbove.stacked = -1; } else
-		 * if (below == RegisterBlocks.kiln || below == RegisterBlocks.kilnLit) // If you placed the top { if (above ==
-		 * RegisterBlocks.kilnLit) { world.setBlock(x, y, z, RegisterBlocks.kilnLit); }
-		 * 
-		 * // Match the metadata world.setBlockMetadataWithNotify(x, y, z, world.getBlockMetadata(x, y - 1, z), 3);
-		 * 
-		 * //kiln.stacked = -1;
-		 * 
-		 * TileEntityKiln kilnBelow = (TileEntityKiln)world.getTileEntity(x, y - 1, z); //kilnBelow.stacked = 1; }
-		 */
 	}
 
 	@Override
@@ -319,11 +279,11 @@ public class BlockKiln extends BlockContainer
 							stack.stackSize -= j;
 							EntityItem entityItem =
 									new EntityItem(world,
-												   x + velX,
-												   y + velY,
-												   z + velZ,
-												   new ItemStack(stack.getItem(), j,
-																 stack.getItemDamage()));
+									               x + velX,
+									               y + velY,
+									               z + velZ,
+									               new ItemStack(stack.getItem(), j,
+									                             stack.getItemDamage()));
 
 							if (stack.hasTagCompound())
 							{

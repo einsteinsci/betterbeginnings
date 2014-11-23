@@ -18,8 +18,9 @@ public class BBGuiHandler implements IGuiHandler
 	public static final int SMELTER_ID = 4;
 	public static final int INFUSIONREPAIR_ID = 5;
 	public static final int OBSIDIANKILN_ID = 6;
-	public static final int NETHERBRICKOVEN_ID = 7; // Not yet implemented.
+	public static final int NETHERBRICKOVEN_ID = 7;
 	public static final int ENDERSMELTER_ID = 8;
+	public static final int CAMPFIRE_ID = 9;
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
@@ -73,6 +74,12 @@ public class BBGuiHandler implements IGuiHandler
 		{
 			TileEntityEnderSmelter enderSmelter = (TileEntityEnderSmelter)world.getTileEntity(x, y, z);
 			return new ContainerEnderSmelter(player.inventory, enderSmelter);
+		}
+
+		if (ID == CAMPFIRE_ID)
+		{
+			TileEntityCampfire campfire = (TileEntityCampfire)world.getTileEntity(x, y, z);
+			return new ContainerCampfire(player.inventory, campfire);
 		}
 
 		return null;
@@ -130,6 +137,12 @@ public class BBGuiHandler implements IGuiHandler
 		{
 			TileEntityEnderSmelter enderSmelter = (TileEntityEnderSmelter)world.getTileEntity(x, y, z);
 			return new GuiEnderSmelter(player.inventory, enderSmelter);
+		}
+
+		if (ID == CAMPFIRE_ID)
+		{
+			TileEntityCampfire campfire = (TileEntityCampfire)world.getTileEntity(x, y, z);
+			return new GuiCampfire(player.inventory, campfire);
 		}
 
 		return null;

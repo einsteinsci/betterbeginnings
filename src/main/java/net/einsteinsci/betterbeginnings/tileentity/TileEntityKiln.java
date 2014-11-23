@@ -37,10 +37,9 @@ public class TileEntityKiln extends TileEntity implements ISidedInventory
 	public TileEntityKiln()
 	{
 		super();
-		// stacked = 0;
 	}
 
-	public void furnaceName(String string)
+	public void setKilnName(String string)
 	{
 		kilnName = string;
 	}
@@ -70,8 +69,6 @@ public class TileEntityKiln extends TileEntity implements ISidedInventory
 		kilnCookTime = tagCompound.getShort("CookTime");
 		currentBurnTime = getItemBurnTime(kilnStacks[1]);
 
-		// stacked = tagCompound.getInteger("Stacked");
-
 		if (tagCompound.hasKey("CustomName", 8))
 		{
 			kilnName = tagCompound.getString("CustomName");
@@ -85,7 +82,6 @@ public class TileEntityKiln extends TileEntity implements ISidedInventory
 
 		tagCompound.setShort("BurnTime", (short)kilnBurnTime);
 		tagCompound.setShort("CookTime", (short)kilnCookTime);
-		// tagCompound.setInteger("Stacked", stacked);
 		NBTTagList tagList = new NBTTagList();
 
 		for (int i = 0; i < kilnStacks.length; ++i)
@@ -413,13 +409,11 @@ public class TileEntityKiln extends TileEntity implements ISidedInventory
 	@Override
 	public void openInventory()
 	{
-
 	}
 
 	@Override
 	public void closeInventory()
 	{
-
 	}
 
 	@Override
@@ -439,7 +433,7 @@ public class TileEntityKiln extends TileEntity implements ISidedInventory
 	{
 		if (currentBurnTime <= 0)
 		{
-			currentBurnTime = smeltTime;
+			currentBurnTime = smeltTime; // WTF?
 		}
 
 		return kilnBurnTime * time / currentBurnTime;

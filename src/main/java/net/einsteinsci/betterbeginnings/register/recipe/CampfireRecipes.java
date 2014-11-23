@@ -38,7 +38,7 @@ public class CampfireRecipes
 	public void putLists(ItemStack itemStack, ItemStack itemStack2, float experience)
 	{
 		smeltingList.put(itemStack, itemStack2);
-		experienceList.put(itemStack2, Float.valueOf(experience));
+		experienceList.put(itemStack2, experience);
 	}
 
 	public static void addRecipe(Block input, ItemStack output, float experience)
