@@ -14,6 +14,9 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
@@ -24,12 +27,9 @@ import net.minecraftforge.fluids.*;
 public class TileEntityNetherBrickOven extends TileEntity implements ISidedInventory, IFluidHandler
 {
 	public static final int FUELINPUT = 0;
-	private int[] slotsInput = new int[] {FUELINPUT};
 	public static final int OUTPUT = 1;
-	private int[] slotsOutput = new int[] {OUTPUT};
 	public static final int INPUTSTART = 2;
 	public static final int COOKTIME = 80;
-
 	/**
 	 * Fuel used in mb per operation *
 	 */
@@ -37,6 +37,8 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 	public static final int MINIMUMTEMPERATURE = 500;
 	public int ovenCookTime;
 	public TankNetherBrickOvenFuel fuelTank;
+	private int[] slotsInput = new int[] {FUELINPUT};
+	private int[] slotsOutput = new int[] {OUTPUT};
 	private ItemStack[] ovenStacks = new ItemStack[11];
 	private String ovenName;
 
@@ -44,6 +46,11 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 	{
 		super();
 		fuelTank = new TankNetherBrickOvenFuel(this, 8000);
+	}
+
+	public FluidStack getFuelStack()
+	{
+		return fuelTank.getFluid();
 	}
 
 	@Override
@@ -77,6 +84,15 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 	}
 
 	@Override
+	public int fill(ForgeDirection from, FluidStack resource, boolean doFill)
+	{
+		int result = fuelTank.fill(resource, doFill);
+		markDirty();
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		return result;
+	}
+
+	@Override
 	public void writeToNBT(NBTTagCompound tagCompound)
 	{
 		super.writeToNBT(tagCompound);
@@ -103,6 +119,23 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 		{
 			tagCompound.setString("CustomName", ovenName);
 		}
+	}
+
+	@Override
+	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain)
+	{
+		return null;
+
+		/*
+		if (resource.isFluidEqual(fuelTank.getFluid()))
+		{
+			return fuelTank.drain(resource.amount, doDrain);
+		}
+		else
+		{
+			return fuelTank.drain(0, doDrain);
+		}
+		*/
 	}
 
 	@Override
@@ -154,6 +187,57 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 		}
 	}
 
+	@Override
+	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain)
+	{
+		return null;
+		//return fuelTank.drain(maxDrain, doDrain);
+	}
+
+	@Override
+	public Packet getDescriptionPacket()
+	{
+		NBTTagCompound tag = new NBTTagCompound();
+		writeToNBT(tag);
+		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, tag);
+	}
+
+	@Override
+	public boolean canFill(ForgeDirection from, Fluid fluid)
+	{
+		return true;
+
+		/*
+		if (fuelTank.getFluid() == null)
+		{
+			return true;
+		}
+
+		return fuelTank.getFluidAmount() < fuelTank.getCapacity() && fuelTank.getFluid().getFluid() == fluid;
+		*/
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager manager, S35PacketUpdateTileEntity packet)
+	{
+		readFromNBT(packet.func_148857_g());
+	}
+
+	@Override
+	public boolean canDrain(ForgeDirection from, Fluid fluid)
+	{
+		return false;
+
+		/*
+		if (fuelTank.getFluid() == null)
+		{
+			return false;
+		}
+
+		return fuelTank.getFluidAmount() > 0 && fuelTank.getFluid().getFluid() == fluid;
+		*/
+	}
+
 	public boolean canSmelt()
 	{
 		if (fuelTank.getFluidAmount() <= 0 || getFuelNeededForSmelt() > fuelTank.getFluidAmount())
@@ -195,6 +279,12 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 			int result = ovenStacks[OUTPUT].stackSize + stack.stackSize;
 			return result <= getInventoryStackLimit() && result <= ovenStacks[OUTPUT].getMaxStackSize();
 		}
+	}
+
+	@Override
+	public FluidTankInfo[] getTankInfo(ForgeDirection from)
+	{
+		return new FluidTankInfo[] {new FluidTankInfo(fuelTank.getFluid(), fuelTank.getCapacity())};
 	}
 
 	public void smeltItem()
@@ -248,6 +338,19 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 		                                point);
 	}
 
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side)
+	{
+		if (side == BlockUtil.Bottom)
+		{
+			return slotsOutput;
+		}
+		else
+		{
+			return slotsInput;
+		}
+	}
+
 	public int getFuelNeededForSmelt()
 	{
 		if (fuelTank.getFluid() == null)
@@ -271,15 +374,52 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 	}
 
 	@Override
+	public boolean canInsertItem(int par1, ItemStack stack, int par3)
+	{
+		return isItemValidForSlot(par1, stack);
+	}
+
+	@Override
+	public boolean canExtractItem(int slot, ItemStack stack, int side)
+	{
+		if (side == BlockUtil.Bottom)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	@Override
 	public int getSizeInventory()
 	{
 		return ovenStacks.length;
+	}
+
+	public boolean isItemFuelContainer(ItemStack stack)
+	{
+		if (FluidContainerRegistry.isContainer(stack))
+		{
+			FluidStack fluid = FluidContainerRegistry.getFluidForFilledItem(stack);
+
+			if (fluid != null)
+			{
+				return fluid.getFluid().getTemperature() > MINIMUMTEMPERATURE;
+			}
+		}
+
+		return false;
 	}
 
 	@Override
 	public ItemStack getStackInSlot(int slot)
 	{
 		return ovenStacks[slot];
+	}
+
+	@SideOnly(Side.CLIENT)
+	public int getCookProgressScaled(int progress)
+	{
+		return ovenCookTime * progress / COOKTIME;
 	}
 
 	@Override
@@ -312,6 +452,11 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 		}
 	}
 
+	public void furnaceName(String displayName)
+	{
+		ovenName = displayName;
+	}
+
 	@Override
 	public ItemStack getStackInSlotOnClosing(int slot)
 	{
@@ -327,6 +472,11 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 		}
 	}
 
+	public ItemStack getStackInRowAndColumn(int row, int column)
+	{
+		return getStackInSlot(INPUTSTART + row + column * 3);
+	}
+
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack stack)
 	{
@@ -338,16 +488,37 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 		}
 	}
 
+	public int getFuelLevelScaled(int maxLevel)
+	{
+		float levelAbs = getFuelLevel();
+		float capacity = fuelTank.getCapacity();
+		float level = levelAbs / capacity;
+		float scaled = level * (float)maxLevel;
+
+		return (int)scaled;
+	}
+
 	@Override
 	public String getInventoryName()
 	{
 		return hasCustomInventoryName() ? ovenName : "container.netherbrickoven";
 	}
 
+	public int getFuelLevel()
+	{
+		return fuelTank.getFluidAmount();
+	}
+
 	@Override
 	public boolean hasCustomInventoryName()
 	{
 		return ovenName != null && ovenName.length() > 0;
+	}
+
+	//I think this will only be called on the client side
+	public void setFuelLevel(FluidStack fluid)
+	{
+		fuelTank.setFluid(fluid);
 	}
 
 	@Override
@@ -385,152 +556,5 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 		return slot == OUTPUT ? false : slot == FUELINPUT ? isItemFuelContainer(stack) : true;
 	}
 
-	@Override
-	public int fill(ForgeDirection from, FluidStack resource, boolean doFill)
-	{
-		int result = fuelTank.fill(resource, doFill);
-		markDirty();
-		return result;
-	}
 
-	@Override
-	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain)
-	{
-		return null;
-
-		/*
-		if (resource.isFluidEqual(fuelTank.getFluid()))
-		{
-			return fuelTank.drain(resource.amount, doDrain);
-		}
-		else
-		{
-			return fuelTank.drain(0, doDrain);
-		}
-		*/
-	}
-
-	@Override
-	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain)
-	{
-		return null;
-		//return fuelTank.drain(maxDrain, doDrain);
-	}
-
-	@Override
-	public boolean canFill(ForgeDirection from, Fluid fluid)
-	{
-		return true;
-
-		/*
-		if (fuelTank.getFluid() == null)
-		{
-			return true;
-		}
-
-		return fuelTank.getFluidAmount() < fuelTank.getCapacity() && fuelTank.getFluid().getFluid() == fluid;
-		*/
-	}
-
-	@Override
-	public boolean canDrain(ForgeDirection from, Fluid fluid)
-	{
-		return false;
-
-		/*
-		if (fuelTank.getFluid() == null)
-		{
-			return false;
-		}
-
-		return fuelTank.getFluidAmount() > 0 && fuelTank.getFluid().getFluid() == fluid;
-		*/
-	}
-
-	@Override
-	public FluidTankInfo[] getTankInfo(ForgeDirection from)
-	{
-		return new FluidTankInfo[] {new FluidTankInfo(fuelTank.getFluid(), fuelTank.getCapacity())};
-	}
-
-	@Override
-	public int[] getAccessibleSlotsFromSide(int side)
-	{
-		if (side == BlockUtil.Bottom)
-		{
-			return slotsOutput;
-		}
-		else
-		{
-			return slotsInput;
-		}
-	}
-
-	@Override
-	public boolean canInsertItem(int par1, ItemStack stack, int par3)
-	{
-		return isItemValidForSlot(par1, stack);
-	}
-
-	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, int side)
-	{
-		if (side == BlockUtil.Bottom)
-		{
-			return true;
-		}
-		return false;
-	}
-
-	public boolean isItemFuelContainer(ItemStack stack)
-	{
-		if (FluidContainerRegistry.isContainer(stack))
-		{
-			FluidStack fluid = FluidContainerRegistry.getFluidForFilledItem(stack);
-
-			if (fluid != null)
-			{
-				return fluid.getFluid().getTemperature() > MINIMUMTEMPERATURE;
-			}
-		}
-
-		return false;
-	}
-
-	@SideOnly(Side.CLIENT)
-	public int getCookProgressScaled(int progress)
-	{
-		return ovenCookTime * progress / COOKTIME;
-	}
-
-	public void furnaceName(String displayName)
-	{
-		ovenName = displayName;
-	}
-
-	public ItemStack getStackInRowAndColumn(int row, int column)
-	{
-		return getStackInSlot(INPUTSTART + row + column * 3);
-	}
-
-	public int getFuelLevelScaled(int maxLevel)
-	{
-		float levelAbs = getFuelLevel();
-		float capacity = fuelTank.getCapacity();
-		float level = levelAbs / capacity;
-		float scaled = level * (float)maxLevel;
-
-		return (int)scaled;
-	}
-
-	public int getFuelLevel()
-	{
-		return fuelTank.getFluidAmount();
-	}
-
-	//I think this will only be called on the client side
-	public void setFuelLevel(FluidStack fluid)
-	{
-		fuelTank.setFluid(fluid);
-	}
 }
