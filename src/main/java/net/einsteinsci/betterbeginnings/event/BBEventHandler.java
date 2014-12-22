@@ -81,6 +81,11 @@ public class BBEventHandler
 			e.toolTip.add(ChatUtil.PINK + "For dev testing only. What it does changes from one version to the next.");
 		}
 
+		if (item == RegisterItems.pan)
+		{
+			e.toolTip.add(ChatUtil.BLUE + "Fry stuff over a campfire!");
+		}
+
 		if (isWIP(e.itemStack))
 		{
 			e.toolTip.add(ChatUtil.RED + "WIP. May not be fully functional.");

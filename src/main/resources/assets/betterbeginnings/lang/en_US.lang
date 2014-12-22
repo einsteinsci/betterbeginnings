@@ -13,12 +13,15 @@ tile.netherBrickOven.name=Nether Brick Oven
 tile.netherBrickOvenLit.name=Nether Brick Oven (Lit)
 tile.enderSmelter.name=Ender Smelter
 tile.enderSmelterLit.name=Ender Smelter (Lit)
+tile.campfire.name=Campfire
+tile.campfireLit.name=Campfire (Lit)
 
 item.flintKnife.name=Flint Knife
 item.boneKnife.name=Bone Knife
 item.ironKnife.name=Iron Knife
 item.goldKnife.name=Gold Knife
 item.diamondKnife.name=Diamond Knife
+item.pan.name=Pan
 
 item.flintHatchet.name=Flint Hatchet
 item.bonePickaxe.name=Bone Pickaxe
