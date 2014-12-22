@@ -8,14 +8,14 @@ import net.minecraftforge.oredict.OreDictionary;
 import java.util.*;
 import java.util.Map.Entry;
 
-public class CampfirePotRecipes
+public class CampfirePanRecipes
 {
-	private static final CampfirePotRecipes SMELTINGBASE = new CampfirePotRecipes();
+	private static final CampfirePanRecipes SMELTINGBASE = new CampfirePanRecipes();
 
 	private Map smeltingList = new HashMap();
 	private Map experienceList = new HashMap();
 
-	private CampfirePotRecipes()
+	private CampfirePanRecipes()
 	{
 		// nothing here
 	}
@@ -30,7 +30,7 @@ public class CampfirePotRecipes
 		putLists(new ItemStack(input, 1, OreDictionary.WILDCARD_VALUE), itemStack, experience);
 	}
 
-	public static CampfirePotRecipes smelting()
+	public static CampfirePanRecipes smelting()
 	{
 		return SMELTINGBASE;
 	}

@@ -4,7 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.einsteinsci.betterbeginnings.blocks.BlockCampfire;
 import net.einsteinsci.betterbeginnings.items.ItemPan;
-import net.einsteinsci.betterbeginnings.register.recipe.CampfirePotRecipes;
+import net.einsteinsci.betterbeginnings.register.recipe.CampfirePanRecipes;
 import net.einsteinsci.betterbeginnings.register.recipe.CampfireRecipes;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -114,16 +114,20 @@ public class TileEntityCampfire extends TileEntity implements IInventory
 		}
 		else
 		{
-			decayTime--;
+			decayTime = Math.max(0, decayTime - 1);
 		}
 
 		if (!worldObj.isRemote)
 		{
-			if (burnTime == 0 && canCook() /*&& decayTime > 0*/) //only start fuel if lit (w/ F&S or Fire Bow)
+			if (burnTime == 0 && canCook() && isDecaying()) //only start fuel if lit (w/ F&S or Fire Bow)
 			{
 				burnTime = getBurnTimeForFuel(stackFuel());
 				currentItemBurnTime = burnTime;
-				decayTime = maxDecayTime;
+				if (burnTime > 0)
+				{
+					decayTime = maxDecayTime;
+					burning = true;
+				}
 
 				if (burning)
 				{
@@ -168,39 +172,6 @@ public class TileEntityCampfire extends TileEntity implements IInventory
 		}
 	}
 
-	public boolean canCook()
-	{
-		if (stackInput() == null)
-		{
-			return false;
-		}
-
-		ItemStack potentialResult = CampfirePotRecipes.smelting().getSmeltingResult(stackInput());
-		if (potentialResult == null || stackPan() == null)
-		{
-			potentialResult = CampfireRecipes.smelting().getSmeltingResult(stackInput());
-		}
-
-		if (potentialResult == null)
-		{
-			return false; // instant no if there's no recipe
-		}
-
-		if (stackOutput() == null)
-		{
-			return true; // instant yes if output is open
-		}
-		if (!stackOutput().isItemEqual(potentialResult))
-		{
-			return false; // instant no if output doesn't match recipe
-		}
-
-		int resultSize = stackOutput().stackSize + potentialResult.stackSize;
-		boolean canFit = resultSize <= getInventoryStackLimit();
-		boolean canFitWithItem = resultSize <= stackOutput().getMaxStackSize();
-		return resultSize <= getInventoryStackLimit() && resultSize <= stackOutput().getMaxStackSize();
-	}
-
 	public boolean isDecaying()
 	{
 		return decayTime > 0;
@@ -210,7 +181,7 @@ public class TileEntityCampfire extends TileEntity implements IInventory
 	{
 		if (canCook())
 		{
-			ItemStack potentialResult = CampfirePotRecipes.smelting().getSmeltingResult(stackInput());
+			ItemStack potentialResult = CampfirePanRecipes.smelting().getSmeltingResult(stackInput());
 			if (potentialResult == null || stackPan() == null)
 			{
 				potentialResult = CampfireRecipes.smelting().getSmeltingResult(stackInput());
@@ -232,21 +203,6 @@ public class TileEntityCampfire extends TileEntity implements IInventory
 				stacks[SLOT_INPUT] = null;
 			}
 		}
-	}
-
-	public ItemStack stackInput()
-	{
-		return stacks[SLOT_INPUT];
-	}
-
-	public ItemStack stackPan()
-	{
-		return stacks[SLOT_PAN];
-	}
-
-	public ItemStack stackOutput()
-	{
-		return stacks[SLOT_OUTPUT];
 	}
 
 	@Override
@@ -446,6 +402,67 @@ public class TileEntityCampfire extends TileEntity implements IInventory
 		return getBurnTimeForFuel(itemstack1) > 0;
 	}
 
+	public void LightFuel()
+	{
+		int maxBurn = getBurnTimeForFuel(stackFuel());
+		if (maxBurn > 0)
+		{
+			if (canCook())
+			{
+				burnTime = maxBurn;
+				decayTime = maxDecayTime;
+			}
+		}
+	}
+
+	public boolean canCook()
+	{
+		if (stackInput() == null)
+		{
+			return false;
+		}
+
+		ItemStack potentialResult = CampfirePanRecipes.smelting().getSmeltingResult(stackInput());
+		if (potentialResult == null || stackPan() == null)
+		{
+			potentialResult = CampfireRecipes.smelting().getSmeltingResult(stackInput());
+		}
+
+		if (potentialResult == null)
+		{
+			return false; // instant no if there's no recipe
+		}
+
+		if (stackOutput() == null)
+		{
+			return true; // instant yes if output is open
+		}
+		if (!stackOutput().isItemEqual(potentialResult))
+		{
+			return false; // instant no if output doesn't match recipe
+		}
+
+		int resultSize = stackOutput().stackSize + potentialResult.stackSize;
+		boolean canFit = resultSize <= getInventoryStackLimit();
+		boolean canFitWithItem = resultSize <= stackOutput().getMaxStackSize();
+		return canFit && canFitWithItem;
+	}
+
+	public ItemStack stackInput()
+	{
+		return stacks[SLOT_INPUT];
+	}
+
+	public ItemStack stackPan()
+	{
+		return stacks[SLOT_PAN];
+	}
+
+	public ItemStack stackOutput()
+	{
+		return stacks[SLOT_OUTPUT];
+	}
+
 	public boolean isBurning()
 	{
 		return burnTime > 0;
@@ -460,21 +477,16 @@ public class TileEntityCampfire extends TileEntity implements IInventory
 	@SideOnly(Side.CLIENT)
 	public int getBurnTimeRemainingScaled(int i)
 	{
-		if (burnTime <= 0)
+		if (currentItemBurnTime <= 0)
 		{
-			burnTime = maxCookTime; // WTF?
+			return 0;
 		}
 
-		return currentItemBurnTime * i / burnTime;
+		return burnTime * i / currentItemBurnTime;
 	}
 
 	public int getDecayTimeRemainingScaled(int i)
 	{
-		if (decayTime <= 0)
-		{
-			decayTime = maxCookTime; // WTF?
-		}
-
-		return maxDecayTime * i / decayTime;
+		return decayTime * i / maxDecayTime;
 	}
 }

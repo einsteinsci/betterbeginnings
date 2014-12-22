@@ -16,12 +16,12 @@ public class RegisterRecipes
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.stick), "treeSapling", "itemKnife"));
 
 		// Bone Shard
-		GameRegistry.addRecipe(
-				new ShapelessOreRecipe(new ItemStack(RegisterItems.boneShard, 2), Items.bone, "itemKnife"));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(RegisterItems.boneShard, 2),
+		                                              Items.bone, "itemKnife"));
 
 		// Leather Strip
-		GameRegistry.addRecipe(
-				new ShapelessOreRecipe(new ItemStack(RegisterItems.leatherStrip, 3), Items.leather, "itemKnife"));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(RegisterItems.leatherStrip, 3),
+		                                              Items.leather, "itemKnife"));
 
 		// Bonemeal from Bone Shard (a bit more rewarding)
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, 2, 15), RegisterItems.boneShard);
@@ -43,7 +43,7 @@ public class RegisterRecipes
 		addKilnRecipes();
 		addBrickOvenRecipes();
 		addSmelterRecipes();
-		//addCampfireRecipes();
+		addCampfireRecipes();
 	}
 
 	private static void addKilnRecipes()
@@ -153,11 +153,11 @@ public class RegisterRecipes
 			CampfireRecipes.addRecipe(Blocks.sand, new ItemStack(Blocks.glass), 0.1f);
 		}
 
-		CampfirePotRecipes.addRecipe(Items.beef, new ItemStack(Items.cooked_beef), 0.1f);
-		CampfirePotRecipes.addRecipe(Items.porkchop, new ItemStack(Items.cooked_porkchop), 0.1f);
-		CampfirePotRecipes.addRecipe(Items.chicken, new ItemStack(Items.cooked_chicken), 0.1f);
-		CampfirePotRecipes.addRecipe(new ItemStack(Items.fish, 1, 0), new ItemStack(Items.cooked_fished, 1, 0), 0.1f);
-		CampfirePotRecipes.addRecipe(new ItemStack(Items.fish, 1, 1), new ItemStack(Items.cooked_fished, 1, 1), 0.1f);
+		CampfirePanRecipes.addRecipe(Items.beef, new ItemStack(Items.cooked_beef), 0.1f);
+		CampfirePanRecipes.addRecipe(Items.porkchop, new ItemStack(Items.cooked_porkchop), 0.1f);
+		CampfirePanRecipes.addRecipe(Items.chicken, new ItemStack(Items.cooked_chicken), 0.1f);
+		CampfirePanRecipes.addRecipe(new ItemStack(Items.fish, 1, 0), new ItemStack(Items.cooked_fished, 1, 0), 0.1f);
+		CampfirePanRecipes.addRecipe(new ItemStack(Items.fish, 1, 1), new ItemStack(Items.cooked_fished, 1, 1), 0.1f);
 	}
 
 	public static void addAdvancedRecipes()

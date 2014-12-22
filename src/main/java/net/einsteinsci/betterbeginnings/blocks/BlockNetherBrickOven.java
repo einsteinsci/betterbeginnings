@@ -42,12 +42,12 @@ public class BlockNetherBrickOven extends BlockContainer
 
 		if (lit)
 		{
-			this.setLightLevel(0.875F);
+			setLightLevel(0.875F);
 			setBlockName("netherBrickOvenLit");
 		}
 		else
 		{
-			this.setLightLevel(0F);
+			setLightLevel(0F);
 			setBlockName("netherBrickOven");
 			setCreativeTab(ModMain.tabBetterBeginnings);
 		}

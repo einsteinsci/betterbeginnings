@@ -3,6 +3,7 @@ package net.einsteinsci.betterbeginnings.gui;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.inventory.ContainerCampfire;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityCampfire;
+import net.einsteinsci.betterbeginnings.util.ChatUtil;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -12,8 +13,9 @@ import org.lwjgl.opengl.GL11;
 public class GuiCampfire extends GuiContainer
 {
 
-	private static final ResourceLocation campfireGuiTextures = new ResourceLocation(ModMain.MODID +
-			                                                                                 ":textures/gui/container/campfire.png");
+	private static final ResourceLocation campfireGuiTextures =
+			new ResourceLocation(ModMain.MODID + ":textures/gui/container/campfire.png");
+
 	private TileEntityCampfire tileCampfire;
 
 	public GuiCampfire(InventoryPlayer invPlayer, TileEntityCampfire tile)
@@ -27,6 +29,8 @@ public class GuiCampfire extends GuiContainer
 	public void drawGuiContainerForegroundLayer(int par1, int par2)
 	{
 		fontRendererObj.drawString(I18n.format("container.inventory"), 8, ySize - 96 + 4, 4210752);
+		fontRendererObj.drawString(ChatUtil.DARK_RED + "DecayTime: " + tileCampfire.decayTime, 8, 8, 4210752);
+		fontRendererObj.drawString(ChatUtil.DARK_RED + "BurnTime: " + tileCampfire.burnTime, 8, 18, 4210752);
 	}
 
 	public void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
@@ -46,9 +50,15 @@ public class GuiCampfire extends GuiContainer
 		}
 		if (tileCampfire.isDecaying())
 		{
-			i = tileCampfire.getBurnTimeRemainingScaled(16);
+			i = tileCampfire.getDecayTimeRemainingScaled(16);
 			// x y u v w h
-			drawTexturedModalRect(k + 77, l + 57 + 16 - i, 176, 54 - i, 3, i);
+			int x = k + 77;
+			int y = l + 57 + 16 - i;
+			int u = 176;
+			int v = 55 - i;
+			int w = 3;
+			int h = i;
+			drawTexturedModalRect(x, y, u, v, w, h);
 		}
 
 		i = tileCampfire.getCookProgressScaled(23);

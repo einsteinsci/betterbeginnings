@@ -11,6 +11,7 @@ import net.einsteinsci.betterbeginnings.items.ItemKnife;
 import net.einsteinsci.betterbeginnings.register.RegisterBlocks;
 import net.einsteinsci.betterbeginnings.register.RegisterItems;
 import net.einsteinsci.betterbeginnings.register.achievement.RegisterAchievements;
+import net.einsteinsci.betterbeginnings.tileentity.TileEntityCampfire;
 import net.einsteinsci.betterbeginnings.util.ChatUtil;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -25,6 +26,7 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 
 import java.util.*;
@@ -89,8 +91,6 @@ public class BBEventHandler
 	{
 		List<ItemStack> wip = new ArrayList<ItemStack>();
 
-		wip.add(new ItemStack(RegisterItems.fireBow));
-		wip.add(new ItemStack(RegisterBlocks.campfire));
 		wip.add(new ItemStack(RegisterItems.clothBoots));
 		wip.add(new ItemStack(RegisterItems.clothPants));
 		wip.add(new ItemStack(RegisterItems.clothShirt));
@@ -98,9 +98,6 @@ public class BBEventHandler
 		wip.add(new ItemStack(RegisterItems.roastingStick));
 		wip.add(new ItemStack(RegisterItems.roastingStickrawMallow));
 		wip.add(new ItemStack(RegisterItems.roastingStickcookedMallow));
-		wip.add(new ItemStack(RegisterItems.marshmallow));
-		wip.add(new ItemStack(RegisterItems.marshmallowCooked));
-		wip.add(new ItemStack(RegisterItems.rockHammer));
 
 		for (ItemStack test : wip)
 		{
@@ -161,12 +158,6 @@ public class BBEventHandler
 			intended = null;
 		}
 
-		if (intended == null || intended == "shovel" ||
-				player.capabilities.isCreativeMode || shouldBeNull(block))
-		{
-			correctTool = true;
-		}
-
 		if (shouldBePickaxe(block))
 		{
 			if (held != null)
@@ -190,6 +181,12 @@ public class BBEventHandler
 			}
 		}
 
+		if (intended == null || intended == "shovel" ||
+				player.capabilities.isCreativeMode || shouldBeNull(block))
+		{
+			correctTool = true;
+		}
+
 		if (!correctTool)
 		{
 			e.setCanceled(true);
@@ -207,33 +204,6 @@ public class BBEventHandler
 				ChatUtil.sendChatToPlayer(player, ChatUtil.ORANGE + "[Better Beginnings] Wrong tool!");
 			}
 		}
-	}
-
-	private boolean shouldBeNull(Block block)
-	{
-		String blockName = Block.blockRegistry.getNameForObject(block);
-
-		if (BBConfig.alwaysBreakable.contains(blockName))
-		{
-			return true;
-		}
-
-		List<Block> should = new ArrayList<Block>();
-
-		should.add(Blocks.pumpkin);
-		should.add(Blocks.lit_pumpkin);
-		should.add(Blocks.melon_block);
-		should.add(Blocks.ice);
-		should.add(Blocks.snow);
-		should.add(Blocks.snow_layer);
-
-		for (String s : BBConfig.alwaysBreakable)
-		{
-			Block always = GameData.getBlockRegistry().getObject(s);
-			should.add(always);
-		}
-
-		return should.contains(block);
 	}
 
 	private boolean shouldBePickaxe(Block block)
@@ -265,6 +235,58 @@ public class BBEventHandler
 		should.add(RegisterBlocks.infusionRepairStation);
 
 		return should.contains(block);
+	}
+
+	private boolean shouldBeNull(Block block)
+	{
+		String blockName = Block.blockRegistry.getNameForObject(block);
+
+		if (BBConfig.alwaysBreakable.contains(blockName))
+		{
+			return true;
+		}
+
+		List<Block> should = new ArrayList<Block>();
+
+		should.add(Blocks.pumpkin);
+		should.add(Blocks.lit_pumpkin);
+		should.add(Blocks.melon_block);
+		should.add(Blocks.ice);
+		should.add(Blocks.snow);
+		should.add(Blocks.snow_layer);
+
+		for (String s : BBConfig.alwaysBreakable)
+		{
+			Block always = GameData.getBlockRegistry().getObject(s);
+			should.add(always);
+		}
+
+		return should.contains(block);
+	}
+
+	@SubscribeEvent
+	public void onRightClick(PlayerInteractEvent e)
+	{
+		if (e.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
+		{
+			if (e.entityPlayer.getHeldItem() != null)
+			{
+				ItemStack stack = e.entityPlayer.getHeldItem();
+				Item item = stack.getItem();
+
+				if (item == Items.flint_and_steel || item == RegisterItems.fireBow)
+				{
+					Block b = e.world.getBlock(e.x, e.y, e.z);
+
+					if (b == RegisterBlocks.campfire || b == RegisterBlocks.campfireLit)
+					{
+						TileEntityCampfire campfire = (TileEntityCampfire)e.world.getTileEntity(e.x, e.y, e.z);
+
+						campfire.LightFuel(); // Light it.
+					}
+				}
+			}
+		}
 	}
 
 	@SubscribeEvent
@@ -561,26 +583,3 @@ public class BBEventHandler
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// BUFFER
