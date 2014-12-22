@@ -3,7 +3,6 @@ package net.einsteinsci.betterbeginnings.gui;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.inventory.ContainerCampfire;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityCampfire;
-import net.einsteinsci.betterbeginnings.util.ChatUtil;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -29,8 +28,6 @@ public class GuiCampfire extends GuiContainer
 	public void drawGuiContainerForegroundLayer(int par1, int par2)
 	{
 		fontRendererObj.drawString(I18n.format("container.inventory"), 8, ySize - 96 + 4, 4210752);
-		fontRendererObj.drawString(ChatUtil.DARK_RED + "DecayTime: " + tileCampfire.decayTime, 8, 8, 4210752);
-		fontRendererObj.drawString(ChatUtil.DARK_RED + "BurnTime: " + tileCampfire.burnTime, 8, 18, 4210752);
 	}
 
 	public void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
