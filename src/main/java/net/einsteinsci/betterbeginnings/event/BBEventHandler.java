@@ -92,6 +92,8 @@ public class BBEventHandler
 		}
 	}
 
+	// TEST CHANGE
+
 	public boolean isWIP(ItemStack stack)
 	{
 		List<ItemStack> wip = new ArrayList<ItemStack>();
