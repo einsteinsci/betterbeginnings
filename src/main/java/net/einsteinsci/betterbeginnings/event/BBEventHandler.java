@@ -288,6 +288,7 @@ public class BBEventHandler
 						TileEntityCampfire campfire = (TileEntityCampfire)e.world.getTileEntity(e.x, e.y, e.z);
 
 						campfire.LightFuel(); // Light it.
+						e.entityPlayer.getHeldItem().damageItem(1, e.entityPlayer);
 					}
 				}
 			}
@@ -367,7 +368,7 @@ public class BBEventHandler
 	@SubscribeEvent
 	public void onItemCrafted(PlayerEvent.ItemCraftedEvent e)
 	{
-		// To fix duplication glitch #27
+		// To fix duplication glitch (#27)
 		if (e.crafting.getItem() instanceof ItemKnife)
 		{
 			for (int i = 0; i < e.craftMatrix.getSizeInventory(); i++)

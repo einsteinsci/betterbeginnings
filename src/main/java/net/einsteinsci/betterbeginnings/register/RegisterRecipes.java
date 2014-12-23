@@ -716,6 +716,21 @@ public class RegisterRecipes
 		                                          '#', Blocks.end_stone,
 		                                          'S', RegisterBlocks.smelter,
 		                                          'E', Items.ender_eye);
+
+		// Rock Hammer
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(RegisterItems.rockHammer),
+		                                          new Object[] {new ItemStack(RegisterItems.leatherStrip, 2),
+				                                          "nuggetIron", 2},
+		                                          "I#I", " / ", " / ",
+		                                          'I', "ingotIron",
+		                                          '#', Blocks.stone,
+		                                          '/', "stickWood");
+
+		// Pan
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(RegisterItems.pan), new Object[] {"nuggetIron", 2,},
+		                                          "/  ", " II",
+		                                          '/', "stickWood",
+		                                          'I', "ingotIron");
 	}
 
 	public static void addShapedRecipes()
@@ -800,5 +815,17 @@ public class RegisterRecipes
 			GameRegistry.addShapedRecipe(
 					new ItemStack(Blocks.crafting_table), "#", '#', RegisterBlocks.doubleWorkbench);
 		}
+
+		// Campfire
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(RegisterBlocks.campfire),
+		                                           "LL", "##",
+		                                           'L', "logWood",
+		                                           '#', "cobblestone"));
+
+		// Fire Bow
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(RegisterItems.fireBow),
+		                                           "//", "/s",
+		                                           '/', "stickWood",
+		                                           's', "itemString"));
 	}
 }

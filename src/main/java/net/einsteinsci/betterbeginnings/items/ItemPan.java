@@ -12,7 +12,8 @@ public class ItemPan extends Item
 	{
 		super();
 		setUnlocalizedName("pan");
-		// setMaxDamage(250); will do later
+		setMaxDamage(250);
+		setMaxStackSize(1);
 		setTextureName(ModMain.MODID + ":" + getUnlocalizedName().substring(5));
 		setCreativeTab(ModMain.tabBetterBeginnings);
 	}
