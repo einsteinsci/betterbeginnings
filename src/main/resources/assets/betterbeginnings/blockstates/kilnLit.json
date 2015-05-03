@@ -1,0 +1,19 @@
+{
+	"variants": {
+		"facing=north": {
+			"model": "betterbeginnings:kilnLit"
+		},
+		"facing=south": {
+			"model": "betterbeginnings:kilnLit",
+			"y": 180
+		},
+		"facing=west": {
+			"model": "betterbeginnings:kilnLit",
+			"y": 270
+		},
+		"facing=east": {
+			"model": "betterbeginnings:kilnLit",
+			"y": 90
+		}
+	}
+}

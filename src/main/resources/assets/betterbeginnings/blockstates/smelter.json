@@ -1,0 +1,19 @@
+{
+	"variants": {
+		"facing=north": {
+			"model": "betterbeginnings:smelter"
+		},
+		"facing=south": {
+			"model": "betterbeginnings:smelter",
+			"y": 180
+		},
+		"facing=west": {
+			"model": "betterbeginnings:smelter",
+			"y": 270
+		},
+		"facing=east": {
+			"model": "betterbeginnings:smelter",
+			"y": 90
+		}
+	}
+}

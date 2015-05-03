@@ -1,0 +1,19 @@
+{
+	"variants": {
+		"connection=up": {
+			"model": "betterbeginnings:doubleWorkbench"
+		},
+		"connection=west": {
+			"model": "betterbeginnings:doubleWorkbench_w"
+		},
+		"connection=east": {
+			"model": "betterbeginnings:doubleWorkbench_e"
+		},
+		"connection=north": {
+			"model": "betterbeginnings:doubleWorkbench_n"
+		},
+		"connection=south": {
+			"model": "betterbeginnings:doubleWorkbench_s"
+		}
+	}
+}

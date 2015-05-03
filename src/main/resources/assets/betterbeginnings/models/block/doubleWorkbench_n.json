@@ -1,0 +1,12 @@
+{
+	"parent": "block/cube_all",
+	"textures": {
+		"particle": "betterbeginnings:blocks/workbenchFront",
+		"down": "blocks/planks_oak",
+		"up": "betterbeginnings:blocks/workbenchTopIfNorth",
+		"north": "betterbeginnings:blocks/workbenchFront",
+		"east": "betterbeginnings:blocks/workbenchSouthIfEast",
+		"south": "betterbeginnings:blocks/workbenchFront",
+		"west": "betterbeginnings:blocks/workbenchWestIfNorth"
+	}
+}

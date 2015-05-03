@@ -1,0 +1,19 @@
+{
+	"variants": {
+		"facing=north": {
+			"model": "betterbeginnings:obsidianKiln"
+		},
+		"facing=south": {
+			"model": "betterbeginnings:obsidianKiln",
+			"y": 180
+		},
+		"facing=west": {
+			"model": "betterbeginnings:obsidianKiln",
+			"y": 270
+		},
+		"facing=east": {
+			"model": "betterbeginnings:obsidianKiln",
+			"y": 90
+		}
+	}
+}

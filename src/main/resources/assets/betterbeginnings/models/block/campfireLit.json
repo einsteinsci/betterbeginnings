@@ -1,0 +1,50 @@
+{
+	"ambientocclusion": false,
+	"textures": {
+		"particle": "blocks/oak_planks",
+		"sticks": "blocks/oak_planks",
+		"temp": "betterbeginnings:blocks/campfire_temp_lit"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"down": { "texture": "#temp" },
+				"up": { "texture": "#temp" },
+				"north": { "texture": "#temp" },
+				"south": { "texture": "#temp" },
+				"east": { "texture": "#temp" },
+				"west": { "texture": "#temp" }
+			}
+		}
+	],
+	"__elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [2, 2, 8],
+			"rotation": { "origin": [-1, 18, 1.8], "axis": "x", "angle": -0.781 },
+			"faces": {
+				"down": { "uv": [0, 0, 8, 2], "texture": "#sticks" },
+				"up": { "uv": [0, 0, 8, 2], "texture": "#sticks" },
+				"north": { "uv": [0, 0, 8, 2], "texture": "#sticks" },
+				"south": { "uv": [0, 0, 8, 2], "texture": "#sticks" },
+				"east": { "uv": [0, 0, 8, 2], "texture": "#sticks" },
+				"west": { "uv": [0, 0, 8, 2], "texture": "#sticks" }
+			}
+		},
+		{
+			"from": [0, 0, 0],
+			"to": [2, 2, 8],
+			"rotation": { "origin": [1, 18, -1], "axis": "x", "angle": -0.781 },
+			"faces": {
+				"down": { "uv": [0, 0, 8, 2], "texture": "#sticks" },
+				"up": { "uv": [0, 0, 8, 2], "texture": "#sticks" },
+				"north": { "uv": [0, 0, 8, 2], "texture": "#sticks" },
+				"south": { "uv": [0, 0, 8, 2], "texture": "#sticks" },
+				"east": { "uv": [0, 0, 8, 2], "texture": "#sticks" },
+				"west": { "uv": [0, 0, 8, 2], "texture": "#sticks" }
+			}
+		}
+	]
+}

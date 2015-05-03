@@ -1,0 +1,19 @@
+{
+	"variants": {
+		"facing=north": {
+			"model": "betterbeginnings:netherBrickOven"
+		},
+		"facing=south": {
+			"model": "betterbeginnings:netherBrickOven",
+			"y": 180
+		},
+		"facing=west": {
+			"model": "betterbeginnings:netherBrickOven",
+			"y": 270
+		},
+		"facing=east": {
+			"model": "betterbeginnings:netherBrickOven",
+			"y": 90
+		}
+	}
+}

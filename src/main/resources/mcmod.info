@@ -1,0 +1,16 @@
+[
+{
+  "modid": "betterbeginnings",
+  "name": "Better Beginnings",
+  "description": "Rebalances early stages of Minecraft, and creates alternatives to the typical vanilla grind.",
+  "version": "b0.8.4",
+  "mcversion": "1.7.10",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["einsteinsci","iLiminate"],
+  "credits": "AnonTheMouse for the brilliant idea, and iLiminate for helping with so many things",
+  "logoFile": "/textures/logo.png",
+  "screenshots": [],
+  "dependencies": []
+}
+]
