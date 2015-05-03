@@ -1,0 +1,17 @@
+/.gradle/*
+/build/*
+/eclipse/*
+/out/*
+/asm/*
+/bin/*
+*.psd
+*.iml
+*.ipr
+*.iws
+*.psd
+*.idea/*
+*.db
+*.pdn
+
+*.classpath
+*.project
