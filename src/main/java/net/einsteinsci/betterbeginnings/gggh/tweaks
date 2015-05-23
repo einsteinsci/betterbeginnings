@@ -12,8 +12,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import java.util.ArrayList;
  
 public class Tweaks { 	//copied from: https://gist.github.com/Choonster/c9a50945f6f83398328b 
-						//
- 
+						
 	public static MaterialUnpunchableLogs materialUnpunchableLogs = new MaterialUnpunchableLogs(); 
 	
 	public static void applyForLogs() { 
@@ -39,7 +38,9 @@ public class Tweaks { 	//copied from: https://gist.github.com/Choonster/c9a50945
 	}
 	
 	// addapted for various wooden blocks
-		// --> it seems that even with a axe we can't mine them 
+		// do not add this to the game
+		// --> it seems that even with an axe we can't mine them 
+		
 	public static void applyForWoodStuff(){
 		ArrayList<Block> stuff = new ArrayList<Block>();
 		
@@ -53,7 +54,7 @@ public class Tweaks { 	//copied from: https://gist.github.com/Choonster/c9a50945
 		stuff.add(Blocks.jungle_stairs);
 		stuff.add(Blocks.acacia_stairs);
 		stuff.add(Blocks.dark_oak_stairs);
-//!!!	//to add manualy: stairs from other mods (eventualy in config)
+	//to add manualy: stairs from other mods (eventualy in config)  --> don't work anyway :/
 		
 		for (Block block: stuff){
 			if (block != null && block.getMaterial() != materialUnpunchableLogs) { 
