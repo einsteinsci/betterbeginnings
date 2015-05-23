@@ -22,6 +22,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import org.apache.logging.log4j.Level;
 
+import net.einsteinsci.betterbeginnings.gggh.tweaks.Tweaks;
+
 @Mod(modid = ModMain.MODID, version = ModMain.VERSION, name = ModMain.NAME,
      guiFactory = "net.einsteinsci.betterbeginnings.config.BBConfigGuiFactory")
 public class ModMain
