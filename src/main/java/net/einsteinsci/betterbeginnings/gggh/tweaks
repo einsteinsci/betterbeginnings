@@ -1,0 +1,25 @@
+package net.einsteinsci.betterbeginnings.gggh.tweaks;
+
+import java.lang.reflect.Method;
+
+import net.minecraft.block.material.Material;
+import cpw.mods.fml.relauncher.ReflectionHelper;
+
+// Yes!! I've found it ! Well ... I've found this: (copied from:)
+//http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/modification-development/1432809-forge-solved-destroying-vanilla-blocks-without
+public class Tweaks {
+	
+	public static void apply(){
+	    try {
+	    	Method m = ReflectionHelper.findMethod(Material.class, Material.wood, new String[] {"func_76221_f", "setRequiresTool"});
+		    m.invoke(Material.wood);
+	    } catch (Throwable t) {
+		    System.out.println("Couldn't find method setRequiresTool");
+		    System.out.println("Methods in Material:");
+		    for (Method method : Material.class.getDeclaredMethods())
+			    System.out.println(" " + method.getName());
+	    }
+	}
+	
+	
+}
