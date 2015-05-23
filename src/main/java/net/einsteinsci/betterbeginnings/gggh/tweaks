@@ -12,7 +12,7 @@ public class Tweaks {
 	public static void apply(){
 	    try {
 	    	Method m = ReflectionHelper.findMethod(Material.class, Material.wood, new String[] {"func_76221_f", "setRequiresTool"});
-		    m.invoke(Material.wood);
+		    m.invoke(Material.wood); //'Material.wood' requires a tool now
 	    } catch (Throwable t) {
 		    System.out.println("Couldn't find method setRequiresTool");
 		    System.out.println("Methods in Material:");
