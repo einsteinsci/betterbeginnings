@@ -1,61 +1,67 @@
 package net.einsteinsci.betterbeginnings.gggh.tweaks;
 
-import java.lang.reflect.Method;
-
-import com.google.common.reflect.Reflection;
-
-import net.minecraft.block.material.Material;
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraftforge.common.ForgeHooks;
-import cpw.mods.fml.relauncher.ReflectionHelper;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
+ 
 
-// Yes!! I've found it ! Well ... I've found this:
-//see http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/modification-development/1432809-forge-solved-destroying-vanilla-blocks-without
-public class Tweaks {
-	public static void doTweaks(){
-		apply();
-		repair();
+
+
+import java.util.ArrayList;
+ 
+public class Tweaks { 	//copied from: https://gist.github.com/Choonster/c9a50945f6f83398328b 
+						//
+ 
+	public static MaterialUnpunchableLogs materialUnpunchableLogs = new MaterialUnpunchableLogs(); 
+	
+	public static void applyForLogs() { 
+		ArrayList<ItemStack> logItemStacks = OreDictionary.getOres("logWood"); // Get a list of ItemStacks registered for "logWood"
+		for (ItemStack logItemStack : logItemStacks) { // For each ItemStack,
+			Block logBlock = Block.getBlockFromItem(logItemStack.getItem()); // Get the ItemStack's Block
+			if (logBlock != null && logBlock.getMaterial() != materialUnpunchableLogs) { // If the Block exists and doesn't have the custom Material
+				ObfuscationReflectionHelper.setPrivateValue(Block.class, logBlock, materialUnpunchableLogs, "blockMaterial", "field_149764_J"); // Set the Block's Material to the custom Material
+			
+			}
+		}
+	}
+	// addapted for planks
+	public static void applyForWood(){
+		ArrayList<ItemStack> WoodItemStacks = OreDictionary.getOres("plankWood");
+		for (ItemStack woodStack : WoodItemStacks) { 
+			Block woodBlock = Block.getBlockFromItem(woodStack.getItem()); 
+			if (woodBlock != null && woodBlock.getMaterial() != materialUnpunchableLogs) { 
+				ObfuscationReflectionHelper.setPrivateValue(Block.class, woodBlock, materialUnpunchableLogs, "blockMaterial", "field_149764_J");
+				
+			}
+		}
 	}
 	
-	private static void apply(){
-	    try {
-	    	Method m = ReflectionHelper.findMethod(Material.class, Material.wood, new String[] {"func_76221_f", "setRequiresTool"});
-		    m.invoke(Material.wood);
-	    } catch (Throwable t) {
-		    System.out.println("Couldn't find method setRequiresTool");
-		    System.out.println("Methods in Material:");
-		    for (Method method : Material.class.getDeclaredMethods())
-			    System.out.println(" " + method.getName());
-	    }
+	// addapted for various wooden blocks
+		// --> it seems that even with a axe we can't mine them 
+	public static void applyForWoodStuff(){
+		ArrayList<Block> stuff = new ArrayList<Block>();
+		
+		stuff.add(Blocks.fence);
+		stuff.add(Blocks.fence_gate);
+		stuff.add(Blocks.wooden_slab);
+		//stuff.add(Blocks.wooden_door);
+		stuff.add(Blocks.oak_stairs);
+		stuff.add(Blocks.spruce_stairs);
+		stuff.add(Blocks.birch_stairs);
+		stuff.add(Blocks.jungle_stairs);
+		stuff.add(Blocks.acacia_stairs);
+		stuff.add(Blocks.dark_oak_stairs);
+//!!!	//to add manualy: stairs from other mods (eventualy in config)
+		
+		for (Block block: stuff){
+			if (block != null && block.getMaterial() != materialUnpunchableLogs) { 
+				ObfuscationReflectionHelper.setPrivateValue(Block.class, block, materialUnpunchableLogs, "blockMaterial", "field_149764_J");
+			}
+		}
 	}
-	private static void repair(){ //repair things that don't drop anymore
-		
-		Reflection.initialize(ForgeHooks.class);
-		
-		Blocks.wooden_slab.setHarvestLevel("axe", 0);
-		Blocks.wooden_door.setHarvestLevel("axe", 0);
-		
-		Blocks.fence.setHarvestLevel("axe", 0);
-		Blocks.fence_gate.setHarvestLevel("axe", 0);
-		
-		//don't know for signs
-		//repairSigns();
-		
-		
-		Blocks.oak_stairs.setHarvestLevel("axe", 0);
-		Blocks.spruce_stairs.setHarvestLevel("axe", 0);
-		Blocks.birch_stairs.setHarvestLevel("axe", 0);
-		Blocks.jungle_stairs.setHarvestLevel("axe", 0);
-		Blocks.acacia_stairs.setHarvestLevel("axe", 0);
-		Blocks.dark_oak_stairs.setHarvestLevel("axe", 0);
-	}
-	/*
-	private static void repairSigns(){
-				//something with reflection(???), or with events :/
-	    }
-	*/
+	
+	
 }
-		
-		
 	
-
