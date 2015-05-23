@@ -194,7 +194,7 @@ public class BBEventHandler
 
 		if (!correctTool)
 		{
-			e.setCanceled(true);
+			//e.setCanceled(true); //no need to cancel (see package ...gggh.tweaks)
 			if (usedFace)
 			{
 				// What do you think the player's 'durability' is?
