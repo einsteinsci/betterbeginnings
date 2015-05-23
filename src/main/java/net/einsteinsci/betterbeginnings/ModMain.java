@@ -95,6 +95,9 @@ public class ModMain
 		RegisterItems.register();
 		RegisterBlocks.register();
 		RegisterTileEntities.register();
+		
+		Tweaks.applyForLogs();// see ... gggh.tweaks
+		Tweaks.applyForWood();
 	}
 
 	public static void Log(String text)
@@ -113,7 +116,7 @@ public class ModMain
 
 		RemoveRecipes.removeFurnaceRecipes();
 		
-		Tweaks.doTweaks(); //see package ...gggh.tweaks
+		
 	}
 
 	@EventHandler
