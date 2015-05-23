@@ -113,7 +113,7 @@ public class ModMain
 
 		RemoveRecipes.removeFurnaceRecipes();
 		
-		Tweaks.apply(); //see package ...gggh.tweaks
+		Tweaks.doTweaks(); //see package ...gggh.tweaks
 	}
 
 	@EventHandler
