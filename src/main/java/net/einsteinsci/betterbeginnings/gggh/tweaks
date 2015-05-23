@@ -2,17 +2,25 @@ package net.einsteinsci.betterbeginnings.gggh.tweaks;
 
 import java.lang.reflect.Method;
 
+import com.google.common.reflect.Reflection;
+
 import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
+import net.minecraftforge.common.ForgeHooks;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 
-// Yes!! I've found it ! Well ... I've found this: (copied from:)
-//http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/modification-development/1432809-forge-solved-destroying-vanilla-blocks-without
+// Yes!! I've found it ! Well ... I've found this:
+//see http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/modification-development/1432809-forge-solved-destroying-vanilla-blocks-without
 public class Tweaks {
+	public static void doTweaks(){
+		apply();
+		repair();
+	}
 	
-	public static void apply(){
+	private static void apply(){
 	    try {
 	    	Method m = ReflectionHelper.findMethod(Material.class, Material.wood, new String[] {"func_76221_f", "setRequiresTool"});
-		    m.invoke(Material.wood); //'Material.wood' requires a tool now
+		    m.invoke(Material.wood);
 	    } catch (Throwable t) {
 		    System.out.println("Couldn't find method setRequiresTool");
 		    System.out.println("Methods in Material:");
@@ -20,6 +28,34 @@ public class Tweaks {
 			    System.out.println(" " + method.getName());
 	    }
 	}
-	
-	
+	private static void repair(){ //repair things that don't drop anymore
+		
+		Reflection.initialize(ForgeHooks.class);
+		
+		Blocks.wooden_slab.setHarvestLevel("axe", 0);
+		Blocks.wooden_door.setHarvestLevel("axe", 0);
+		
+		Blocks.fence.setHarvestLevel("axe", 0);
+		Blocks.fence_gate.setHarvestLevel("axe", 0);
+		
+		//don't know for signs
+		//repairSigns();
+		
+		
+		Blocks.oak_stairs.setHarvestLevel("axe", 0);
+		Blocks.spruce_stairs.setHarvestLevel("axe", 0);
+		Blocks.birch_stairs.setHarvestLevel("axe", 0);
+		Blocks.jungle_stairs.setHarvestLevel("axe", 0);
+		Blocks.acacia_stairs.setHarvestLevel("axe", 0);
+		Blocks.dark_oak_stairs.setHarvestLevel("axe", 0);
+	}
+	/*
+	private static void repairSigns(){
+				//something with reflection(???), or with events :/
+	    }
+	*/
 }
+		
+		
+	
+
