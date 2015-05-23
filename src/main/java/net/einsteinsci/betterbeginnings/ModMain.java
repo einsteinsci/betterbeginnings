@@ -110,6 +110,8 @@ public class ModMain
 		RegisterRecipes.addFurnaceRecipes();
 
 		RemoveRecipes.removeFurnaceRecipes();
+		
+		Tweaks.apply(); //see package ...gggh.tweaks
 	}
 
 	@EventHandler
