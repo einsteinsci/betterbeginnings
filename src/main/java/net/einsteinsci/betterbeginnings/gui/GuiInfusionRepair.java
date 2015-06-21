@@ -1,6 +1,7 @@
 package net.einsteinsci.betterbeginnings.gui;
 
 import net.einsteinsci.betterbeginnings.ModMain;
+import net.einsteinsci.betterbeginnings.client.RenderItemGhost;
 import net.einsteinsci.betterbeginnings.inventory.ContainerInfusionRepair;
 import net.einsteinsci.betterbeginnings.register.InfusionRepairUtil;
 import net.einsteinsci.betterbeginnings.util.ChatUtil;
@@ -22,12 +23,13 @@ import org.lwjgl.opengl.GL12;
 import java.util.ArrayList;
 
 @SideOnly(Side.CLIENT)
+@Deprecated
 public class GuiInfusionRepair extends GuiContainer
 {
 
 	private static final ResourceLocation craftingTableGuiTextures = new ResourceLocation(ModMain.MODID
 			                                                                                      + ":textures/gui/container/infusionRepairStation.png");
-	//private RenderItemPartialTransparency partialTransItemRenderer = new RenderItemPartialTransparency();
+	private RenderItemGhost ghostRenderer = new RenderItemGhost();
 	private ContainerInfusionRepair container;
 	private EntityPlayer player;
 
@@ -49,7 +51,7 @@ public class GuiInfusionRepair extends GuiContainer
 		String takenLevelsStr = "";
 
 		int neededLevels = InfusionRepairUtil.getNeededLevels(container.inputs);
-		String neededLevelsStr = "";
+		String neededLevelsStr;
 
 		ItemStack repaired = container.inputs.getStackInSlot(0);
 		if (repaired != null)
@@ -115,7 +117,10 @@ public class GuiInfusionRepair extends GuiContainer
 	{
 		GL11.glTranslatef(0.0F, 0.0F, 32.0F);
 		zLevel = 200.0F;
-		//partialTransItemRenderer.zLevel = 200.0F;
+
+		//ghostRenderer.zLevel = 200.0F;
+		ghostRenderer.zLevel = 200.0f;
+
 		FontRenderer font = null;
 		if (stack != null)
 		{
@@ -131,10 +136,17 @@ public class GuiInfusionRepair extends GuiContainer
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
 		GL11.glEnable(GL11.GL_LIGHTING);
-		//partialTransItemRenderer.renderItemAndEffectIntoGUI(font, mc.getTextureManager(), stack, xPos, yPos);
-		//partialTransItemRenderer.renderItemOverlayIntoGUI(font, mc.getTextureManager(), stack, xPos, yPos, note);
+
+		//ghostRenderer.renderItemAndEffectIntoGUI(font, mc.getTextureManager(), stack, xPos, yPos);
+		//ghostRenderer.renderItemOverlayIntoGUI(font, mc.getTextureManager(), stack, xPos, yPos, note);
+		ghostRenderer.renderItemIntoGUI(stack, xPos, yPos);
+		ghostRenderer.renderItemOverlayIntoGUI(font, stack, xPos, yPos, note);
+
 		zLevel = 0.0F;
-		//partialTransItemRenderer.zLevel = 0.0F;
+
+		//ghostRenderer.zLevel = 0.0F;
+		ghostRenderer.zLevel = 0.0f;
+
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		RenderHelper.enableStandardItemLighting();

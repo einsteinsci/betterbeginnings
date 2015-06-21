@@ -15,5 +15,6 @@ public class RegisterTileEntities
 		GameRegistry.registerTileEntity(TileEntityObsidianKiln.class, ModMain.MODID + ":TileEntityObsidianKiln");
 		GameRegistry.registerTileEntity(TileEntityNetherBrickOven.class, ModMain.MODID + ":TileEntityNetherBrickOven");
 		GameRegistry.registerTileEntity(TileEntityEnderSmelter.class, ModMain.MODID + ":TileEntityEnderSmelter");
+		GameRegistry.registerTileEntity(TileEntityInfusionRepair.class, ModMain.MODID + ":TileEntityInfusionRepair");
 	}
 }

@@ -1,6 +1,7 @@
 package net.einsteinsci.betterbeginnings.gui;
 
 import net.einsteinsci.betterbeginnings.ModMain;
+import net.einsteinsci.betterbeginnings.client.RenderItemGhost;
 import net.einsteinsci.betterbeginnings.inventory.ContainerSmelter;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntitySmelter;
 import net.minecraft.client.Minecraft;
@@ -24,7 +25,7 @@ public class GuiSmelter extends GuiContainer
 	private static final ResourceLocation smelterGuiTextures = new ResourceLocation(ModMain.MODID +
 																						 ":textures/gui/container/smelter.png");
 	//RenderItemPartialTransparency partialTransItemRenderer = new RenderItemPartialTransparency();
-	RenderItem itemRenderer = Minecraft.getMinecraft().getRenderItem();
+	RenderItemGhost ghoster = new RenderItemGhost();
 	private TileEntitySmelter tileSmelter;
 
 	public GuiSmelter(InventoryPlayer invPlayer, TileEntitySmelter tile)
@@ -36,8 +37,7 @@ public class GuiSmelter extends GuiContainer
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2)
 	{
-		String string =
-				tileSmelter.hasCustomName() ? tileSmelter.getName() : I18n.format(tileSmelter.getName());
+		String string = tileSmelter.hasCustomName() ? tileSmelter.getName() : I18n.format(tileSmelter.getName());
 		fontRendererObj.drawString(string, xSize / 2 - fontRendererObj.getStringWidth(string), 6, 4210752);
 		fontRendererObj.drawString(I18n.format("container.inventory"), 8, ySize - 94, 4210752);
 	}
@@ -68,7 +68,6 @@ public class GuiSmelter extends GuiContainer
 		}
 	}
 
-	@Deprecated
 	private void drawItemStack(ItemStack stack, int xPos, int yPos, String note)
 	{
 		GL11.glTranslatef(0.0F, 0.0F, 32.0F);
@@ -89,13 +88,12 @@ public class GuiSmelter extends GuiContainer
 		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
 		GL11.glEnable(GL11.GL_LIGHTING);
 
-		//partialTransItemRenderer.renderItemAndEffectIntoGUI(font, mc.getTextureManager(), stack, xPos, yPos);
-		itemRenderer.renderItemIntoGUI(stack, xPos, yPos);
-		itemRenderer.renderItemOverlayIntoGUI(font, stack, xPos, yPos, note);
+		ghoster.renderItemIntoGUI(stack, xPos, yPos);
+		ghoster.renderItemOverlayIntoGUI(font, stack, xPos, yPos, note);
 		//partialTransItemRenderer.renderItemOverlayIntoGUI(font, mc.getTextureManager(), stack, xPos, yPos, note);
 		zLevel = 0.0F;
 		//partialTransItemRenderer.zLevel = 0.0F;
-		itemRenderer.zLevel = 0.0f;
+		ghoster.zLevel = 0.0f;
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		RenderHelper.enableStandardItemLighting();

@@ -12,8 +12,8 @@ public class ClientProxy extends ServerProxy
 	public void registerRenderThings()
 	{
 		//Campfire
-		//TileEntitySpecialRenderer render = new RenderCampfire();
-		//ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCampfire.class, render);
+		//TileEntitySpecialRenderer renderTool = new RenderCampfire();
+		//ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCampfire.class, renderTool);
 	}
 
 	public void registerTileEntitySpecialRenderer()

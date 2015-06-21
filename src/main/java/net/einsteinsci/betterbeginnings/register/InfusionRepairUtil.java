@@ -11,9 +11,6 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.ArrayList;
 
-/**
- * Created by einsteinsci on 8/20/2014.
- */
 public class InfusionRepairUtil
 {
 	public static boolean canRepair(InventoryInfusionRepair repairTable, EntityPlayer player)
@@ -65,8 +62,11 @@ public class InfusionRepairUtil
 
 	public static int getNeededLevels(InventoryInfusionRepair repairTable)
 	{
-		ItemStack infusedItem = repairTable.getStackInSlot(0);
+		return getNeededLevels(repairTable.getStackInSlot(0));
+	}
 
+	public static int getNeededLevels(ItemStack infusedItem)
+	{
 		if (infusedItem == null)
 		{
 			return 0;
@@ -181,9 +181,12 @@ public class InfusionRepairUtil
 
 	public static ArrayList<ItemStack> getRequiredStacks(InventoryInfusionRepair repairTable)
 	{
-		ArrayList<ItemStack> requiredItems = new ArrayList<ItemStack>();
+		return getRequiredStacks(repairTable.getStackInSlot(0));
+	}
 
-		ItemStack repaired = repairTable.getStackInSlot(0);
+	public static ArrayList<ItemStack> getRequiredStacks(ItemStack repaired)
+	{
+		ArrayList<ItemStack> requiredItems = new ArrayList<>();
 
 		if (repaired == null)
 		{
@@ -414,8 +417,11 @@ public class InfusionRepairUtil
 
 	public static int getTakenLevels(InventoryInfusionRepair repairTable)
 	{
-		ItemStack infusedItem = repairTable.getStackInSlot(0);
+		return getTakenLevels(repairTable.getStackInSlot(0));
+	}
 
+	public static int getTakenLevels(ItemStack infusedItem)
+	{
 		if (infusedItem == null)
 		{
 			return 0;

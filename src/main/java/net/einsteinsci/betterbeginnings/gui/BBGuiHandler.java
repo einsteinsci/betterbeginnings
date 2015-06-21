@@ -17,6 +17,7 @@ public class BBGuiHandler implements IGuiHandler
 	public static final int DOUBLEWORKBENCH_ID = 2;
 	public static final int BRICKOVEN_ID = 3;
 	public static final int SMELTER_ID = 4;
+	@Deprecated
 	public static final int INFUSIONREPAIR_ID = 5;
 	public static final int OBSIDIANKILN_ID = 6;
 	public static final int NETHERBRICKOVEN_ID = 7;
@@ -56,6 +57,7 @@ public class BBGuiHandler implements IGuiHandler
 			return new ContainerSmelter(player.inventory, smelter);
 		}
 
+		// TODO: Kill this
 		if (ID == INFUSIONREPAIR_ID)
 		{
 			return new ContainerInfusionRepair(player.inventory, world, pos);
@@ -121,6 +123,7 @@ public class BBGuiHandler implements IGuiHandler
 			return new GuiSmelter(player.inventory, smelter);
 		}
 
+		// TODO: Kill this
 		if (ID == INFUSIONREPAIR_ID)
 		{
 			return new GuiInfusionRepair(player.inventory, world, pos);

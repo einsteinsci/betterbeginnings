@@ -9,9 +9,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
-/**
- * Created by einsteinsci on 8/20/2014.
- */
 public class ContainerInfusionRepair extends Container
 {
 	public Slot[] circleSlots = new Slot[9];

@@ -1,5 +1,5 @@
 Better Beginnings Mod
-=========
+=====================
 
 Better Beginnings mod for Minecraft v1.8.x. Requires Forge (built with 11.14.1.1334).
 
@@ -16,3 +16,7 @@ Contributing to this project:
 7. Add the project to the build path (or something like that)
 8. Do cool stuff with the code
 9. When you're finished with your changes, submit a pull request.
+
+License
+-------
+This software is licensed under a [GPL v3 License](http://www.gnu.org/copyleft/gpl.html). A copy is provided in this repository in License.txt.

@@ -11,9 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * Created by einsteinsci on 8/21/2014.
- */
 public class ContainerEnderSmelter extends Container
 {
 	private TileEntityEnderSmelter smelter;

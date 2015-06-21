@@ -6,6 +6,7 @@ import net.einsteinsci.betterbeginnings.register.recipe.*;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.block.model.ItemModelGenerator;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -63,7 +64,7 @@ public class GuiDoubleWorkbench extends GuiContainer
 		int l = (height - ySize) / 2;
 		drawTexturedModalRect(k, l, 0, 0, xSize, ySize);
 
-		// renderTransparentItems();
+		renderTransparentItems();
 	}
 
 	public void renderTransparentItems()
@@ -106,31 +107,33 @@ public class GuiDoubleWorkbench extends GuiContainer
 
 	private void drawItemStack(ItemStack stack, int xPos, int yPos, String note)
 	{
-		GL11.glTranslatef(0.0F, 0.0F, 32.0F);
-		zLevel = 200.0F;
-		//partialTransItemRenderer.zLevel = 200.0F;
-		FontRenderer font = null;
-		if (stack != null)
-		{
-			font = stack.getItem().getFontRenderer(stack);
-		}
-		if (font == null)
-		{
-			font = fontRendererObj;
-		}
 
-		RenderHelper.enableGUIStandardItemLighting();
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
-		GL11.glEnable(GL11.GL_LIGHTING);
-		//partialTransItemRenderer.renderItemAndEffectIntoGUI(font, mc.getTextureManager(), stack, xPos, yPos);
-		//partialTransItemRenderer.renderItemOverlayIntoGUI(font, mc.getTextureManager(), stack, xPos, yPos, note);
-		zLevel = 0.0F;
-		//partialTransItemRenderer.zLevel = 0.0F;
-		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		RenderHelper.enableStandardItemLighting();
+
+		//GL11.glTranslatef(0.0F, 0.0F, 32.0F);
+		//zLevel = 200.0F;
+		////partialTransItemRenderer.zLevel = 200.0F;
+		//FontRenderer font = null;
+		//if (stack != null)
+		//{
+		//	font = stack.getItem().getFontRenderer(stack);
+		//}
+		//if (font == null)
+		//{
+		//	font = fontRendererObj;
+		//}
+//
+		//RenderHelper.enableGUIStandardItemLighting();
+		//GL11.glDisable(GL11.GL_LIGHTING);
+		//GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+		//GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+		//GL11.glEnable(GL11.GL_LIGHTING);
+		////partialTransItemRenderer.renderItemAndEffectIntoGUI(font, mc.getTextureManager(), stack, xPos, yPos);
+		////partialTransItemRenderer.renderItemOverlayIntoGUI(font, mc.getTextureManager(), stack, xPos, yPos, note);
+		//zLevel = 0.0F;
+		////partialTransItemRenderer.zLevel = 0.0F;
+		//GL11.glEnable(GL11.GL_LIGHTING);
+		//GL11.glEnable(GL11.GL_DEPTH_TEST);
+		//RenderHelper.enableStandardItemLighting();
 	}
 }
 

@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
 
+@Deprecated
 public class InventoryBrickOvenMatrix extends InventoryCrafting implements IInventory
 {
 	/**

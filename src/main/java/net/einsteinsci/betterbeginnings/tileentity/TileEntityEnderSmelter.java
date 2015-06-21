@@ -24,9 +24,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Random;
 
-/**
- * Created by einsteinsci on 8/21/2014.
- */
 public class TileEntityEnderSmelter extends TileEntity implements IUpdatePlayerListBox, ISidedInventory,
 		IInteractionObject
 {

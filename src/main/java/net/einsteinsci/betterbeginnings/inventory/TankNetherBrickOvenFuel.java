@@ -4,9 +4,6 @@ import net.einsteinsci.betterbeginnings.tileentity.TileEntityNetherBrickOven;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.*;
 
-/**
- * Created by einsteinsci on 8/21/2014.
- */
 public class TankNetherBrickOvenFuel extends FluidTank implements IFluidTank
 {
 	public TankNetherBrickOvenFuel(TileEntityNetherBrickOven oven, int capacity)

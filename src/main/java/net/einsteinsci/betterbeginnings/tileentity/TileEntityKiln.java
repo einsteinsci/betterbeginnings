@@ -34,9 +34,6 @@ public class TileEntityKiln extends TileEntity implements IUpdatePlayerListBox, 
 
 	public int kilnCookTime;
 
-	// Where to look for the other kiln (1 = up, -1 = down, 0 = solo)
-	// public int stacked;
-
 	private String kilnName;
 
 	public TileEntityKiln()
