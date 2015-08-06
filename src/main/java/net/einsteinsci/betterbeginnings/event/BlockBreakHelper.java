@@ -10,7 +10,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraftforge.event.world.BlockEvent;
 import org.apache.logging.log4j.Level;
-
 import java.util.HashMap;
 import java.util.Map;
 
