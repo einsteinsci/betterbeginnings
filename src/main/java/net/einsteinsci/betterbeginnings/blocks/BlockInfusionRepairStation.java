@@ -9,8 +9,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -86,7 +85,24 @@ public class BlockInfusionRepairStation extends BlockContainer implements IBBNam
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand)
 	{
-		// TODO: particles
+		TileEntityInfusionRepair tile = (TileEntityInfusionRepair)world.getTileEntity(pos);
+
+		TileEntityInfusionRepair.Ingredient ingredient = tile.getNextIngredient();
+		if (ingredient != null && ingredient.isXP && !tile.isRepairComplete())
+		{
+			for (int i = 0; i < 2; i++)
+			{
+				double x = rand.nextDouble() * 0.4 + 0.3;
+				double y = rand.nextDouble() * 0.5 + 0.5;
+				double z = rand.nextDouble() * 0.4 + 0.3;
+
+				double vx = rand.nextDouble() * 0.02 - 0.01;
+				double vy = rand.nextDouble() * 0.035 + 0.02;
+				double vz = rand.nextDouble() * 0.02 - 0.01;
+				world.spawnParticle(EnumParticleTypes.VILLAGER_HAPPY, pos.getX() + x, pos.getY() + y + 1,
+					pos.getZ() + z, vx, vy, vz);
+			}
+		}
 	}
 
 	// Drop stuff everywhere

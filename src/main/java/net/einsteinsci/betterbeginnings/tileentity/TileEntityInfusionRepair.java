@@ -1,5 +1,6 @@
 package net.einsteinsci.betterbeginnings.tileentity;
 
+import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.register.InfusionRepairUtil;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.item.EntityItem;
@@ -231,12 +232,19 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 		return ticksAge;
 	}
 
+	public boolean isRepairComplete()
+	{
+		ItemStack st = stackTool();
+		int dmg = st != null ? st.getItemDamage() : 0;
+		return st != null && dmg == 0;
+	}
+
 	@Override
 	public void update()
 	{
 		if (!worldObj.isRemote)
 		{
-			Ingredient next = nextIngredient();
+			Ingredient next = getNextIngredient();
 			if (next == null)
 			{
 				return;
@@ -246,7 +254,43 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 
 			if (next.isXP)
 			{
-				return;
+				if (levelsNeeded != next.count)
+				{
+					levelsNeeded = (short)next.count;
+
+					worldObj.markBlockForUpdate(pos);
+					markDirty();
+				}
+
+				EntityPlayer victim = getVictim();
+				if (victim != null && (victim.experienceLevel > 0 || victim.capabilities.isCreativeMode) &&
+					levelsTaken < levelsNeeded && ticksAge % 10 == 0)
+				{
+					if (!victim.capabilities.isCreativeMode)
+					{
+						victim.removeExperienceLevel(1);
+						ModMain.Log("Took player experience.");
+					}
+					levelsTaken++;
+
+					worldObj.playSound(pos.getX(), pos.getY() + 1, pos.getZ(),
+						"random.successful_hit", 1.0f, 1.0f, true);
+					ModMain.Log("Filled IRS experience.");
+					worldObj.markBlockForUpdate(pos);
+					markDirty();
+				}
+				else if (levelsTaken == levelsNeeded)
+				{
+					worldObj.playSound(pos.getX(), pos.getY() + 1, pos.getZ(), "random.orb", 1.0f, 1.0f, true);
+					ModMain.Log("Repaired tool.");
+					stackTool().setItemDamage(0);
+					for (int i = SLOT_INPUT_START; i < SLOT_OUTPUT; i++)
+					{
+						stacks[i] = null;
+					}
+					worldObj.markBlockForUpdate(pos);
+					markDirty();
+				}
 			}
 
 			for (EntityItem ei : entitiesOnTop)
@@ -329,6 +373,22 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 		return entities;
 	}
 
+	public EntityPlayer getVictim()
+	{
+		List list = worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(
+			pos.add(0, 1, 0), pos.add(1, 2, 1)), IEntitySelector.NOT_SPECTATING);
+
+		for (Object obj : list)
+		{
+			if (obj instanceof EntityPlayer)
+			{
+				return (EntityPlayer)obj;
+			}
+		}
+
+		return null;
+	}
+
 	public void addInput(ItemStack stack)
 	{
 		for (int i = SLOT_INPUT_START; i < SLOT_OUTPUT; i++)
@@ -375,8 +435,13 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 		}
 	}
 
-	public Ingredient nextIngredient()
+	public Ingredient getNextIngredient()
 	{
+		if (stackTool() == null || stackTool().getItemDamage() == 0)
+		{
+			return null;
+		}
+
 		List<ItemStack> req = InfusionRepairUtil.getRequiredStacks(stackTool());
 
 		if (req == null || req.isEmpty())
@@ -410,7 +475,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 
 		if (req.isEmpty())
 		{
-			return Ingredient.XP;
+			return new Ingredient(InfusionRepairUtil.getNeededLevels(stackTool()));
 		}
 
 		ItemStack stack = req.get(0);
@@ -443,8 +508,6 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 
 		public boolean isXP;
 
-		public static final Ingredient XP = new Ingredient(true);
-
 		public Ingredient(Item _item, int _count, int _damage)
 		{
 			isXP = false;
@@ -453,9 +516,10 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 			damage = _damage;
 		}
 
-		private Ingredient(boolean xp)
+		public Ingredient(int levelCount)
 		{
-			isXP = xp;
+			isXP = true;
+			count = levelCount;
 		}
 
 		@Override
@@ -463,7 +527,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 		{
 			if (isXP)
 			{
-				return "Player XP";
+				return "XP: " + count + "L";
 			}
 
 			return count + "x" + item.getUnlocalizedName() + "@" + damage;
