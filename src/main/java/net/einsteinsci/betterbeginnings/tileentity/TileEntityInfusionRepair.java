@@ -264,7 +264,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 
 				EntityPlayer victim = getVictim();
 				if (victim != null && (victim.experienceLevel > 0 || victim.capabilities.isCreativeMode) &&
-					levelsTaken < levelsNeeded && ticksAge % 10 == 0)
+					levelsTaken < levelsNeeded && ticksAge % 30 == 0)
 				{
 					if (!victim.capabilities.isCreativeMode)
 					{
@@ -273,8 +273,8 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 					}
 					levelsTaken++;
 
-					worldObj.playSound(pos.getX(), pos.getY() + 1, pos.getZ(),
-						"random.successful_hit", 1.0f, 1.0f, true); // This doesn't play. Bug #67.
+					worldObj.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(),
+						"random.orb", 1.0f, 1.0f); // This doesn't play. Bug #67.
 					ModMain.Log("Filled IRS experience.");
 					worldObj.markBlockForUpdate(pos);
 					markDirty();
@@ -282,7 +282,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 				else if (levelsTaken == levelsNeeded)
 				{
 					// This doesn't play. Bug #67.
-					worldObj.playSound(pos.getX(), pos.getY() + 1, pos.getZ(), "random.orb", 1.0f, 1.0f, true);
+					worldObj.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), "random.levelup", 1.0f, 1.0f);
 					ModMain.Log("Repaired tool.");
 					stackTool().setItemDamage(0);
 					for (int i = SLOT_INPUT_START; i < SLOT_OUTPUT; i++)
