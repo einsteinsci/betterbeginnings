@@ -11,6 +11,8 @@ import org.lwjgl.opengl.GL11;
 
 public class InfusionRender extends TileEntitySpecialRenderer
 {
+	public static final float HOVER_OPACITY = 0.8f;
+
 	private RenderManager renderManager;
 
 	public InfusionRender(RenderManager rm)
@@ -190,7 +192,7 @@ public class InfusionRender extends TileEntitySpecialRenderer
 
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(770, 1);
-		GL11.glColor4f(1,1,1, 0.80f);
+		GL11.glColor4f(1,1,1, HOVER_OPACITY);
 
 		renderManager.doRenderEntity(customItem, 0, 1, 0, 0.0f, 0.0f, false);
 

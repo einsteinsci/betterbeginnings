@@ -1,13 +1,11 @@
 package net.einsteinsci.betterbeginnings.gui;
 
 import net.einsteinsci.betterbeginnings.ModMain;
-import net.einsteinsci.betterbeginnings.client.RenderItemGhost;
 import net.einsteinsci.betterbeginnings.inventory.ContainerSmelter;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntitySmelter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -17,15 +15,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 @SideOnly(Side.CLIENT)
 public class GuiSmelter extends GuiContainer
 {
-	private static final ResourceLocation smelterGuiTextures = new ResourceLocation(ModMain.MODID +
-																						 ":textures/gui/container/smelter.png");
-	//RenderItemPartialTransparency partialTransItemRenderer = new RenderItemPartialTransparency();
-	RenderItemGhost ghoster = new RenderItemGhost();
+	private static final ResourceLocation smelterGuiTextures =
+		new ResourceLocation(ModMain.MODID + ":textures/gui/container/smelter.png");
 	private TileEntitySmelter tileSmelter;
 
 	public GuiSmelter(InventoryPlayer invPlayer, TileEntitySmelter tile)
@@ -70,8 +65,14 @@ public class GuiSmelter extends GuiContainer
 
 	private void drawItemStack(ItemStack stack, int xPos, int yPos, String note)
 	{
-		GL11.glTranslatef(0.0F, 0.0F, 32.0F);
-		zLevel = 200.0F;
+		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+
+		// GL11.glEnable(GL11.GL_BLEND);
+		// GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		// GL11.glColor4f(1,1,1, 0.80f);
+
+		renderItem.renderItemAndEffectIntoGUI(stack, xPos, yPos);
+
 		FontRenderer font = null;
 		if (stack != null)
 		{
@@ -82,20 +83,10 @@ public class GuiSmelter extends GuiContainer
 			font = fontRendererObj;
 		}
 
-		RenderHelper.enableGUIStandardItemLighting();
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
-		GL11.glEnable(GL11.GL_LIGHTING);
+		renderItem.renderItemOverlayIntoGUI(font, stack, xPos, yPos, note);
 
-		ghoster.renderItemIntoGUI(stack, xPos, yPos);
-		ghoster.renderItemOverlayIntoGUI(font, stack, xPos, yPos, note);
-		//partialTransItemRenderer.renderItemOverlayIntoGUI(font, mc.getTextureManager(), stack, xPos, yPos, note);
-		zLevel = 0.0F;
-		//partialTransItemRenderer.zLevel = 0.0F;
-		ghoster.zLevel = 0.0f;
-		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		RenderHelper.enableStandardItemLighting();
+		// GL11.glDisable(GL11.GL_BLEND);
+		// GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		// GL11.glBlendFunc(GL11.GL_SRC_ALPHA, 0);
 	}
 }

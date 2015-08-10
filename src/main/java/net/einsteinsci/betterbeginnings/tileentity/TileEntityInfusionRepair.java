@@ -269,21 +269,20 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 					if (!victim.capabilities.isCreativeMode)
 					{
 						victim.removeExperienceLevel(1);
-						ModMain.Log("Took player experience.");
+						//ModMain.Log("Took player experience.");
 					}
 					levelsTaken++;
 
 					worldObj.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(),
-						"random.orb", 1.0f, 1.0f); // This doesn't play. Bug #67.
+						"random.orb", 1.0f, 1.0f);
 					ModMain.Log("Filled IRS experience.");
 					worldObj.markBlockForUpdate(pos);
 					markDirty();
 				}
 				else if (levelsTaken == levelsNeeded)
 				{
-					// This doesn't play. Bug #67.
 					worldObj.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), "random.levelup", 1.0f, 1.0f);
-					ModMain.Log("Repaired tool.");
+					//ModMain.Log("Repaired tool.");
 					stackTool().setItemDamage(0);
 					for (int i = SLOT_INPUT_START; i < SLOT_OUTPUT; i++)
 					{

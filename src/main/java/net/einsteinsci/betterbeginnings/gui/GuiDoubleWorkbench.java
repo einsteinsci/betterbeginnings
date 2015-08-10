@@ -3,10 +3,12 @@ package net.einsteinsci.betterbeginnings.gui;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.inventory.ContainerDoubleWorkbench;
 import net.einsteinsci.betterbeginnings.register.recipe.*;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.block.model.ItemModelGenerator;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -24,11 +26,9 @@ import org.lwjgl.opengl.GL12;
 public class GuiDoubleWorkbench extends GuiContainer
 {
 	private static final ResourceLocation workbenchGuiTextures = new ResourceLocation(ModMain.MODID +
-																							  ":textures/gui/container/doubleWorkbench.png");
+		":textures/gui/container/doubleWorkbench.png");
 
 	private final ContainerDoubleWorkbench container;
-
-	//private final RenderItemPartialTransparency partialTransItemRenderer = new RenderItemPartialTransparency();
 
 	public GuiDoubleWorkbench(InventoryPlayer invPlayer, World world, BlockPos pos)
 	{
@@ -107,35 +107,28 @@ public class GuiDoubleWorkbench extends GuiContainer
 
 	private void drawItemStack(ItemStack stack, int xPos, int yPos, String note)
 	{
+		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 
+		// GL11.glEnable(GL11.GL_BLEND);
+		// GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		// GL11.glColor4f(1,1,1, 0.80f);
 
-		//GL11.glTranslatef(0.0F, 0.0F, 32.0F);
-		//zLevel = 200.0F;
-		////partialTransItemRenderer.zLevel = 200.0F;
-		//FontRenderer font = null;
-		//if (stack != null)
-		//{
-		//	font = stack.getItem().getFontRenderer(stack);
-		//}
-		//if (font == null)
-		//{
-		//	font = fontRendererObj;
-		//}
-//
-		//RenderHelper.enableGUIStandardItemLighting();
-		//GL11.glDisable(GL11.GL_LIGHTING);
-		//GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-		//GL11.glEnable(GL11.GL_COLOR_MATERIAL);
-		//GL11.glEnable(GL11.GL_LIGHTING);
-		////partialTransItemRenderer.renderItemAndEffectIntoGUI(font, mc.getTextureManager(), stack, xPos, yPos);
-		////partialTransItemRenderer.renderItemOverlayIntoGUI(font, mc.getTextureManager(), stack, xPos, yPos, note);
-		//zLevel = 0.0F;
-		////partialTransItemRenderer.zLevel = 0.0F;
-		//GL11.glEnable(GL11.GL_LIGHTING);
-		//GL11.glEnable(GL11.GL_DEPTH_TEST);
-		//RenderHelper.enableStandardItemLighting();
+		renderItem.renderItemAndEffectIntoGUI(stack, xPos, yPos);
+
+		FontRenderer font = null;
+		if (stack != null)
+		{
+			font = stack.getItem().getFontRenderer(stack);
+		}
+		if (font == null)
+		{
+			font = fontRendererObj;
+		}
+
+		renderItem.renderItemOverlayIntoGUI(font, stack, xPos, yPos, note);
+
+		// GL11.glDisable(GL11.GL_BLEND);
+		// GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		// GL11.glBlendFunc(GL11.GL_SRC_ALPHA, 0);
 	}
 }
-
-
-// Buffer ;)
