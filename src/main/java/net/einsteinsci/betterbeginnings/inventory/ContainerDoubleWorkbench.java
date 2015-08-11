@@ -31,7 +31,10 @@ public class ContainerDoubleWorkbench extends Container
 		worldObj = world;
 		pos = loc;
 
-		resultSlot = new SlotAdvancedCrafting(invPlayer.player, craftMatrix, craftResult, addedMats, 0, 129, 35);
+		final int OFFSET = 20;
+
+		resultSlot = new SlotAdvancedCrafting(invPlayer.player, craftMatrix, craftResult, addedMats, 0,
+			129 + OFFSET, 35);
 		addSlotToContainer(resultSlot);
 		int i;
 		int j;
@@ -41,7 +44,7 @@ public class ContainerDoubleWorkbench extends Container
 		{
 			for (j = 0; j < 3; ++j)
 			{
-				addSlotToContainer(new Slot(craftMatrix, j + i * 3, 35 + j * 18, 17 + i * 18));
+				addSlotToContainer(new Slot(craftMatrix, j + i * 3, 35 + OFFSET + j * 18, 17 + i * 18));
 			}
 		}
 
@@ -50,21 +53,20 @@ public class ContainerDoubleWorkbench extends Container
 		{
 			for (j = 0; j < 9; ++j)
 			{
-				addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+				addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + OFFSET + j * 18, 84 + i * 18));
 			}
 		}
 
 		// Hotbar
 		for (i = 0; i < 9; ++i)
 		{
-			addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142));
+			addSlotToContainer(new Slot(invPlayer, i, 8 + OFFSET + i * 18, 142));
 		}
 
 		// Additional materials
 		for (i = 0; i < 4; ++i)
 		{
-			matSlots[i] = new Slot(addedMats, i, 8, 7 + i * 18);
-			// matSlots[i].setBackgroundIcon(Items.apple.getIconFromDamage(0));
+			matSlots[i] = new Slot(addedMats, i, 8 + OFFSET, 7 + i * 18);
 			addSlotToContainer(matSlots[i]);
 
 			onCraftMatrixChanged(craftMatrix);

@@ -9,7 +9,6 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -19,7 +18,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class GuiSmelter extends GuiContainer
 {
-	private static final ResourceLocation smelterGuiTextures =
+	private static final ResourceLocation SMELTER_GUI_TEXTURES =
 		new ResourceLocation(ModMain.MODID + ":textures/gui/container/smelter.png");
 	private TileEntitySmelter tileSmelter;
 
@@ -41,7 +40,7 @@ public class GuiSmelter extends GuiContainer
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
 		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		mc.getTextureManager().bindTexture(smelterGuiTextures);
+		mc.getTextureManager().bindTexture(SMELTER_GUI_TEXTURES);
 		int k = (width - xSize) / 2;
 		int l = (height - ySize) / 2;
 
@@ -59,10 +58,11 @@ public class GuiSmelter extends GuiContainer
 
 		if (tileSmelter.getStackInSlot(TileEntitySmelter.GRAVEL) == null)
 		{
-			drawItemStack(new ItemStack(Blocks.gravel), k + 66, l + 17, "");
+			//drawItemStack(new ItemStack(Blocks.gravel), k + 66, l + 17, "");
 		}
 	}
 
+	// unused until partial transparency is working properly.
 	private void drawItemStack(ItemStack stack, int xPos, int yPos, String note)
 	{
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();

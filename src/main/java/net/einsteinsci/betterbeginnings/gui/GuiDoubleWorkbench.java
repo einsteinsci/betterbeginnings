@@ -6,6 +6,7 @@ import net.einsteinsci.betterbeginnings.register.recipe.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.block.model.ItemModelGenerator;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -26,13 +27,17 @@ import org.lwjgl.opengl.GL12;
 public class GuiDoubleWorkbench extends GuiContainer
 {
 	private static final ResourceLocation workbenchGuiTextures = new ResourceLocation(ModMain.MODID +
-		":textures/gui/container/doubleWorkbench.png");
+		":textures/gui/container/doubleWorkbench_MC18.png");
 
 	private final ContainerDoubleWorkbench container;
+	private boolean needsCatalystItems = false;
+
+	//protected final int trueXSize = xSize + 20;
 
 	public GuiDoubleWorkbench(InventoryPlayer invPlayer, World world, BlockPos pos)
 	{
 		super(new ContainerDoubleWorkbench(invPlayer, world, pos));
+		xSize += 20;
 
 		container = (ContainerDoubleWorkbench)inventorySlots;
 	}
@@ -42,7 +47,7 @@ public class GuiDoubleWorkbench extends GuiContainer
 	{
 		super.drawScreen(xMouse, yMouse, par3);
 
-		renderTransparentItems();
+		//renderTransparentItems();
 	}
 
 	/**
@@ -52,23 +57,31 @@ public class GuiDoubleWorkbench extends GuiContainer
 	protected void drawGuiContainerForegroundLayer(int par1, int par2)
 	{
 		// I'm guessing the really big number at the end is the z layer.
-		fontRendererObj.drawString(I18n.format("container.craftingdouble"), 33, 6, 4210752);
+		fontRendererObj.drawString(I18n.format("container.craftingdouble"), 33 + 20, 6, 4210752);
 	}
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		mc.getTextureManager().bindTexture(workbenchGuiTextures);
 		int k = (width - xSize) / 2;
 		int l = (height - ySize) / 2;
 		drawTexturedModalRect(k, l, 0, 0, xSize, ySize);
 
-		renderTransparentItems();
+		if (needsCatalystItems)
+		{
+			drawTexturedModalRect(k + 144, l + 30, xSize, 0, 26, 26);
+		}
+
+		renderTransparentItems(k, l);
 	}
 
-	public void renderTransparentItems()
+	public void renderTransparentItems(int k, int l)
 	{
+		final int CATALYST_X_OFFSET = -20;
+
+		needsCatalystItems = false;
 		if (AdvancedCraftingHandler.crafting().hasRecipe(container.craftMatrix, container.worldObj))
 		{
 			for (AdvancedRecipe recipe : AdvancedCraftingHandler.crafting().recipes)
@@ -88,8 +101,8 @@ public class GuiDoubleWorkbench extends GuiContainer
 						Slot slot = container.matSlots[i];
 						if (container.addedMats.getStackInSlot(i) == null)
 						{
-							drawItemStack(needed, (width - xSize) / 2 + slot.xDisplayPosition, (height - ySize) / 2 +
-									slot.yDisplayPosition, "" + needed.stackSize);
+							drawItemStack(needed, k + slot.xDisplayPosition + CATALYST_X_OFFSET,
+								l + slot.yDisplayPosition, "" + needed.stackSize);
 						}
 					}
 
@@ -97,9 +110,16 @@ public class GuiDoubleWorkbench extends GuiContainer
 					Slot slot = container.resultSlot;
 					if (container.craftResult.getStackInSlot(0) == null)
 					{
-						drawItemStack(result, (width - xSize) / 2 + slot.xDisplayPosition, (height - ySize) / 2 +
-								slot.yDisplayPosition, "");
+						if (result != null)
+						{
+							// Draw red output box
+							mc.getTextureManager().bindTexture(workbenchGuiTextures);
+							needsCatalystItems = true;
+
+							drawItemStack(result, k + slot.xDisplayPosition, l + slot.yDisplayPosition, "");
+						}
 					}
+					break;
 				}
 			}
 		}
