@@ -115,82 +115,14 @@ public class TileEntityBrickOven extends TileEntity implements ISidedInventory, 
 		else
 		{
 			Item item = itemStack.getItem();
+			ItemStack clone = itemStack.copy();
 
-			if (item instanceof ItemBlock && Block.getBlockFromItem(item) != Blocks.air)
+			if (item instanceof ItemCoal)
 			{
-				Block block = Block.getBlockFromItem(item);
-
-				// Insert any additional block fuels here
-				if (block == Blocks.wooden_slab)
-				{
-					return 300;
-				}
-
-				if (block.getMaterial() == Material.wood)
-				{
-					return 600;
-				}
-
-				if (block == Blocks.coal_block)
-				{
-					return 32000;
-				}
-
-				// VERY LARGE AMOUNT OF POWER!!!
-				if (block == Blocks.bedrock)
-				{
-					return Short.MAX_VALUE;
-				}
+				clone.setItemDamage(0);
 			}
 
-			if (item instanceof ItemTool)
-			{
-				if (((ItemTool)item).getToolMaterialName().equals("WOOD") ||
-						((ItemTool)item).getToolMaterialName().equals("noobwood"))
-				{
-					return 400;
-				}
-			}
-			if (item instanceof ItemSword)
-			{
-				if (((ItemSword)item).getToolMaterialName().equals("WOOD") ||
-						((ItemSword)item).getToolMaterialName().equals("noobwood"))
-				{
-					return 400;
-				}
-			}
-			if (item instanceof ItemHoe)
-			{
-				if (((ItemHoe)item).getMaterialName().equals("WOOD") ||
-						((ItemHoe)item).getMaterialName().equals("noobwood"))
-				{
-					return 400;
-				}
-			}
-			if (item == Items.stick)
-			{
-				return 200;
-			}
-			if (item == Items.coal)
-			{
-				return 3200;
-			}
-			if (item == Item.getItemFromBlock(Blocks.sapling))
-			{
-				return 200;
-			}
-
-			// Blaze Rods and Lava are invalid fuel sources for a kiln.
-			if (item == Items.blaze_rod)
-			{
-				return 0;
-			}
-			if (item == Items.lava_bucket)
-			{
-				return 0;
-			}
-
-			return GameRegistry.getFuelValue(itemStack);
+			return TileEntityKiln.getItemBurnTime(itemStack);
 		}
 	}
 

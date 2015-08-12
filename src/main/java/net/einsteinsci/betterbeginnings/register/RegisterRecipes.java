@@ -732,6 +732,13 @@ public class RegisterRecipes
 		                                          "/  ", " II",
 		                                          '/', "stickWood",
 		                                          'I', "ingotIron");
+
+		// Infusion Scroll
+		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(RegisterItems.infusionScroll),
+												new Object[] { "gemDiamond", 2, "stickWood", 2 },
+												"PPP", "RPR", "PPP",
+												'P', Items.paper,
+												'R', "dustRedstone");
 	}
 
 	public static void addShapedRecipes()

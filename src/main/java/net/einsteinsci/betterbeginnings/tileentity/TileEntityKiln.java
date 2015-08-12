@@ -3,6 +3,9 @@ package net.einsteinsci.betterbeginnings.tileentity;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.blocks.BlockKiln;
 import net.einsteinsci.betterbeginnings.inventory.ContainerKiln;
+import net.einsteinsci.betterbeginnings.items.ItemBonePickaxe;
+import net.einsteinsci.betterbeginnings.items.ItemFlintHatchet;
+import net.einsteinsci.betterbeginnings.items.ItemKnifeFlint;
 import net.einsteinsci.betterbeginnings.register.recipe.KilnRecipes;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -139,12 +142,13 @@ public class TileEntityKiln extends TileEntity implements IUpdatePlayerListBox, 
 				{
 					return 16000;
 				}
+			}
 
-				// INFINITE POWER!!!
-				if (block == Blocks.bedrock)
-				{
-					return Short.MAX_VALUE;
-				}
+			// It may be "wood", but it is not fuel.
+			if (item instanceof ItemKnifeFlint || item instanceof ItemBonePickaxe ||
+				item instanceof ItemFlintHatchet)
+			{
+				return 0;
 			}
 
 			if (item instanceof ItemTool)

@@ -77,6 +77,11 @@ public class BBEventHandler
 			e.toolTip.add("Don't bring it to a gunfight");
 		}
 
+		if (item == RegisterItems.infusionScroll)
+		{
+			e.toolTip.add("Allows you to decipher tool infusion.");
+		}
+
 		if (item == RegisterItems.noobWoodSword && EnchantmentHelper.getEnchantments(e.itemStack).isEmpty())
 		{
 			e.toolTip.add(ChatUtil.BLUE + "+0 Attack Damage");
@@ -84,7 +89,8 @@ public class BBEventHandler
 
 		if (item == RegisterItems.testItem)
 		{
-			e.toolTip.add(ChatUtil.PINK + "For dev testing only. What it does changes from one version to the next.");
+			e.toolTip.add(ChatUtil.PINK + "For dev testing only. What it does");
+			e.toolTip.add(ChatUtil.PINK + "changes from one version to the next.");
 		}
 
 		if (item == RegisterItems.pan)

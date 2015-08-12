@@ -264,30 +264,28 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 
 				EntityPlayer victim = getVictim();
 				if (victim != null && (victim.experienceLevel > 0 || victim.capabilities.isCreativeMode) &&
-					levelsTaken < levelsNeeded && ticksAge % 30 == 0)
+					levelsTaken < levelsNeeded && ticksAge % 5 == 0 && !isRepairComplete())
 				{
 					if (!victim.capabilities.isCreativeMode)
 					{
 						victim.removeExperienceLevel(1);
-						//ModMain.Log("Took player experience.");
 					}
 					levelsTaken++;
 
-					worldObj.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(),
-						"random.orb", 1.0f, 1.0f);
-					ModMain.Log("Filled IRS experience.");
+					worldObj.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), "random.orb", 1.0f, 1.0f);
 					worldObj.markBlockForUpdate(pos);
 					markDirty();
 				}
 				else if (levelsTaken == levelsNeeded)
 				{
 					worldObj.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), "random.levelup", 1.0f, 1.0f);
-					//ModMain.Log("Repaired tool.");
 					stackTool().setItemDamage(0);
 					for (int i = SLOT_INPUT_START; i < SLOT_OUTPUT; i++)
 					{
 						stacks[i] = null;
 					}
+					levelsTaken = 0;
+
 					worldObj.markBlockForUpdate(pos);
 					markDirty();
 				}
@@ -313,10 +311,8 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 				}
 			}
 		}
-		else
-		{
-			ticksAge = (ticksAge + 1) % 240;
-		}
+
+		ticksAge = (ticksAge + 1) % 240;
 	}
 
 	@Override

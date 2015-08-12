@@ -49,6 +49,7 @@ public class RegisterItems
 	public static final ItemTwine twine = new ItemTwine();
 	public static final ItemRockHammer rockHammer = new ItemRockHammer(ToolMaterial.IRON);
 	public static final ItemPan pan = new ItemPan();
+	public static final ItemInfusionScroll infusionScroll = new ItemInfusionScroll();
 
 	public static final List<Item> allItems = new ArrayList<>();
 
@@ -75,6 +76,7 @@ public class RegisterItems
 		RegisterHelper.registerItem(fireBow);
 		RegisterHelper.registerItem(rockHammer);
 		RegisterHelper.registerItem(pan);
+		RegisterHelper.registerItem(infusionScroll);
 
 		RegisterHelper.registerItem(marshmallow);
 		RegisterHelper.registerItem(roastingStick);
@@ -114,7 +116,7 @@ public class RegisterItems
 		for (Field f : allFields)
 		{
 			if (Item.class.isAssignableFrom(f.getType()) &&
-					IBBName.class.isAssignableFrom(f.getType()))
+				IBBName.class.isAssignableFrom(f.getType()))
 			{
 				fields.add(f);
 			}
@@ -149,6 +151,7 @@ public class RegisterItems
 		GameRegistry.findItem("minecraft", "birch_door").setMaxStackSize(16);
 		GameRegistry.findItem("minecraft", "acacia_door").setMaxStackSize(16);
 		GameRegistry.findItem("minecraft", "dark_oak_door").setMaxStackSize(16);
+
 		GameRegistry.findItem("minecraft", "iron_door").setMaxStackSize(16);
 		GameRegistry.findItem("minecraft", "potion").setMaxStackSize(16);
 	}
