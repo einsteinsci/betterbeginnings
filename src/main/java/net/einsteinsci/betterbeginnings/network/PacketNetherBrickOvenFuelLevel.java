@@ -8,9 +8,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.network.simpleimpl.*;
 
-/**
- * Created by einsteinsci on 8/22/2014.
- */
 public class PacketNetherBrickOvenFuelLevel implements IMessage
 {
 	BlockPos pos;

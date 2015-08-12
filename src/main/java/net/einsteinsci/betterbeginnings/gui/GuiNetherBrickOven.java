@@ -4,6 +4,8 @@ import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.inventory.ContainerNetherBrickOven;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityNetherBrickOven;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -55,7 +57,9 @@ public class GuiNetherBrickOven extends GuiContainer
 	{
 		List<String> lines = new ArrayList<>();
 
+		FluidStack stack = tileBrickOven.getFuelStack();
 		lines.add("" + tileBrickOven.getFuelLevel() + " mB");
+		lines.add(stack.getLocalizedName());
 		drawHoveringText(lines, x, y); //Draw tooltip
 	}
 
@@ -74,7 +78,7 @@ public class GuiNetherBrickOven extends GuiContainer
 		drawTexturedModalRect(k + 103, l + 34, 176, 14, i1 + 1, 16);
 
 		int tankFillPx = tileBrickOven.getFuelLevelScaled(48);
-		//drawTexturedModalRect(k + 17, l + 58 - tankFillPx, 176, 31, 16, tankFillPx);
+		drawTexturedModalRect(k + 17, l + 58 - tankFillPx, 176, 31, 16, tankFillPx);
 		//drawFluid(tileBrickOven.getFuelStack(), k + 17, l + 10, 16, 48, tileBrickOven.fuelTank.getCapacity());
 	}
 
@@ -124,21 +128,19 @@ public class GuiNetherBrickOven extends GuiContainer
 		float red = (color >> 16 & 255) / 255.0F;
 		float green = (color >> 8 & 255) / 255.0F;
 		float blue = (color & 255) / 255.0F;
-		GL11.glColor4f(red, green, blue, 1.0F);
+		GlStateManager.color(red, green, blue, 1.0F);
 	}
 
-	/*
 	//The magic is here
-	private void drawCutIcon(IIcon icon, int x, int y, int width, int height, int cut)
-	{
-		Tessellator tess = Tessellator.instance;
-		tess.startDrawingQuads();
-		tess.addVertexWithUV(x, y + height, zLevel, icon.getMinU(), icon.getInterpolatedV(height));
-		tess.addVertexWithUV(x + width, y + height, zLevel, icon.getInterpolatedU(width),
-		                     icon.getInterpolatedV(height));
-		tess.addVertexWithUV(x + width, y + cut, zLevel, icon.getInterpolatedU(width), icon.getInterpolatedV(cut));
-		tess.addVertexWithUV(x, y + cut, zLevel, icon.getMinU(), icon.getInterpolatedV(cut));
-		tess.draw();
-	}
-	*/
+	//private void drawCutIcon(IIcon icon, int x, int y, int width, int height, int cut)
+	//{
+	//	Tessellator tess = Tessellator.instance;
+	//	tess.startDrawingQuads();
+	//	tess.addVertexWithUV(x, y + height, zLevel, icon.getMinU(), icon.getInterpolatedV(height));
+	//	tess.addVertexWithUV(x + width, y + height, zLevel, icon.getInterpolatedU(width),
+	//	                     icon.getInterpolatedV(height));
+	//	tess.addVertexWithUV(x + width, y + cut, zLevel, icon.getInterpolatedU(width), icon.getInterpolatedV(cut));
+	//	tess.addVertexWithUV(x, y + cut, zLevel, icon.getMinU(), icon.getInterpolatedV(cut));
+	//	tess.draw();
+	//}
 }
