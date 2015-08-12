@@ -1,6 +1,5 @@
 package net.einsteinsci.betterbeginnings.tileentity;
 
-import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.register.InfusionRepairUtil;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.item.EntityItem;
@@ -31,7 +30,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 
 	private String tileName;
 
-	private short levelsNeeded;
+	private short levelsToFill;
 	private short levelsTaken;
 
 	private int ticksAge = 0;
@@ -65,7 +64,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 			tileName = tagCompound.getString("CustomName");
 		}
 
-		levelsNeeded = tagCompound.getShort("LevelsNeeded");
+		levelsToFill = tagCompound.getShort("LevelsNeeded");
 		levelsTaken = tagCompound.getShort("LevelsTaken");
 	}
 
@@ -93,7 +92,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 			tagCompound.setString("CustomName", tileName);
 		}
 
-		tagCompound.setShort("LevelsNeeded", levelsNeeded);
+		tagCompound.setShort("LevelsToFill", levelsToFill);
 		tagCompound.setShort("LevelsTaken", levelsTaken);
 	}
 
@@ -254,9 +253,9 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 
 			if (next.isXP)
 			{
-				if (levelsNeeded != next.count)
+				if (levelsToFill != next.count)
 				{
-					levelsNeeded = (short)next.count;
+					levelsToFill = (short)next.count;
 
 					worldObj.markBlockForUpdate(pos);
 					markDirty();
@@ -264,7 +263,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 
 				EntityPlayer victim = getVictim();
 				if (victim != null && (victim.experienceLevel > 0 || victim.capabilities.isCreativeMode) &&
-					levelsTaken < levelsNeeded && ticksAge % 5 == 0 && !isRepairComplete())
+					levelsTaken < levelsToFill && ticksAge % 5 == 0 && !isRepairComplete())
 				{
 					if (!victim.capabilities.isCreativeMode)
 					{
@@ -276,7 +275,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 					worldObj.markBlockForUpdate(pos);
 					markDirty();
 				}
-				else if (levelsTaken == levelsNeeded)
+				else if (levelsTaken == levelsToFill)
 				{
 					worldObj.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), "random.levelup", 1.0f, 1.0f);
 					stackTool().setItemDamage(0);
