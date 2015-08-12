@@ -290,14 +290,17 @@ public class InfusionRepairUtil
 					requiredItems.add(new ItemStack(Items.leather));
 					break;
 				case CHAIN:
-					requiredItems.add(new ItemStack(RegisterItems.ironNugget));
+					requiredItems.add(new ItemStack(RegisterItems.ironNugget, 6));
 					break;
 				case IRON:
-					requiredItems.add(new ItemStack(Items.iron_ingot));
+					requiredItems.add(new ItemStack(Items.iron_ingot, 3));
+					break;
 				case GOLD:
 					requiredItems.add(new ItemStack(Items.gold_nugget, 2));
+					break;
 				case DIAMOND: // WTF MOJANG?! (See above)
 					requiredItems.add(new ItemStack(Items.redstone, 24));
+					break;
 				default:
 					requiredItems.add(new ItemStack(Items.emerald, 4));
 					break;

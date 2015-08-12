@@ -406,12 +406,24 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 		}
 	}
 
+	public static boolean isValidTool(ItemStack stack)
+	{
+		if (stack == null)
+		{
+			return false;
+		}
+
+		Item item = stack.getItem();
+
+		return item instanceof ItemTool || item instanceof ItemSword || item instanceof ItemArmor;
+	}
+
 	// when TE is clicked by player
 	public void onClick(EntityPlayer player)
 	{
 		ItemStack held = player.getHeldItem();
 
-		if (held != null && held.getItem() instanceof ItemTool)
+		if (held != null && isValidTool(held))
 		{
 			// eat the tool
 			stacks[SLOT_TOOL] = held.copy();
@@ -471,7 +483,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 
 		if (req.isEmpty())
 		{
-			return new Ingredient(InfusionRepairUtil.getNeededLevels(stackTool()));
+			return new Ingredient(InfusionRepairUtil.getTakenLevels(stackTool()));
 		}
 
 		ItemStack stack = req.get(0);
