@@ -7,7 +7,7 @@ Kind of complicated. See the [forum topic](http://www.minecraftforum.net/forums/
 
 Source for 1.7.10 version:
 --------------------------
-Since IntelliJ doesn't exactly play nice with GitHub branches, I had to move the MC1.7 branch to its own repository. You can find it here. Issues for the 1.7.10 version should still be posted here.
+Since IntelliJ doesn't exactly play nice with GitHub branches, I had to move the MC1.7 branch to [its own repository](https://github.com/einsteinsci/betterbeginnings-MC1.7). You can find it here. Issues for the 1.7.10 version should still be posted here.
 
 Contributing to this project:
 -----------------------------
