@@ -14,6 +14,10 @@ public class NEIConfig implements IConfigureNEI
 	@Override
 	public void loadConfig()
 	{
+		KilnRecipeHandler kilnRecipeHandler = new KilnRecipeHandler();
+
+		API.registerRecipeHandler(kilnRecipeHandler);
+
 		API.hideItem(new ItemStack(RegisterBlocks.kilnLit));
 		API.hideItem(new ItemStack(RegisterBlocks.brickOvenLit));
 		API.hideItem(new ItemStack(RegisterBlocks.smelterLit));

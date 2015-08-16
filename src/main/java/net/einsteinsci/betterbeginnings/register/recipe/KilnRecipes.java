@@ -12,8 +12,8 @@ public class KilnRecipes
 {
 	private static final KilnRecipes SMELTINGBASE = new KilnRecipes();
 
-	private Map smeltingList = new HashMap();
-	private Map experienceList = new HashMap();
+	private Map<ItemStack, ItemStack> smeltingList = new HashMap<>();
+	private Map<ItemStack, Float> experienceList = new HashMap<>();
 
 	private KilnRecipes()
 	{
@@ -61,8 +61,8 @@ public class KilnRecipes
 
 	public ItemStack getSmeltingResult(ItemStack stack)
 	{
-		Iterator iterator = smeltingList.entrySet().iterator();
-		Entry entry;
+		Iterator<Entry<ItemStack, ItemStack> > iterator = smeltingList.entrySet().iterator();
+		Entry<ItemStack, ItemStack> entry;
 
 		do
 		{
@@ -71,10 +71,15 @@ public class KilnRecipes
 				return null;
 			}
 
-			entry = (Entry)iterator.next();
-		} while (!canBeSmelted(stack, (ItemStack)entry.getKey()));
+			entry = iterator.next();
+		} while (!canBeSmelted(stack, entry.getKey()));
 
-		return (ItemStack)entry.getValue();
+		return entry.getValue();
+	}
+
+	public Map getSmeltingList()
+	{
+		return smeltingList;
 	}
 
 	private boolean canBeSmelted(ItemStack stack, ItemStack stack2)
@@ -86,8 +91,8 @@ public class KilnRecipes
 
 	public float giveExperience(ItemStack stack)
 	{
-		Iterator iterator = experienceList.entrySet().iterator();
-		Entry entry;
+		Iterator<Entry<ItemStack, Float> > iterator = experienceList.entrySet().iterator();
+		Entry<ItemStack, Float> entry;
 
 		do
 		{
@@ -96,14 +101,14 @@ public class KilnRecipes
 				return 0.0f;
 			}
 
-			entry = (Entry)iterator.next();
-		} while (!canBeSmelted(stack, (ItemStack)entry.getKey()));
+			entry = iterator.next();
+		} while (!canBeSmelted(stack, entry.getKey()));
 
 		if (stack.getItem().getSmeltingExperience(stack) != -1)
 		{
 			return stack.getItem().getSmeltingExperience(stack);
 		}
 
-		return ((Float)entry.getValue()).floatValue();
+		return entry.getValue();
 	}
 }
