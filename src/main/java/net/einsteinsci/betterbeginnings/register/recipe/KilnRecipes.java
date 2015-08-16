@@ -77,9 +77,9 @@ public class KilnRecipes
 		return entry.getValue();
 	}
 
-	public Map getSmeltingList()
+	public static Map getSmeltingList()
 	{
-		return smeltingList;
+		return smelting().smeltingList;
 	}
 
 	private boolean canBeSmelted(ItemStack stack, ItemStack stack2)

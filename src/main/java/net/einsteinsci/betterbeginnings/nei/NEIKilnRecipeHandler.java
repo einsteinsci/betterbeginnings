@@ -4,10 +4,7 @@ import codechicken.nei.ItemList;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.api.IOverlayHandler;
 import codechicken.nei.api.IRecipeOverlayRenderer;
-import codechicken.nei.recipe.GuiRecipe;
-import codechicken.nei.recipe.ICraftingHandler;
-import codechicken.nei.recipe.IUsageHandler;
-import codechicken.nei.recipe.TemplateRecipeHandler;
+import codechicken.nei.recipe.*;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.gui.GuiKiln;
 import net.einsteinsci.betterbeginnings.register.RegisterBlocks;
@@ -23,6 +20,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.fml.common.Optional;
+import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.*;
 
@@ -145,7 +143,7 @@ public class KilnRecipeHandler implements ICraftingHandler, IUsageHandler
 } */
 // endregion
 
-public class KilnRecipeHandler extends TemplateRecipeHandler
+public class NEIKilnRecipeHandler extends TemplateRecipeHandler
 {
 	public class KilnCachedRecipe extends CachedRecipe
 	{
@@ -176,19 +174,7 @@ public class KilnRecipeHandler extends TemplateRecipeHandler
 		}
 	}
 
-	public static class FuelPair
-	{
-		public FuelPair(ItemStack ingred, int burnTime) {
-			this.stack = new PositionedStack(ingred, 51, 42, false);
-			this.burnTime = burnTime;
-		}
-
-		public PositionedStack stack;
-		public int burnTime;
-	}
-
-	public static ArrayList<FuelPair> afuels;
-	public static HashSet<Block> efuels;
+	public static ArrayList<FurnaceRecipeHandler.FuelPair> afuels;
 
 	@Override
 	public TemplateRecipeHandler newInstance()
@@ -219,43 +205,38 @@ public class KilnRecipeHandler extends TemplateRecipeHandler
 		return I18n.format("container.kiln");
 	}
 
-	public String getRecipeID()
-	{
-		return ModMain.MODID + ":" + RegisterBlocks.kiln.getName();
-	}
-
-	@Override
-	public void loadCraftingRecipes(String outputId, Object... results)
-	{
-		if (outputId.equals(getRecipeID()))
-		{
-			for (Object obj : KilnRecipes.smelting().getSmeltingList().entrySet())
-			{
-				Map.Entry entry = (Map.Entry)obj;
-
-				ItemStack inp = (ItemStack)entry.getKey();
-				ItemStack outp = (ItemStack)entry.getValue();
-
-				arecipes.add(new KilnCachedRecipe(inp, outp));
-			}
-		}
-		else
-		{
-			super.loadCraftingRecipes(outputId, results);
-		}
-	}
-
 	@Override
 	public void loadCraftingRecipes(ItemStack result)
 	{
-		for (Object obj : KilnRecipes.smelting().getSmeltingList().entrySet())
+		for (Object obj : KilnRecipes.getSmeltingList().entrySet())
 		{
 			Map.Entry entry = (Map.Entry)obj;
 
 			ItemStack inp = (ItemStack)entry.getKey();
 			ItemStack outp = (ItemStack)entry.getValue();
 
-			if (outp.getIsItemStackEqual(result))
+			if (inp.getItem() == result.getItem() &&
+				(result.getItemDamage() == OreDictionary.WILDCARD_VALUE ||
+				inp.getItemDamage() == result.getItemDamage()))
+			{
+				arecipes.add(new KilnCachedRecipe(inp, outp));
+			}
+		}
+	}
+
+	@Override
+	public void loadUsageRecipes(ItemStack ingredient)
+	{
+		for (Object obj : KilnRecipes.getSmeltingList().entrySet())
+		{
+			Map.Entry entry = (Map.Entry)obj;
+
+			ItemStack inp = (ItemStack)entry.getKey();
+			ItemStack outp = (ItemStack)entry.getValue();
+
+			if (inp.getItem() == ingredient.getItem() &&
+				(inp.getItemDamage() == OreDictionary.WILDCARD_VALUE ||
+				inp.getItemDamage() == ingredient.getItemDamage()))
 			{
 				arecipes.add(new KilnCachedRecipe(inp, outp));
 			}
@@ -268,7 +249,6 @@ public class KilnRecipeHandler extends TemplateRecipeHandler
 		drawProgressBar(51, 25, 176, 0, 14, 14, 48, 7);
 		drawProgressBar(74, 23, 176, 14, 24, 16, 48, 0);
 	}
-
 
 	@Override
 	public String getOverlayIdentifier()
@@ -308,7 +288,7 @@ public class KilnRecipeHandler extends TemplateRecipeHandler
 			int burnTime = TileEntityKiln.getItemBurnTime(item);
 			if (burnTime > 0)
 			{
-				afuels.add(new FuelPair(item.copy(), burnTime));
+				afuels.add(new FurnaceRecipeHandler.FuelPair(item.copy(), burnTime));
 			}
 		}
 	}

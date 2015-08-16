@@ -12,9 +12,9 @@ public class SmelterRecipeHandler
 {
 	private static final SmelterRecipeHandler SMELTINGBASE = new SmelterRecipeHandler();
 
-	private Map experienceList = new HashMap();
+	private Map<ItemStack, Float> experienceList = new HashMap<>();
 
-	private List<SmelterRecipe> recipes = new ArrayList<SmelterRecipe>();
+	private List<SmelterRecipe> recipes = new ArrayList<>();
 
 	private SmelterRecipeHandler()
 	{
@@ -38,7 +38,7 @@ public class SmelterRecipeHandler
 
 	public void putLists(ItemStack input, ItemStack output, float experience, int gravel, int bonus, float chance)
 	{
-		experienceList.put(output, Float.valueOf(experience));
+		experienceList.put(output, experience);
 
 		recipes.add(new SmelterRecipe(output, input, experience, gravel, bonus, chance));
 	}
@@ -102,7 +102,7 @@ public class SmelterRecipeHandler
 			return stack.getItem().getSmeltingExperience(stack);
 		}
 
-		return ((Float)entry.getValue()).floatValue();
+		return (Float)entry.getValue();
 	}
 
 	private boolean canBeSmelted(ItemStack stack, ItemStack stack2)
@@ -136,5 +136,10 @@ public class SmelterRecipeHandler
 		}
 
 		return 0.0f;
+	}
+
+	public static List<SmelterRecipe> getRecipes()
+	{
+		return smelting().recipes;
 	}
 }
