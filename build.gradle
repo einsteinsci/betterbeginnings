@@ -18,6 +18,7 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'forge'
 
+// Java level 1.7
 sourceCompatibility = '1.7'
 targetCompatibility = '1.7'
 
@@ -26,7 +27,7 @@ group= "net.einsteinsci.betterbeginnings" // http://maven.apache.org/guides/mini
 archivesBaseName = "betterbeginnings"
 
 minecraft {
-    version = "1.8-11.14.1.1334"
+    version = "1.8-11.14.3.1450"
     runDir = "eclipse"
     
     // the mappings can be changed at any time, and must be in the following format.

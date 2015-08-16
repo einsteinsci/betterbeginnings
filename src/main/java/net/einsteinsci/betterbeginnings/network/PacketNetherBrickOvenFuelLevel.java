@@ -5,7 +5,10 @@ import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityNetherBrickOven;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.*;
 
 public class PacketNetherBrickOvenFuelLevel implements IMessage
@@ -47,12 +50,12 @@ public class PacketNetherBrickOvenFuelLevel implements IMessage
 	{
 		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 
-		int fluidId = buf.readInt();
+		String fluidId = ByteBufUtils.readUTF8String(buf);
 		int level = buf.readInt();
 
 		if (level != 0)
 		{
-			fluid = new FluidStack(fluidId, level);
+			fluid = new FluidStack(FluidRegistry.getFluid(fluidId), level);
 		}
 		else
 		{
@@ -69,7 +72,8 @@ public class PacketNetherBrickOvenFuelLevel implements IMessage
 
 		if (fluid != null)
 		{
-			buf.writeInt(fluid.getFluid().getID());
+			String fluidName = fluid.getFluid().getName();
+			buf.writeBytes(fluidName.getBytes());
 			buf.writeInt(fluid.amount);
 		}
 		else
