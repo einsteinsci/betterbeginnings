@@ -153,4 +153,16 @@ public class BrickOvenShapelessRecipe implements IBrickOvenRecipe
 	{
 		return recipeOutput;
 	}
+
+	@Override
+	public ItemStack[] getInputs()
+	{
+		ItemStack[] res = new ItemStack[9];
+		for (int i = 0; i < recipeItems.size(); i++)
+		{
+			res[i] = recipeItems.get(i);
+		}
+
+		return res;
+	}
 }

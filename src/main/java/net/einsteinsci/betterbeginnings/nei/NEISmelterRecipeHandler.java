@@ -8,7 +8,6 @@ import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.gui.GuiSmelter;
 import net.einsteinsci.betterbeginnings.register.recipe.SmelterRecipe;
 import net.einsteinsci.betterbeginnings.register.recipe.SmelterRecipeHandler;
-import net.einsteinsci.betterbeginnings.tileentity.TileEntityKiln;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntitySmelter;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
@@ -80,7 +79,6 @@ public class NEISmelterRecipeHandler extends TemplateRecipeHandler
 	@Override
 	public String getGuiTexture()
 	{
-		// vanilla
 		return ModMain.MODID + ":textures/gui/container/smelter.png";
 	}
 

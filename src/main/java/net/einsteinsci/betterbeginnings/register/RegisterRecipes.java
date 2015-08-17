@@ -89,9 +89,8 @@ public class RegisterRecipes
 		                                          Blocks.pumpkin);
 		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.fermented_spider_eye), Items.spider_eye,
 												  Items.sugar, Blocks.brown_mushroom);
-		BrickOvenRecipeHandler
-				.addShapelessRecipe(new ItemStack(Items.magma_cream), Items.slime_ball, Items.blaze_powder);
-		//BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(RegisterItems.roastingStickCookedMallow), RegisterItems.roastingStickRawMallow);
+		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.magma_cream),
+			Items.slime_ball, Items.blaze_powder);
 	}
 
 	private static void addSmelterRecipes()

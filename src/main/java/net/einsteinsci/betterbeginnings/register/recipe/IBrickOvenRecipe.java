@@ -4,6 +4,8 @@ import net.einsteinsci.betterbeginnings.tileentity.TileEntityBrickOven;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityNetherBrickOven;
 import net.minecraft.item.ItemStack;
 
+import java.util.List;
+
 public interface IBrickOvenRecipe
 {
 	/**
@@ -28,4 +30,6 @@ public interface IBrickOvenRecipe
 	boolean contains(ItemStack stack);
 
 	ItemStack getRecipeOutput();
+
+	ItemStack[] getInputs();
 }

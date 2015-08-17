@@ -22,6 +22,10 @@ public class NEIConfig implements IConfigureNEI
 		API.registerRecipeHandler(smelterRecipeHandler);
 		API.registerUsageHandler(smelterRecipeHandler);
 
+		NEIBrickOvenRecipeHandler brickOvenRecipeHandler = new NEIBrickOvenRecipeHandler();
+		API.registerRecipeHandler(brickOvenRecipeHandler);
+		API.registerUsageHandler(brickOvenRecipeHandler);
+
 		API.hideItem(new ItemStack(RegisterBlocks.kilnLit));
 		API.hideItem(new ItemStack(RegisterBlocks.brickOvenLit));
 		API.hideItem(new ItemStack(RegisterBlocks.smelterLit));

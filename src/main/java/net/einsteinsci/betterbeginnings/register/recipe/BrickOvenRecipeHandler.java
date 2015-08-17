@@ -144,18 +144,6 @@ public class BrickOvenRecipeHandler
 		return recipe;
 	}
 
-	@Deprecated
-	public void addLists(ItemStack output, Object... args)
-	{
-		// putLists(output, args);
-	}
-
-	@Deprecated
-	public void putLists(ItemStack output, Object... args)
-	{
-
-	}
-
 	public ItemStack findMatchingRecipe(TileEntityBrickOven oven)
 	{
 		int i = 0;
@@ -209,8 +197,8 @@ public class BrickOvenRecipeHandler
 		return false;
 	}
 
-	public List getRecipeList()
+	public static List<IBrickOvenRecipe> getRecipeList()
 	{
-		return recipes;
+		return instance().recipes;
 	}
 }

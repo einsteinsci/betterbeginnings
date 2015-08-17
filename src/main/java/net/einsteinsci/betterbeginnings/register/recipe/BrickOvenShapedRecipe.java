@@ -6,6 +6,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BrickOvenShapedRecipe implements IBrickOvenRecipe
 {
 	/**
@@ -200,6 +203,45 @@ public class BrickOvenShapedRecipe implements IBrickOvenRecipe
 	public ItemStack getRecipeOutput()
 	{
 		return recipeOutput;
+	}
+
+	@Override
+	public ItemStack[] getInputs()
+	{
+		List<ItemStack> buf = new ArrayList<>();
+		for (ItemStack is : recipeItems)
+		{
+			if (is != null)
+			{
+				buf.add(is);
+			}
+		}
+
+		return buf.toArray(new ItemStack[0]);
+	}
+
+	public ItemStack[] getThreeByThree()
+	{
+		ItemStack[] res = new ItemStack[9];
+
+		int y = 0, x = 0;
+		int v = 0, u = 0;
+		for (int i = 0; i < getRecipeSize(); i++)
+		{
+			res[x + y * 3] = recipeItems[u + v * recipeWidth];
+
+			u++;
+			if (u >= recipeWidth)
+			{
+				u = 0;
+				v++;
+			}
+
+			x = u;
+			y = v;
+		}
+
+		return res;
 	}
 
 	/**
