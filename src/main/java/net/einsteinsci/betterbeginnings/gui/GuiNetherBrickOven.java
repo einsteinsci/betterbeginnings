@@ -59,7 +59,11 @@ public class GuiNetherBrickOven extends GuiContainer
 
 		FluidStack stack = tileBrickOven.getFuelStack();
 		lines.add("" + tileBrickOven.getFuelLevel() + " mB");
-		lines.add(stack.getLocalizedName());
+
+		if (stack != null)
+		{
+			lines.add(stack.getLocalizedName());
+		}
 		drawHoveringText(lines, x, y); //Draw tooltip
 	}
 

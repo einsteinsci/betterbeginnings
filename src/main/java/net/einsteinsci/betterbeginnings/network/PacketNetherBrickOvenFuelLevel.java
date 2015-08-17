@@ -50,8 +50,8 @@ public class PacketNetherBrickOvenFuelLevel implements IMessage
 	{
 		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 
-		String fluidId = ByteBufUtils.readUTF8String(buf);
 		int level = buf.readInt();
+		int fluidId = buf.readInt();
 
 		if (level != 0)
 		{
@@ -72,14 +72,13 @@ public class PacketNetherBrickOvenFuelLevel implements IMessage
 
 		if (fluid != null)
 		{
-			String fluidName = fluid.getFluid().getName();
-			buf.writeBytes(fluidName.getBytes());
 			buf.writeInt(fluid.amount);
+			buf.writeInt(fluid.getFluidID());
 		}
 		else
 		{
 			buf.writeInt(0);
-			buf.writeInt(0);
+			buf.writeBytes(("").getBytes());
 		}
 	}
 }
