@@ -6,9 +6,6 @@ import net.minecraftforge.oredict.OreDictionary;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by einsteinsci on 11/18/2014.
- */
 public class OreRecipeElement
 {
 	public int stackSize;
@@ -17,7 +14,7 @@ public class OreRecipeElement
 
 	public OreRecipeElement(ItemStack stack)
 	{
-		validItems = new ArrayList<ItemStack>();
+		validItems = new ArrayList<>();
 		validItems.add(stack);
 		oreDictionaryEntry = "";
 		stackSize = stack.stackSize;
@@ -25,7 +22,7 @@ public class OreRecipeElement
 
 	public OreRecipeElement(String dictionaryEntry, int size)
 	{
-		validItems = new ArrayList<ItemStack>();
+		validItems = new ArrayList<>();
 		validItems.addAll(OreDictionary.getOres(dictionaryEntry));
 		oreDictionaryEntry = dictionaryEntry;
 		stackSize = size;

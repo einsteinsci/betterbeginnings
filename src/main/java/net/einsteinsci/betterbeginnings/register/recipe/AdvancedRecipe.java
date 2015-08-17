@@ -24,6 +24,9 @@ public class AdvancedRecipe
 	/**
 	 * Is the ItemStack that you get when craft the recipe.
 	 */
+
+	public final boolean hideFromNEI;
+
 	private ItemStack recipeOutput;
 
 	// additional materials in the side slots
@@ -33,13 +36,14 @@ public class AdvancedRecipe
 	private boolean strangeFlag;
 
 	public AdvancedRecipe(int width, int height, OreRecipeElement[] items, ItemStack output,
-	                      OreRecipeElement[] materials)
+	                      OreRecipeElement[] materials, boolean hide)
 	{
 		recipeWidth = width;
 		recipeHeight = height;
 		recipeItems = items;
 		recipeOutput = output;
 		addedMaterials = materials;
+		hideFromNEI = hide;
 	}
 
 	// @Override
@@ -215,7 +219,6 @@ public class AdvancedRecipe
 		return addedMaterials;
 	}
 
-	// @Override
 	public ItemStack getCraftingResult(InventoryCrafting crafting)
 	{
 		ItemStack itemstack = getRecipeOutput().copy();
@@ -236,16 +239,43 @@ public class AdvancedRecipe
 		return itemstack;
 	}
 
-	// @Override
 	public ItemStack getRecipeOutput()
 	{
 		return recipeOutput;
 	}
 
-	// @Override
 	public int getRecipeSize()
 	{
 		return recipeWidth * recipeHeight;
+	}
+
+	public ItemStack[] getThreeByThree()
+	{
+		ItemStack[] res = new ItemStack[9];
+
+		int y = 0, x = 0;
+		int v = 0, u = 0;
+		for (int i = 0; i < getRecipeSize(); i++)
+		{
+			OreRecipeElement ore = recipeItems[u + v * recipeWidth];
+
+			if (ore != null)
+			{
+				res[x + y * 3] = ore.getFirst();
+			}
+
+			u++;
+			if (u >= recipeWidth)
+			{
+				u = 0;
+				v++;
+			}
+
+			x = u;
+			y = v;
+		}
+
+		return res;
 	}
 
 	public AdvancedRecipe func_92100_c()

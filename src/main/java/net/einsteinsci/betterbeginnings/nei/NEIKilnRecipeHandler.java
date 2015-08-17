@@ -215,9 +215,9 @@ public class NEIKilnRecipeHandler extends TemplateRecipeHandler
 			ItemStack inp = (ItemStack)entry.getKey();
 			ItemStack outp = (ItemStack)entry.getValue();
 
-			if (inp.getItem() == result.getItem() &&
+			if (outp.getItem() == result.getItem() &&
 				(result.getItemDamage() == OreDictionary.WILDCARD_VALUE ||
-				inp.getItemDamage() == result.getItemDamage()))
+				outp.getItemDamage() == result.getItemDamage()))
 			{
 				arecipes.add(new KilnCachedRecipe(inp, outp));
 			}

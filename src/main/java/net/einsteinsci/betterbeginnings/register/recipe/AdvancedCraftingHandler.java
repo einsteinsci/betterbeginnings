@@ -22,17 +22,22 @@ public class AdvancedCraftingHandler
 
 	public static void addAdvancedRecipe(ItemStack result, Object[] additionalMaterials, Object... args)
 	{
-		crafting().addRecipe(result, additionalMaterials, args);
+		addAdvancedRecipe(result, false, additionalMaterials, args);
 	}
 
-	public AdvancedRecipe addRecipe(ItemStack result, Object[] additionalMaterials, Object... args)
+	public static void addAdvancedRecipe(ItemStack result, boolean hide, Object[] additionalMaterials, Object... args)
+	{
+		crafting().addRecipe(result, hide, additionalMaterials, args);
+	}
+
+	public AdvancedRecipe addRecipe(ItemStack result, boolean hide, Object[] additionalMaterials, Object... args)
 	{
 		String totalRecipe = "";
 		int i = 0;
 		int width = 0;
 		int height = 0;
 
-		List<OreRecipeElement> addedMatList = new ArrayList<OreRecipeElement>();
+		List<OreRecipeElement> addedMatList = new ArrayList<>();
 		String lastString = "";
 		for (Object mat : additionalMaterials)
 		{
@@ -120,7 +125,7 @@ public class AdvancedCraftingHandler
 			}
 		}
 
-		AdvancedRecipe advancedrecipes = new AdvancedRecipe(width, height, neededItems, result, addedMats);
+		AdvancedRecipe advancedrecipes = new AdvancedRecipe(width, height, neededItems, result, addedMats, hide);
 		recipes.add(advancedrecipes);
 		return advancedrecipes;
 	}
@@ -264,5 +269,10 @@ public class AdvancedCraftingHandler
 		}
 
 		return false;
+	}
+
+	public static List<AdvancedRecipe> getRecipeList()
+	{
+		return CRAFTING.recipes;
 	}
 }
