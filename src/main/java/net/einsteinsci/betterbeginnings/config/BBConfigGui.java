@@ -22,6 +22,9 @@ public class BBConfigGui extends GuiConfig
 				.getChildElements();
 		all.addAll(new ConfigElement(ModMain.configFile.getCategory(BBConfig.CRAFTING)).getChildElements());
 		all.addAll(new ConfigElement(ModMain.configFile.getCategory(BBConfig.SMELTING)).getChildElements());
+		all.addAll(new ConfigElement(ModMain.configFile.getCategory(BBConfig.MOBDROPS)).getChildElements());
+		all.addAll(new ConfigElement(ModMain.configFile.getCategory(BBConfig.TWEAKS)).getChildElements());
+		all.addAll(new ConfigElement(ModMain.configFile.getCategory(BBConfig.WORLDGEN)).getChildElements());
 
 		return all;
 	}
