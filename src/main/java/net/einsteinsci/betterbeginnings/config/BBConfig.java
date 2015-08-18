@@ -22,7 +22,6 @@ public class BBConfig
 
 	public static boolean advancedCraftingForLotsOfThings;
 	public static boolean removeCraftedFoodRecipes;
-	public static boolean canMakeVanillaFurnace;
 	public static boolean canMakeChainArmor;
 	public static boolean removeWoodToolRecipes;
 
@@ -57,7 +56,6 @@ public class BBConfig
 
 		advancedCraftingForLotsOfThings = true;
 		removeCraftedFoodRecipes = true;
-		canMakeVanillaFurnace = true;
 		canMakeChainArmor = true;
 		removeWoodToolRecipes = true;
 
@@ -125,8 +123,6 @@ public class BBConfig
 			"Require Advanced Crafting for things like doors, pistons, chests, etc.");
 		removeCraftedFoodRecipes = config.getBoolean("Remove Crafted Food Recipes", CRAFTING, true,
 			"Remove crafting recipes of vanilla food items, enforcing the use of the brick ovens.");
-		canMakeVanillaFurnace = config.getBoolean("Enable vanilla furnace recipe", CRAFTING, true,
-			"Provide alternative recipe for vanilla furnace");
 		canMakeChainArmor = config.getBoolean("Enable chain armor", CRAFTING, true,
 			"Allow vanilla chain armor to be craftable from iron nuggets");
 		removeWoodToolRecipes = config.getBoolean("Remove wooden tool recipes", CRAFTING, true,

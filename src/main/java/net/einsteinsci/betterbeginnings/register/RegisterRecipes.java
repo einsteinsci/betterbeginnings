@@ -897,16 +897,16 @@ public class RegisterRecipes
 	{
 		//Roasting stick
 		GameRegistry.addRecipe(
-				new ShapedOreRecipe(new ItemStack(RegisterItems.roastingStick), " s", "s ", 's', "stickWood"));
+			new ShapedOreRecipe(new ItemStack(RegisterItems.roastingStick), " s", "s ", 's', "stickWood"));
 		
 		// Knife
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.flintKnife), "F ", " F", 'F', Items.flint);
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.flintKnife), " F", "F ", 'F', Items.flint);
 
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.boneKnife), " S", "/ ", 'S', RegisterItems.boneShard,
-									 '/', Items.bone);
+			'/', Items.bone);
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.boneKnife), "S ", " /", 'S', RegisterItems.boneShard,
-									 '/', Items.bone);
+			'/', Items.bone);
 
 		// Thread
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.thread), "ss", "ss", 's', RegisterItems.silk);
@@ -925,12 +925,12 @@ public class RegisterRecipes
 		                                           '#', "plankWood", '/', "stickWood"));
 
 		// Kiln
-		GameRegistry.addRecipe(
-				new ShapedOreRecipe(new ItemStack(RegisterBlocks.kiln), "###", "# #", "###", '#', "cobblestone"));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(RegisterBlocks.kiln),
+			"###", "# #", "###", '#', "cobblestone"));
 
 		// Brick Oven
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(RegisterBlocks.brickOven), "BBB", "# #", "###",
-		                                           '#', Blocks.brick_block, 'B', "ingotBrick"));
+			'#', Blocks.brick_block, 'B', "ingotBrick"));
 
 		// Smelter
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterBlocks.smelter), "###", "#C#", "###", '#', new ItemStack(
@@ -971,16 +971,19 @@ public class RegisterRecipes
 		// Craft BB workbenches into vanilla ones
 		GameRegistry.addShapedRecipe(new ItemStack(Blocks.crafting_table), "#", '#', RegisterBlocks.doubleWorkbench);
 
-		// Campfire
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(RegisterBlocks.campfire),
-			"//", "ss",
-			'/', "stickWood",
-			's', "itemString"));
+		if (BBConfig.moduleCampfire)
+		{
+			// Campfire
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(RegisterBlocks.campfire),
+				"//", "ss",
+				'/', "stickWood",
+				's', "itemString"));
 
-		// Fire Bow
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(RegisterItems.fireBow),
-			"//", "/s",
-			'/', "stickWood",
-			's', "itemString"));
+			// Fire Bow
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(RegisterItems.fireBow),
+				"//", "/s",
+				'/', "stickWood",
+				's', "itemString"));
+		}
 	}
 }
