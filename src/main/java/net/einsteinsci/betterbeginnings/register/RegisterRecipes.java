@@ -84,6 +84,8 @@ public class RegisterRecipes
 		BrickOvenRecipeHandler.addShapedRecipe(new ItemStack(Items.rabbit_stew), " R ", "CPM", " B ",
 			'R', Items.cooked_rabbit, 'C', Items.carrot, 'P', Items.baked_potato,
 			'M', Blocks.red_mushroom, 'B', Items.bowl);
+		BrickOvenRecipeHandler.addShapedRecipe(new ItemStack(RegisterItems.marshmallow), " S ", "SSS", " S ",
+			'S', Items.sugar); // Yes please
 
 		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.mushroom_stew), Blocks.brown_mushroom,
 			Blocks.red_mushroom, Items.bowl);

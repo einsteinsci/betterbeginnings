@@ -99,6 +99,11 @@ public class BBEventHandler
 			e.toolTip.add(ChatUtil.BLUE + "Fry stuff over a campfire!");
 		}
 
+		if (item == Items.sugar)
+		{
+			e.toolTip.add(ChatUtil.ITALIC + "Yes please!");
+		}
+
 		if (isWIP(e.itemStack))
 		{
 			e.toolTip.add(ChatUtil.RED + "WIP. May not be fully functional.");
