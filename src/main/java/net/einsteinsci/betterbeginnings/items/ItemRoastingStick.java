@@ -14,7 +14,7 @@ public class ItemRoastingStick extends Item implements IBBName
 
 	public ItemRoastingStick()
 	{
-		setUnlocalizedName("roastingStick");
+		setUnlocalizedName(getName());
 		setCreativeTab(ModMain.tabBetterBeginnings);
 		setMaxStackSize(10);
 	}
