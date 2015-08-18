@@ -26,10 +26,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.Level;
 
-/*
- * Forge Version: 11.14.1.1334 for MC 1.8.0
- */
-
 @Mod(modid = ModMain.MODID, version = ModMain.VERSION, name = ModMain.NAME,
      guiFactory = "net.einsteinsci.betterbeginnings.config.BBConfigGuiFactory")
 public class ModMain
