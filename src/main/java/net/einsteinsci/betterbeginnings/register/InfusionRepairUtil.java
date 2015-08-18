@@ -457,7 +457,7 @@ public class InfusionRepairUtil
 				case WOOD:
 					return 1;
 				case STONE:
-					return 5;
+					return 2;
 				case IRON:
 					return 5;
 				case GOLD:

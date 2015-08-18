@@ -100,7 +100,7 @@ public class BBConfig
 			"Enable Campfire recipe. Set to false to make the beginning even harder.");
 
 		// Mob Drops
-		flamingAnimalsDropCharredMeat = config.getBoolean("Burn, Baby Burn", MOBDROPS, true,
+		flamingAnimalsDropCharredMeat = config.getBoolean("Flaming animals drop charred meat", MOBDROPS, true,
 			"Animals that die by flame drop charred meat instead of vanilla cooked meat");
 		spidersDropString = config.getBoolean("Spiders drop string", MOBDROPS, false,
 			"Spiders drop vanilla string as well as silk.");
@@ -121,7 +121,7 @@ public class BBConfig
 		// Crafting
 		advancedCraftingForLotsOfThings = config.getBoolean("Advanced crafting for lots of things", CRAFTING, true,
 			"Require Advanced Crafting for things like doors, pistons, chests, etc.");
-		removeCraftedFoodRecipes = config.getBoolean("Remove Crafted Food Recipes", CRAFTING, true,
+		removeCraftedFoodRecipes = config.getBoolean("Remove crafted food recipes", CRAFTING, true,
 			"Remove crafting recipes of vanilla food items, enforcing the use of the brick ovens.");
 		canMakeChainArmor = config.getBoolean("Enable chain armor", CRAFTING, true,
 			"Allow vanilla chain armor to be craftable from iron nuggets");
@@ -131,7 +131,6 @@ public class BBConfig
 		// Smelting
 		canSmelterDoKilnStuff = config.getBoolean("Smelter can make kiln products", SMELTING, false,
 			"Allow smelter to make glass, bricks, smooth stone, etc.");
-
 		removeSmeltingRecipes = config.getBoolean("Disable vanilla smelting", SMELTING, true,
 			"Remove recipes that normally use the vanilla furnace");
 		removeOnlyVanillaSmeltingRecipes = config.getBoolean("Only remove smelting recipes for vanilla items",

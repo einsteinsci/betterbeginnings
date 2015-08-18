@@ -40,8 +40,8 @@ item.cloth.name=Cloth
 item.marshmallow.name=Marshmallow
 item.marshmallowCooked.name=Browned Marshmallow
 item.roastingStick.name=Roasting Stick
-item.roastingStickrawMallow.name=Marshmallow on a Stick
-item.roastingStickcookedMallow.name=Browned Marshmallow on a Stick
+item.roastingStickRawMallow.name=Marshmallow on a Stick
+item.roastingStickCookedMallow.name=Browned Marshmallow on a Stick
 item.rockHammer.name=Rock Hammer
 
 item.clothHat.name=Cloth Hat

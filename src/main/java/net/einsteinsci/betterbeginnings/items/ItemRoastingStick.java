@@ -18,7 +18,7 @@ public class ItemRoastingStick extends Item implements IBBName
 		//shouldRotateAroundWhenRendering();
 		//setTextureName(ModMain.MODID + ":" + getUnlocalizedName().substring(5));
 		setCreativeTab(ModMain.tabBetterBeginnings);
-		setMaxStackSize(5);
+		setMaxStackSize(10);
 	}
 
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
