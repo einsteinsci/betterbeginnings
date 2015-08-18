@@ -116,6 +116,8 @@ public class RegisterRecipes
 		RegisterHelper.registerSmelterOreRecipe("oreAluminum", "ingotAluminum", 0.8f, 1, 1, 0.2f);
 		RegisterHelper.registerSmelterOreRecipe("oreSilver", "ingotSilver", 1.0f, 1, 1, 0.2f);
 		RegisterHelper.registerSmelterOreRecipe("oreLead", "ingotLead", 0.6f, 1, 1, 0.3f);
+		RegisterHelper.registerSmelterOreRecipe("orePlatinum", "ingotPlatinum", 1.0f, 2, 1, 0.2f);
+		RegisterHelper.registerSmelterOreRecipe("oreNickel", "ingotNickel", 0.8f, 1, 1, 0.3f);
 
 		// Recipes that might be better suited in Kiln only
 		if (BBConfig.canSmelterDoKilnStuff)
@@ -130,6 +132,10 @@ public class RegisterRecipes
 			RegisterHelper.registerSmelterOreRecipe("cobblestone", new ItemStack(Blocks.stone), 0.1f, 0, 0, 0.0f);
 			SmelterRecipeHandler.addRecipe(Items.clay_ball, new ItemStack(Items.brick), 0.3f, 0, 0, 0.0f);
 			SmelterRecipeHandler.addRecipe(Blocks.clay, new ItemStack(Blocks.hardened_clay), 0.35f, 0, 0, 0.0f);
+			SmelterRecipeHandler.addRecipe(new ItemStack(Blocks.sponge, 1, 1),
+				new ItemStack(Blocks.sponge, 1, 0), 0.1f, 0, 0, 0.0f);
+			SmelterRecipeHandler.addRecipe(new ItemStack(Blocks.stonebrick, 1, 0),
+				new ItemStack(Blocks.stonebrick, 1, 2), 0.1f, 0, 0, 0.0f);
 		}
 
 		// Silk touch recipes
@@ -141,6 +147,9 @@ public class RegisterRecipes
 		RegisterHelper.registerSmelterOreRecipe("oreEmerald", new ItemStack(Items.emerald, 1), 1.0f, 3, 2, 0.5f);
 
 		// Silk touch recipes (modded)
+		RegisterHelper.registerSmelterOreRecipe("oreRuby", "gemRuby", 0.8f, 2, 2, 0.5f);
+		RegisterHelper.registerSmelterOreRecipe("oreSapphire", "gemSapphire", 0.8f, 2, 2, 0.5f);
+		RegisterHelper.registerSmelterOreRecipe("oreOlivine", "gemOlivine", 0.8f, 2, 2, 0.5f);
 	}
 
 	private static void addCampfireRecipes()
