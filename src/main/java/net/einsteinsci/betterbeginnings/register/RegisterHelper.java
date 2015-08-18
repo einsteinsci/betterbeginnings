@@ -14,11 +14,13 @@ public class RegisterHelper
 	public static <T extends Item & IBBName> void registerItem(T item)
 	{
 		GameRegistry.registerItem(item, item.getName());
+		RegisterItems.allItems.add(item);
 	}
 
 	public static <T extends Block & IBBName> void registerBlock(T block)
 	{
 		GameRegistry.registerBlock(block, block.getName());
+		RegisterBlocks.allBlocks.add(block);
 	}
 
 	public static void registerSmelterOreRecipe(String input, ItemStack output, float experience, int gravel, int bonus,

@@ -112,3 +112,8 @@ achievement.notchApple=Food of the Gods
 achievement.notchApple.desc=Bake an enchanted golden apple
 
 death.face=%1$s broke their face on a %2$s
+
+blockbreak.fail=Almost. Once more should do it.
+blockbreak.success=Ouch! But at least it worked.
+blockbreak.wrongtool=Wrong tool!
+blockbreak.wrongtool.message=Requires %1$s %2$s.

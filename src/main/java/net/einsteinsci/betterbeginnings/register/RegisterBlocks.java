@@ -3,6 +3,7 @@ package net.einsteinsci.betterbeginnings.register;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.blocks.*;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Level;
 
@@ -59,37 +60,11 @@ public class RegisterBlocks
 		RegisterHelper.registerBlock(enderSmelterLit);
 
 		oreDictionary();
-		loadAllBlocks();
 	}
 
 	public static void oreDictionary()
 	{
 		OreDictionary.registerOre("craftingTableWood", doubleWorkbench);
-	}
-
-	private static void loadAllBlocks()
-	{
-		List<Field> fields = new ArrayList<>();
-		Field[] allFields = RegisterBlocks.class.getFields();
-		for (Field f : allFields)
-		{
-			if (Block.class.isAssignableFrom(f.getType()) &&
-					IBBName.class.isAssignableFrom(f.getType()))
-			{
-				fields.add(f);
-			}
-		}
-
-		for (Field f : fields)
-		{
-			try
-			{
-				allBlocks.add((Block)f.get(null));
-			}
-			catch (Exception e)
-			{
-				ModMain.Log(Level.ERROR, "Field " + f.getName() + " does not inherit from Block.");
-			}
-		}
+		OreDictionary.registerOre("craftingTableWood", Blocks.crafting_table);
 	}
 }

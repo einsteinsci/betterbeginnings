@@ -44,7 +44,8 @@ public class BBEventHandler
 	{
 		if (BBConfig.greetUser)
 		{
-			ChatUtil.sendModChatToPlayer(e.player, ChatUtil.LIME + "Better Beginnings loaded successfully.");
+			ChatUtil.sendModChatToPlayer(e.player, ChatUtil.LIME + "Better Beginnings " + ModMain.VERSION +
+				" loaded successfully.");
 		}
 	}
 	
@@ -115,6 +116,8 @@ public class BBEventHandler
 		wip.add(new ItemStack(RegisterItems.roastingStick));
 		wip.add(new ItemStack(RegisterItems.roastingStickRawMallow));
 		wip.add(new ItemStack(RegisterItems.roastingStickCookedMallow));
+		wip.add(new ItemStack(RegisterItems.fireBow));
+		wip.add(new ItemStack(RegisterBlocks.campfire));
 
 		for (ItemStack test : wip)
 		{

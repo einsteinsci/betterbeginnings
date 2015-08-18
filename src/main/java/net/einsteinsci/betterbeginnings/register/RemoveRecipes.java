@@ -31,7 +31,7 @@ public class RemoveRecipes
 		}
 
 		// Advanced Crafting
-		if (BBConfig.requireAdvancedCrafting)
+		if (BBConfig.moduleAdvancedCrafting)
 		{
 			if (BBConfig.advancedCraftingForLotsOfThings)
 			{

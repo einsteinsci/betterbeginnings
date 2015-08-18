@@ -191,6 +191,7 @@ public class RegisterRecipes
 
 	public static void addAdvancedRecipes()
 	{
+		// region advancedCraftingForLotsOfThings
 		if (BBConfig.advancedCraftingForLotsOfThings)
 		{
 			// Wooden Doors
@@ -348,8 +349,7 @@ public class RegisterRecipes
 			                                          '/', "stickWood");
 			// Enchanting Table
 			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.enchanting_table),
-			                                          new Object[] {new ItemStack(Items.leather),
-					                                          "dyeRed", 1, "dyeBlue", 1},
+				new Object[] {new ItemStack(Items.leather), "dyeRed", 2, "gemLapis", 4},
 			                                          " B ", "D#D", "###",
 			                                          'B', Items.book,
 			                                          'D', "gemDiamond",
@@ -434,7 +434,7 @@ public class RegisterRecipes
 				new Object[] {"dustRedstone", 2},
 				" R ", "R#R", " R ",
 				'R', "dustRedstone",
-				'#', Blocks.glowstone);
+				'#', "glowstone");
 
 			// Ender Chest
 			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.ender_chest),
@@ -487,6 +487,7 @@ public class RegisterRecipes
 				'/', "stickWood",
 				'-', new ItemStack(Blocks.stone_slab, 1, 0));
 		}
+		// endregion
 
 		// Bow
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.bow),
@@ -830,15 +831,27 @@ public class RegisterRecipes
 		                                          'D', "gemDiamond",
 		                                          '/', "stickWood");
 
-		// Repair Infusion Station
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(RegisterBlocks.infusionRepairStation),
-		                                          new Object[] {"dustRedstone", 32, "dyeBlue", 32,
-				                                          new ItemStack(Items.blaze_powder, 16)},
-		                                          "DID", "OSO", "OOO",
-		                                          'D', "gemDiamond",
-		                                          'I', "blockIron",
-		                                          'S', Blocks.bookshelf,
-		                                          'O', Blocks.obsidian);
+		if (BBConfig.moduleInfusionRepair)
+		{
+			// Repair Infusion Station
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(RegisterBlocks.infusionRepairStation),
+				new Object[]{
+					"dustRedstone", 32, "gemLapis", 32,
+					new ItemStack(Items.blaze_powder, 16)
+				},
+				"DID", "OSO", "OOO",
+				'D', "gemDiamond",
+				'I', "blockIron",
+				'S', Blocks.bookshelf,
+				'O', Blocks.obsidian);
+
+			// Infusion Scroll
+			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(RegisterItems.infusionScroll),
+				new Object[] { "gemDiamond", 2, "stickWood", 2 },
+				"PPP", "RPR", "PPP",
+				'P', Items.paper,
+				'R', "dustRedstone");
+		}
 
 		// Obsidian Kiln
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(RegisterBlocks.obsidianKiln),
@@ -878,13 +891,6 @@ public class RegisterRecipes
 		                                          "/  ", " II",
 		                                          '/', "stickWood",
 		                                          'I', "ingotIron");
-
-		// Infusion Scroll
-		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(RegisterItems.infusionScroll),
-												new Object[] { "gemDiamond", 2, "stickWood", 2 },
-												"PPP", "RPR", "PPP",
-												'P', Items.paper,
-												'R', "dustRedstone");
 	}
 
 	public static void addShapedRecipes()
@@ -959,28 +965,22 @@ public class RegisterRecipes
 		}
 
 		// Craft vanilla benches into BB workbenches
-		//GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(RegisterBlocks.doubleWorkbench, 2), "##", '#',
-		//                                           "craftingTableWood"));
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterBlocks.doubleWorkbench, 2), "##", '#',
 			Blocks.crafting_table);
 
 		// Craft BB workbenches into vanilla ones
-		if (BBConfig.canMakeVanillaWorkbench)
-		{
-			GameRegistry.addShapedRecipe(
-					new ItemStack(Blocks.crafting_table), "#", '#', RegisterBlocks.doubleWorkbench);
-		}
+		GameRegistry.addShapedRecipe(new ItemStack(Blocks.crafting_table), "#", '#', RegisterBlocks.doubleWorkbench);
 
 		// Campfire
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(RegisterBlocks.campfire),
-		                                           "//", "ss",
-		                                           '/', "stickWood",
-		                                           's', "itemString"));
+			"//", "ss",
+			'/', "stickWood",
+			's', "itemString"));
 
 		// Fire Bow
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(RegisterItems.fireBow),
-		                                           "//", "/s",
-		                                           '/', "stickWood",
-		                                           's', "itemString"));
+			"//", "/s",
+			'/', "stickWood",
+			's', "itemString"));
 	}
 }

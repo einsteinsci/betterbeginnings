@@ -92,7 +92,6 @@ public class RegisterItems
 		RegisterHelper.registerItem(noobWoodSword);
 
 		oreDictRegistry();
-		loadAllItems();
 	}
 
 	public static void oreDictRegistry()
@@ -107,32 +106,6 @@ public class RegisterItems
 		OreDictionary.registerOre("itemString", new ItemStack(Items.string));
 		OreDictionary.registerOre("itemString", new ItemStack(thread));
 		OreDictionary.registerOre("itemString", new ItemStack(twine));
-	}
-
-	private static void loadAllItems()
-	{
-		List<Field> fields = new ArrayList<>();
-		Field[] allFields = RegisterItems.class.getFields();
-		for (Field f : allFields)
-		{
-			if (Item.class.isAssignableFrom(f.getType()) &&
-				IBBName.class.isAssignableFrom(f.getType()))
-			{
-				fields.add(f);
-			}
-		}
-
-		for (Field f : fields)
-		{
-			try
-			{
-				allItems.add((Item)f.get(null));
-			}
-			catch (Exception e)
-			{
-				ModMain.Log(Level.ERROR, "Field " + f.getName() + " does not inherit from Item.");
-			}
-		}
 	}
 
 	public static void tweakVanilla()

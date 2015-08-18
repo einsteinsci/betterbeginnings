@@ -1,9 +1,11 @@
 package net.einsteinsci.betterbeginnings.event;
 
 import net.einsteinsci.betterbeginnings.ModMain;
+import net.einsteinsci.betterbeginnings.config.BBConfig;
 import net.einsteinsci.betterbeginnings.items.ItemKnife;
 import net.einsteinsci.betterbeginnings.util.ChatUtil;
 import net.minecraft.block.Block;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
@@ -15,14 +17,28 @@ import java.util.Map;
 
 public class BlockBreakHelper
 {
+	// Stores the last block the player failed to break.
 	public static final Map<EntityPlayer, BlockPos> brokenOnce = new HashMap<>();
 
-	// returns whether to cancel drops or not
+	// This is the magic function
 	public static void handleBlockBreaking(BlockEvent.BreakEvent e)
 	{
+		if (!BBConfig.moduleBlockBreaking)
+		{
+			return;
+		}
+
 		Block block = e.state.getBlock();
 		EntityPlayer player = e.getPlayer();
 		ItemStack heldItemStack = player.getHeldItem();
+
+		for (String blockID : BBConfig.alwaysBreakable)
+		{
+			if (block.getUnlocalizedName().equals(blockID))
+			{
+				return;
+			}
+		}
 
 		if (player.capabilities.isCreativeMode)
 		{
@@ -52,16 +68,14 @@ public class BlockBreakHelper
 
 		if (heldItemStack != null)
 		{
-			if (heldItemStack.getItem() instanceof ItemKnife &&
-					ItemKnife.getBreakable().contains(block))
+			if (heldItemStack.getItem() instanceof ItemKnife && ItemKnife.getBreakable().contains(block))
 			{
 				return; // allows knife to do stuff.
 			}
 		}
 
-		if (neededToolClass == null ||
-				neededToolClass.equalsIgnoreCase("shovel") ||
-				neededToolClass.equalsIgnoreCase("null"))
+		if (neededToolClass == null || neededToolClass.equalsIgnoreCase("shovel") ||
+			neededToolClass.equalsIgnoreCase("null"))
 		{
 			return;
 		}
@@ -77,7 +91,7 @@ public class BlockBreakHelper
 		{
 			if (usedToolClass == null || usedToolClass.equalsIgnoreCase("null"))
 			{
-				if (e.world.getDifficulty() != EnumDifficulty.PEACEFUL)
+				if (e.world.getDifficulty() != EnumDifficulty.PEACEFUL && !BBConfig.noDamageOnBadBreak)
 				{
 					player.attackEntityFrom(new DamageSourceFace(block), 6.0f);
 				}
@@ -85,7 +99,7 @@ public class BlockBreakHelper
 				if (!brokenOnce.containsKey(player) || brokenOnce.get(player) == null ||
 						!brokenOnce.get(player).equals(e.pos))
 				{
-					ChatUtil.sendModChatToPlayer(player, "Almost. Once more should do it.");
+					ChatUtil.sendModChatToPlayer(player, I18n.format("blockbreak.fail"));
 					brokenOnce.put(player, e.pos);
 
 					// skip other notification
@@ -94,14 +108,14 @@ public class BlockBreakHelper
 				}
 				else
 				{
-					ChatUtil.sendModChatToPlayer(player, "Ouch! But at least it worked.");
+					ChatUtil.sendModChatToPlayer(player, I18n.format("blockbreak.success"));
 					brokenOnce.put(player, null);
 				}
 
 				ModMain.Log(Level.INFO, "Block break failed for " + stackName + " on " + block.getUnlocalizedName());
 				ModMain.Log(Level.INFO, "  Required tool class: " + neededToolClass + ", supplied: " + usedToolClass);
 				ModMain.Log(Level.INFO, "  Minimum harvest level: " + neededHarvestLevel + ", supplied: " +
-						usedHarvestLevel);
+					usedHarvestLevel);
 			}
 			else
 			{
@@ -114,11 +128,11 @@ public class BlockBreakHelper
 			ModMain.Log(Level.INFO, "Block break failed for " + stackName + " on " + block.getUnlocalizedName());
 			ModMain.Log(Level.INFO, "  Required tool class: " + neededToolClass + ", supplied: " + usedToolClass);
 			ModMain.Log(Level.INFO, "  Minimum harvest level: " + neededHarvestLevel + ", supplied: " +
-					usedHarvestLevel);
+				usedHarvestLevel);
 
-			ChatUtil.sendModChatToPlayer(player, "Wrong tool!");
-			ChatUtil.sendModChatToPlayer(player,
-			                             "Requires " + getToolLevelName(neededHarvestLevel) + " " + neededToolClass);
+			ChatUtil.sendModChatToPlayer(player, I18n.format("blockbreak.wrongtool"));
+			ChatUtil.sendModChatToPlayer(player, I18n.format("blockbreak.wrongtool.message",
+				getToolLevelName(neededHarvestLevel), neededToolClass));
 
 			e.setCanceled(true);
 		}
