@@ -63,7 +63,7 @@ public class RegisterRecipes
 		KilnRecipes.addRecipe(new ItemStack(Items.fish, 1, 1), new ItemStack(RegisterItems.charredMeat), 0.1f);
 		KilnRecipes.addRecipe(Items.rabbit, new ItemStack(RegisterItems.charredMeat), 0.1f);
 		KilnRecipes.addRecipe(Items.mutton, new ItemStack(RegisterItems.charredMeat), 0.1f);
-		KilnRecipes.addRecipe(new ItemStack(Blocks.sponge, 1, 1), new ItemStack(Blocks.sponge), 0.1f);
+		KilnRecipes.addRecipe(new ItemStack(Blocks.sponge, 1, 1), new ItemStack(Blocks.sponge, 1, 0), 0.1f);
 		KilnRecipes.addRecipe(Blocks.netherrack, new ItemStack(Items.netherbrick), 0.1f);
 	}
 
@@ -145,22 +145,30 @@ public class RegisterRecipes
 
 	private static void addCampfireRecipes()
 	{
-		CampfireRecipes.addRecipe(RegisterItems.roastingStickRawMallow,
-		                          new ItemStack(RegisterItems.roastingStickCookedMallow), 0.5f);
 		CampfireRecipes.addRecipe(Blocks.log, new ItemStack(Items.coal, 1, 1), 0.15f);
 		CampfireRecipes.addRecipe(Blocks.log2, new ItemStack(Items.coal, 1, 1), 0.15f);
+		CampfireRecipes.addRecipe(new ItemStack(Blocks.sponge, 1, 1), new ItemStack(Blocks.sponge, 1, 0), 0.1f);
+
+		CampfireRecipes.addRecipe(RegisterItems.roastingStickRawMallow,
+			new ItemStack(RegisterItems.roastingStickCookedMallow), 0.5f);
 		CampfireRecipes.addRecipe(Items.beef, new ItemStack(RegisterItems.charredMeat), 0.1f);
 		CampfireRecipes.addRecipe(Items.porkchop, new ItemStack(RegisterItems.charredMeat), 0.1f);
 		CampfireRecipes.addRecipe(Items.chicken, new ItemStack(RegisterItems.charredMeat), 0.1f);
 		CampfireRecipes.addRecipe(new ItemStack(Items.fish, 1, 0), new ItemStack(RegisterItems.charredMeat), 0.1f);
 		CampfireRecipes.addRecipe(new ItemStack(Items.fish, 1, 1), new ItemStack(RegisterItems.charredMeat), 0.1f);
+		CampfireRecipes.addRecipe(Items.rabbit, new ItemStack(RegisterItems.charredMeat), 0.1f);
+		CampfireRecipes.addRecipe(Items.mutton, new ItemStack(RegisterItems.charredMeat), 0.1f);
 
 		if (BBConfig.canCampfireDoAllKilnStuff)
 		{
 			CampfireRecipes.addRecipe(Items.clay_ball, new ItemStack(Items.brick), 0.35f);
 			CampfireRecipes.addRecipe(Blocks.clay, new ItemStack(Blocks.hardened_clay), 0.1f);
 			CampfireRecipes.addRecipe(Blocks.cobblestone, new ItemStack(Blocks.stone), 0.1f);
+			CampfireRecipes.addRecipe(new ItemStack(Blocks.stonebrick, 1, 0),
+				new ItemStack(Blocks.stonebrick, 1, 2), 0.1f);
+			CampfireRecipes.addRecipe(Blocks.cactus, new ItemStack(Items.dye, 1, 2), 0.1f);
 			CampfireRecipes.addRecipe(Blocks.sand, new ItemStack(Blocks.glass), 0.1f);
+			CampfireRecipes.addRecipe(Blocks.netherrack, new ItemStack(Items.netherbrick), 0.1f);
 		}
 
 		CampfirePanRecipes.addRecipe(Items.beef, new ItemStack(Items.cooked_beef), 0.1f);
@@ -168,6 +176,8 @@ public class RegisterRecipes
 		CampfirePanRecipes.addRecipe(Items.chicken, new ItemStack(Items.cooked_chicken), 0.1f);
 		CampfirePanRecipes.addRecipe(new ItemStack(Items.fish, 1, 0), new ItemStack(Items.cooked_fish, 1, 0), 0.1f);
 		CampfirePanRecipes.addRecipe(new ItemStack(Items.fish, 1, 1), new ItemStack(Items.cooked_fish, 1, 1), 0.1f);
+		CampfirePanRecipes.addRecipe(Items.rabbit, new ItemStack(Items.cooked_rabbit), 0.1f);
+		CampfirePanRecipes.addRecipe(Items.mutton, new ItemStack(Items.cooked_mutton), 0.1f);
 	}
 
 	public static void addAdvancedRecipes()

@@ -35,7 +35,7 @@ import org.apache.logging.log4j.Level;
 public class ModMain
 {
 	public static final String MODID = "betterbeginnings";
-	public static final String VERSION = "0.9.2-pre1";
+	public static final String VERSION = "0.9.3-pre1";
 	public static final String NAME = "Better Beginnings";
 	public static final CreativeTabs tabBetterBeginnings = new CreativeTabs("tabBetterBeginnings")
 	{
