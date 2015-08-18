@@ -15,8 +15,6 @@ public class ItemRoastingStick extends Item implements IBBName
 	public ItemRoastingStick()
 	{
 		setUnlocalizedName("roastingStick");
-		//shouldRotateAroundWhenRendering();
-		//setTextureName(ModMain.MODID + ":" + getUnlocalizedName().substring(5));
 		setCreativeTab(ModMain.tabBetterBeginnings);
 		setMaxStackSize(10);
 	}
