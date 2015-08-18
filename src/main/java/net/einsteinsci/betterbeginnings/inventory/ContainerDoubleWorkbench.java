@@ -24,6 +24,8 @@ public class ContainerDoubleWorkbench extends Container
 	public Slot[] matSlots = new Slot[4];
 	public Slot resultSlot;
 
+	private EntityPlayer openingPlayer;
+
 	private BlockPos pos;
 
 	public ContainerDoubleWorkbench(InventoryPlayer invPlayer, World world, BlockPos loc)
@@ -245,13 +247,14 @@ public class ContainerDoubleWorkbench extends Container
 	@Override
 	public boolean canInteractWith(EntityPlayer player)
 	{
-		// return worldObj.getBlock(posX, posY, posZ) !=
-		// RegisterBlocks.blockDoubleWorkbench ? false : player.getDistanceSq(
-		// posX + 0.5D, posY + 0.5D, posZ + 0.5D) <= 64.0D;
-
 		return worldObj.getBlockState(pos).getBlock() == RegisterBlocks.doubleWorkbench &&
 				worldObj.getBlockState(pos).getValue(BlockDoubleWorkbench.CONNECTION) != EnumFacing.UP &&
 				player.getDistanceSq((double)pos.getX() + 0.5d, (double)pos.getY() + 0.5d,
 				                     (double)pos.getZ() + 0.5d) <= 64.0D;
+	}
+
+	public EntityPlayer getOpeningPlayer()
+	{
+		return openingPlayer;
 	}
 }

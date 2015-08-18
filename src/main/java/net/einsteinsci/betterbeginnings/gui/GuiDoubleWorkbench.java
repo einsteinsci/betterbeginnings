@@ -3,6 +3,7 @@ package net.einsteinsci.betterbeginnings.gui;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.inventory.ContainerDoubleWorkbench;
 import net.einsteinsci.betterbeginnings.register.recipe.*;
+import net.einsteinsci.betterbeginnings.util.ChatUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -13,6 +14,7 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
@@ -22,6 +24,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiDoubleWorkbench extends GuiContainer
@@ -51,10 +56,89 @@ public class GuiDoubleWorkbench extends GuiContainer
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(int par1, int par2)
+	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
 		// I'm guessing the really big number at the end is the z layer.
 		fontRendererObj.drawString(I18n.format("container.craftingdouble"), 33 + 20, 6, 4210752);
+
+		int k = (width - xSize) / 2;
+		int l = (height - ySize) / 2;
+
+		final int CATALYST_X_OFFSET = -20;
+
+		if (AdvancedCraftingHandler.crafting().hasRecipe(container.craftMatrix, container.worldObj))
+		{
+			for (AdvancedRecipe recipe : AdvancedCraftingHandler.crafting().recipes)
+			{
+				if (recipe.matchesMostly(container.craftMatrix, container.worldObj))
+				{
+					for (int i = 0; i < recipe.getNeededMaterials().length; ++i)
+					{
+						OreRecipeElement neededElement = recipe.getNeededMaterials()[i];
+						ItemStack needed = neededElement.getFirst().copy();
+
+						if (needed.getItemDamage() == OreDictionary.WILDCARD_VALUE)
+						{
+							needed.setItemDamage(0);
+						}
+
+						Slot slot = container.matSlots[i];
+
+						int _x = slot.xDisplayPosition + CATALYST_X_OFFSET;
+						int _y = slot.yDisplayPosition;
+
+						if (container.addedMats.getStackInSlot(i) == null &&
+							mouseX >= k + _x && mouseX < k + _x + 16 &&
+							mouseY >= l + _y && mouseY < l + _y + 16)
+						{
+							drawItemTooltip(mouseX - k, mouseY - l, needed, false);
+						}
+					}
+
+					ItemStack result = recipe.getRecipeOutput();
+					Slot slot = container.resultSlot;
+					if (container.craftResult.getStackInSlot(0) == null)
+					{
+						if (result != null)
+						{
+							// draw result tooltip
+
+							int _x = slot.xDisplayPosition;
+							int _y = slot.yDisplayPosition;
+
+							if (mouseX >= k + _x && mouseX < k + _x + 16 &&
+								mouseY >= l + _y && mouseY < l + _y + 16)
+							{
+								drawItemTooltip(mouseX - k, mouseY - l, result, true);
+							}
+						}
+					}
+					break;
+				}
+			}
+		}
+	}
+
+	private void drawItemTooltip(int x, int y, ItemStack stack, boolean warn)
+	{
+		if (stack == null)
+		{
+			return;
+		}
+
+		List<String> lines = new ArrayList<>();
+
+		boolean adv = Minecraft.getMinecraft().gameSettings.advancedItemTooltips;
+		int id = Item.getIdFromItem(stack.getItem());
+		lines.addAll(stack.getTooltip(container.getOpeningPlayer(), adv));
+		lines.set(0, lines.get(0) + " " + id);
+
+		if (warn)
+		{
+			lines.add(ChatUtil.RED + I18n.format("container.craftingdouble.warning"));
+		}
+
+		drawHoveringText(lines, x, y); //Draw tooltip
 	}
 
 	@Override

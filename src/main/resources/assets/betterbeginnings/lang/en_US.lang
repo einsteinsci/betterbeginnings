@@ -54,6 +54,7 @@ item.testItem.name=Test Item
 itemGroup.tabBetterBeginnings=Better Beginnings
 
 container.craftingdouble=Advanced Crafting
+container.craftingdouble.warning=Additional Materials Required!
 container.kiln=Kiln
 container.brickoven=Brick Oven
 container.smelter=Smelter
