@@ -271,16 +271,16 @@ public class TileEntityBrickOven extends TileEntity implements ISidedInventory, 
 	@Override
 	public void update()
 	{
-		boolean flag = ovenBurnTime > 0;
-		boolean flag1 = false;
-
-		if (ovenBurnTime > 0)
-		{
-			--ovenBurnTime;
-		}
-
 		if (!worldObj.isRemote)
 		{
+			boolean flag = ovenBurnTime > 0;
+			boolean flag1 = false;
+
+			if (ovenBurnTime > 0)
+			{
+				--ovenBurnTime;
+			}
+
 			if (ovenBurnTime == 0 && canSmelt())
 			{
 				currentItemBurnLength = ovenBurnTime = getItemBurnTime(ovenStacks[FUEL]);
@@ -314,17 +314,17 @@ public class TileEntityBrickOven extends TileEntity implements ISidedInventory, 
 			{
 				ovenCookTime = 0;
 			}
-		}
 
-		if (flag != ovenBurnTime > 0)
-		{
-			flag1 = true;
-			BlockBrickOven.updateBlockState(ovenBurnTime > 0, worldObj, pos);
-		}
+			if (flag != ovenBurnTime > 0)
+			{
+				flag1 = true;
+				BlockBrickOven.updateBlockState(ovenBurnTime > 0, worldObj, pos);
+			}
 
-		if (flag1)
-		{
-			markDirty();
+			if (flag1)
+			{
+				markDirty();
+			}
 		}
 	}
 
@@ -464,12 +464,7 @@ public class TileEntityBrickOven extends TileEntity implements ISidedInventory, 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side)
 	{
-		if (side == EnumFacing.DOWN)
-		{
-			return true;
-		}
-
-		return false;
+		return side == EnumFacing.DOWN;
 	}
 
 	public ItemStack getStackInRowAndColumn(int row, int column)
@@ -491,6 +486,3 @@ public class TileEntityBrickOven extends TileEntity implements ISidedInventory, 
 
 
 }
-
-
-// Buffer

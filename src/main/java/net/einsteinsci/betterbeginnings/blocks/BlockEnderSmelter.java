@@ -100,7 +100,7 @@ public class BlockEnderSmelter extends BlockContainer implements IBBName
 			float f1 = pos.getY() + random.nextFloat() * 6.0f / 16.0f;
 			float f2 = pos.getZ() + 0.5f;
 
-			float f3 = 0.5f;
+			float f3 = 0.51f;
 			float f4 = random.nextFloat() * 0.6f - 0.2f;
 
 			// Weird implementation because of particle rendering bug (#59).

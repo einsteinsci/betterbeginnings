@@ -20,6 +20,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.Random;
+
 public class TileEntitySmelter extends TileEntity implements ISidedInventory, IUpdatePlayerListBox, IInteractionObject
 {
 	public static final int smeltTime = 160;
@@ -27,9 +29,9 @@ public class TileEntitySmelter extends TileEntity implements ISidedInventory, IU
 	public static final int FUEL = 1;
 	public static final int OUTPUT = 2;
 	public static final int GRAVEL = 3;
-	private static final int[] slotsTop = new int[] {0};
-	private static final int[] slotsBottom = new int[] {2, 1};
-	private static final int[] slotsSides = new int[] {1};
+	private static final int[] slotsTop = new int[] {INPUT};
+	private static final int[] slotsBottom = new int[] {OUTPUT};
+	private static final int[] slotsSides = new int[] {FUEL, GRAVEL, INPUT};
 	public int smelterBurnTime;
 	public int currentItemBurnLength;
 	public int smelterCookTime;
@@ -263,7 +265,22 @@ public class TileEntitySmelter extends TileEntity implements ISidedInventory, IU
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack)
 	{
-		return slot == 2 ? false : slot == 1 ? isItemFuel(stack) : true;
+		if (stack == null || slot == OUTPUT)
+		{
+			return false;
+		}
+
+		if (slot == GRAVEL && stack.getItem() == Item.getItemFromBlock(Blocks.gravel))
+		{
+			return true;
+		}
+
+		if (slot == FUEL && getItemBurnTime(stack) > 0)
+		{
+			return true;
+		}
+
+		return slot == INPUT;
 	}
 
 	@Override
@@ -313,16 +330,16 @@ public class TileEntitySmelter extends TileEntity implements ISidedInventory, IU
 	@Override
 	public void update()
 	{
-		boolean flag = smelterBurnTime > 0;
-		boolean flag1 = false;
-
-		if (smelterBurnTime > 0)
-		{
-			--smelterBurnTime;
-		}
-
 		if (!worldObj.isRemote)
 		{
+			boolean flag = smelterBurnTime > 0;
+			boolean flag1 = false;
+
+			if (smelterBurnTime > 0)
+			{
+				--smelterBurnTime;
+			}
+
 			if (smelterBurnTime == 0 && canSmelt())
 			{
 				currentItemBurnLength = smelterBurnTime = getItemBurnTime(smelterStacks[FUEL]);
@@ -356,17 +373,17 @@ public class TileEntitySmelter extends TileEntity implements ISidedInventory, IU
 			{
 				smelterCookTime = 0;
 			}
-		}
 
-		if (flag != smelterBurnTime > 0)
-		{
-			flag1 = true;
-			BlockSmelter.updateBlockState(smelterBurnTime > 0, worldObj, pos);
-		}
+			if (flag != smelterBurnTime > 0)
+			{
+				flag1 = true;
+				BlockSmelter.updateBlockState(smelterBurnTime > 0, worldObj, pos);
+			}
 
-		if (flag1)
-		{
-			markDirty();
+			if (flag1)
+			{
+				markDirty();
+			}
 		}
 	}
 
@@ -476,10 +493,4 @@ public class TileEntitySmelter extends TileEntity implements ISidedInventory, IU
 	{
 		return null;
 	}
-
-
-
-
-
-
 }
