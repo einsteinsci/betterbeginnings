@@ -99,6 +99,11 @@ public class BBEventHandler
 			e.toolTip.add(ChatUtil.BLUE + "Fry stuff over a campfire!");
 		}
 
+		if (item == RegisterItems.spit)
+		{
+			e.toolTip.add(ChatUtil.BLUE + "Not for roasting people");
+		}
+
 		if (item == Items.sugar)
 		{
 			e.toolTip.add(ChatUtil.ITALIC + "Yes please!");
@@ -162,10 +167,6 @@ public class BBEventHandler
 
 						campfire.lightFuel(); // Light it.
 						e.entityPlayer.getHeldItem().damageItem(1, e.entityPlayer);
-						if (item == Items.flint_and_steel)
-						{
-							e.setCanceled(true);
-						}
 					}
 				}
 			}

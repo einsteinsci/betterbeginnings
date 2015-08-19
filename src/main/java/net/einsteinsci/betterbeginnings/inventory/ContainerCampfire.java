@@ -1,5 +1,6 @@
 package net.einsteinsci.betterbeginnings.inventory;
 
+import net.einsteinsci.betterbeginnings.items.ItemPan;
 import net.einsteinsci.betterbeginnings.register.recipe.CampfireRecipes;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityCampfire;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,8 +14,8 @@ public class ContainerCampfire extends Container
 {
 	private static final int SLOT_INPUT = TileEntityCampfire.SLOT_INPUT;
 	private static final int SLOT_OUTPUT = TileEntityCampfire.SLOT_OUTPUT;
-	private static final int SLOT_PAN = TileEntityCampfire.SLOT_PAN;
 	private static final int SLOT_FUEL = TileEntityCampfire.SLOT_FUEL;
+	private static final int SLOT_PAN = TileEntityCampfire.SLOT_PAN;
 	public int lastItemBurnTime;
 	public int lastCookTime;
 	private TileEntityCampfire tileCampfire;
@@ -26,9 +27,9 @@ public class ContainerCampfire extends Container
 
 		tileCampfire = campfire;
 		addSlotToContainer(new Slot(tileCampfire, SLOT_INPUT, 58, 12));
-		addSlotToContainer(new Slot(tileCampfire, SLOT_PAN, 32, 35));
-		addSlotToContainer(new SlotFurnaceFuel(tileCampfire, SLOT_FUEL, 58, 57));
 		addSlotToContainer(new SlotFurnaceOutput(inventory.player, campfire, SLOT_OUTPUT, 118, 34));
+		addSlotToContainer(new SlotFurnaceFuel(tileCampfire, SLOT_FUEL, 58, 57));
+		addSlotToContainer(new Slot(tileCampfire, SLOT_PAN, 32, 35));
 
 		int i;
 		for (i = 0; i < 3; ++i)
@@ -88,57 +89,66 @@ public class ContainerCampfire extends Container
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int par2)
+	public ItemStack transferStackInSlot(EntityPlayer player, int slotId)
 	{
-		ItemStack itemstack = null;
-		Slot slot = (Slot)inventorySlots.get(par2);
+		ItemStack itemstackCopy = null;
+		Slot slot = (Slot)inventorySlots.get(slotId);
 
 		if (slot != null && slot.getHasStack())
 		{
-			ItemStack itemstack1 = slot.getStack();
-			itemstack = itemstack1.copy();
+			ItemStack itemstack = slot.getStack();
+			itemstackCopy = itemstack.copy();
 
-			if (par2 == 2)
+			if (slotId == SLOT_OUTPUT)
 			{
-				if (!mergeItemStack(itemstack1, 3, 39, true))
+				if (!mergeItemStack(itemstack, SLOT_PAN + 1, 39, true))
 				{
 					return null;
 				}
-				slot.onSlotChange(itemstack1, itemstack);
+				slot.onSlotChange(itemstack, itemstackCopy);
 			}
-			else if (par2 != 1 && par2 != 0)
+			else if (slotId != SLOT_INPUT && slotId != SLOT_FUEL && slotId != SLOT_PAN)
 			{
-				if (CampfireRecipes.smelting().getSmeltingResult(itemstack1) != null)
+				if (itemstack.getItem() instanceof ItemPan)
 				{
-					if (!mergeItemStack(itemstack1, 0, 1, false))
+					if (!mergeItemStack(itemstack, SLOT_PAN, SLOT_PAN + 1, false))
 					{
 						return null;
 					}
 				}
-				else if (TileEntityCampfire.isItemFuel(itemstack1))
+				else if (TileEntityCampfire.isItemFuel(itemstack))
 				{
-					if (!mergeItemStack(itemstack1, 1, 2, false))
+					if (!mergeItemStack(itemstack, SLOT_FUEL, SLOT_FUEL + 1, false))
 					{
 						return null;
 					}
 				}
-				else if (par2 >= 3 && par2 < 30)
+				else if (CampfireRecipes.smelting().getSmeltingResult(itemstack) != null)
 				{
-					if (!mergeItemStack(itemstack1, 30, 39, false))
+					if (!mergeItemStack(itemstack, SLOT_INPUT, SLOT_INPUT + 1, false))
 					{
 						return null;
 					}
 				}
-				else if (par2 >= 30 && par2 < 39 && !mergeItemStack(itemstack1, 3, 30, false))
+				else if (slotId > SLOT_OUTPUT && slotId < 30)
+				{
+					if (!mergeItemStack(itemstack, 30, 39, false))
+					{
+						return null;
+					}
+				}
+				else if (slotId >= 30 && slotId < 39 &&
+					!mergeItemStack(itemstack, SLOT_PAN + 1, 30, false))
 				{
 					return null;
 				}
 			}
-			else if (!mergeItemStack(itemstack1, 3, 39, false))
+			else if (!mergeItemStack(itemstack, SLOT_PAN + 1, 39, false))
 			{
 				return null;
 			}
-			if (itemstack1.stackSize == 0)
+
+			if (itemstack.stackSize == 0)
 			{
 				slot.putStack(null);
 			}
@@ -146,13 +156,13 @@ public class ContainerCampfire extends Container
 			{
 				slot.onSlotChanged();
 			}
-			if (itemstack1.stackSize == itemstack.stackSize)
+			if (itemstack.stackSize == itemstackCopy.stackSize)
 			{
 				return null;
 			}
-			slot.onPickupFromSlot(player, itemstack1);
+			slot.onPickupFromSlot(player, itemstack);
 		}
-		return itemstack;
+		return itemstackCopy;
 	}
 
 	@SideOnly(Side.CLIENT)

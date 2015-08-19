@@ -4,6 +4,7 @@ import net.einsteinsci.betterbeginnings.client.InfusionRender;
 import net.einsteinsci.betterbeginnings.config.BBConfig;
 import net.einsteinsci.betterbeginnings.event.BBEventHandler;
 import net.einsteinsci.betterbeginnings.event.Worldgen;
+import net.einsteinsci.betterbeginnings.network.PacketCampfireState;
 import net.einsteinsci.betterbeginnings.network.PacketNetherBrickOvenFuelLevel;
 import net.einsteinsci.betterbeginnings.network.ServerProxy;
 import net.einsteinsci.betterbeginnings.register.*;
@@ -31,7 +32,7 @@ import org.apache.logging.log4j.Level;
 public class ModMain
 {
 	public static final String MODID = "betterbeginnings";
-	public static final String VERSION = "0.9.3-pre1";
+	public static final String VERSION = "0.9.4-pre1";
 	public static final String NAME = "Better Beginnings";
 	public static final CreativeTabs tabBetterBeginnings = new CreativeTabs("tabBetterBeginnings")
 	{
@@ -92,7 +93,9 @@ public class ModMain
 
 		network = NetworkRegistry.INSTANCE.newSimpleChannel("bbchannel");
 		network.registerMessage(PacketNetherBrickOvenFuelLevel.PacketHandler.class,
-		                        PacketNetherBrickOvenFuelLevel.class, 0, Side.CLIENT);
+			PacketNetherBrickOvenFuelLevel.class, 0, Side.CLIENT);
+		network.registerMessage(PacketCampfireState.PacketHandler.class,
+			PacketCampfireState.class, 0, Side.CLIENT);
 
 		RegisterItems.register();
 		RegisterBlocks.register();

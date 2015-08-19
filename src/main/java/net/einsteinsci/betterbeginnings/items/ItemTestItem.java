@@ -1,8 +1,11 @@
 package net.einsteinsci.betterbeginnings.items;
 
 import net.einsteinsci.betterbeginnings.ModMain;
+import net.einsteinsci.betterbeginnings.blocks.BlockCampfire;
 import net.einsteinsci.betterbeginnings.blocks.BlockInfusionRepairStation;
 import net.einsteinsci.betterbeginnings.register.IBBName;
+import net.einsteinsci.betterbeginnings.register.RegisterBlocks;
+import net.einsteinsci.betterbeginnings.tileentity.TileEntityCampfire;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityInfusionRepair;
 import net.einsteinsci.betterbeginnings.util.ChatUtil;
 import net.minecraft.block.Block;
@@ -48,6 +51,17 @@ public class ItemTestItem extends Item implements IBBName
 				TileEntityInfusionRepair.Ingredient ingredient = infusionRepair.getNextIngredient();
 				ChatUtil.sendChatToPlayer(player, "\nNext Item: " + (ingredient != null ? ingredient.toString() : "NULL"));
 			}
+		}
+
+		if (tested instanceof BlockCampfire)
+		{
+			boolean lit = tested == RegisterBlocks.campfireLit;
+
+			ChatUtil.sendChatToPlayer(player, "Lit: " + lit);
+
+			TileEntityCampfire tile = (TileEntityCampfire)world.getTileEntity(pos);
+
+			ChatUtil.sendChatToPlayer(player, "State: " + tile.campfireState);
 		}
 
 		return true;

@@ -40,23 +40,18 @@ public class GuiCampfire extends GuiContainer
 		drawTexturedModalRect(k, l, 0, 0, xSize, ySize);
 		int i;
 
-		if (tileCampfire.isBurning())
-		{
-			i = tileCampfire.getBurnTimeRemainingScaled(22);
-			drawTexturedModalRect(k + 58, l + 32 + 22 - i, 176, 22 - i, 14, i);
-		}
-		if (tileCampfire.isDecaying())
-		{
-			i = tileCampfire.getDecayTimeRemainingScaled(16);
-			// x y u v w h
-			int x = k + 77;
-			int y = l + 57 + 16 - i;
-			int u = 176;
-			int v = 55 - i;
-			int w = 3;
-			int h = i;
-			drawTexturedModalRect(x, y, u, v, w, h);
-		}
+		i = tileCampfire.getBurnTimeRemainingScaled(22);
+		drawTexturedModalRect(k + 58, l + 32 + 22 - i, 176, 22 - i, 14, i);
+
+		i = tileCampfire.getDecayTimeRemainingScaled(16);
+		// x y u v w h
+		int x = k + 77;
+		int y = l + 57 + 16 - i;
+		int u = 176;
+		int v = 55 - i;
+		int w = 3;
+		int h = i;
+		drawTexturedModalRect(x, y, u, v, w, h);
 
 		i = tileCampfire.getCookProgressScaled(23);
 		drawTexturedModalRect(k + 82, l + 34, 177, 22, i, 16);

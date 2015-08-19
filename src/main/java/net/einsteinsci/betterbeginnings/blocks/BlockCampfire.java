@@ -27,13 +27,17 @@ public class BlockCampfire extends BlockContainer implements IBBName
 
 	public BlockCampfire(boolean lit)
 	{
-		super(Material.rock);
+		super(Material.wood);
 		setResistance(3.0F);
-		setHardness(1.5F);
+		setHardness(0.5F);
 
 		if (!lit)
 		{
 			setCreativeTab(ModMain.tabBetterBeginnings);
+		}
+		else
+		{
+			setLightLevel(0.875f);
 		}
 
 		setUnlocalizedName(getName());
@@ -97,7 +101,7 @@ public class BlockCampfire extends BlockContainer implements IBBName
 	{
 		TileEntityCampfire tile = (TileEntityCampfire)world.getTileEntity(pos);
 
-		if (tile.isBurning())
+		if (tile.campfireState == TileEntityCampfire.STATE_BURNING)
 		{
 			for (int i = 0; i < 3; i++)
 			{
@@ -112,7 +116,7 @@ public class BlockCampfire extends BlockContainer implements IBBName
 				                    vx, vy, vz);
 			}
 		}
-		else if (tile.isDecaying())
+		else if (tile.campfireState == TileEntityCampfire.STATE_DECAYING)
 		{
 			for (int i = 0; i < 2; i++)
 			{
@@ -138,9 +142,8 @@ public class BlockCampfire extends BlockContainer implements IBBName
 	@Override
 	public boolean canPlaceBlockAt(World world, BlockPos pos)
 	{
-		return world.getBlockState(pos).getBlock()
-				.isReplaceable(world, pos) && World
-				.doesBlockHaveSolidTopSurface(world, pos.offset(EnumFacing.DOWN));
+		return world.getBlockState(pos).getBlock().isReplaceable(world, pos) &&
+			World.doesBlockHaveSolidTopSurface(world, pos.offset(EnumFacing.DOWN));
 	}
 
 	@Override
@@ -165,7 +168,7 @@ public class BlockCampfire extends BlockContainer implements IBBName
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
 	{
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+		this.setBlockBounds(0.15F, 0.0F, 0.15F, 0.85F, 0.5F, 0.85F);
 	}
 
 	@Override
@@ -178,7 +181,7 @@ public class BlockCampfire extends BlockContainer implements IBBName
 	@Override
 	public void breakBlock(World world, BlockPos pos, IBlockState state)
 	{
-		if (!isLit)
+		if (!isAlteringLit)
 		{
 			TileEntity tileentity = world.getTileEntity(pos);
 

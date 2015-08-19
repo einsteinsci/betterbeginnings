@@ -25,7 +25,7 @@ public class ItemRoastingStickMallow extends Item implements IBBName
 		}
 		isCooked = cooked;
 		setCreativeTab(ModMain.tabBetterBeginnings);
-		setMaxStackSize(1);
+		setMaxStackSize(10);
 	}
 
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)

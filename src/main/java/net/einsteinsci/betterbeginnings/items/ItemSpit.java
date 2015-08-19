@@ -1,16 +1,14 @@
 package net.einsteinsci.betterbeginnings.items;
 
 import net.einsteinsci.betterbeginnings.ModMain;
-import net.einsteinsci.betterbeginnings.register.IBBName;
-import net.minecraft.item.Item;
 
-public class ItemPan extends Item implements IBBName
+public class ItemSpit extends ItemPan
 {
-	public ItemPan()
+	public ItemSpit()
 	{
 		super();
 		setUnlocalizedName(getName());
-		setMaxDamage(250);
+		setMaxDamage(4);
 		setMaxStackSize(1);
 		setCreativeTab(ModMain.tabBetterBeginnings);
 	}
@@ -18,6 +16,6 @@ public class ItemPan extends Item implements IBBName
 	@Override
 	public String getName()
 	{
-		return "pan";
+		return "spit";
 	}
 }

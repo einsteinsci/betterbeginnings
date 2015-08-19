@@ -1,6 +1,5 @@
 package net.einsteinsci.betterbeginnings.register;
 
-import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.items.*;
 import net.einsteinsci.betterbeginnings.items.ItemCloth;
 import net.minecraft.init.Items;
@@ -9,9 +8,7 @@ import net.minecraft.item.Item.ToolMaterial;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
-import org.apache.logging.log4j.Level;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +46,7 @@ public class RegisterItems
 	public static final ItemTwine twine = new ItemTwine();
 	public static final ItemRockHammer rockHammer = new ItemRockHammer(ToolMaterial.IRON);
 	public static final ItemPan pan = new ItemPan();
+	public static final ItemSpit spit = new ItemSpit();
 	public static final ItemInfusionScroll infusionScroll = new ItemInfusionScroll();
 
 	public static final List<Item> allItems = new ArrayList<>();
@@ -76,6 +74,7 @@ public class RegisterItems
 		RegisterHelper.registerItem(fireBow);
 		RegisterHelper.registerItem(rockHammer);
 		RegisterHelper.registerItem(pan);
+		RegisterHelper.registerItem(spit);
 		RegisterHelper.registerItem(infusionScroll);
 
 		RegisterHelper.registerItem(marshmallow);

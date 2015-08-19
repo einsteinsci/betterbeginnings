@@ -4,6 +4,7 @@ package net.einsteinsci.betterbeginnings.items;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.register.IBBName;
 import net.einsteinsci.betterbeginnings.register.RegisterItems;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -24,7 +25,19 @@ public class ItemRoastingStick extends Item implements IBBName
 		if (player.inventory.hasItemStack(new ItemStack(RegisterItems.marshmallow)))
 		{
 			player.inventory.consumeInventoryItem(RegisterItems.marshmallow);
-			stack = new ItemStack(RegisterItems.roastingStickRawMallow);
+			ItemStack mallowStick = new ItemStack(RegisterItems.roastingStickRawMallow);
+			if (!player.inventory.addItemStackToInventory(mallowStick))
+			{
+				EntityItem drop = new EntityItem(world, player.posX, player.posY, player.posZ, mallowStick);
+
+				world.spawnEntityInWorld(drop);
+			}
+
+			stack.stackSize--;
+			if (stack.stackSize <= 0)
+			{
+				player.inventory.setItemStack(null);
+			}
 		}
 		player.inventoryContainer.detectAndSendChanges();
 		return stack;
