@@ -191,6 +191,11 @@ public class BrickOvenShapedRecipe implements IBrickOvenRecipe
 	{
 		for (ItemStack s : recipeItems)
 		{
+			if (s == null)
+			{
+				continue;
+			}
+
 			if (s.getItem() == stack.getItem())
 			{
 				return true;

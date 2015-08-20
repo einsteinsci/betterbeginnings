@@ -123,11 +123,6 @@ public class BBEventHandler
 		wip.add(new ItemStack(RegisterItems.clothPants));
 		wip.add(new ItemStack(RegisterItems.clothShirt));
 		wip.add(new ItemStack(RegisterItems.clothHat));
-		wip.add(new ItemStack(RegisterItems.roastingStick));
-		wip.add(new ItemStack(RegisterItems.roastingStickRawMallow));
-		wip.add(new ItemStack(RegisterItems.roastingStickCookedMallow));
-		wip.add(new ItemStack(RegisterItems.fireBow));
-		wip.add(new ItemStack(RegisterBlocks.campfire));
 
 		for (ItemStack test : wip)
 		{

@@ -22,6 +22,7 @@ public class ItemInfusionScroll extends Item implements IBBName
 		super();
 		setUnlocalizedName(getName());
 		setCreativeTab(ModMain.tabBetterBeginnings);
+		setMaxStackSize(1);
 	}
 
 	@Override

@@ -142,12 +142,6 @@ public class TileEntitySmelter extends TileEntity implements ISidedInventory, IU
 			if (item instanceof ItemBlock && Block.getBlockFromItem(item) != Blocks.air)
 			{
 				Block block = Block.getBlockFromItem(item);
-
-				// A VERY HIGH AMOUNT OF POWER!!!
-				if (block == Blocks.bedrock)
-				{
-					return Short.MAX_VALUE;
-				}
 			}
 
 			// Charcoal
@@ -254,13 +248,11 @@ public class TileEntitySmelter extends TileEntity implements ISidedInventory, IU
 
 	@Override
 	public void openInventory(EntityPlayer player)
-	{
-	}
+	{ }
 
 	@Override
 	public void closeInventory(EntityPlayer player)
-	{
-	}
+	{ }
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack)

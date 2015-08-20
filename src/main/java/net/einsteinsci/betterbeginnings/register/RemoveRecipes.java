@@ -152,11 +152,18 @@ public class RemoveRecipes
 
 		while (iterator.hasNext())
 		{
-			ItemStack stack = iterator.next().getRecipeOutput();
+			IRecipe recipe = iterator.next();
+			ItemStack stack = recipe.getRecipeOutput();
 
 			if (stack != null)
 			{
 				Item item = stack.getItem();
+				if (item == Item.getItemFromBlock(Blocks.crafting_table) &&
+					recipe.getRecipeSize() != 4)
+				{
+					continue;
+				}
+
 				if (item != null && removedRecipes.contains(item))
 				{
 					iterator.remove();
