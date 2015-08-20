@@ -98,4 +98,9 @@ public class CampfireRecipes
 
 		return ((Float)entry.getValue()).floatValue();
 	}
+
+	public static Map getSmeltingList()
+	{
+		return smelting().smeltingList;
+	}
 }
