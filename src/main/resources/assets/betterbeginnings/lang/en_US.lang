@@ -118,3 +118,9 @@ blockbreak.fail=Almost. Once more should do it.
 blockbreak.success=Ouch! But at least it worked.
 blockbreak.wrongtool=Wrong tool!
 blockbreak.wrongtool.message=Requires %1$s %2$s.
+
+scroll.notool=No tool on table.
+scroll.repaired=Tool is repaired.
+scroll.error=Next ingredient is NULL.
+scroll.item=Next ingredient: %1$sx %2$s
+scroll.xp=Infusion requires %1$s levels.

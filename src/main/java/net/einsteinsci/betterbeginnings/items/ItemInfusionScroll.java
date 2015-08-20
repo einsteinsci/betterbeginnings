@@ -6,6 +6,7 @@ import net.einsteinsci.betterbeginnings.register.IBBName;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityInfusionRepair;
 import net.einsteinsci.betterbeginnings.util.ChatUtil;
 import net.minecraft.block.Block;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -24,6 +25,12 @@ public class ItemInfusionScroll extends Item implements IBBName
 	}
 
 	@Override
+	public boolean hasEffect(ItemStack stack)
+	{
+		return true;
+	}
+
+	@Override
 	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side,
 		float hitX, float hitY, float hitZ)
 	{
@@ -37,29 +44,29 @@ public class ItemInfusionScroll extends Item implements IBBName
 
 				if (infusionRepair.stackTool() == null)
 				{
-					ChatUtil.sendChatToPlayer(player, "No tool on table.");
+					ChatUtil.sendChatToPlayer(player, I18n.format("scroll.notool"));
 					return true;
 				}
 				else if (infusionRepair.stackTool().getItemDamage() == 0)
 				{
-					ChatUtil.sendChatToPlayer(player, "Tool is repaired.");
+					ChatUtil.sendChatToPlayer(player, I18n.format("scroll.repaired"));
 					return true;
 				}
 
 				TileEntityInfusionRepair.Ingredient ingredient = infusionRepair.getNextIngredient();
 				if (ingredient == null)
 				{
-					ChatUtil.sendChatToPlayer(player, ChatUtil.RED + "Next ingredient is NULL.");
+					ChatUtil.sendChatToPlayer(player, ChatUtil.RED + I18n.format("scroll.error"));
 				}
 				else if (ingredient.isXP)
 				{
-					ChatUtil.sendChatToPlayer(player, "Infusion requires " + ingredient.count + " levels.");
+					ChatUtil.sendChatToPlayer(player, I18n.format("scroll.xp", ingredient.count));
 				}
 				else
 				{
 					ItemStack ingredientStack = new ItemStack(ingredient.item, ingredient.count, ingredient.damage);
-					ChatUtil.sendChatToPlayer(player, "Next ingredient: " + ingredient.count + "x " +
-						ingredientStack.getDisplayName());
+					ChatUtil.sendChatToPlayer(player, I18n.format("scroll.item", ingredient.count,
+						ingredientStack.getDisplayName()));
 				}
 			}
 		}
