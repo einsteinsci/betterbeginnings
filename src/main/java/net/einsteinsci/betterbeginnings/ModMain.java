@@ -95,7 +95,7 @@ public class ModMain
 		network.registerMessage(PacketNetherBrickOvenFuelLevel.PacketHandler.class,
 			PacketNetherBrickOvenFuelLevel.class, 0, Side.CLIENT);
 		network.registerMessage(PacketCampfireState.PacketHandler.class,
-			PacketCampfireState.class, 0, Side.CLIENT);
+			PacketCampfireState.class, 1, Side.CLIENT);
 
 		RegisterItems.register();
 		RegisterBlocks.register();

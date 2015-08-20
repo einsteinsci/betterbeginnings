@@ -1,6 +1,6 @@
 package net.einsteinsci.betterbeginnings.inventory;
 
-import net.einsteinsci.betterbeginnings.register.recipe.NetherBrickOvenRecipeHandler;
+import net.einsteinsci.betterbeginnings.register.recipe.BrickOvenRecipeHandler;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityNetherBrickOven;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -10,9 +10,6 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * Created by einsteinsci on 8/21/2014.
- */
 public class ContainerNetherBrickOven extends Container
 {
 	private TileEntityNetherBrickOven tileBrickOven;
@@ -106,7 +103,7 @@ public class ContainerNetherBrickOven extends Container
 						return null;
 					}
 				}
-				else if (NetherBrickOvenRecipeHandler.instance().isInRecipe(itemstack1))
+				else if (BrickOvenRecipeHandler.instance().isInRecipe(itemstack1))
 				{
 					if (!mergeItemStack(itemstack1, TileEntityNetherBrickOven.INPUTSTART,
 					                    TileEntityNetherBrickOven.INPUTSTART + 9,
@@ -130,7 +127,7 @@ public class ContainerNetherBrickOven extends Container
 						return null;
 					}
 				}
-				else if (NetherBrickOvenRecipeHandler.instance().isInRecipe(itemstack1))
+				else if (BrickOvenRecipeHandler.instance().isInRecipe(itemstack1))
 				{
 					if (!mergeItemStack(itemstack1, TileEntityNetherBrickOven.INPUTSTART,
 					                    TileEntityNetherBrickOven.INPUTSTART + 9,
