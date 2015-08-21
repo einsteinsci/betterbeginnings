@@ -920,6 +920,10 @@ public class RegisterRecipes
 		// Cloth
 		GameRegistry.addShapedRecipe(new ItemStack(RegisterItems.cloth, 4), "ttt", "ttt", 't', RegisterItems.thread);
 
+		// Lead (ore dictionary)
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Items.lead), "ss ", "s* ", "  s",
+			's', "itemString", '*', Items.slime_ball));
+
 		// Flint Hatchet
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(RegisterItems.flintHatchet), "FL", " /",
 			'F', Items.flint, 'L', RegisterItems.leatherStrip, '/', "stickWood"));
