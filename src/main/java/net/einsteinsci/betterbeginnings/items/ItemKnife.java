@@ -45,6 +45,12 @@ public abstract class ItemKnife extends ItemTool implements IBBName
 		return s;
 	}
 
+	@Override
+	public boolean shouldRotateAroundWhenRendering()
+	{
+		return true;
+	}
+
 	// Determines if a block broken with the tool will drop its drops.
 	//@Override
 	//public boolean func_150897_b(Block block)

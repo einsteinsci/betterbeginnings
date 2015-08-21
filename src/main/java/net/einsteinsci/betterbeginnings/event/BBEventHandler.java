@@ -109,6 +109,17 @@ public class BBEventHandler
 			e.toolTip.add(ChatUtil.ITALIC + "Yes please!");
 		}
 
+		if (item == Item.getItemFromBlock(RegisterBlocks.campfire) && !BBConfig.moduleCampfire)
+		{
+			e.toolTip.add(ChatUtil.RED + "Module disabled in config.");
+		}
+
+		if (item == Item.getItemFromBlock(RegisterBlocks.infusionRepairStation) &&
+			!BBConfig.moduleInfusionRepair)
+		{
+			e.toolTip.add(ChatUtil.RED + "Module disabled in config.");
+		}
+
 		if (isWIP(e.itemStack))
 		{
 			e.toolTip.add(ChatUtil.RED + "WIP. May not be fully functional.");
@@ -123,6 +134,7 @@ public class BBEventHandler
 		wip.add(new ItemStack(RegisterItems.clothPants));
 		wip.add(new ItemStack(RegisterItems.clothShirt));
 		wip.add(new ItemStack(RegisterItems.clothHat));
+		wip.add(new ItemStack(RegisterItems.cloth));
 
 		for (ItemStack test : wip)
 		{
