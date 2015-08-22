@@ -34,7 +34,7 @@ public class ServerProxy
 			case SERVER:
 				return ctx.getServerHandler().playerEntity;
 			default:
-				ModMain.Log(Level.ERROR, "Invalid side in RepairTableRepairPacket.Handler: " + ctx.side);
+				ModMain.Log(Level.ERROR, "Invalid side in PacketHandler: " + ctx.side);
 				return null;
 		}
 	}

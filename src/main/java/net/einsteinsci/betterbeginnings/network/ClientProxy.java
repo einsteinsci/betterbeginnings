@@ -1,8 +1,11 @@
 package net.einsteinsci.betterbeginnings.network;
 
 import net.einsteinsci.betterbeginnings.ModMain;
+import net.einsteinsci.betterbeginnings.client.InfusionRender;
+import net.einsteinsci.betterbeginnings.tileentity.TileEntityInfusionRepair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import org.apache.logging.log4j.Level;
 
@@ -11,14 +14,13 @@ public class ClientProxy extends ServerProxy
 	@Override
 	public void registerRenderThings()
 	{
-		//Campfire
-		//TileEntitySpecialRenderer renderTool = new RenderCampfire();
-		//ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCampfire.class, renderTool);
+		// nothing here
 	}
 
 	public void registerTileEntitySpecialRenderer()
 	{
-
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityInfusionRepair.class,
+			new InfusionRender(Minecraft.getMinecraft().getRenderManager()));
 	}
 
 	@Override

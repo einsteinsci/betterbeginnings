@@ -47,11 +47,12 @@ public class ModMain
 	@Instance(ModMain.MODID)
 	public static ModMain modInstance;
 	public static Configuration configFile;
-	public static SimpleNetworkWrapper network;
+	public BBEventHandler eventHandler = new BBEventHandler();
+
 	@SidedProxy(clientSide = "net.einsteinsci.betterbeginnings.network.ClientProxy",
 	            serverSide = "net.einsteinsci.betterbeginnings.network.ServerProxy")
 	public static ServerProxy proxy;
-	public BBEventHandler eventHandler = new BBEventHandler();
+	public static SimpleNetworkWrapper network;
 
 	public static void LogDebug(String text)
 	{
@@ -121,9 +122,6 @@ public class ModMain
 		if (e.getSide() == Side.CLIENT)
 		{
 			RegisterModels.register();
-
-			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityInfusionRepair.class,
-				new InfusionRender(Minecraft.getMinecraft().getRenderManager()));
 		}
 	}
 
