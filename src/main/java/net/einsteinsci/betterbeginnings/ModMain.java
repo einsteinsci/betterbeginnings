@@ -1,6 +1,5 @@
 package net.einsteinsci.betterbeginnings;
 
-import net.einsteinsci.betterbeginnings.client.InfusionRender;
 import net.einsteinsci.betterbeginnings.config.BBConfig;
 import net.einsteinsci.betterbeginnings.event.BBEventHandler;
 import net.einsteinsci.betterbeginnings.event.Worldgen;
@@ -9,14 +8,11 @@ import net.einsteinsci.betterbeginnings.network.PacketNetherBrickOvenFuelLevel;
 import net.einsteinsci.betterbeginnings.network.ServerProxy;
 import net.einsteinsci.betterbeginnings.register.*;
 import net.einsteinsci.betterbeginnings.register.achievement.RegisterAchievements;
-import net.einsteinsci.betterbeginnings.tileentity.TileEntityInfusionRepair;
-import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.*;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
