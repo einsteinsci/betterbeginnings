@@ -99,7 +99,8 @@ public class BlockBreakHelper
 				if (!brokenOnce.containsKey(player) || brokenOnce.get(player) == null ||
 						!brokenOnce.get(player).equals(e.pos))
 				{
-					ChatUtil.sendModChatToPlayer(player, I18n.format("blockbreak.fail"));
+					ChatUtil.sendModChatToPlayer(player, "Almost. Once more should do it."
+					/* I18n.format("blockbreak.fail") */);
 					brokenOnce.put(player, e.pos);
 
 					// skip other notification
@@ -108,7 +109,8 @@ public class BlockBreakHelper
 				}
 				else
 				{
-					ChatUtil.sendModChatToPlayer(player, I18n.format("blockbreak.success"));
+					ChatUtil.sendModChatToPlayer(player, "Ouch! But at least it worked."
+					/* I18n.format("blockbreak.success") */);
 					brokenOnce.put(player, null);
 				}
 
@@ -130,9 +132,11 @@ public class BlockBreakHelper
 			ModMain.Log(Level.INFO, "  Minimum harvest level: " + neededHarvestLevel + ", supplied: " +
 				usedHarvestLevel);
 
-			ChatUtil.sendModChatToPlayer(player, I18n.format("blockbreak.wrongtool"));
-			ChatUtil.sendModChatToPlayer(player, I18n.format("blockbreak.wrongtool.message",
-				getToolLevelName(neededHarvestLevel), neededToolClass));
+			ChatUtil.sendModChatToPlayer(player, "Wrong tool!" /* I18n.format("blockbreak.wrongtool") */);
+			ChatUtil.sendModChatToPlayer(player, "Requires " + getToolLevelName(neededHarvestLevel) + " " +
+					neededToolClass + "."
+			/* I18n.format("blockbreak.wrongtool.message",
+				getToolLevelName(neededHarvestLevel), neededToolClass) */);
 
 			e.setCanceled(true);
 		}
