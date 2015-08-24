@@ -50,31 +50,31 @@ public class ModMain
 	public static ServerProxy proxy;
 	public static SimpleNetworkWrapper network;
 
-	public static void LogDebug(String text)
+	public static void logDebug(String text)
 	{
 		if (BBConfig.debugLogging)
 		{
-			Log(Level.DEBUG, text);
+			log(Level.DEBUG, text);
 		}
 	}
 
-	public static void Log(Level level, String text)
+	public static void log(Level level, String text)
 	{
 		FMLLog.log(NAME, level, text);
 	}
 
-	public static void LogDebug(Level level, String text)
+	public static void logDebug(Level level, String text)
 	{
 		if (BBConfig.debugLogging)
 		{
-			Log(level, text);
+			log(level, text);
 		}
 	}
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e)
 	{
-		Log("Starting pre-initialization...");
+		log("Starting pre-initialization...");
 
 		configFile = new Configuration(e.getSuggestedConfigurationFile());
 		configFile.load();
@@ -83,7 +83,6 @@ public class ModMain
 
 		proxy.registerNetworkStuff();
 		proxy.registerRenderThings();
-
 
 		FMLCommonHandler.instance().bus().register(eventHandler);
 		MinecraftForge.EVENT_BUS.register(eventHandler);
@@ -99,9 +98,9 @@ public class ModMain
 		RegisterTileEntities.register();
 	}
 
-	public static void Log(String text)
+	public static void log(String text)
 	{
-		Log(Level.INFO, text);
+		log(Level.INFO, text);
 	}
 
 	@EventHandler
@@ -128,6 +127,6 @@ public class ModMain
 		RegisterItems.tweakVanilla();
 		Worldgen.addWorldgen();
 		AchievementPage.registerAchievementPage(new AchievementPage(NAME, RegisterAchievements.getAchievements()));
-		Log("Finished post-initialization.");
+		log("Finished post-initialization.");
 	}
 }

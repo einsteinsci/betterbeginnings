@@ -15,8 +15,10 @@ public class ClientProxy extends ServerProxy
 	public void registerRenderThings()
 	{
 		// nothing here
+		registerTileEntitySpecialRenderer();
 	}
 
+	@Override
 	public void registerTileEntitySpecialRenderer()
 	{
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityInfusionRepair.class,
@@ -37,7 +39,7 @@ public class ClientProxy extends ServerProxy
 				return ctx.getServerHandler().playerEntity;
 			}
 			default:
-				ModMain.Log(Level.ERROR, "Invalid side in TestMsgHandler: " + ctx.side);
+				ModMain.log(Level.ERROR, "Invalid side in TestMsgHandler: " + ctx.side);
 		}
 		return null;
 	}

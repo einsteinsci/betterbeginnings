@@ -5,7 +5,6 @@ import net.einsteinsci.betterbeginnings.config.BBConfig;
 import net.einsteinsci.betterbeginnings.items.ItemKnife;
 import net.einsteinsci.betterbeginnings.util.ChatUtil;
 import net.minecraft.block.Block;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
@@ -114,9 +113,9 @@ public class BlockBreakHelper
 					brokenOnce.put(player, null);
 				}
 
-				ModMain.Log(Level.INFO, "Block break failed for " + stackName + " on " + block.getUnlocalizedName());
-				ModMain.Log(Level.INFO, "  Required tool class: " + neededToolClass + ", supplied: " + usedToolClass);
-				ModMain.Log(Level.INFO, "  Minimum harvest level: " + neededHarvestLevel + ", supplied: " +
+				ModMain.log(Level.INFO, "Block break failed for " + stackName + " on " + block.getUnlocalizedName());
+				ModMain.log(Level.INFO, "  Required tool class: " + neededToolClass + ", supplied: " + usedToolClass);
+				ModMain.log(Level.INFO, "  Minimum harvest level: " + neededHarvestLevel + ", supplied: " +
 					usedHarvestLevel);
 			}
 			else
@@ -127,9 +126,9 @@ public class BlockBreakHelper
 
 		if (cancel)
 		{
-			ModMain.Log(Level.INFO, "Block break failed for " + stackName + " on " + block.getUnlocalizedName());
-			ModMain.Log(Level.INFO, "  Required tool class: " + neededToolClass + ", supplied: " + usedToolClass);
-			ModMain.Log(Level.INFO, "  Minimum harvest level: " + neededHarvestLevel + ", supplied: " +
+			ModMain.log(Level.INFO, "Block break failed for " + stackName + " on " + block.getUnlocalizedName());
+			ModMain.log(Level.INFO, "  Required tool class: " + neededToolClass + ", supplied: " + usedToolClass);
+			ModMain.log(Level.INFO, "  Minimum harvest level: " + neededHarvestLevel + ", supplied: " +
 				usedHarvestLevel);
 
 			ChatUtil.sendModChatToPlayer(player, "Wrong tool!" /* I18n.format("blockbreak.wrongtool") */);

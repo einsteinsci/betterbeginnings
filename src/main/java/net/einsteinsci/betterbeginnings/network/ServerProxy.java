@@ -29,12 +29,12 @@ public class ServerProxy
 		switch (ctx.side)
 		{
 			case CLIENT:
-				ModMain.Log(Level.ERROR, "Message for CLIENT received for dedicated server");
+				ModMain.log(Level.ERROR, "Message for CLIENT received for dedicated server");
 				return null;
 			case SERVER:
 				return ctx.getServerHandler().playerEntity;
 			default:
-				ModMain.Log(Level.ERROR, "Invalid side in PacketHandler: " + ctx.side);
+				ModMain.log(Level.ERROR, "Invalid side in PacketHandler: " + ctx.side);
 				return null;
 		}
 	}
