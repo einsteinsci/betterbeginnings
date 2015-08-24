@@ -21,8 +21,7 @@ public class ClientProxy extends ServerProxy
 	@Override
 	public void registerTileEntitySpecialRenderer()
 	{
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityInfusionRepair.class,
-			new InfusionRender());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityInfusionRepair.class, new InfusionRender());
 	}
 
 	@Override
