@@ -24,6 +24,7 @@ public class BBConfig
 	public static boolean removeCraftedFoodRecipes;
 	public static boolean canMakeChainArmor;
 	public static boolean removeWoodToolRecipes;
+	public static boolean anyStringForTraps;
 
 	public static boolean flamingAnimalsDropCharredMeat;
 	public static boolean spidersDropString;
@@ -58,6 +59,7 @@ public class BBConfig
 		removeCraftedFoodRecipes = true;
 		canMakeChainArmor = true;
 		removeWoodToolRecipes = true;
+		anyStringForTraps = false;
 
 		flamingAnimalsDropCharredMeat = true;
 		spidersDropString = false;
@@ -127,6 +129,8 @@ public class BBConfig
 			"Allow vanilla chain armor to be craftable from iron nuggets");
 		removeWoodToolRecipes = config.getBoolean("Remove wooden tool recipes", CRAFTING, true,
 			"Remove recipes for wooden pickaxe, axe, shovel, and hoe.");
+		anyStringForTraps = config.getBoolean("Any string for traps", CRAFTING, false,
+			"Allow any string to be used for tripwire hooks, trapped chests, etc.");
 
 		// Smelting
 		canSmelterDoKilnStuff = config.getBoolean("Smelter can make kiln products", SMELTING, false,

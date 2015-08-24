@@ -282,19 +282,39 @@ public class RegisterRecipes
 													  "# #",
 													  "###",
 													  '#', "plankWood");
-			// Trapped Chest
-			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.trapped_chest),
-				new Object[] {new ItemStack(RegisterItems.thread, 2), "dustRedstone", 2},
-			                                          "C", "H",
-			                                          'C', Blocks.chest,
-			                                          'H', Blocks.tripwire_hook);
-			// Tripwire Hook
-			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.tripwire_hook),
-				new Object[] {new ItemStack(RegisterItems.thread, 1), "dustRedstone", 1},
-			                                          "I", "/", "#",
-			                                          'I', "ingotIron",
-			                                          '/', "stickWood",
-			                                          '#', "plankWood");
+
+			if (BBConfig.anyStringForTraps)
+			{
+				// Trapped Chest
+				AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.trapped_chest),
+					new Object[]{"itemString", 2, "dustRedstone", 2},
+					"C", "H",
+					'C', Blocks.chest,
+					'H', Blocks.tripwire_hook);
+				// Tripwire Hook
+				AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.tripwire_hook),
+					new Object[]{"itemString", 1, "dustRedstone", 1},
+					"I", "/", "#",
+					'I', "ingotIron",
+					'/', "stickWood",
+					'#', "plankWood");
+			}
+			else
+			{
+				// Trapped Chest
+				AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.trapped_chest),
+					new Object[]{new ItemStack(RegisterItems.thread, 2), "dustRedstone", 2},
+					"C", "H",
+					'C', Blocks.chest,
+					'H', Blocks.tripwire_hook);
+				// Tripwire Hook
+				AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.tripwire_hook),
+					new Object[]{new ItemStack(RegisterItems.thread, 1), "dustRedstone", 1},
+					"I", "/", "#",
+					'I', "ingotIron",
+					'/', "stickWood",
+					'#', "plankWood");
+			}
 			// Piston
 			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Blocks.piston),
 			                                          new Object[] {"nuggetIron", 2},
