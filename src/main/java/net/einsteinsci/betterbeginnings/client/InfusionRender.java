@@ -2,6 +2,7 @@ package net.einsteinsci.betterbeginnings.client;
 
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityInfusionRepair;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -17,13 +18,6 @@ public class InfusionRender extends TileEntitySpecialRenderer
 {
 	public static final float HOVER_OPACITY = 0.8f;
 
-	private RenderManager renderManager;
-
-	public InfusionRender(RenderManager rm)
-	{
-		renderManager = rm;
-	}
-
 	public void renderTool(TileEntityInfusionRepair te, double x, double y, double z)
 	{
 		ItemStack stack = te.stackTool();
@@ -32,6 +26,8 @@ public class InfusionRender extends TileEntitySpecialRenderer
 		{
 			return;
 		}
+
+		RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
 
 		if (renderManager == null)
 		{
@@ -87,6 +83,8 @@ public class InfusionRender extends TileEntitySpecialRenderer
 			{
 				continue;
 			}
+
+			RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
 
 			if (renderManager == null)
 			{
@@ -177,6 +175,8 @@ public class InfusionRender extends TileEntitySpecialRenderer
 		{
 			return;
 		}
+
+		RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
 
 		if (renderManager == null)
 		{

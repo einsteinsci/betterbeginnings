@@ -22,7 +22,7 @@ public class ClientProxy extends ServerProxy
 	public void registerTileEntitySpecialRenderer()
 	{
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityInfusionRepair.class,
-			new InfusionRender(Minecraft.getMinecraft().getRenderManager()));
+			new InfusionRender());
 	}
 
 	@Override
