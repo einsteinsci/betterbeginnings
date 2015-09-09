@@ -323,7 +323,7 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 	}
 
 	@Override
-	public String getName()
+	public String getCommandSenderName()
 	{
 		return hasCustomName() ? campfireName : "container.campfire";
 	}
@@ -489,7 +489,7 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return new ChatComponentText(getName());
+		return new ChatComponentText(getCommandSenderName());
 	}
 
 	public boolean isDecaying()

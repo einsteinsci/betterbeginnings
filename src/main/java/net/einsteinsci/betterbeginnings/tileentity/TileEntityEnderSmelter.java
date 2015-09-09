@@ -297,7 +297,7 @@ public class TileEntityEnderSmelter extends TileEntity implements IUpdatePlayerL
 	}
 
 	@Override
-	public String getName()
+	public String getCommandSenderName()
 	{
 		return hasCustomName() ? smelterName : "container.enderSmelter";
 	}
@@ -321,7 +321,7 @@ public class TileEntityEnderSmelter extends TileEntity implements IUpdatePlayerL
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return new ChatComponentText(getName());
+		return new ChatComponentText(getCommandSenderName());
 	}
 
 	@Override

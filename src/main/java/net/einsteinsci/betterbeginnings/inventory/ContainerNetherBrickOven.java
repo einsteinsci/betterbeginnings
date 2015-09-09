@@ -48,9 +48,9 @@ public class ContainerNetherBrickOven extends Container
 	}
 
 	@Override
-	public void addCraftingToCrafters(ICrafting craft)
+	public void onCraftGuiOpened(ICrafting craft)
 	{
-		super.addCraftingToCrafters(craft);
+		super.onCraftGuiOpened(craft);
 
 		craft.sendProgressBarUpdate(this, 0, tileBrickOven.ovenCookTime);
 	}
