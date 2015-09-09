@@ -4,7 +4,11 @@ import net.einsteinsci.betterbeginnings.register.recipe.BrickOvenRecipeHandler;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityBrickOven;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.*;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
+import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.SlotFurnaceFuel;
+import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -49,9 +53,9 @@ public class ContainerBrickOven extends Container
 	}
 
 	@Override
-	public void addCraftingToCrafters(ICrafting craft)
+	public void onCraftGuiOpened(ICrafting craft)
 	{
-		super.addCraftingToCrafters(craft);
+		super.onCraftGuiOpened(craft);
 
 		craft.sendProgressBarUpdate(this, 0, tileBrickOven.ovenCookTime);
 		craft.sendProgressBarUpdate(this, 1, tileBrickOven.ovenBurnTime);

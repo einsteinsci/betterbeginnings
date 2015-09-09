@@ -245,7 +245,7 @@ public class TileEntityObsidianKiln extends TileEntity implements IUpdatePlayerL
 	}
 
 	@Override
-	public String getName()
+	public String getCommandSenderName()
 	{
 		return hasCustomName() ? kilnName : "container.obsidianKiln";
 	}
@@ -270,7 +270,7 @@ public class TileEntityObsidianKiln extends TileEntity implements IUpdatePlayerL
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return new ChatComponentText(getName());
+		return new ChatComponentText(getCommandSenderName());
 	}
 
 	@Override

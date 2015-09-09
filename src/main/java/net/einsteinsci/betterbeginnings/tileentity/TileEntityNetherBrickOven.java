@@ -445,7 +445,7 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 	}
 
 	@Override
-	public String getName()
+	public String getCommandSenderName()
 	{
 		return hasCustomName() ? ovenName : "container.netherbrickoven";
 	}

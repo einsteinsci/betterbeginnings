@@ -305,7 +305,7 @@ public class TileEntityKiln extends TileEntity implements IUpdatePlayerListBox, 
 	}
 
 	@Override
-	public String getName()
+	public String getCommandSenderName()
 	{
 		return hasCustomName() ? kilnName : "container.kiln";
 	}
@@ -329,7 +329,7 @@ public class TileEntityKiln extends TileEntity implements IUpdatePlayerListBox, 
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return new ChatComponentText(getName());
+		return new ChatComponentText(getCommandSenderName());
 	}
 
 	@Override

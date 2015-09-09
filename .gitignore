@@ -4,6 +4,8 @@
 /out/*
 /asm/*
 /bin/*
+/libs/*
+/.settings/*
 *.psd
 *.iml
 *.ipr
