@@ -1,5 +1,3 @@
-
-This is a fork of the better beginnings mod by einsteinsci for the purpose of submitting pull requests. Please fork his repo rather than this one.
 Better Beginnings Mod
 =====================
 
