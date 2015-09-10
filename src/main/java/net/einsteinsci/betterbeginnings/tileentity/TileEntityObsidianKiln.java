@@ -4,27 +4,20 @@ import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.blocks.BlockObsidianKiln;
 import net.einsteinsci.betterbeginnings.inventory.ContainerObsidianKiln;
 import net.einsteinsci.betterbeginnings.register.recipe.KilnRecipes;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IInteractionObject;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TileEntityObsidianKiln extends TileEntity implements IUpdatePlayerListBox, ISidedInventory,
-		IInteractionObject
+public class TileEntityObsidianKiln extends TileSpecializedFurnace implements IInteractionObject
 {
 	public static final int SLOT_INPUT = 0;
 	public static final int SLOT_FUEL = 1;
@@ -46,7 +39,7 @@ public class TileEntityObsidianKiln extends TileEntity implements IUpdatePlayerL
 
 	public TileEntityObsidianKiln()
 	{
-		super();
+		super(3);
 	}
 
 	public void setBlockName(String string)
@@ -58,21 +51,6 @@ public class TileEntityObsidianKiln extends TileEntity implements IUpdatePlayerL
 	public void readFromNBT(NBTTagCompound tagCompound)
 	{
 		super.readFromNBT(tagCompound);
-
-		// ItemStacks
-		NBTTagList tagList = tagCompound.getTagList("Items", 10);
-		kilnStacks = new ItemStack[getSizeInventory()];
-
-		for (int i = 0; i < tagList.tagCount(); ++i)
-		{
-			NBTTagCompound itemTag = tagList.getCompoundTagAt(i);
-			byte slot = itemTag.getByte("Slot");
-
-			if (slot >= 0 && slot < kilnStacks.length)
-			{
-				kilnStacks[slot] = ItemStack.loadItemStackFromNBT(itemTag);
-			}
-		}
 
 		// Burn Time & Cook Time
 		kilnBurnTime = tagCompound.getShort("BurnTime");
@@ -95,20 +73,6 @@ public class TileEntityObsidianKiln extends TileEntity implements IUpdatePlayerL
 		tagCompound.setShort("BurnTime", (short)kilnBurnTime);
 		tagCompound.setShort("CookTime", (short)kilnCookTime);
 		// tagCompound.setInteger("Stacked", stacked);
-		NBTTagList tagList = new NBTTagList();
-
-		for (int i = 0; i < kilnStacks.length; ++i)
-		{
-			if (kilnStacks[i] != null)
-			{
-				NBTTagCompound itemTag = new NBTTagCompound();
-				kilnStacks[i].writeToNBT(itemTag);
-				itemTag.setByte("Slot", (byte)i);
-				tagList.appendTag(itemTag);
-			}
-		}
-
-		tagCompound.setTag("Items", tagList);
 		if (hasCustomName())
 		{
 			tagCompound.setString("CustomName", kilnName);
@@ -251,32 +215,9 @@ public class TileEntityObsidianKiln extends TileEntity implements IUpdatePlayerL
 	}
 
 	@Override
-	public int getField(int id)
-	{
-		return 0;
-	}
-
-	@Override
 	public boolean hasCustomName()
 	{
 		return kilnName != null && kilnName.length() > 0;
-	}
-
-	@Override
-	public void setField(int id, int value)
-	{
-	}
-
-	@Override
-	public IChatComponent getDisplayName()
-	{
-		return new ChatComponentText(getCommandSenderName());
-	}
-
-	@Override
-	public int getFieldCount()
-	{
-		return 0;
 	}
 
 	@Override

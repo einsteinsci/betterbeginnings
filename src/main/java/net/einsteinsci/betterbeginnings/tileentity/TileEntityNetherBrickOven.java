@@ -9,19 +9,20 @@ import net.einsteinsci.betterbeginnings.register.recipe.NetherBrickOvenRecipeHan
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IChatComponent;
 import net.minecraft.world.IInteractionObject;
-import net.minecraftforge.fluids.*;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraftforge.fluids.IFluidHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -29,8 +30,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /**
  * Created by einsteinsci on 8/21/2014.
  */
-public class TileEntityNetherBrickOven extends TileEntity implements ISidedInventory, IFluidHandler,
-		IUpdatePlayerListBox, IInteractionObject
+public class TileEntityNetherBrickOven extends TileSpecializedFurnace implements IFluidHandler, IInteractionObject
 {
 	public static final int FUELINPUT = 0;
 	public static final int OUTPUT = 1;
@@ -50,7 +50,7 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 
 	public TileEntityNetherBrickOven()
 	{
-		super();
+		super(11);
 		fuelTank = new TankNetherBrickOvenFuel(this, 8000);
 	}
 
@@ -89,21 +89,6 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 	public void readFromNBT(NBTTagCompound tagCompound)
 	{
 		super.readFromNBT(tagCompound);
-
-		// ItemStacks
-		NBTTagList tagList = tagCompound.getTagList("Items", 10);
-		ovenStacks = new ItemStack[getSizeInventory()];
-
-		for (int i = 0; i < tagList.tagCount(); ++i)
-		{
-			NBTTagCompound itemTag = tagList.getCompoundTagAt(i);
-			byte slot = itemTag.getByte("Slot");
-
-			if (slot >= 0 && slot < ovenStacks.length)
-			{
-				ovenStacks[slot] = ItemStack.loadItemStackFromNBT(itemTag);
-			}
-		}
 
 		// Cook Time
 		ovenCookTime = tagCompound.getShort("CookTime");
@@ -158,23 +143,7 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 		super.writeToNBT(tagCompound);
 
 		tagCompound.setShort("CookTime", (short)ovenCookTime);
-		NBTTagList tagList = new NBTTagList();
-
-		for (int i = 0; i < ovenStacks.length; ++i)
-		{
-			if (ovenStacks[i] != null)
-			{
-				NBTTagCompound itemTag = new NBTTagCompound();
-				ovenStacks[i].writeToNBT(itemTag);
-				itemTag.setByte("Slot", (byte)i);
-				tagList.appendTag(itemTag);
-			}
-		}
-
-		tagCompound.setTag("Items", tagList);
-
 		fuelTank.writeToNBT(tagCompound);
-
 		if (hasCustomName())
 		{
 			tagCompound.setString("CustomName", ovenName);
@@ -457,12 +426,6 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 	}
 
 	@Override
-	public IChatComponent getDisplayName()
-	{
-		return null;
-	}
-
-	@Override
 	public int getSizeInventory()
 	{
 		return ovenStacks.length;
@@ -585,23 +548,6 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 	public boolean isItemValidForSlot(int slot, ItemStack stack)
 	{
 		return slot == OUTPUT ? false : slot == FUELINPUT ? isItemFuelContainer(stack) : true;
-	}
-
-	@Override
-	public int getField(int id)
-	{
-		return 0;
-	}
-
-	@Override
-	public void setField(int id, int value)
-	{
-	}
-
-	@Override
-	public int getFieldCount()
-	{
-		return 0;
 	}
 
 	@Override

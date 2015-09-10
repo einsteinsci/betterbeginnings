@@ -14,17 +14,20 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemHoe;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
+import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IInteractionObject;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class TileEntityKiln extends TileEntity implements IUpdatePlayerListBox, ISidedInventory, IInteractionObject
+public class TileEntityKiln extends TileSpecializedFurnace implements IInteractionObject
 {
 	public static final int SLOT_INPUT = 0;
 	public static final int SLOT_FUEL = 1;
@@ -34,7 +37,6 @@ public class TileEntityKiln extends TileEntity implements IUpdatePlayerListBox, 
 	private static final int[] slotsTop = new int[] {SLOT_INPUT};
 	private static final int[] slotsBottom = new int[] {SLOT_OUTPUT};
 	private static final int[] slotsSides = new int[] {SLOT_FUEL, SLOT_INPUT};
-	public ItemStack[] kilnStacks = new ItemStack[3];
 
 	public int kilnBurnTime;
 	public int currentBurnTime;
@@ -45,7 +47,7 @@ public class TileEntityKiln extends TileEntity implements IUpdatePlayerListBox, 
 
 	public TileEntityKiln()
 	{
-		super();
+		super(3);
 	}
 
 	public void setBlockName(String string)
@@ -58,25 +60,10 @@ public class TileEntityKiln extends TileEntity implements IUpdatePlayerListBox, 
 	{
 		super.readFromNBT(tagCompound);
 
-		// ItemStacks
-		NBTTagList tagList = tagCompound.getTagList("Items", 10);
-		kilnStacks = new ItemStack[getSizeInventory()];
-
-		for (int i = 0; i < tagList.tagCount(); ++i)
-		{
-			NBTTagCompound itemTag = tagList.getCompoundTagAt(i);
-			byte slot = itemTag.getByte("Slot");
-
-			if (slot >= 0 && slot < kilnStacks.length)
-			{
-				kilnStacks[slot] = ItemStack.loadItemStackFromNBT(itemTag);
-			}
-		}
-
 		// Burn Time & Cook Time
 		kilnBurnTime = tagCompound.getShort("BurnTime");
 		kilnCookTime = tagCompound.getShort("CookTime");
-		currentBurnTime = getItemBurnTime(kilnStacks[1]);
+		currentBurnTime = getItemBurnTime(specialFurnaceStacks[1]);
 
 		if (tagCompound.hasKey("CustomName", 8))
 		{
@@ -91,20 +78,6 @@ public class TileEntityKiln extends TileEntity implements IUpdatePlayerListBox, 
 
 		tagCompound.setShort("BurnTime", (short)kilnBurnTime);
 		tagCompound.setShort("CookTime", (short)kilnCookTime);
-		NBTTagList tagList = new NBTTagList();
-
-		for (int i = 0; i < kilnStacks.length; ++i)
-		{
-			if (kilnStacks[i] != null)
-			{
-				NBTTagCompound itemTag = new NBTTagCompound();
-				kilnStacks[i].writeToNBT(itemTag);
-				itemTag.setByte("Slot", (byte)i);
-				tagList.appendTag(itemTag);
-			}
-		}
-
-		tagCompound.setTag("Items", tagList);
 		if (hasCustomName())
 		{
 			tagCompound.setString("CustomName", kilnName);
@@ -114,7 +87,7 @@ public class TileEntityKiln extends TileEntity implements IUpdatePlayerListBox, 
 	@Override
 	public int getSizeInventory()
 	{
-		return kilnStacks.length;
+		return specialFurnaceStacks.length;
 	}
 
 	public static int getItemBurnTime(ItemStack itemStack)
@@ -209,28 +182,28 @@ public class TileEntityKiln extends TileEntity implements IUpdatePlayerListBox, 
 	@Override
 	public ItemStack getStackInSlot(int i)
 	{
-		return kilnStacks[i];
+		return specialFurnaceStacks[i];
 	}
 
 	@Override
 	public ItemStack decrStackSize(int slot, int amount)
 	{
-		if (kilnStacks[slot] != null)
+		if (specialFurnaceStacks[slot] != null)
 		{
 			ItemStack stack;
-			if (kilnStacks[slot].stackSize <= amount)
+			if (specialFurnaceStacks[slot].stackSize <= amount)
 			{
-				stack = kilnStacks[slot];
-				kilnStacks[slot] = null;
+				stack = specialFurnaceStacks[slot];
+				specialFurnaceStacks[slot] = null;
 				return stack;
 			}
 			else
 			{
-				stack = kilnStacks[slot].splitStack(amount);
+				stack = specialFurnaceStacks[slot].splitStack(amount);
 
-				if (kilnStacks[slot].stackSize == 0)
+				if (specialFurnaceStacks[slot].stackSize == 0)
 				{
-					kilnStacks[slot] = null;
+					specialFurnaceStacks[slot] = null;
 				}
 
 				return stack;
@@ -245,10 +218,10 @@ public class TileEntityKiln extends TileEntity implements IUpdatePlayerListBox, 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int slot)
 	{
-		if (kilnStacks[slot] != null)
+		if (specialFurnaceStacks[slot] != null)
 		{
-			ItemStack stack = kilnStacks[slot];
-			kilnStacks[slot] = null;
+			ItemStack stack = specialFurnaceStacks[slot];
+			specialFurnaceStacks[slot] = null;
 			return stack;
 		}
 		else
@@ -260,7 +233,7 @@ public class TileEntityKiln extends TileEntity implements IUpdatePlayerListBox, 
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack stack)
 	{
-		kilnStacks[slot] = stack;
+		specialFurnaceStacks[slot] = stack;
 
 		if (stack != null && stack.stackSize > getInventoryStackLimit())
 		{
@@ -311,39 +284,17 @@ public class TileEntityKiln extends TileEntity implements IUpdatePlayerListBox, 
 	}
 
 	@Override
-	public int getField(int id)
-	{
-		return 0;
-	}
-
-	@Override
 	public boolean hasCustomName()
 	{
 		return kilnName != null && kilnName.length() > 0;
 	}
 
 	@Override
-	public void setField(int id, int value)
-	{ }
-
-	@Override
-	public IChatComponent getDisplayName()
-	{
-		return new ChatComponentText(getCommandSenderName());
-	}
-
-	@Override
-	public int getFieldCount()
-	{
-		return 0;
-	}
-
-	@Override
 	public void clear()
 	{
-		for (int i = 0; i < kilnStacks.length; i++)
+		for (int i = 0; i < specialFurnaceStacks.length; i++)
 		{
-			kilnStacks[i] = null;
+			specialFurnaceStacks[i] = null;
 		}
 	}
 
@@ -362,19 +313,19 @@ public class TileEntityKiln extends TileEntity implements IUpdatePlayerListBox, 
 
 			if (kilnBurnTime == 0 && canSmelt())
 			{
-				currentBurnTime = kilnBurnTime = getItemBurnTime(kilnStacks[1]);
+				currentBurnTime = kilnBurnTime = getItemBurnTime(specialFurnaceStacks[1]);
 
 				if (kilnBurnTime > 0)
 				{
 					flag1 = true;
-					if (kilnStacks[SLOT_FUEL] != null)
+					if (specialFurnaceStacks[SLOT_FUEL] != null)
 					{
-						--kilnStacks[SLOT_FUEL].stackSize;
+						--specialFurnaceStacks[SLOT_FUEL].stackSize;
 
-						if (kilnStacks[SLOT_FUEL].stackSize == 0)
+						if (specialFurnaceStacks[SLOT_FUEL].stackSize == 0)
 						{
-							kilnStacks[SLOT_FUEL] = kilnStacks[SLOT_FUEL].getItem()
-								.getContainerItem(kilnStacks[SLOT_FUEL]);
+							specialFurnaceStacks[SLOT_FUEL] = specialFurnaceStacks[SLOT_FUEL].getItem()
+								.getContainerItem(specialFurnaceStacks[SLOT_FUEL]);
 						}
 					}
 				}
@@ -410,29 +361,29 @@ public class TileEntityKiln extends TileEntity implements IUpdatePlayerListBox, 
 
 	private boolean canSmelt()
 	{
-		if (kilnStacks[SLOT_INPUT] == null)
+		if (specialFurnaceStacks[SLOT_INPUT] == null)
 		{
 			return false;
 		}
 		else
 		{
-			ItemStack stack = KilnRecipes.smelting().getSmeltingResult(kilnStacks[SLOT_INPUT]);
+			ItemStack stack = KilnRecipes.smelting().getSmeltingResult(specialFurnaceStacks[SLOT_INPUT]);
 			if (stack == null)
 			{
 				return false;
 			}
 
-			if (kilnStacks[SLOT_OUTPUT] == null)
+			if (specialFurnaceStacks[SLOT_OUTPUT] == null)
 			{
 				return true;
 			}
-			if (!kilnStacks[SLOT_OUTPUT].isItemEqual(stack))
+			if (!specialFurnaceStacks[SLOT_OUTPUT].isItemEqual(stack))
 			{
 				return false;
 			}
 
-			int result = kilnStacks[SLOT_OUTPUT].stackSize + stack.stackSize;
-			return result <= getInventoryStackLimit() && result <= kilnStacks[SLOT_OUTPUT].getMaxStackSize();
+			int result = specialFurnaceStacks[SLOT_OUTPUT].stackSize + stack.stackSize;
+			return result <= getInventoryStackLimit() && result <= specialFurnaceStacks[SLOT_OUTPUT].getMaxStackSize();
 		}
 	}
 
@@ -445,22 +396,22 @@ public class TileEntityKiln extends TileEntity implements IUpdatePlayerListBox, 
 	{
 		if (canSmelt())
 		{
-			ItemStack itemStack = KilnRecipes.smelting().getSmeltingResult(kilnStacks[SLOT_INPUT]);
+			ItemStack itemStack = KilnRecipes.smelting().getSmeltingResult(specialFurnaceStacks[SLOT_INPUT]);
 
-			if (kilnStacks[SLOT_OUTPUT] == null)
+			if (specialFurnaceStacks[SLOT_OUTPUT] == null)
 			{
-				kilnStacks[SLOT_OUTPUT] = itemStack.copy();
+				specialFurnaceStacks[SLOT_OUTPUT] = itemStack.copy();
 			}
-			else if (kilnStacks[SLOT_OUTPUT].getItem() == itemStack.getItem())
+			else if (specialFurnaceStacks[SLOT_OUTPUT].getItem() == itemStack.getItem())
 			{
-				kilnStacks[SLOT_OUTPUT].stackSize += itemStack.stackSize;
+				specialFurnaceStacks[SLOT_OUTPUT].stackSize += itemStack.stackSize;
 			}
 
-			--kilnStacks[SLOT_INPUT].stackSize;
+			--specialFurnaceStacks[SLOT_INPUT].stackSize;
 
-			if (kilnStacks[SLOT_INPUT].stackSize <= 0)
+			if (specialFurnaceStacks[SLOT_INPUT].stackSize <= 0)
 			{
-				kilnStacks[SLOT_INPUT] = null;
+				specialFurnaceStacks[SLOT_INPUT] = null;
 			}
 		}
 	}
