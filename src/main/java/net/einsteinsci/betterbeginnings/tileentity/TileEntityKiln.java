@@ -12,20 +12,17 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemHoe;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
-import net.minecraft.item.ItemTool;
+import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.*;
 import net.minecraft.world.IInteractionObject;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class TileEntityKiln extends TileSpecializedFurnace implements IInteractionObject
+public class TileEntityKiln extends TileEntity implements IUpdatePlayerListBox, ISidedInventory, IInteractionObject
 {
 	public static final int SLOT_INPUT = 0;
 	public static final int SLOT_FUEL = 1;
@@ -35,6 +32,7 @@ public class TileEntityKiln extends TileSpecializedFurnace implements IInteracti
 	private static final int[] slotsTop = new int[] {SLOT_INPUT};
 	private static final int[] slotsBottom = new int[] {SLOT_OUTPUT};
 	private static final int[] slotsSides = new int[] {SLOT_FUEL, SLOT_INPUT};
+	public ItemStack[] kilnStacks = new ItemStack[3];
 
 	public int kilnBurnTime;
 	public int currentBurnTime;
@@ -45,7 +43,7 @@ public class TileEntityKiln extends TileSpecializedFurnace implements IInteracti
 
 	public TileEntityKiln()
 	{
-		super(3);
+		super();
 	}
 
 	public void setBlockName(String string)
@@ -58,10 +56,25 @@ public class TileEntityKiln extends TileSpecializedFurnace implements IInteracti
 	{
 		super.readFromNBT(tagCompound);
 
+		// ItemStacks
+		NBTTagList tagList = tagCompound.getTagList("Items", 10);
+		kilnStacks = new ItemStack[getSizeInventory()];
+
+		for (int i = 0; i < tagList.tagCount(); ++i)
+		{
+			NBTTagCompound itemTag = tagList.getCompoundTagAt(i);
+			byte slot = itemTag.getByte("Slot");
+
+			if (slot >= 0 && slot < kilnStacks.length)
+			{
+				kilnStacks[slot] = ItemStack.loadItemStackFromNBT(itemTag);
+			}
+		}
+
 		// Burn Time & Cook Time
 		kilnBurnTime = tagCompound.getShort("BurnTime");
 		kilnCookTime = tagCompound.getShort("CookTime");
-		currentBurnTime = getItemBurnTime(specialFurnaceStacks[1]);
+		currentBurnTime = getItemBurnTime(kilnStacks[1]);
 
 		if (tagCompound.hasKey("CustomName", 8))
 		{
@@ -76,6 +89,20 @@ public class TileEntityKiln extends TileSpecializedFurnace implements IInteracti
 
 		tagCompound.setShort("BurnTime", (short)kilnBurnTime);
 		tagCompound.setShort("CookTime", (short)kilnCookTime);
+		NBTTagList tagList = new NBTTagList();
+
+		for (int i = 0; i < kilnStacks.length; ++i)
+		{
+			if (kilnStacks[i] != null)
+			{
+				NBTTagCompound itemTag = new NBTTagCompound();
+				kilnStacks[i].writeToNBT(itemTag);
+				itemTag.setByte("Slot", (byte)i);
+				tagList.appendTag(itemTag);
+			}
+		}
+
+		tagCompound.setTag("Items", tagList);
 		if (hasCustomName())
 		{
 			tagCompound.setString("CustomName", kilnName);
@@ -85,7 +112,7 @@ public class TileEntityKiln extends TileSpecializedFurnace implements IInteracti
 	@Override
 	public int getSizeInventory()
 	{
-		return specialFurnaceStacks.length;
+		return kilnStacks.length;
 	}
 
 	public static int getItemBurnTime(ItemStack itemStack)
@@ -180,28 +207,28 @@ public class TileEntityKiln extends TileSpecializedFurnace implements IInteracti
 	@Override
 	public ItemStack getStackInSlot(int i)
 	{
-		return specialFurnaceStacks[i];
+		return kilnStacks[i];
 	}
 
 	@Override
 	public ItemStack decrStackSize(int slot, int amount)
 	{
-		if (specialFurnaceStacks[slot] != null)
+		if (kilnStacks[slot] != null)
 		{
 			ItemStack stack;
-			if (specialFurnaceStacks[slot].stackSize <= amount)
+			if (kilnStacks[slot].stackSize <= amount)
 			{
-				stack = specialFurnaceStacks[slot];
-				specialFurnaceStacks[slot] = null;
+				stack = kilnStacks[slot];
+				kilnStacks[slot] = null;
 				return stack;
 			}
 			else
 			{
-				stack = specialFurnaceStacks[slot].splitStack(amount);
+				stack = kilnStacks[slot].splitStack(amount);
 
-				if (specialFurnaceStacks[slot].stackSize == 0)
+				if (kilnStacks[slot].stackSize == 0)
 				{
-					specialFurnaceStacks[slot] = null;
+					kilnStacks[slot] = null;
 				}
 
 				return stack;
@@ -216,10 +243,10 @@ public class TileEntityKiln extends TileSpecializedFurnace implements IInteracti
 	@Override
 	public ItemStack getStackInSlotOnClosing(int slot)
 	{
-		if (specialFurnaceStacks[slot] != null)
+		if (kilnStacks[slot] != null)
 		{
-			ItemStack stack = specialFurnaceStacks[slot];
-			specialFurnaceStacks[slot] = null;
+			ItemStack stack = kilnStacks[slot];
+			kilnStacks[slot] = null;
 			return stack;
 		}
 		else
@@ -231,7 +258,7 @@ public class TileEntityKiln extends TileSpecializedFurnace implements IInteracti
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack stack)
 	{
-		specialFurnaceStacks[slot] = stack;
+		kilnStacks[slot] = stack;
 
 		if (stack != null && stack.stackSize > getInventoryStackLimit())
 		{
@@ -282,17 +309,39 @@ public class TileEntityKiln extends TileSpecializedFurnace implements IInteracti
 	}
 
 	@Override
+	public int getField(int id)
+	{
+		return 0;
+	}
+
+	@Override
 	public boolean hasCustomName()
 	{
 		return kilnName != null && kilnName.length() > 0;
 	}
 
 	@Override
+	public void setField(int id, int value)
+	{ }
+
+	@Override
+	public IChatComponent getDisplayName()
+	{
+		return new ChatComponentText(getCommandSenderName());
+	}
+
+	@Override
+	public int getFieldCount()
+	{
+		return 0;
+	}
+
+	@Override
 	public void clear()
 	{
-		for (int i = 0; i < specialFurnaceStacks.length; i++)
+		for (int i = 0; i < kilnStacks.length; i++)
 		{
-			specialFurnaceStacks[i] = null;
+			kilnStacks[i] = null;
 		}
 	}
 
@@ -311,19 +360,19 @@ public class TileEntityKiln extends TileSpecializedFurnace implements IInteracti
 
 			if (kilnBurnTime == 0 && canSmelt())
 			{
-				currentBurnTime = kilnBurnTime = getItemBurnTime(specialFurnaceStacks[1]);
+				currentBurnTime = kilnBurnTime = getItemBurnTime(kilnStacks[1]);
 
 				if (kilnBurnTime > 0)
 				{
 					flag1 = true;
-					if (specialFurnaceStacks[SLOT_FUEL] != null)
+					if (kilnStacks[SLOT_FUEL] != null)
 					{
-						--specialFurnaceStacks[SLOT_FUEL].stackSize;
+						--kilnStacks[SLOT_FUEL].stackSize;
 
-						if (specialFurnaceStacks[SLOT_FUEL].stackSize == 0)
+						if (kilnStacks[SLOT_FUEL].stackSize == 0)
 						{
-							specialFurnaceStacks[SLOT_FUEL] = specialFurnaceStacks[SLOT_FUEL].getItem()
-								.getContainerItem(specialFurnaceStacks[SLOT_FUEL]);
+							kilnStacks[SLOT_FUEL] = kilnStacks[SLOT_FUEL].getItem()
+								.getContainerItem(kilnStacks[SLOT_FUEL]);
 						}
 					}
 				}
@@ -359,29 +408,29 @@ public class TileEntityKiln extends TileSpecializedFurnace implements IInteracti
 
 	private boolean canSmelt()
 	{
-		if (specialFurnaceStacks[SLOT_INPUT] == null)
+		if (kilnStacks[SLOT_INPUT] == null)
 		{
 			return false;
 		}
 		else
 		{
-			ItemStack stack = KilnRecipes.smelting().getSmeltingResult(specialFurnaceStacks[SLOT_INPUT]);
+			ItemStack stack = KilnRecipes.smelting().getSmeltingResult(kilnStacks[SLOT_INPUT]);
 			if (stack == null)
 			{
 				return false;
 			}
 
-			if (specialFurnaceStacks[SLOT_OUTPUT] == null)
+			if (kilnStacks[SLOT_OUTPUT] == null)
 			{
 				return true;
 			}
-			if (!specialFurnaceStacks[SLOT_OUTPUT].isItemEqual(stack))
+			if (!kilnStacks[SLOT_OUTPUT].isItemEqual(stack))
 			{
 				return false;
 			}
 
-			int result = specialFurnaceStacks[SLOT_OUTPUT].stackSize + stack.stackSize;
-			return result <= getInventoryStackLimit() && result <= specialFurnaceStacks[SLOT_OUTPUT].getMaxStackSize();
+			int result = kilnStacks[SLOT_OUTPUT].stackSize + stack.stackSize;
+			return result <= getInventoryStackLimit() && result <= kilnStacks[SLOT_OUTPUT].getMaxStackSize();
 		}
 	}
 
@@ -394,22 +443,22 @@ public class TileEntityKiln extends TileSpecializedFurnace implements IInteracti
 	{
 		if (canSmelt())
 		{
-			ItemStack itemStack = KilnRecipes.smelting().getSmeltingResult(specialFurnaceStacks[SLOT_INPUT]);
+			ItemStack itemStack = KilnRecipes.smelting().getSmeltingResult(kilnStacks[SLOT_INPUT]);
 
-			if (specialFurnaceStacks[SLOT_OUTPUT] == null)
+			if (kilnStacks[SLOT_OUTPUT] == null)
 			{
-				specialFurnaceStacks[SLOT_OUTPUT] = itemStack.copy();
+				kilnStacks[SLOT_OUTPUT] = itemStack.copy();
 			}
-			else if (specialFurnaceStacks[SLOT_OUTPUT].getItem() == itemStack.getItem())
+			else if (kilnStacks[SLOT_OUTPUT].getItem() == itemStack.getItem())
 			{
-				specialFurnaceStacks[SLOT_OUTPUT].stackSize += itemStack.stackSize;
+				kilnStacks[SLOT_OUTPUT].stackSize += itemStack.stackSize;
 			}
 
-			--specialFurnaceStacks[SLOT_INPUT].stackSize;
+			--kilnStacks[SLOT_INPUT].stackSize;
 
-			if (specialFurnaceStacks[SLOT_INPUT].stackSize <= 0)
+			if (kilnStacks[SLOT_INPUT].stackSize <= 0)
 			{
-				specialFurnaceStacks[SLOT_INPUT] = null;
+				kilnStacks[SLOT_INPUT] = null;
 			}
 		}
 	}
