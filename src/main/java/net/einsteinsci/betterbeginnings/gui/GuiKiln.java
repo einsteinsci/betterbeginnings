@@ -26,7 +26,7 @@ public class GuiKiln extends GuiContainer
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2)
 	{
-		String string = tileKiln.hasCustomName() ? tileKiln.getName() : I18n.format(tileKiln.getName());
+		String string = tileKiln.hasCustomName() ? tileKiln.getCommandSenderName() : I18n.format(tileKiln.getCommandSenderName());
 		fontRendererObj.drawString(string, xSize / 2 - fontRendererObj.getStringWidth(string), 6, 4210752);
 		fontRendererObj.drawString(I18n.format("container.inventory"), 8, ySize - 94, 4210752);
 	}

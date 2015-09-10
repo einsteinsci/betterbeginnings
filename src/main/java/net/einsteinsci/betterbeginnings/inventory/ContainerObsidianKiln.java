@@ -42,9 +42,9 @@ public class ContainerObsidianKiln extends Container
 	}
 
 	@Override
-	public void addCraftingToCrafters(ICrafting craft)
+	public void onCraftGuiOpened(ICrafting craft)
 	{
-		super.addCraftingToCrafters(craft);
+		super.onCraftGuiOpened(craft);
 
 		craft.sendProgressBarUpdate(this, 0, tileKiln.kilnCookTime);
 		craft.sendProgressBarUpdate(this, 1, tileKiln.kilnBurnTime);

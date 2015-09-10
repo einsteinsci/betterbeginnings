@@ -93,7 +93,7 @@ public class InventoryInfusionRepair implements IInventory
 	}
 
 	@Override
-	public String getName()
+	public String getCommandSenderName()
 	{
 		return "container.inputs";
 	}
@@ -107,7 +107,7 @@ public class InventoryInfusionRepair implements IInventory
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return new ChatComponentText(getName());
+		return new ChatComponentText(getCommandSenderName());
 	}
 
 	@Override

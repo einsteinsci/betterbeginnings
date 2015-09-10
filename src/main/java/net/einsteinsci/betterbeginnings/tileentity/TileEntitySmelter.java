@@ -276,7 +276,7 @@ public class TileEntitySmelter extends TileEntity implements ISidedInventory, IU
 	}
 
 	@Override
-	public String getName()
+	public String getCommandSenderName()
 	{
 		return hasCustomName() ? smelterName : "container.smelter";
 	}
@@ -301,7 +301,7 @@ public class TileEntitySmelter extends TileEntity implements ISidedInventory, IU
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return new ChatComponentText(getName());
+		return new ChatComponentText(getCommandSenderName());
 	}
 
 	@Override

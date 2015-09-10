@@ -48,7 +48,7 @@ public class ContainerCampfire extends Container
 
 	public void addCraftingToCrafters(ICrafting craft)
 	{
-		super.addCraftingToCrafters(craft);
+		super.onCraftGuiOpened(craft);
 
 		craft.sendProgressBarUpdate(this, 0, tileCampfire.cookTime);
 		craft.sendProgressBarUpdate(this, 1, tileCampfire.burnTime);

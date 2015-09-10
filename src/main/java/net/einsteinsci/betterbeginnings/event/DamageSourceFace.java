@@ -19,6 +19,6 @@ public class DamageSourceFace extends DamageSource
 	@Override
 	public IChatComponent getDeathMessage(EntityLivingBase mob)
 	{
-		return new ChatComponentTranslation("death.face", mob.getName(), faceHurt.getLocalizedName());
+		return new ChatComponentTranslation("death.face", mob.getCommandSenderName(), faceHurt.getLocalizedName());
 	}
 }

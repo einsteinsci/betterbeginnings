@@ -24,9 +24,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.*;
 import net.minecraft.world.IInteractionObject;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -323,7 +321,7 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 	}
 
 	@Override
-	public String getName()
+	public String getCommandSenderName()
 	{
 		return hasCustomName() ? campfireName : "container.campfire";
 	}
@@ -489,7 +487,7 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return new ChatComponentText(getName());
+		return new ChatComponentText(getCommandSenderName());
 	}
 
 	public boolean isDecaying()

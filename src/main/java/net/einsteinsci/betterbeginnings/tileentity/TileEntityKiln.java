@@ -3,9 +3,7 @@ package net.einsteinsci.betterbeginnings.tileentity;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.blocks.BlockKiln;
 import net.einsteinsci.betterbeginnings.inventory.ContainerKiln;
-import net.einsteinsci.betterbeginnings.items.ItemBonePickaxe;
-import net.einsteinsci.betterbeginnings.items.ItemFlintHatchet;
-import net.einsteinsci.betterbeginnings.items.ItemKnifeFlint;
+import net.einsteinsci.betterbeginnings.items.*;
 import net.einsteinsci.betterbeginnings.register.recipe.KilnRecipes;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -305,7 +303,7 @@ public class TileEntityKiln extends TileEntity implements IUpdatePlayerListBox, 
 	}
 
 	@Override
-	public String getName()
+	public String getCommandSenderName()
 	{
 		return hasCustomName() ? kilnName : "container.kiln";
 	}
@@ -329,7 +327,7 @@ public class TileEntityKiln extends TileEntity implements IUpdatePlayerListBox, 
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return new ChatComponentText(getName());
+		return new ChatComponentText(getCommandSenderName());
 	}
 
 	@Override

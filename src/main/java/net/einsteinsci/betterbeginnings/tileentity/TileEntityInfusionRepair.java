@@ -490,7 +490,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 	}
 
 	@Override
-	public String getName()
+	public String getCommandSenderName()
 	{
 		return tileName;
 	}
@@ -504,7 +504,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return new ChatComponentText(getName());
+		return new ChatComponentText(getCommandSenderName());
 	}
 
 	public static class Ingredient

@@ -225,7 +225,7 @@ public class TileEntityBrickOven extends TileEntity implements ISidedInventory, 
 	}
 
 	@Override
-	public String getName()
+	public String getCommandSenderName()
 	{
 		return hasCustomName() ? ovenName : "container.brickoven";
 	}
@@ -250,7 +250,7 @@ public class TileEntityBrickOven extends TileEntity implements ISidedInventory, 
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return new ChatComponentText(getName());
+		return new ChatComponentText(getCommandSenderName());
 	}
 
 	@Override
@@ -483,6 +483,4 @@ public class TileEntityBrickOven extends TileEntity implements ISidedInventory, 
 	{
 		return ModMain.MODID + ":brickOven";
 	}
-
-
 }

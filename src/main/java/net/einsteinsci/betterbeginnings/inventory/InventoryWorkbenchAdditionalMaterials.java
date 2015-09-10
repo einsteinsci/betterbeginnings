@@ -94,7 +94,7 @@ public class InventoryWorkbenchAdditionalMaterials implements IInventory
 	}
 
 	@Override
-	public String getName()
+	public String getCommandSenderName()
 	{
 		return "container.workbenchmaterials";
 	}
@@ -108,7 +108,7 @@ public class InventoryWorkbenchAdditionalMaterials implements IInventory
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return new ChatComponentText(getName());
+		return new ChatComponentText(getCommandSenderName());
 	}
 
 	@Override

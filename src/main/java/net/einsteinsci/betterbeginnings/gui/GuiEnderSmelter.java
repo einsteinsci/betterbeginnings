@@ -35,8 +35,8 @@ public class GuiEnderSmelter extends GuiContainer
 	protected void drawGuiContainerForegroundLayer(int par1, int par2)
 	{
 		String string =
-				tileSmelter.hasCustomName() ? tileSmelter.getName() : I18n.format(
-						tileSmelter.getName());
+				tileSmelter.hasCustomName() ? tileSmelter.getCommandSenderName() : I18n.format(
+						tileSmelter.getCommandSenderName());
 		fontRendererObj.drawString(string, xSize / 2 - fontRendererObj.getStringWidth(string), 6, 4210752);
 		fontRendererObj.drawString(I18n.format("container.inventory"), 8, ySize - 94, 4210752);
 	}
