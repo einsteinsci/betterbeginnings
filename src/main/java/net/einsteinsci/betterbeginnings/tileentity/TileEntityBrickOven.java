@@ -4,20 +4,26 @@ import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.blocks.BlockBrickOven;
 import net.einsteinsci.betterbeginnings.inventory.ContainerBrickOven;
 import net.einsteinsci.betterbeginnings.register.recipe.BrickOvenRecipeHandler;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemCoal;
-import net.minecraft.item.ItemStack;
+import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.*;
 import net.minecraft.world.IInteractionObject;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TileEntityBrickOven extends TileSpecializedFurnace implements IInteractionObject
+public class TileEntityBrickOven extends TileEntity implements ISidedInventory, IUpdatePlayerListBox, IInteractionObject
 {
 	public static final int FUEL = 0;
 	public static final int OUTPUT = 1;
@@ -28,11 +34,12 @@ public class TileEntityBrickOven extends TileSpecializedFurnace implements IInte
 	public int ovenBurnTime;
 	public int currentItemBurnLength;
 	public int ovenCookTime;
+	private ItemStack[] ovenStacks = new ItemStack[11];
 	private String ovenName;
 
 	public TileEntityBrickOven()
 	{
-		super(11);
+		super();
 	}
 
 	@Override
@@ -40,10 +47,25 @@ public class TileEntityBrickOven extends TileSpecializedFurnace implements IInte
 	{
 		super.readFromNBT(tagCompound);
 
+		// ItemStacks
+		NBTTagList tagList = tagCompound.getTagList("Items", 10);
+		ovenStacks = new ItemStack[getSizeInventory()];
+
+		for (int i = 0; i < tagList.tagCount(); ++i)
+		{
+			NBTTagCompound itemTag = tagList.getCompoundTagAt(i);
+			byte slot = itemTag.getByte("Slot");
+
+			if (slot >= 0 && slot < ovenStacks.length)
+			{
+				ovenStacks[slot] = ItemStack.loadItemStackFromNBT(itemTag);
+			}
+		}
+
 		// Burn Time & Cook Time
 		ovenBurnTime = tagCompound.getShort("BurnTime");
 		ovenCookTime = tagCompound.getShort("CookTime");
-		currentItemBurnLength = getItemBurnTime(specialFurnaceStacks[1]);
+		currentItemBurnLength = getItemBurnTime(ovenStacks[1]);
 
 		if (tagCompound.hasKey("CustomName"))
 		{
@@ -58,6 +80,20 @@ public class TileEntityBrickOven extends TileSpecializedFurnace implements IInte
 
 		tagCompound.setShort("BurnTime", (short)ovenBurnTime);
 		tagCompound.setShort("CookTime", (short)ovenCookTime);
+		NBTTagList tagList = new NBTTagList();
+
+		for (int i = 0; i < ovenStacks.length; ++i)
+		{
+			if (ovenStacks[i] != null)
+			{
+				NBTTagCompound itemTag = new NBTTagCompound();
+				ovenStacks[i].writeToNBT(itemTag);
+				itemTag.setByte("Slot", (byte)i);
+				tagList.appendTag(itemTag);
+			}
+		}
+
+		tagCompound.setTag("Items", tagList);
 		if (hasCustomName())
 		{
 			tagCompound.setString("CustomName", ovenName);
@@ -67,7 +103,7 @@ public class TileEntityBrickOven extends TileSpecializedFurnace implements IInte
 	@Override
 	public int getSizeInventory()
 	{
-		return specialFurnaceStacks.length;
+		return ovenStacks.length;
 	}
 
 	public static int getItemBurnTime(ItemStack itemStack)
@@ -93,28 +129,28 @@ public class TileEntityBrickOven extends TileSpecializedFurnace implements IInte
 	@Override
 	public ItemStack getStackInSlot(int i)
 	{
-		return specialFurnaceStacks[i];
+		return ovenStacks[i];
 	}
 
 	@Override
 	public ItemStack decrStackSize(int slot, int amount)
 	{
-		if (specialFurnaceStacks[slot] != null)
+		if (ovenStacks[slot] != null)
 		{
 			ItemStack stack;
-			if (specialFurnaceStacks[slot].stackSize <= amount)
+			if (ovenStacks[slot].stackSize <= amount)
 			{
-				stack = specialFurnaceStacks[slot];
-				specialFurnaceStacks[slot] = null;
+				stack = ovenStacks[slot];
+				ovenStacks[slot] = null;
 				return stack;
 			}
 			else
 			{
-				stack = specialFurnaceStacks[slot].splitStack(amount);
+				stack = ovenStacks[slot].splitStack(amount);
 
-				if (specialFurnaceStacks[slot].stackSize == 0)
+				if (ovenStacks[slot].stackSize == 0)
 				{
-					specialFurnaceStacks[slot] = null;
+					ovenStacks[slot] = null;
 				}
 
 				return stack;
@@ -129,10 +165,10 @@ public class TileEntityBrickOven extends TileSpecializedFurnace implements IInte
 	@Override
 	public ItemStack getStackInSlotOnClosing(int slot)
 	{
-		if (specialFurnaceStacks[slot] != null)
+		if (ovenStacks[slot] != null)
 		{
-			ItemStack stack = specialFurnaceStacks[slot];
-			specialFurnaceStacks[slot] = null;
+			ItemStack stack = ovenStacks[slot];
+			ovenStacks[slot] = null;
 			return stack;
 		}
 		else
@@ -144,7 +180,7 @@ public class TileEntityBrickOven extends TileSpecializedFurnace implements IInte
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack stack)
 	{
-		specialFurnaceStacks[slot] = stack;
+		ovenStacks[slot] = stack;
 
 		if (stack != null && stack.stackSize > getInventoryStackLimit())
 		{
@@ -195,17 +231,40 @@ public class TileEntityBrickOven extends TileSpecializedFurnace implements IInte
 	}
 
 	@Override
+	public int getField(int id)
+	{
+		return 0;
+	}
+
+	@Override
 	public boolean hasCustomName()
 	{
 		return ovenName != null && ovenName.length() > 0;
 	}
 
 	@Override
+	public void setField(int id, int value)
+	{
+	}
+
+	@Override
+	public IChatComponent getDisplayName()
+	{
+		return new ChatComponentText(getCommandSenderName());
+	}
+
+	@Override
+	public int getFieldCount()
+	{
+		return 0;
+	}
+
+	@Override
 	public void clear()
 	{
-		for (int i = 0; i < specialFurnaceStacks.length; i++)
+		for (int i = 0; i < ovenStacks.length; i++)
 		{
-			specialFurnaceStacks[i] = null;
+			ovenStacks[i] = null;
 		}
 	}
 
@@ -224,18 +283,18 @@ public class TileEntityBrickOven extends TileSpecializedFurnace implements IInte
 
 			if (ovenBurnTime == 0 && canSmelt())
 			{
-				currentItemBurnLength = ovenBurnTime = getItemBurnTime(specialFurnaceStacks[FUEL]);
+				currentItemBurnLength = ovenBurnTime = getItemBurnTime(ovenStacks[FUEL]);
 
 				if (ovenBurnTime > 0)
 				{
 					flag1 = true;
-					if (specialFurnaceStacks[FUEL] != null)
+					if (ovenStacks[FUEL] != null)
 					{
-						--specialFurnaceStacks[FUEL].stackSize;
+						--ovenStacks[FUEL].stackSize;
 
-						if (specialFurnaceStacks[FUEL].stackSize == 0)
+						if (ovenStacks[FUEL].stackSize == 0)
 						{
-							specialFurnaceStacks[FUEL] = specialFurnaceStacks[FUEL].getItem().getContainerItem(specialFurnaceStacks[FUEL]);
+							ovenStacks[FUEL] = ovenStacks[FUEL].getItem().getContainerItem(ovenStacks[FUEL]);
 						}
 					}
 				}
@@ -272,9 +331,9 @@ public class TileEntityBrickOven extends TileSpecializedFurnace implements IInte
 	private boolean canSmelt()
 	{
 		boolean empty = true;
-		for (int i = INPUTSTART; i < specialFurnaceStacks.length; ++i)
+		for (int i = INPUTSTART; i < ovenStacks.length; ++i)
 		{
-			if (specialFurnaceStacks[i] != null)
+			if (ovenStacks[i] != null)
 			{
 				empty = false;
 				break;
@@ -293,17 +352,17 @@ public class TileEntityBrickOven extends TileSpecializedFurnace implements IInte
 				return false;
 			}
 
-			if (specialFurnaceStacks[OUTPUT] == null)
+			if (ovenStacks[OUTPUT] == null)
 			{
 				return true;
 			}
-			if (!specialFurnaceStacks[OUTPUT].isItemEqual(stack))
+			if (!ovenStacks[OUTPUT].isItemEqual(stack))
 			{
 				return false;
 			}
 
-			int result = specialFurnaceStacks[OUTPUT].stackSize + stack.stackSize;
-			return result <= getInventoryStackLimit() && result <= specialFurnaceStacks[OUTPUT].getMaxStackSize();
+			int result = ovenStacks[OUTPUT].stackSize + stack.stackSize;
+			return result <= getInventoryStackLimit() && result <= ovenStacks[OUTPUT].getMaxStackSize();
 		}
 	}
 
@@ -318,38 +377,38 @@ public class TileEntityBrickOven extends TileSpecializedFurnace implements IInte
 		{
 			ItemStack itemStack = BrickOvenRecipeHandler.instance().findMatchingRecipe(this);
 
-			if (specialFurnaceStacks[OUTPUT] == null)
+			if (ovenStacks[OUTPUT] == null)
 			{
-				specialFurnaceStacks[OUTPUT] = itemStack.copy();
+				ovenStacks[OUTPUT] = itemStack.copy();
 			}
-			else if (specialFurnaceStacks[OUTPUT].getItem() == itemStack.getItem())
+			else if (ovenStacks[OUTPUT].getItem() == itemStack.getItem())
 			{
-				specialFurnaceStacks[OUTPUT].stackSize += itemStack.stackSize;
+				ovenStacks[OUTPUT].stackSize += itemStack.stackSize;
 			}
 
-			for (int i = INPUTSTART; i < specialFurnaceStacks.length; ++i)
+			for (int i = INPUTSTART; i < ovenStacks.length; ++i)
 			{
-				ItemStack stack = specialFurnaceStacks[i];
+				ItemStack stack = ovenStacks[i];
 
 				if (stack != null)
 				{
 					ItemStack containerItem = null;
 
-					if (specialFurnaceStacks[i].getItem().hasContainerItem(specialFurnaceStacks[i]))
+					if (ovenStacks[i].getItem().hasContainerItem(ovenStacks[i]))
 					{
-						containerItem = specialFurnaceStacks[i].getItem().getContainerItem(specialFurnaceStacks[i]);
+						containerItem = ovenStacks[i].getItem().getContainerItem(ovenStacks[i]);
 					}
 
-					--specialFurnaceStacks[i].stackSize;
+					--ovenStacks[i].stackSize;
 
-					if (specialFurnaceStacks[i].stackSize <= 0)
+					if (ovenStacks[i].stackSize <= 0)
 					{
-						specialFurnaceStacks[i] = null;
+						ovenStacks[i] = null;
 					}
 
 					if (containerItem != null)
 					{
-						specialFurnaceStacks[i] = containerItem;
+						ovenStacks[i] = containerItem;
 					}
 				}
 			}
