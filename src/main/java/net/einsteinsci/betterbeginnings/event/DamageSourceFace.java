@@ -2,9 +2,7 @@ package net.einsteinsci.betterbeginnings.event;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.*;
 
 public class DamageSourceFace extends DamageSource
 {
