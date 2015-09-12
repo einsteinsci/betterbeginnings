@@ -112,7 +112,10 @@ public class ModMain
 		RegisterRecipes.addAdvancedRecipes();
 		RegisterRecipes.addFurnaceRecipes();
 
-		RemoveRecipes.removeFurnaceRecipes();
+		if (BBConfig.moduleFurnaces)
+		{
+			RemoveRecipes.removeFurnaceRecipes();
+		}
 
 		if (e.getSide() == Side.CLIENT)
 		{
