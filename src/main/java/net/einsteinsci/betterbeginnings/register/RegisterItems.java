@@ -15,13 +15,8 @@ import java.util.List;
 public class RegisterItems
 {
 	public static final ToolMaterial NOOBWOOD = EnumHelper.addToolMaterial("NOOBWOOD", 0, 60, 2.0f, -4, 35);
+
 	public static final ItemNoobWoodSword noobWoodSword = new ItemNoobWoodSword(NOOBWOOD);
-	public static final ItemArmor.ArmorMaterial CLOTH = EnumHelper.addArmorMaterial(
-			"CLOTH", "CLOTH", 5, new int[] {1, 3, 2, 1}, 25);
-	public static final ItemClothArmor clothHat = new ItemClothArmor(CLOTH, 0, "clothHat");
-	public static final ItemClothArmor clothShirt = new ItemClothArmor(CLOTH, 1, "clothShirt");
-	public static final ItemClothArmor clothPants = new ItemClothArmor(CLOTH, 2, "clothPants");
-	public static final ItemClothArmor clothBoots = new ItemClothArmor(CLOTH, 3, "clothBoots");
 	public static final ItemKnife flintKnife = new ItemKnifeFlint();
 	public static final ItemKnife boneKnife = new ItemKnifeBone();
 	public static final ItemKnife ironKnife = new ItemKnifeIron();
@@ -82,11 +77,6 @@ public class RegisterItems
 		RegisterHelper.registerItem(marshmallowCooked);
 		RegisterHelper.registerItem(roastingStickCookedMallow);
 		RegisterHelper.registerItem(roastingStickRawMallow);
-
-		RegisterHelper.registerItem(clothHat);
-		RegisterHelper.registerItem(clothShirt);
-		RegisterHelper.registerItem(clothPants);
-		RegisterHelper.registerItem(clothBoots);
 
 		RegisterHelper.registerItem(noobWoodSword);
 

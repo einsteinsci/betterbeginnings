@@ -130,10 +130,6 @@ public class BBEventHandler
 	{
 		List<ItemStack> wip = new ArrayList<>();
 
-		wip.add(new ItemStack(RegisterItems.clothBoots));
-		wip.add(new ItemStack(RegisterItems.clothPants));
-		wip.add(new ItemStack(RegisterItems.clothShirt));
-		wip.add(new ItemStack(RegisterItems.clothHat));
 		wip.add(new ItemStack(RegisterItems.cloth));
 
 		for (ItemStack test : wip)
