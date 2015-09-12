@@ -46,7 +46,8 @@ public class ContainerCampfire extends Container
 		}
 	}
 
-	public void addCraftingToCrafters(ICrafting craft)
+	@Override
+	public void onCraftGuiOpened(ICrafting craft)
 	{
 		super.onCraftGuiOpened(craft);
 
@@ -56,6 +57,7 @@ public class ContainerCampfire extends Container
 		craft.sendProgressBarUpdate(this, 3, tileCampfire.decayTime);
 	}
 
+	@Override
 	public void detectAndSendChanges()
 	{
 		super.detectAndSendChanges();

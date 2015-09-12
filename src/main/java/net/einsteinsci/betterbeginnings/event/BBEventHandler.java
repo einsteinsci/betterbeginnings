@@ -203,7 +203,7 @@ public class BBEventHandler
 			{
 				if (held.getItem() instanceof ItemKnife)
 				{
-					if (rand.nextInt(8) == 0)
+					if (rand.nextInt(4) == 0)
 					{
 						e.drops.add(new ItemStack(Blocks.vine));
 					}
@@ -218,7 +218,7 @@ public class BBEventHandler
 			{
 				if (held.getItem() instanceof ItemKnife)
 				{
-					if (rand.nextInt(8) == 0)
+					if (rand.nextInt(4) == 0)
 					{
 						int meta = block.getMetaFromState(e.state);
 						e.drops.add(new ItemStack(block, 1, meta));
@@ -239,6 +239,23 @@ public class BBEventHandler
 					e.drops.add(crushResult);
 				}
 			}
+		}
+
+		// Tripwire -> thread
+		if (block == Blocks.tripwire)
+		{
+			int rem = 0;
+			for (int i = 0; i < e.drops.size(); i++)
+			{
+				if (e.drops.get(i).getItem() == Items.string)
+				{
+					rem = i;
+				}
+			}
+
+			int count = e.drops.get(rem).stackSize; // Almost certainly 1.
+			e.drops.remove(rem);
+			e.drops.add(new ItemStack(RegisterItems.thread, count));
 		}
 
 		// Makes sure emergency escape mechanic does not let blocks fall out (like logs)
