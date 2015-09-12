@@ -4,21 +4,16 @@ import net.einsteinsci.betterbeginnings.register.recipe.BrickOvenRecipeHandler;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityBrickOven;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.*;
+import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.SlotFurnaceFuel;
+import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ContainerBrickOven extends Container
+public class ContainerBrickOven extends ContainerSpecializedFurnace
 {
-	private TileEntityBrickOven tileBrickOven;
-	private int lastCookTime;
-	private int lastBurnTime;
-	private int lastItemBurnTime;
-
 	public ContainerBrickOven(InventoryPlayer playerInv, TileEntityBrickOven tileEntityBrickOven)
 	{
-		tileBrickOven = tileEntityBrickOven;
+		tileSpecialFurnace = tileEntityBrickOven;
 		addSlotToContainer(new SlotFurnaceFuel(tileEntityBrickOven, TileEntityBrickOven.FUEL, 92, 58));
 		addSlotToContainer(
 				new SlotFurnaceOutput(playerInv.player, tileEntityBrickOven, TileEntityBrickOven.OUTPUT, 124, 21));
@@ -46,44 +41,6 @@ public class ContainerBrickOven extends Container
 		{
 			addSlotToContainer(new Slot(playerInv, i, 8 + i * 18, 142));
 		}
-	}
-
-	@Override
-	public void onCraftGuiOpened(ICrafting craft)
-	{
-		super.onCraftGuiOpened(craft);
-
-		craft.sendProgressBarUpdate(this, 0, tileBrickOven.ovenCookTime);
-		craft.sendProgressBarUpdate(this, 1, tileBrickOven.ovenBurnTime);
-		craft.sendProgressBarUpdate(this, 2, tileBrickOven.currentItemBurnLength);
-	}
-
-	@Override
-	public void detectAndSendChanges()
-	{
-		super.detectAndSendChanges();
-
-		for (Object listItem : crafters)
-		{
-			ICrafting crafter = (ICrafting)listItem;
-
-			if (lastCookTime != tileBrickOven.ovenCookTime)
-			{
-				crafter.sendProgressBarUpdate(this, 0, tileBrickOven.ovenCookTime);
-			}
-			if (lastBurnTime != tileBrickOven.ovenBurnTime)
-			{
-				crafter.sendProgressBarUpdate(this, 1, tileBrickOven.ovenBurnTime);
-			}
-			if (lastItemBurnTime != tileBrickOven.currentItemBurnLength)
-			{
-				crafter.sendProgressBarUpdate(this, 2, tileBrickOven.currentItemBurnLength);
-			}
-		}
-
-		lastBurnTime = tileBrickOven.ovenBurnTime;
-		lastCookTime = tileBrickOven.ovenCookTime;
-		lastItemBurnTime = tileBrickOven.currentItemBurnLength;
 	}
 
 	@Override
@@ -173,29 +130,5 @@ public class ContainerBrickOven extends Container
 		}
 
 		return itemstack;
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void updateProgressBar(int par1, int par2)
-	{
-		if (par1 == 0)
-		{
-			tileBrickOven.ovenCookTime = par2;
-		}
-		if (par1 == 1)
-		{
-			tileBrickOven.ovenBurnTime = par2;
-		}
-		if (par1 == 2)
-		{
-			tileBrickOven.currentItemBurnLength = par2;
-		}
-	}
-
-	@Override
-	public boolean canInteractWith(EntityPlayer player)
-	{
-		return tileBrickOven.isUseableByPlayer(player);
 	}
 }

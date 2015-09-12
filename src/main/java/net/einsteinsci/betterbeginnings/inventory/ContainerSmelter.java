@@ -5,22 +5,16 @@ import net.einsteinsci.betterbeginnings.tileentity.TileEntitySmelter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.*;
+import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ContainerSmelter extends Container
+public class ContainerSmelter extends ContainerSpecializedFurnace
 {
-	private TileEntitySmelter smelter;
-	private int lastCookTime;
-	private int lastBurnTime;
-	private int lastItemBurnTime;
-
 	public ContainerSmelter(InventoryPlayer playerInv, TileEntitySmelter tileEntitySmelter)
 	{
-		smelter = tileEntitySmelter;
+		tileSpecialFurnace = tileEntitySmelter;
 		addSlotToContainer(new Slot(tileEntitySmelter, TileEntitySmelter.INPUT, 46, 17));
 		addSlotToContainer(new Slot(tileEntitySmelter, TileEntitySmelter.FUEL, 56, 53));
 		addSlotToContainer(new SlotFurnaceOutput(playerInv.player, tileEntitySmelter,
@@ -40,44 +34,6 @@ public class ContainerSmelter extends Container
 		{
 			addSlotToContainer(new Slot(playerInv, i, 8 + i * 18, 142));
 		}
-	}
-
-	@Override
-	public void onCraftGuiOpened(ICrafting craft)
-	{
-		super.onCraftGuiOpened(craft);
-
-		craft.sendProgressBarUpdate(this, 0, smelter.smelterCookTime);
-		craft.sendProgressBarUpdate(this, 1, smelter.smelterBurnTime);
-		craft.sendProgressBarUpdate(this, 2, smelter.currentItemBurnLength);
-	}
-
-	@Override
-	public void detectAndSendChanges()
-	{
-		super.detectAndSendChanges();
-
-		for (int i = 0; i < crafters.size(); ++i)
-		{
-			ICrafting craft = (ICrafting)crafters.get(i);
-
-			if (lastCookTime != smelter.smelterCookTime)
-			{
-				craft.sendProgressBarUpdate(this, 0, smelter.smelterCookTime);
-			}
-			if (lastBurnTime != smelter.smelterBurnTime)
-			{
-				craft.sendProgressBarUpdate(this, 1, smelter.smelterBurnTime);
-			}
-			if (lastItemBurnTime != smelter.currentItemBurnLength)
-			{
-				craft.sendProgressBarUpdate(this, 2, smelter.currentItemBurnLength);
-			}
-		}
-
-		lastBurnTime = smelter.smelterBurnTime;
-		lastCookTime = smelter.smelterCookTime;
-		lastItemBurnTime = smelter.currentItemBurnLength;
 	}
 
 	@Override
@@ -154,30 +110,6 @@ public class ContainerSmelter extends Container
 			slot.onPickupFromSlot(player, movedStack);
 		}
 		return movedStackDupe;
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void updateProgressBar(int par1, int par2)
-	{
-		if (par1 == 0)
-		{
-			smelter.smelterCookTime = par2;
-		}
-		if (par1 == 1)
-		{
-			smelter.smelterBurnTime = par2;
-		}
-		if (par1 == 2)
-		{
-			smelter.currentItemBurnLength = par2;
-		}
-	}
-
-	@Override
-	public boolean canInteractWith(EntityPlayer player)
-	{
-		return smelter.isUseableByPlayer(player);
 	}
 
 	public boolean merge(ItemStack stack, int startSlot, int endSlot, boolean searchFromBottom)

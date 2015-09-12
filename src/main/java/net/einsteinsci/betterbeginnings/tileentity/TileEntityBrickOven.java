@@ -4,110 +4,38 @@ import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.blocks.BlockBrickOven;
 import net.einsteinsci.betterbeginnings.inventory.ContainerBrickOven;
 import net.einsteinsci.betterbeginnings.register.recipe.BrickOvenRecipeHandler;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemCoal;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IInteractionObject;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TileEntityBrickOven extends TileEntity implements ISidedInventory, IUpdatePlayerListBox, IInteractionObject
+public class TileEntityBrickOven extends TileEntitySpecializedFurnace implements IInteractionObject
 {
 	public static final int FUEL = 0;
 	public static final int OUTPUT = 1;
 	public static final int INPUTSTART = 2;
-	public static final int COOKTIME = 120;
 	private static final int[] slotsInput = new int[] {FUEL};
 	private static final int[] slotsOutput = new int[] {OUTPUT};
-	public int ovenBurnTime;
-	public int currentItemBurnLength;
-	public int ovenCookTime;
-	private ItemStack[] ovenStacks = new ItemStack[11];
-	private String ovenName;
 
 	public TileEntityBrickOven()
 	{
-		super();
+		super(11);
+		processTime = 120;
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound)
 	{
 		super.readFromNBT(tagCompound);
-
-		// ItemStacks
-		NBTTagList tagList = tagCompound.getTagList("Items", 10);
-		ovenStacks = new ItemStack[getSizeInventory()];
-
-		for (int i = 0; i < tagList.tagCount(); ++i)
-		{
-			NBTTagCompound itemTag = tagList.getCompoundTagAt(i);
-			byte slot = itemTag.getByte("Slot");
-
-			if (slot >= 0 && slot < ovenStacks.length)
-			{
-				ovenStacks[slot] = ItemStack.loadItemStackFromNBT(itemTag);
-			}
-		}
-
-		// Burn Time & Cook Time
-		ovenBurnTime = tagCompound.getShort("BurnTime");
-		ovenCookTime = tagCompound.getShort("CookTime");
-		currentItemBurnLength = getItemBurnTime(ovenStacks[1]);
-
-		if (tagCompound.hasKey("CustomName"))
-		{
-			ovenName = tagCompound.getString("CustomName");
-		}
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound tagCompound)
-	{
-		super.writeToNBT(tagCompound);
-
-		tagCompound.setShort("BurnTime", (short)ovenBurnTime);
-		tagCompound.setShort("CookTime", (short)ovenCookTime);
-		NBTTagList tagList = new NBTTagList();
-
-		for (int i = 0; i < ovenStacks.length; ++i)
-		{
-			if (ovenStacks[i] != null)
-			{
-				NBTTagCompound itemTag = new NBTTagCompound();
-				ovenStacks[i].writeToNBT(itemTag);
-				itemTag.setByte("Slot", (byte)i);
-				tagList.appendTag(itemTag);
-			}
-		}
-
-		tagCompound.setTag("Items", tagList);
-
-		if (hasCustomName())
-		{
-			tagCompound.setString("CustomName", ovenName);
-		}
-	}
-
-	@Override
-	public int getSizeInventory()
-	{
-		return ovenStacks.length;
+		currentItemBurnLength = getItemBurnTime(specialFurnaceStacks[1]);
 	}
 
 	public static int getItemBurnTime(ItemStack itemStack)
@@ -129,75 +57,6 @@ public class TileEntityBrickOven extends TileEntity implements ISidedInventory, 
 			return TileEntityKiln.getItemBurnTime(itemStack);
 		}
 	}
-
-	@Override
-	public ItemStack getStackInSlot(int i)
-	{
-		return ovenStacks[i];
-	}
-
-	@Override
-	public ItemStack decrStackSize(int slot, int amount)
-	{
-		if (ovenStacks[slot] != null)
-		{
-			ItemStack stack;
-			if (ovenStacks[slot].stackSize <= amount)
-			{
-				stack = ovenStacks[slot];
-				ovenStacks[slot] = null;
-				return stack;
-			}
-			else
-			{
-				stack = ovenStacks[slot].splitStack(amount);
-
-				if (ovenStacks[slot].stackSize == 0)
-				{
-					ovenStacks[slot] = null;
-				}
-
-				return stack;
-			}
-		}
-		else
-		{
-			return null;
-		}
-	}
-
-	@Override
-	public ItemStack getStackInSlotOnClosing(int slot)
-	{
-		if (ovenStacks[slot] != null)
-		{
-			ItemStack stack = ovenStacks[slot];
-			ovenStacks[slot] = null;
-			return stack;
-		}
-		else
-		{
-			return null;
-		}
-	}
-
-	@Override
-	public void setInventorySlotContents(int slot, ItemStack stack)
-	{
-		ovenStacks[slot] = stack;
-
-		if (stack != null && stack.stackSize > getInventoryStackLimit())
-		{
-			stack.stackSize = getInventoryStackLimit();
-		}
-	}
-
-	@Override
-	public int getInventoryStackLimit()
-	{
-		return 64;
-	}
-
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player)
 	{
@@ -213,16 +72,6 @@ public class TileEntityBrickOven extends TileEntity implements ISidedInventory, 
 	}
 
 	@Override
-	public void openInventory(EntityPlayer playerIn)
-	{
-	}
-
-	@Override
-	public void closeInventory(EntityPlayer playerIn)
-	{
-	}
-
-	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack)
 	{
 		return slot == OUTPUT ? false : slot == FUEL ? isItemFuel(stack) : true;
@@ -231,45 +80,7 @@ public class TileEntityBrickOven extends TileEntity implements ISidedInventory, 
 	@Override
 	public String getCommandSenderName()
 	{
-		return hasCustomName() ? ovenName : "container.brickoven";
-	}
-
-	@Override
-	public int getField(int id)
-	{
-		return 0;
-	}
-
-	@Override
-	public boolean hasCustomName()
-	{
-		return ovenName != null && ovenName.length() > 0;
-	}
-
-	@Override
-	public void setField(int id, int value)
-	{
-	}
-
-	@Override
-	public IChatComponent getDisplayName()
-	{
-		return new ChatComponentText(getCommandSenderName());
-	}
-
-	@Override
-	public int getFieldCount()
-	{
-		return 0;
-	}
-
-	@Override
-	public void clear()
-	{
-		for (int i = 0; i < ovenStacks.length; i++)
-		{
-			ovenStacks[i] = null;
-		}
+		return hasCustomName() ? customName : "container.brickoven";
 	}
 
 	@Override
@@ -277,28 +88,28 @@ public class TileEntityBrickOven extends TileEntity implements ISidedInventory, 
 	{
 		if (!worldObj.isRemote)
 		{
-			boolean flag = ovenBurnTime > 0;
+			boolean flag = burnTime > 0;
 			boolean flag1 = false;
 
-			if (ovenBurnTime > 0)
+			if (burnTime > 0)
 			{
-				--ovenBurnTime;
+				--burnTime;
 			}
 
-			if (ovenBurnTime == 0 && canSmelt())
+			if (burnTime == 0 && canSmelt())
 			{
-				currentItemBurnLength = ovenBurnTime = getItemBurnTime(ovenStacks[FUEL]);
+				currentItemBurnLength = burnTime = getItemBurnTime(specialFurnaceStacks[FUEL]);
 
-				if (ovenBurnTime > 0)
+				if (burnTime > 0)
 				{
 					flag1 = true;
-					if (ovenStacks[FUEL] != null)
+					if (specialFurnaceStacks[FUEL] != null)
 					{
-						--ovenStacks[FUEL].stackSize;
+						--specialFurnaceStacks[FUEL].stackSize;
 
-						if (ovenStacks[FUEL].stackSize == 0)
+						if (specialFurnaceStacks[FUEL].stackSize == 0)
 						{
-							ovenStacks[FUEL] = ovenStacks[FUEL].getItem().getContainerItem(ovenStacks[FUEL]);
+							specialFurnaceStacks[FUEL] = specialFurnaceStacks[FUEL].getItem().getContainerItem(specialFurnaceStacks[FUEL]);
 						}
 					}
 				}
@@ -306,23 +117,23 @@ public class TileEntityBrickOven extends TileEntity implements ISidedInventory, 
 
 			if (isBurning() && canSmelt())
 			{
-				++ovenCookTime;
-				if (ovenCookTime == COOKTIME)
+				++cookTime;
+				if (cookTime == processTime)
 				{
-					ovenCookTime = 0;
+					cookTime = 0;
 					smeltItem();
 					flag1 = true;
 				}
 			}
 			else
 			{
-				ovenCookTime = 0;
+				cookTime = 0;
 			}
 
-			if (flag != ovenBurnTime > 0)
+			if (flag != burnTime > 0)
 			{
 				flag1 = true;
-				BlockBrickOven.updateBlockState(ovenBurnTime > 0, worldObj, pos);
+				BlockBrickOven.updateBlockState(burnTime > 0, worldObj, pos);
 			}
 
 			if (flag1)
@@ -335,9 +146,9 @@ public class TileEntityBrickOven extends TileEntity implements ISidedInventory, 
 	private boolean canSmelt()
 	{
 		boolean empty = true;
-		for (int i = INPUTSTART; i < ovenStacks.length; ++i)
+		for (int i = INPUTSTART; i < specialFurnaceStacks.length; ++i)
 		{
-			if (ovenStacks[i] != null)
+			if (specialFurnaceStacks[i] != null)
 			{
 				empty = false;
 				break;
@@ -356,23 +167,18 @@ public class TileEntityBrickOven extends TileEntity implements ISidedInventory, 
 				return false;
 			}
 
-			if (ovenStacks[OUTPUT] == null)
+			if (specialFurnaceStacks[OUTPUT] == null)
 			{
 				return true;
 			}
-			if (!ovenStacks[OUTPUT].isItemEqual(stack))
+			if (!specialFurnaceStacks[OUTPUT].isItemEqual(stack))
 			{
 				return false;
 			}
 
-			int result = ovenStacks[OUTPUT].stackSize + stack.stackSize;
-			return result <= getInventoryStackLimit() && result <= ovenStacks[OUTPUT].getMaxStackSize();
+			int result = specialFurnaceStacks[OUTPUT].stackSize + stack.stackSize;
+			return result <= getInventoryStackLimit() && result <= specialFurnaceStacks[OUTPUT].getMaxStackSize();
 		}
-	}
-
-	public boolean isBurning()
-	{
-		return ovenBurnTime > 0;
 	}
 
 	public void smeltItem()
@@ -381,64 +187,42 @@ public class TileEntityBrickOven extends TileEntity implements ISidedInventory, 
 		{
 			ItemStack itemStack = BrickOvenRecipeHandler.instance().findMatchingRecipe(this);
 
-			if (ovenStacks[OUTPUT] == null)
+			if (specialFurnaceStacks[OUTPUT] == null)
 			{
-				ovenStacks[OUTPUT] = itemStack.copy();
+				specialFurnaceStacks[OUTPUT] = itemStack.copy();
 			}
-			else if (ovenStacks[OUTPUT].getItem() == itemStack.getItem())
+			else if (specialFurnaceStacks[OUTPUT].getItem() == itemStack.getItem())
 			{
-				ovenStacks[OUTPUT].stackSize += itemStack.stackSize;
+				specialFurnaceStacks[OUTPUT].stackSize += itemStack.stackSize;
 			}
 
-			for (int i = INPUTSTART; i < ovenStacks.length; ++i)
+			for (int i = INPUTSTART; i < specialFurnaceStacks.length; ++i)
 			{
-				ItemStack stack = ovenStacks[i];
+				ItemStack stack = specialFurnaceStacks[i];
 
 				if (stack != null)
 				{
 					ItemStack containerItem = null;
 
-					if (ovenStacks[i].getItem().hasContainerItem(ovenStacks[i]))
+					if (specialFurnaceStacks[i].getItem().hasContainerItem(specialFurnaceStacks[i]))
 					{
-						containerItem = ovenStacks[i].getItem().getContainerItem(ovenStacks[i]);
+						containerItem = specialFurnaceStacks[i].getItem().getContainerItem(specialFurnaceStacks[i]);
 					}
 
-					--ovenStacks[i].stackSize;
+					--specialFurnaceStacks[i].stackSize;
 
-					if (ovenStacks[i].stackSize <= 0)
+					if (specialFurnaceStacks[i].stackSize <= 0)
 					{
-						ovenStacks[i] = null;
+						specialFurnaceStacks[i] = null;
 					}
 
 					if (containerItem != null)
 					{
-						ovenStacks[i] = containerItem;
+						specialFurnaceStacks[i] = containerItem;
 					}
 				}
 			}
 		}
-	}
-
-	@SideOnly(Side.CLIENT)
-	public int getCookProgressScaled(int progress)
-	{
-		return ovenCookTime * progress / COOKTIME;
-	}
-
-	@SideOnly(Side.CLIENT)
-	public int getBurnTimeRemainingScaled(int time)
-	{
-		if (currentItemBurnLength == 0)
-		{
-			currentItemBurnLength = COOKTIME;
-		}
-
-		return ovenBurnTime * time / currentItemBurnLength;
-	}
-
-	public void setBlockName(String displayName)
-	{
-		ovenName = displayName;
 	}
 
 	@Override
@@ -453,16 +237,16 @@ public class TileEntityBrickOven extends TileEntity implements ISidedInventory, 
 			return slotsInput;
 		}
 	}
-
+	
+	public static boolean isItemFuel(ItemStack itemStack)
+	{
+		return getItemBurnTime(itemStack) > 0;
+	}
+	
 	@Override
 	public boolean canInsertItem(int par1, ItemStack stack, EnumFacing side)
 	{
 		return isItemValidForSlot(par1, stack);
-	}
-
-	public static boolean isItemFuel(ItemStack itemStack)
-	{
-		return getItemBurnTime(itemStack) > 0;
 	}
 
 	@Override
