@@ -232,7 +232,7 @@ public class BBEventHandler
 		{
 			if (held.getItem() instanceof ItemHammer)
 			{
-				ItemStack crushResult = ItemHammer.getCrushResult(block);
+				ItemStack crushResult = ItemHammer.getCrushResult(block, e.state);
 				if (crushResult != null)
 				{
 					e.drops.clear();
