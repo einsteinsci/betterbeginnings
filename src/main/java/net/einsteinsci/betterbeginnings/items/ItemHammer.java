@@ -2,6 +2,7 @@ package net.einsteinsci.betterbeginnings.items;
 
 import com.google.common.collect.Sets;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.*;
@@ -16,11 +17,12 @@ public class ItemHammer extends ItemTool
 	protected ItemHammer(Item.ToolMaterial material)
 	{
 	    super(2.0F, material, breakableBlocks);
+		setHarvestLevel("pickaxe", 1);
 	}
 
-	public static ItemStack getCrushResult(Block broken)
+	public static ItemStack getCrushResult(Block broken, IBlockState state)
 	{
-		if (broken == Blocks.stone)
+		if (broken == Blocks.stone && broken.getMetaFromState(state) == 0)
 		{
 			return new ItemStack(Blocks.cobblestone);
 		}
