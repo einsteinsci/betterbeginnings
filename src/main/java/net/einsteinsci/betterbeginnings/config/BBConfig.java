@@ -19,12 +19,14 @@ public class BBConfig
 	public static boolean moduleAdvancedCrafting;
 	public static boolean moduleInfusionRepair;
 	public static boolean moduleCampfire;
+	public static boolean moduleFurnaces;
 
 	public static boolean advancedCraftingForLotsOfThings;
 	public static boolean removeCraftedFoodRecipes;
 	public static boolean canMakeChainArmor;
 	public static boolean removeWoodToolRecipes;
 	public static boolean anyStringForTraps;
+	public static boolean allowStringAsToolBinding;
 
 	public static boolean flamingAnimalsDropCharredMeat;
 	public static boolean spidersDropString;
@@ -54,12 +56,14 @@ public class BBConfig
 		moduleAdvancedCrafting = true;
 		moduleInfusionRepair = true;
 		moduleCampfire = true;
+		moduleFurnaces = true;
 
 		advancedCraftingForLotsOfThings = true;
 		removeCraftedFoodRecipes = true;
 		canMakeChainArmor = true;
 		removeWoodToolRecipes = true;
 		anyStringForTraps = false;
+		allowStringAsToolBinding = true;
 
 		flamingAnimalsDropCharredMeat = true;
 		spidersDropString = false;
@@ -100,6 +104,9 @@ public class BBConfig
 			"Enable Infusion Repair Table recipe. Set to false to force anvil repairs.");
 		moduleCampfire = config.getBoolean("Module - Campfire", GENERAL, true,
 			"Enable Campfire recipe. Set to false to make the beginning even harder.");
+		moduleFurnaces = config.getBoolean("Module - Furnaces", GENERAL, true,
+			"Enable Furnaces recipes. Set to false to only allow vanilla furnace. \n" +
+				"This will revert the vanilla furnace to the vanilla recipe.");
 
 		// Mob Drops
 		flamingAnimalsDropCharredMeat = config.getBoolean("Flaming animals drop charred meat", MOBDROPS, true,
@@ -131,6 +138,8 @@ public class BBConfig
 			"Remove recipes for wooden pickaxe, axe, shovel, and hoe.");
 		anyStringForTraps = config.getBoolean("Any string for traps", CRAFTING, false,
 			"Allow any string to be used for tripwire hooks, trapped chests, etc.");
+		allowStringAsToolBinding = config.getBoolean("Allow string and twine as tool binding", CRAFTING, false,
+			"Allow string and twine to be used in place of leather strips in tool bindings, at a higher cost.");
 
 		// Smelting
 		canSmelterDoKilnStuff = config.getBoolean("Smelter can make kiln products", SMELTING, false,

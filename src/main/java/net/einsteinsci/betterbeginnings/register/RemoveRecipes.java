@@ -19,7 +19,12 @@ public class RemoveRecipes
 
 		// Replaced/Obsolete Items
 		removedRecipes.add(Items.wooden_sword);
-		removedRecipes.add(Item.getItemFromBlock(Blocks.furnace));
+
+		if (BBConfig.moduleFurnaces)
+		{
+			removedRecipes.add(Item.getItemFromBlock(Blocks.furnace));
+		}
+
 		removedRecipes.add(Item.getItemFromBlock(Blocks.crafting_table));
 
 		if (BBConfig.removeWoodToolRecipes)

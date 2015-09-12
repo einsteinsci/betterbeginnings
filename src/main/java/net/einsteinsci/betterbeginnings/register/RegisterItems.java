@@ -96,6 +96,7 @@ public class RegisterItems
 	public static void oreDictRegistry()
 	{
 		OreDictionary.registerOre("nuggetIron", ironNugget);
+
 		OreDictionary.registerOre("itemKnife", new ItemStack(flintKnife, 1, OreDictionary.WILDCARD_VALUE));
 		OreDictionary.registerOre("itemKnife", new ItemStack(boneKnife, 1, OreDictionary.WILDCARD_VALUE));
 		OreDictionary.registerOre("itemKnife", new ItemStack(ironKnife, 1, OreDictionary.WILDCARD_VALUE));
@@ -105,6 +106,9 @@ public class RegisterItems
 		OreDictionary.registerOre("itemString", new ItemStack(Items.string));
 		OreDictionary.registerOre("itemString", new ItemStack(thread));
 		OreDictionary.registerOre("itemString", new ItemStack(twine));
+
+		OreDictionary.registerOre("itemStringTough", new ItemStack(Items.string));
+		OreDictionary.registerOre("itemStringTough", new ItemStack(twine));
 	}
 
 	public static void tweakVanilla()
