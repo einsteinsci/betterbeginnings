@@ -112,6 +112,20 @@ public class BBEventHandler
 			e.toolTip.add(ChatUtil.RED + "Module disabled in config.");
 		}
 
+		Block block = Block.getBlockFromItem(item);
+		if (block != null)
+		{
+			if (block == RegisterBlocks.kiln || block == RegisterBlocks.obsidianKiln ||
+				block == RegisterBlocks.brickOven || block == RegisterBlocks.netherBrickOven ||
+				block == RegisterBlocks.smelter || block == RegisterBlocks.enderSmelter)
+			{
+				if (!BBConfig.moduleFurnaces)
+				{
+					e.toolTip.add(ChatUtil.RED + "Module disabled in config.");
+				}
+			}
+		}
+
 		if (isWIP(e.itemStack))
 		{
 			e.toolTip.add(ChatUtil.RED + "WIP. May not be fully functional.");
