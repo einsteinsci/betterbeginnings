@@ -41,7 +41,7 @@ public class RegisterItems
 	public static final ItemTwine twine = new ItemTwine();
 	public static final ItemRockHammer rockHammer = new ItemRockHammer(ToolMaterial.IRON);
 	public static final ItemPan pan = new ItemPan();
-	public static final ItemSpit spit = new ItemSpit();
+	public static final ItemRotisserie rotisserie = new ItemRotisserie();
 	public static final ItemInfusionScroll infusionScroll = new ItemInfusionScroll();
 
 	public static final List<Item> allItems = new ArrayList<>();
@@ -69,7 +69,7 @@ public class RegisterItems
 		RegisterHelper.registerItem(fireBow);
 		RegisterHelper.registerItem(rockHammer);
 		RegisterHelper.registerItem(pan);
-		RegisterHelper.registerItem(spit);
+		RegisterHelper.registerItem(rotisserie);
 		RegisterHelper.registerItem(infusionScroll);
 
 		RegisterHelper.registerItem(marshmallow);

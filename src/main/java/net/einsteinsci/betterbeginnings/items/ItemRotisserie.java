@@ -2,9 +2,9 @@ package net.einsteinsci.betterbeginnings.items;
 
 import net.einsteinsci.betterbeginnings.ModMain;
 
-public class ItemSpit extends ItemPan
+public class ItemRotisserie extends ItemPan
 {
-	public ItemSpit()
+	public ItemRotisserie()
 	{
 		super();
 		setUnlocalizedName(getName());
@@ -16,6 +16,6 @@ public class ItemSpit extends ItemPan
 	@Override
 	public String getName()
 	{
-		return "spit";
+		return "rotisserie";
 	}
 }

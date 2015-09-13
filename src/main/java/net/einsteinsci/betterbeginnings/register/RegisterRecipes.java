@@ -38,7 +38,7 @@ public class RegisterRecipes
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(RegisterItems.twine, 2), Blocks.vine, "itemKnife"));
 
 		// Spit
-		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.spit), RegisterItems.roastingStick,
+		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.rotisserie), RegisterItems.roastingStick,
 			RegisterItems.roastingStick);
 	}
 
