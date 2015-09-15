@@ -33,7 +33,7 @@ public class TileEntityEnderSmelter extends TileEntity implements IUpdatePlayerL
 	public static final int OUTPUT = 2;
 	public static final int GRAVEL = 3;
 	public static final Random random = new Random();
-	private static final int[] slotsTop = new int[] {INPUT};
+	private static final int[] slotsTop = new int[] {INPUT, GRAVEL};
 	private static final int[] slotsBottom = new int[] {OUTPUT};
 	private static final int[] slotsSides = new int[] {FUEL, GRAVEL, INPUT};
 	public int smelterBurnTime;
