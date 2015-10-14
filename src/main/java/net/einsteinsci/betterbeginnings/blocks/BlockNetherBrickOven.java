@@ -24,9 +24,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Random;
 
-/**
- * Created by einsteinsci on 8/21/2014.
- */
 public class BlockNetherBrickOven extends BlockContainer implements IBBName
 {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);

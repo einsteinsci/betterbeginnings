@@ -22,7 +22,7 @@ item.ironKnife.name=Iron Knife
 item.goldKnife.name=Gold Knife
 item.diamondKnife.name=Diamond Knife
 item.pan.name=Pan
-item.spit.name=Spit
+item.rotisserie.name=Rotisserie
 item.infusionScroll.name=Infusion Scroll
 
 item.flintHatchet.name=Flint Hatchet
@@ -44,11 +44,6 @@ item.roastingStick.name=Roasting Stick
 item.roastingStickRawMallow.name=Marshmallow on a Stick
 item.roastingStickCookedMallow.name=Browned Marshmallow on a Stick
 item.rockHammer.name=Rock Hammer
-
-item.clothHat.name=Cloth Hat
-item.clothShirt.name=Cloth Robe
-item.clothPants.name=Cloth Pants
-item.clothBoots.name=Cloth Boots
 
 item.testItem.name=Test Item
 

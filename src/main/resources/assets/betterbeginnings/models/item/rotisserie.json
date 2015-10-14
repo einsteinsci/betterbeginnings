@@ -1,7 +1,7 @@
 {
 	"parent": "builtin/generated",
 	"textures": {
-		"layer0": "betterbeginnings:items/spit"
+		"layer0": "betterbeginnings:items/rotisserie"
 	},
 	"display": {
 		"thirdperson": {

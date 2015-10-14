@@ -79,7 +79,12 @@ public class BlockKiln extends BlockContainer implements IBBName
 
 		if (!lit)
 		{
+			setLightLevel(0.0f);
 			setCreativeTab(ModMain.tabBetterBeginnings);
+		}
+		else
+		{
+			setLightLevel(0.875f);
 		}
 
 		setUnlocalizedName(getName());

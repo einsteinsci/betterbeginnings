@@ -33,6 +33,7 @@ public class BlockCampfire extends BlockContainer implements IBBName
 
 		if (!lit)
 		{
+			setLightLevel(0.0f);
 			setCreativeTab(ModMain.tabBetterBeginnings);
 		}
 		else

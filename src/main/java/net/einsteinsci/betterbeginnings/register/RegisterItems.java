@@ -15,13 +15,8 @@ import java.util.List;
 public class RegisterItems
 {
 	public static final ToolMaterial NOOBWOOD = EnumHelper.addToolMaterial("NOOBWOOD", 0, 60, 2.0f, -4, 35);
+
 	public static final ItemNoobWoodSword noobWoodSword = new ItemNoobWoodSword(NOOBWOOD);
-	public static final ItemArmor.ArmorMaterial CLOTH = EnumHelper.addArmorMaterial(
-			"CLOTH", "CLOTH", 5, new int[] {1, 3, 2, 1}, 25);
-	public static final ItemClothArmor clothHat = new ItemClothArmor(CLOTH, 0, "clothHat");
-	public static final ItemClothArmor clothShirt = new ItemClothArmor(CLOTH, 1, "clothShirt");
-	public static final ItemClothArmor clothPants = new ItemClothArmor(CLOTH, 2, "clothPants");
-	public static final ItemClothArmor clothBoots = new ItemClothArmor(CLOTH, 3, "clothBoots");
 	public static final ItemKnife flintKnife = new ItemKnifeFlint();
 	public static final ItemKnife boneKnife = new ItemKnifeBone();
 	public static final ItemKnife ironKnife = new ItemKnifeIron();
@@ -46,7 +41,7 @@ public class RegisterItems
 	public static final ItemTwine twine = new ItemTwine();
 	public static final ItemRockHammer rockHammer = new ItemRockHammer(ToolMaterial.IRON);
 	public static final ItemPan pan = new ItemPan();
-	public static final ItemSpit spit = new ItemSpit();
+	public static final ItemRotisserie rotisserie = new ItemRotisserie();
 	public static final ItemInfusionScroll infusionScroll = new ItemInfusionScroll();
 
 	public static final List<Item> allItems = new ArrayList<>();
@@ -74,7 +69,7 @@ public class RegisterItems
 		RegisterHelper.registerItem(fireBow);
 		RegisterHelper.registerItem(rockHammer);
 		RegisterHelper.registerItem(pan);
-		RegisterHelper.registerItem(spit);
+		RegisterHelper.registerItem(rotisserie);
 		RegisterHelper.registerItem(infusionScroll);
 
 		RegisterHelper.registerItem(marshmallow);
@@ -82,11 +77,6 @@ public class RegisterItems
 		RegisterHelper.registerItem(marshmallowCooked);
 		RegisterHelper.registerItem(roastingStickCookedMallow);
 		RegisterHelper.registerItem(roastingStickRawMallow);
-
-		RegisterHelper.registerItem(clothHat);
-		RegisterHelper.registerItem(clothShirt);
-		RegisterHelper.registerItem(clothPants);
-		RegisterHelper.registerItem(clothBoots);
 
 		RegisterHelper.registerItem(noobWoodSword);
 
@@ -96,6 +86,7 @@ public class RegisterItems
 	public static void oreDictRegistry()
 	{
 		OreDictionary.registerOre("nuggetIron", ironNugget);
+
 		OreDictionary.registerOre("itemKnife", new ItemStack(flintKnife, 1, OreDictionary.WILDCARD_VALUE));
 		OreDictionary.registerOre("itemKnife", new ItemStack(boneKnife, 1, OreDictionary.WILDCARD_VALUE));
 		OreDictionary.registerOre("itemKnife", new ItemStack(ironKnife, 1, OreDictionary.WILDCARD_VALUE));
@@ -105,6 +96,9 @@ public class RegisterItems
 		OreDictionary.registerOre("itemString", new ItemStack(Items.string));
 		OreDictionary.registerOre("itemString", new ItemStack(thread));
 		OreDictionary.registerOre("itemString", new ItemStack(twine));
+
+		OreDictionary.registerOre("itemStringTough", new ItemStack(Items.string));
+		OreDictionary.registerOre("itemStringTough", new ItemStack(twine));
 	}
 
 	public static void tweakVanilla()

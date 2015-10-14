@@ -29,7 +29,7 @@ public class TileEntitySmelter extends TileEntity implements ISidedInventory, IU
 	public static final int FUEL = 1;
 	public static final int OUTPUT = 2;
 	public static final int GRAVEL = 3;
-	private static final int[] slotsTop = new int[] {INPUT};
+	private static final int[] slotsTop = new int[] {GRAVEL, INPUT};
 	private static final int[] slotsBottom = new int[] {OUTPUT};
 	private static final int[] slotsSides = new int[] {FUEL, GRAVEL, INPUT};
 	public int smelterBurnTime;

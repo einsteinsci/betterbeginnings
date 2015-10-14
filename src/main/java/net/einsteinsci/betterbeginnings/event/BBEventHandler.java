@@ -10,10 +10,6 @@ import net.einsteinsci.betterbeginnings.register.achievement.RegisterAchievement
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityCampfire;
 import net.einsteinsci.betterbeginnings.util.ChatUtil;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.*;
@@ -22,18 +18,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.*;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
-import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import org.lwjgl.opengl.GL11;
 
 import java.util.*;
 
@@ -99,7 +91,7 @@ public class BBEventHandler
 			e.toolTip.add(ChatUtil.BLUE + "Fry stuff over a campfire!");
 		}
 
-		if (item == RegisterItems.spit)
+		if (item == RegisterItems.rotisserie)
 		{
 			e.toolTip.add(ChatUtil.BLUE + "Not for roasting people");
 		}
@@ -120,6 +112,20 @@ public class BBEventHandler
 			e.toolTip.add(ChatUtil.RED + "Module disabled in config.");
 		}
 
+		Block block = Block.getBlockFromItem(item);
+		if (block != null)
+		{
+			if (block == RegisterBlocks.kiln || block == RegisterBlocks.obsidianKiln ||
+				block == RegisterBlocks.brickOven || block == RegisterBlocks.netherBrickOven ||
+				block == RegisterBlocks.smelter || block == RegisterBlocks.enderSmelter)
+			{
+				if (!BBConfig.moduleFurnaces)
+				{
+					e.toolTip.add(ChatUtil.RED + "Module disabled in config.");
+				}
+			}
+		}
+
 		if (isWIP(e.itemStack))
 		{
 			e.toolTip.add(ChatUtil.RED + "WIP. May not be fully functional.");
@@ -130,10 +136,6 @@ public class BBEventHandler
 	{
 		List<ItemStack> wip = new ArrayList<>();
 
-		wip.add(new ItemStack(RegisterItems.clothBoots));
-		wip.add(new ItemStack(RegisterItems.clothPants));
-		wip.add(new ItemStack(RegisterItems.clothShirt));
-		wip.add(new ItemStack(RegisterItems.clothHat));
 		wip.add(new ItemStack(RegisterItems.cloth));
 
 		for (ItemStack test : wip)
