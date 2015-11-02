@@ -136,7 +136,7 @@ public class BBEventHandler
 	{
 		List<ItemStack> wip = new ArrayList<>();
 
-		wip.add(new ItemStack(RegisterItems.cloth));
+		// add WIP items here
 
 		for (ItemStack test : wip)
 		{

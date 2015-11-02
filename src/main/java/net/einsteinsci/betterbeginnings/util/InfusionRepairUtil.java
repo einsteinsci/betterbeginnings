@@ -1,6 +1,7 @@
-package net.einsteinsci.betterbeginnings.register;
+package net.einsteinsci.betterbeginnings.util;
 
 import net.einsteinsci.betterbeginnings.inventory.InventoryInfusionRepair;
+import net.einsteinsci.betterbeginnings.register.RegisterItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -10,6 +11,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class InfusionRepairUtil
 {
@@ -326,96 +328,163 @@ public class InfusionRepairUtil
 				if (repaired.getTagCompound().getTag("ench") != null)
 				{
 					NBTTagList enchants = (NBTTagList)repaired.getTagCompound().getTag("ench");
-					for (int i = 0; i < enchants.tagCount(); i++)
-					{
-						NBTTagCompound enchant = enchants.getCompoundTagAt(i);
-						int enchId = enchant.getInteger("id");
-						int level = enchant.getInteger("lvl");
-
-						switch (enchId)
-						{
-							case 0: // Protection
-								requiredItems.add(new ItemStack(Blocks.iron_bars, 2 * level));
-								break;
-							case 1: // Fire Protection
-								requiredItems.add(new ItemStack(Items.bucket, level));
-								break;
-							case 2: // Feather Falling
-								requiredItems.add(new ItemStack(Items.feather, 2 * level));
-								break;
-							case 3: // Blast Protection
-								requiredItems.add(new ItemStack(Blocks.cobblestone, 8 * level));
-								break;
-							case 4: // Projectile Protection
-								requiredItems.add(new ItemStack(Items.snowball, 4 * level));
-								break;
-							case 5: // Respiration
-								requiredItems.add(new ItemStack(Items.glass_bottle, level));
-								break;
-							case 6: // Aqua Affinity
-								requiredItems.add(new ItemStack(Blocks.clay, level));
-								break;
-							case 7: // Thorns
-								requiredItems.add(new ItemStack(Blocks.cactus, 4 * level));
-								break;
-							case 8: // Depth Strider
-								// requiredItems.add(new ItemStack(Blocks.prismarine, level));
-								break;
-							case 16: // Sharpness
-								requiredItems.add(new ItemStack(Items.quartz, 4 * level));
-								break;
-							case 17: // Smite
-								requiredItems.add(new ItemStack(Blocks.soul_sand, 2 * level));
-								break;
-							case 18: // Anthropods
-								requiredItems.add(new ItemStack(Items.fermented_spider_eye, level));
-								break;
-							case 19: // Knockback
-								requiredItems.add(new ItemStack(Blocks.piston, level));
-								break;
-							case 20: // Fire Aspect
-								requiredItems.add(new ItemStack(Items.blaze_powder, 2 * level));
-								break;
-							case 21: // Looting
-								requiredItems.add(new ItemStack(Items.gold_ingot, 2 * level));
-								break;
-							case 32: // Efficiency
-								requiredItems.add(new ItemStack(Items.sugar, 4 * level));
-								break;
-							case 33: // Silk Touch
-								requiredItems.add(new ItemStack(RegisterItems.cloth, 8 * level));
-								break;
-							case 34: // Unbreaking
-								requiredItems.add(new ItemStack(Blocks.obsidian, level));
-								break;
-							case 35: // Fortune
-								requiredItems.add(new ItemStack(Items.dye, 4 * level, 4));
-								break;
-							case 48: // Power
-								requiredItems.add(new ItemStack(RegisterItems.leatherStrip, level));
-								break;
-							case 49: // Punch
-								requiredItems.add(new ItemStack(Items.gunpowder, level));
-								break;
-							case 50: // Flame
-								requiredItems.add(new ItemStack(Items.fire_charge, level));
-								break;
-							case 51: // Infinity
-								requiredItems.add(new ItemStack(Items.arrow, 16 * level));
-								break;
-							case 61: // Luck of the Sea
-								requiredItems.add(new ItemStack(Blocks.waterlily, level));
-								break;
-							case 62: // Lure
-								requiredItems.add(new ItemStack(Items.fish, level, 3));
-								break;
-						}
-					}
+					requiredItems.addAll(getEnchantmentItems(enchants));
 				}
 			}
 		}
 
 		return requiredItems;
+	}
+
+	public static List<ItemStack> getEnchantmentItems(NBTTagList enchants)
+	{
+		List<ItemStack> requiredItems = new ArrayList<>();
+
+		for (int i = 0; i < enchants.tagCount(); i++)
+		{
+			NBTTagCompound enchant = enchants.getCompoundTagAt(i);
+			int enchId = enchant.getInteger("id");
+			int level = enchant.getInteger("lvl");
+
+			switch (enchId)
+			{
+			case 0: // Protection
+				requiredItems.add(new ItemStack(Blocks.iron_bars, 2 * level));
+				break;
+			case 1: // Fire Protection
+				requiredItems.add(new ItemStack(Items.bucket, level));
+				break;
+			case 2: // Feather Falling
+				requiredItems.add(new ItemStack(Items.feather, 2 * level));
+				break;
+			case 3: // Blast Protection
+				requiredItems.add(new ItemStack(Blocks.cobblestone, 8 * level));
+				break;
+			case 4: // Projectile Protection
+				requiredItems.add(new ItemStack(Items.snowball, 4 * level));
+				break;
+			case 5: // Respiration
+				requiredItems.add(new ItemStack(Items.glass_bottle, level));
+				break;
+			case 6: // Aqua Affinity
+				requiredItems.add(new ItemStack(Blocks.clay, level));
+				break;
+			case 7: // Thorns
+				requiredItems.add(new ItemStack(Blocks.cactus, 4 * level));
+				break;
+			case 8: // Depth Strider
+				requiredItems.add(new ItemStack(Blocks.prismarine, level));
+				break;
+			case 16: // Sharpness
+				requiredItems.add(new ItemStack(Items.quartz, 4 * level));
+				break;
+			case 17: // Smite
+				requiredItems.add(new ItemStack(Blocks.soul_sand, 2 * level));
+				break;
+			case 18: // Anthropods
+				requiredItems.add(new ItemStack(Items.fermented_spider_eye, level));
+				break;
+			case 19: // Knockback
+				requiredItems.add(new ItemStack(Blocks.piston, level));
+				break;
+			case 20: // Fire Aspect
+				requiredItems.add(new ItemStack(Items.blaze_powder, 2 * level));
+				break;
+			case 21: // Looting
+				requiredItems.add(new ItemStack(Items.gold_ingot, 2 * level));
+				break;
+			case 32: // Efficiency
+				requiredItems.add(new ItemStack(Items.sugar, 4 * level));
+				break;
+			case 33: // Silk Touch
+				requiredItems.add(new ItemStack(RegisterItems.cloth, 8 * level));
+				break;
+			case 34: // Unbreaking
+				requiredItems.add(new ItemStack(Blocks.obsidian, level));
+				break;
+			case 35: // Fortune
+				requiredItems.add(new ItemStack(Items.dye, 4 * level, 4));
+				break;
+			case 48: // Power
+				requiredItems.add(new ItemStack(RegisterItems.leatherStrip, level));
+				break;
+			case 49: // Punch
+				requiredItems.add(new ItemStack(Items.gunpowder, level));
+				break;
+			case 50: // Flame
+				requiredItems.add(new ItemStack(Items.fire_charge, level));
+				break;
+			case 51: // Infinity
+				requiredItems.add(new ItemStack(Items.arrow, 16 * level));
+				break;
+			case 61: // Luck of the Sea
+				requiredItems.add(new ItemStack(Blocks.waterlily, level));
+				break;
+			case 62: // Lure
+				requiredItems.add(new ItemStack(Items.fish, level, 3));
+				break;
+			}
+		}
+
+		return requiredItems;
+	}
+
+	/* // unsure
+	public static List<ItemStack> getItemsFromEnchants(ItemStack stack)
+	{
+		if (stack.isItemEnchanted())
+		{
+			if (stack.getTagCompound() != null)
+			{
+				if (stack.getTagCompound().getTag("ench") != null)
+				{
+					NBTTagList enchants = (NBTTagList)stack.getTagCompound().getTag("ench");
+					return getEnchantmentItems(enchants);
+				}
+			}
+		}
+
+		return new ArrayList<>(); // empty
+	}
+	*/
+
+	public static boolean isToolValidForDiffusion(ItemStack stack)
+	{
+		if (stack == null)
+		{
+			return false;
+		}
+
+		if (!stack.isItemEnchanted())
+		{
+			return false;
+		}
+
+		if (stack.getItem() instanceof ItemTool)
+		{
+			ItemTool tool = (ItemTool)stack.getItem();
+			Item.ToolMaterial material = Item.ToolMaterial.valueOf(tool.getToolMaterialName());
+
+			return material == Item.ToolMaterial.EMERALD || material == Item.ToolMaterial.GOLD;
+		}
+
+		if (stack.getItem() instanceof ItemSword)
+		{
+			ItemSword sword = (ItemSword)stack.getItem();
+			Item.ToolMaterial material = Item.ToolMaterial.valueOf(sword.getToolMaterialName());
+
+			return material == Item.ToolMaterial.EMERALD || material == Item.ToolMaterial.GOLD;
+		}
+
+		if (stack.getItem() instanceof ItemArmor)
+		{
+			ItemArmor armor = (ItemArmor)stack.getItem();
+			ItemArmor.ArmorMaterial material = armor.getArmorMaterial();
+
+			return material == ItemArmor.ArmorMaterial.DIAMOND || material == ItemArmor.ArmorMaterial.GOLD;
+		}
+
+		return false;
 	}
 
 	public static int getTakenLevels(InventoryInfusionRepair repairTable)

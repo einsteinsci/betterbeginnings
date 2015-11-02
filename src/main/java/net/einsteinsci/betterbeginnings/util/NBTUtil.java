@@ -1,5 +1,7 @@
 package net.einsteinsci.betterbeginnings.util;
 
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
 
 public class NBTUtil
@@ -48,5 +50,24 @@ public class NBTUtil
 			default:
 				return null;
 		}
+	}
+
+	public static void addBookEnchantment(ItemStack stack, Enchantment ench, short level)
+	{
+		if (stack.getTagCompound() == null)
+		{
+			stack.setTagCompound(new NBTTagCompound());
+		}
+
+		if (!stack.getTagCompound().hasKey("ench", 9))
+		{
+			stack.getTagCompound().setTag("StoredEnchantments", new NBTTagList());
+		}
+
+		NBTTagList enchList = stack.getTagCompound().getTagList("StoredEnchantments", TAG_COMPOUND);
+		NBTTagCompound enchTag = new NBTTagCompound();
+		enchTag.setShort("id", (short)ench.effectId);
+		enchTag.setShort("lvl", level);
+		enchList.appendTag(enchTag);
 	}
 }

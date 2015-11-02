@@ -2,6 +2,7 @@ package net.einsteinsci.betterbeginnings.items;
 
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.blocks.BlockInfusionRepairStation;
+import net.einsteinsci.betterbeginnings.config.BBConfig;
 import net.einsteinsci.betterbeginnings.register.IBBName;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityInfusionRepair;
 import net.einsteinsci.betterbeginnings.util.ChatUtil;
@@ -48,26 +49,50 @@ public class ItemInfusionScroll extends Item implements IBBName
 					ChatUtil.sendChatToPlayer(player, I18n.format("scroll.notool"));
 					return true;
 				}
-				else if (infusionRepair.stackTool().getItemDamage() == 0)
-				{
-					ChatUtil.sendChatToPlayer(player, I18n.format("scroll.repaired"));
-					return true;
-				}
 
-				TileEntityInfusionRepair.Ingredient ingredient = infusionRepair.getNextIngredient();
-				if (ingredient == null)
+				if (!infusionRepair.isDiffusionMode())
 				{
-					ChatUtil.sendChatToPlayer(player, ChatUtil.RED + I18n.format("scroll.error"));
-				}
-				else if (ingredient.isXP)
-				{
-					ChatUtil.sendChatToPlayer(player, I18n.format("scroll.xp", ingredient.count));
+					if (infusionRepair.stackTool().getItemDamage() == 0)
+					{
+						ChatUtil.sendChatToPlayer(player, I18n.format("scroll.repaired"));
+						return true;
+					}
+
+					TileEntityInfusionRepair.InfusionIngredient ingredient = infusionRepair.getNextIngredient();
+					if (ingredient == null)
+					{
+						ChatUtil.sendChatToPlayer(player, ChatUtil.RED + I18n.format("scroll.error"));
+					}
+					else if (ingredient.isXP)
+					{
+						ChatUtil.sendChatToPlayer(player, I18n.format("scroll.xp", ingredient.count));
+					}
+					else
+					{
+						ItemStack ingredientStack = new ItemStack(ingredient.item, ingredient.count, ingredient.damage);
+						ChatUtil.sendChatToPlayer(player, I18n.format("scroll.item", ingredient.count,
+							ingredientStack.getDisplayName()));
+					}
 				}
 				else
 				{
-					ItemStack ingredientStack = new ItemStack(ingredient.item, ingredient.count, ingredient.damage);
-					ChatUtil.sendChatToPlayer(player, I18n.format("scroll.item", ingredient.count,
-						ingredientStack.getDisplayName()));
+					if (infusionRepair.diffusionReady())
+					{
+						int healthNeeded = BBConfig.diffusionHealthTaken - (int)infusionRepair.getHealthTaken();
+						float heartsNeeded = (float)healthNeeded / 2.0f;
+						String heartsNeededStr = "" + heartsNeeded;
+						heartsNeededStr = heartsNeededStr.replaceFirst("\\.5", " 1/2");
+						heartsNeededStr = heartsNeededStr.replaceFirst("\\.0", "");
+						ChatUtil.sendChatToPlayer(player, I18n.format("scroll.diffusionblood", "" + heartsNeededStr));
+					}
+					else if (infusionRepair.diffusionHasTool())
+					{
+						ChatUtil.sendChatToPlayer(player, I18n.format("scroll.diffusionbook"));
+					}
+					else
+					{
+						ChatUtil.sendChatToPlayer(player, I18n.format("scroll.notool"));
+					}
 				}
 			}
 		}

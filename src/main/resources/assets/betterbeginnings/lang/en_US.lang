@@ -107,7 +107,8 @@ achievement.netherBrickOven.desc=Upgrade your Brick Oven into a Nether Brick Ove
 achievement.notchApple=Food of the Gods
 achievement.notchApple.desc=Bake an enchanted golden apple
 
-death.face=%1$s broke their face on a %2$s
+death.face=%1$s broke their face on a %2$s.
+death.diffusion=%s$s has faded into nonexistence.
 
 blockbreak.fail=Almost. Once more should do it.
 blockbreak.success=Ouch! But at least it worked.
@@ -119,3 +120,5 @@ scroll.repaired=Tool is repaired.
 scroll.error=Next ingredient is NULL.
 scroll.item=Next ingredient: %1$sx %2$s
 scroll.xp=Infusion requires %1$s levels.
+scroll.diffusionblood=Diffusion requires %1$s hearts.
+scroll.diffusionbook=Diffusion requires a book to move the enchantment to.

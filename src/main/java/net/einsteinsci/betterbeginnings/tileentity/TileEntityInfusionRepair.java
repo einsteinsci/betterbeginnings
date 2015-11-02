@@ -1,9 +1,18 @@
 package net.einsteinsci.betterbeginnings.tileentity;
 
-import net.einsteinsci.betterbeginnings.register.InfusionRepairUtil;
+import io.netty.handler.logging.LogLevel;
+import net.einsteinsci.betterbeginnings.ModMain;
+import net.einsteinsci.betterbeginnings.config.BBConfig;
+import net.einsteinsci.betterbeginnings.event.DamageSourceDiffusion;
+import net.einsteinsci.betterbeginnings.items.*;
+import net.einsteinsci.betterbeginnings.util.ChatUtil;
+import net.einsteinsci.betterbeginnings.util.InfusionRepairUtil;
+import net.einsteinsci.betterbeginnings.util.NBTUtil;
 import net.minecraft.command.IEntitySelector;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,6 +24,7 @@ import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraftforge.oredict.OreDictionary;
+import org.apache.logging.log4j.Level;
 
 import java.util.*;
 
@@ -24,7 +34,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 {
 	public ItemStack[] stacks = new ItemStack[10];
 
-	public static final int SLOT_TOOL = 0;
+	public static final int SLOT_CENTER = 0;
 	public static final int SLOT_OUTPUT = 9;
 	public static final int SLOT_INPUT_START = 1;
 
@@ -32,6 +42,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 
 	private short levelsToFill;
 	private short levelsTaken;
+	private short healthTaken;
 
 	private int ticksAge = 0;
 
@@ -66,6 +77,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 
 		levelsToFill = tagCompound.getShort("LevelsNeeded");
 		levelsTaken = tagCompound.getShort("LevelsTaken");
+		healthTaken = tagCompound.getShort("HealthTaken");
 	}
 
 	@Override
@@ -94,6 +106,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 
 		tagCompound.setShort("LevelsToFill", levelsToFill);
 		tagCompound.setShort("LevelsTaken", levelsTaken);
+		tagCompound.setShort("HealthTaken", healthTaken);
 	}
 
 	// region slot stuff
@@ -238,75 +251,234 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 		return st != null && dmg == 0;
 	}
 
+	public boolean isDiffusionMode()
+	{
+		ItemStack st = stackTool();
+		if (st == null)
+		{
+			return false;
+		}
+
+		return st.getItem() instanceof ItemBBCloth;
+	}
+
 	@Override
 	public void update()
 	{
 		if (!worldObj.isRemote)
 		{
-			Ingredient next = getNextIngredient();
-			if (next == null)
+			// diffusion mode
+			if (isDiffusionMode())
 			{
-				return;
+				List<EntityItem> entitiesOnTop = getItemsOnTop();
+				for (EntityItem ei : entitiesOnTop)
+				{
+					ItemStack stack = ei.getEntityItem();
+
+					boolean addit = false;
+					if (!diffusionHasTool())
+					{
+						if (InfusionRepairUtil.isToolValidForDiffusion(stack))
+						{
+							addit = true;
+						}
+					}
+
+					if (stack.getItem() instanceof ItemBook)
+					{
+						if (!diffusionReady() && diffusionHasTool())
+						{
+							addit = true;
+						}
+					}
+
+					if (addit)
+					{
+						addInput(stack.copy());
+						stack.stackSize--;
+
+						if (stack.stackSize <= 0)
+						{
+							ei.setDead();
+						}
+
+						worldObj.markBlockForUpdate(pos);
+						markDirty();
+					}
+				}
+
+				if (diffusionReady())
+				{
+					if (healthTaken < BBConfig.diffusionHealthTaken)
+					{
+						EntityPlayer victim = getVictim();
+						if (victim != null && ticksAge % 5 == 0)
+						{
+							if (!victim.capabilities.isCreativeMode)
+							{
+								victim.attackEntityFrom(new DamageSourceDiffusion(), 1.0f);
+							}
+							healthTaken++;
+
+							worldObj.markBlockForUpdate(pos);
+							markDirty();
+						}
+					}
+					else if (healthTaken == BBConfig.diffusionHealthTaken)
+					{
+						worldObj.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), "mob.zombie.unfect", 1.0f, 1.0f);
+
+						ItemStack stackTool = null;
+						int toolSlotID = -1;
+						for (int i = SLOT_INPUT_START; i < SLOT_OUTPUT; i++)
+						{
+							ItemStack stack = stacks[i];
+							if (stack == null)
+							{
+								continue;
+							}
+
+							if (stack.getItem() instanceof ItemTool ||
+								stack.getItem() instanceof ItemSword ||
+								stack.getItem() instanceof ItemArmor)
+							{
+								stackTool = stack;
+								toolSlotID = i;
+								break;
+							}
+						}
+
+						if (stackTool == null)
+						{
+							ModMain.log(Level.ERROR, "Tool not found in diffusion!");
+							ChatUtil.sendModChatToServer(ChatUtil.DARK_RED + "ERROR! Tool not found in diffusion!");
+							healthTaken = 0;
+							return;
+						}
+
+						NBTTagList enchList = stackTool.getEnchantmentTagList();
+						if (enchList == null)
+						{
+							ModMain.log(Level.ERROR, "Tool does not have enchantments!");
+							healthTaken = 0;
+							return;
+						}
+
+						Random rand = new Random();
+						int enchSpot = rand.nextInt(enchList.tagCount());
+						NBTTagCompound enchTag = enchList.getCompoundTagAt(enchSpot);
+						short enchID = enchTag.getShort("id");
+						short enchLvl = enchTag.getShort("lvl");
+						Enchantment ench = Enchantment.getEnchantmentById(enchID);
+
+						enchList.removeTag(enchSpot);
+						if (enchList.hasNoTags())
+						{
+							stackTool.getTagCompound().removeTag("ench");
+						}
+
+						int dmgAmount = stackTool.getMaxDamage() / 5;
+						int damagedMeta = stackTool.getItemDamage() + dmgAmount;
+						damagedMeta = Math.min(damagedMeta, stackTool.getMaxDamage() - 1); // diffusion cannot break a tool completely
+						stackTool.setItemDamage(damagedMeta);
+						stacks[SLOT_CENTER] = stackTool;
+						stacks[toolSlotID] = null;
+
+						for (int i = SLOT_INPUT_START; i < SLOT_OUTPUT; i++)
+						{
+							ItemStack stack = stacks[i];
+							if (stack == null)
+							{
+								continue;
+							}
+
+							if (stack.getItem() instanceof ItemBook)
+							{
+								ItemStack enchBook = new ItemStack(Items.enchanted_book);
+								NBTUtil.addBookEnchantment(enchBook, ench, enchLvl);
+								EntityItem entity = new EntityItem(worldObj, pos.getX(), pos.getY() + 1, pos.getZ(),
+									enchBook.copy());
+								worldObj.spawnEntityInWorld(entity);
+								stacks[i] = null;
+
+								break;
+							}
+						}
+
+						healthTaken = 0;
+
+						worldObj.markBlockForUpdate(pos);
+						markDirty();
+					}
+				}
 			}
-
-			List<EntityItem> entitiesOnTop = getItemsOnTop();
-
-			if (next.isXP)
+			else // regular repair infusion
 			{
-				if (levelsToFill != next.count)
+				InfusionIngredient next = getNextIngredient();
+				if (next == null)
 				{
-					levelsToFill = (short)next.count;
-
-					worldObj.markBlockForUpdate(pos);
-					markDirty();
+					return;
 				}
 
-				EntityPlayer victim = getVictim();
-				if (victim != null && (victim.experienceLevel > 0 || victim.capabilities.isCreativeMode) &&
-					levelsTaken < levelsToFill && ticksAge % 5 == 0 && !isRepairComplete())
-				{
-					if (!victim.capabilities.isCreativeMode)
-					{
-						victim.removeExperienceLevel(1);
-					}
-					levelsTaken++;
+				List<EntityItem> entitiesOnTop = getItemsOnTop();
 
-					worldObj.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), "random.orb", 1.0f, 1.0f);
-					worldObj.markBlockForUpdate(pos);
-					markDirty();
+				if (next.isXP)
+				{
+					if (levelsToFill != next.count)
+					{
+						levelsToFill = (short)next.count;
+
+						worldObj.markBlockForUpdate(pos);
+						markDirty();
+					}
+
+					EntityPlayer victim = getVictim();
+					if (victim != null && (victim.experienceLevel > 0 || victim.capabilities.isCreativeMode) &&
+						levelsTaken < levelsToFill && ticksAge % 5 == 0 && !isRepairComplete())
+					{
+						if (!victim.capabilities.isCreativeMode)
+						{
+							victim.removeExperienceLevel(1);
+						}
+						levelsTaken++;
+
+						worldObj.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), "random.orb", 1.0f, 1.0f);
+						worldObj.markBlockForUpdate(pos);
+						markDirty();
+					}
+					else if (levelsTaken == levelsToFill)
+					{
+						worldObj.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), "random.levelup", 1.0f, 1.0f);
+						stackTool().setItemDamage(0);
+						for (int i = SLOT_INPUT_START; i < SLOT_OUTPUT; i++)
+						{
+							stacks[i] = null;
+						}
+						levelsTaken = 0;
+
+						worldObj.markBlockForUpdate(pos);
+						markDirty();
+					}
 				}
-				else if (levelsTaken == levelsToFill)
+
+				for (EntityItem ei : entitiesOnTop)
 				{
-					worldObj.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), "random.levelup", 1.0f, 1.0f);
-					stackTool().setItemDamage(0);
-					for (int i = SLOT_INPUT_START; i < SLOT_OUTPUT; i++)
+					ItemStack stack = ei.getEntityItem();
+
+					if (stack.getItem() == next.item && stack.stackSize >= next.count &&
+						stack.getItemDamage() == next.damage || next.damage == OreDictionary.WILDCARD_VALUE)
 					{
-						stacks[i] = null;
+						stack.stackSize -= next.count;
+						addInput(new ItemStack(next.item, next.count, next.damage));
+
+						if (stack.stackSize <= 0)
+						{
+							ei.setDead();
+						}
+
+						worldObj.markBlockForUpdate(pos);
+						markDirty();
 					}
-					levelsTaken = 0;
-
-					worldObj.markBlockForUpdate(pos);
-					markDirty();
-				}
-			}
-
-			for (EntityItem ei : entitiesOnTop)
-			{
-				ItemStack stack = ei.getEntityItem();
-
-				if (stack.getItem() == next.item && stack.stackSize >= next.count &&
-					stack.getItemDamage() == next.damage || next.damage == OreDictionary.WILDCARD_VALUE)
-				{
-					stack.stackSize -= next.count;
-					addInput(new ItemStack(next.item, next.count, next.damage));
-
-					if (stack.stackSize <= 0)
-					{
-						ei.setDead();
-					}
-
-					worldObj.markBlockForUpdate(pos);
-					markDirty();
 				}
 			}
 		}
@@ -330,7 +502,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 
 	public ItemStack stackTool()
 	{
-		return stacks[SLOT_TOOL];
+		return stacks[SLOT_CENTER];
 	}
 	public ItemStack stackOutput()
 	{
@@ -405,6 +577,23 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 		}
 	}
 
+	public static boolean isValidCenterSlot(ItemStack stack)
+	{
+		if (stack == null)
+		{
+			return false;
+		}
+
+		Item item = stack.getItem();
+
+		if (item instanceof ItemBBCloth)
+		{
+			return true;
+		}
+
+		return isValidTool(stack);
+	}
+
 	public static boolean isValidTool(ItemStack stack)
 	{
 		if (stack == null)
@@ -422,10 +611,10 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 	{
 		ItemStack held = player.getHeldItem();
 
-		if (held != null && isValidTool(held))
+		if (held != null && isValidCenterSlot(held))
 		{
 			// eat the tool
-			stacks[SLOT_TOOL] = held.copy();
+			stacks[SLOT_CENTER] = held.copy();
 			player.setCurrentItemOrArmor(0, null);
 
 			// om nom
@@ -434,15 +623,15 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 		else if (held == null && stackTool() != null)
 		{
 			// give it back
-			player.setCurrentItemOrArmor(0, stacks[SLOT_TOOL]);
-			stacks[SLOT_TOOL] = null;
+			player.setCurrentItemOrArmor(0, stacks[SLOT_CENTER]);
+			stacks[SLOT_CENTER] = null;
 
 			// ptooey
 			worldObj.playSound(pos.getX(), pos.getY(), pos.getZ(), "random.pop", 1.0f, 1.0f, true);
 		}
 	}
 
-	public Ingredient getNextIngredient()
+	public InfusionIngredient getNextIngredient()
 	{
 		if (stackTool() == null || stackTool().getItemDamage() == 0)
 		{
@@ -482,11 +671,64 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 
 		if (req.isEmpty())
 		{
-			return new Ingredient(InfusionRepairUtil.getTakenLevels(stackTool()));
+			return new InfusionIngredient(InfusionRepairUtil.getTakenLevels(stackTool()));
 		}
 
 		ItemStack stack = req.get(0);
-		return new Ingredient(stack.getItem(), stack.stackSize, stack.getItemDamage());
+		return new InfusionIngredient(stack.getItem(), stack.stackSize, stack.getItemDamage());
+	}
+
+	public boolean diffusionHasTool()
+	{
+		if (!isDiffusionMode())
+		{
+			return false;
+		}
+
+		for (int i = 0; i < 8; i++)
+		{
+			ItemStack stack = stackInput(i);
+			if (stack == null)
+			{
+				continue;
+			}
+
+			if (stack.getItem() instanceof ItemBBCloth) // exclude cloth when looking for tool
+			{
+				continue;
+			}
+
+			if (isValidCenterSlot(stack))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public boolean diffusionReady()
+	{
+		if (!diffusionHasTool())
+		{
+			return false;
+		}
+
+		for (int i = 0; i < 8; i++)
+		{
+			ItemStack stack = stackInput(i);
+			if (stack == null)
+			{
+				continue;
+			}
+
+			if (stack.getItem() == Items.book)
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	@Override
@@ -507,7 +749,12 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 		return new ChatComponentText(getCommandSenderName());
 	}
 
-	public static class Ingredient
+	public short getHealthTaken()
+	{
+		return healthTaken;
+	}
+
+	public static class InfusionIngredient
 	{
 		public Item item;
 		public int count;
@@ -515,7 +762,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 
 		public boolean isXP;
 
-		public Ingredient(Item _item, int _count, int _damage)
+		public InfusionIngredient(Item _item, int _count, int _damage)
 		{
 			isXP = false;
 			item = _item;
@@ -523,7 +770,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 			damage = _damage;
 		}
 
-		public Ingredient(int levelCount)
+		public InfusionIngredient(int levelCount)
 		{
 			isXP = true;
 			count = levelCount;

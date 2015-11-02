@@ -56,4 +56,9 @@ public class ChatUtil
 			player.addChatComponentMessage(new ChatComponentText(message));
 		}
 	}
+
+	public static void sendModChatToServer(String message)
+	{
+		sendChatToServer(ORANGE + "[" + ModMain.NAME + "] " + RESET + message);
+	}
 }

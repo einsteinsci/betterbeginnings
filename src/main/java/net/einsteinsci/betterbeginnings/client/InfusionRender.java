@@ -169,7 +169,7 @@ public class InfusionRender extends TileEntitySpecialRenderer
 
 	public void renderNextIngredient(TileEntityInfusionRepair te, double x, double y, double z)
 	{
-		TileEntityInfusionRepair.Ingredient ing = te.getNextIngredient();
+		TileEntityInfusionRepair.InfusionIngredient ing = te.getNextIngredient();
 
 		if (ing == null || ing.isXP)
 		{

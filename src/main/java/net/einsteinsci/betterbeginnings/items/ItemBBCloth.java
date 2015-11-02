@@ -4,9 +4,9 @@ import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.register.IBBName;
 import net.minecraft.item.Item;
 
-public class ItemCloth extends Item implements IBBName
+public class ItemBBCloth extends Item implements IBBName
 {
-	public ItemCloth()
+	public ItemBBCloth()
 	{
 		super();
 

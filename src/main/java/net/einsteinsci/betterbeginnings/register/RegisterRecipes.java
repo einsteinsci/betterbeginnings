@@ -933,7 +933,6 @@ public class RegisterRecipes
 		// Diamond Tools/Weapons
 		AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.diamond_pickaxe),
 		                                          new Object[] {"dustRedstone", 5,
-			                                          new ItemStack(Items.blaze_powder, 2),
 			                                          new ItemStack(RegisterItems.leatherStrip, 3)},
 		                                          "DDD", " / ", " / ",
 		                                          'D', "gemDiamond",
@@ -999,7 +998,6 @@ public class RegisterRecipes
 		{
 			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.diamond_pickaxe),
 				new Object[] {"dustRedstone", 5,
-					new ItemStack(Items.blaze_powder, 2),
 					"itemStringTough", 6},
 				"DDD", " / ", " / ",
 				'D', "gemDiamond",

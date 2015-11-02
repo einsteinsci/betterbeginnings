@@ -48,7 +48,7 @@ public class ItemTestItem extends Item implements IBBName
 					}
 				}
 
-				TileEntityInfusionRepair.Ingredient ingredient = infusionRepair.getNextIngredient();
+				TileEntityInfusionRepair.InfusionIngredient ingredient = infusionRepair.getNextIngredient();
 				ChatUtil.sendChatToPlayer(player, "\nNext Item: " + (ingredient != null ? ingredient.toString() : "NULL"));
 			}
 		}

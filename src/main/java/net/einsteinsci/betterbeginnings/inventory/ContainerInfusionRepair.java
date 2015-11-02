@@ -1,6 +1,6 @@
 package net.einsteinsci.betterbeginnings.inventory;
 
-import net.einsteinsci.betterbeginnings.register.InfusionRepairUtil;
+import net.einsteinsci.betterbeginnings.util.InfusionRepairUtil;
 import net.einsteinsci.betterbeginnings.register.RegisterBlocks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.EnumDifficulty;
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.world.BlockEvent;
 import org.apache.logging.log4j.Level;
 import java.util.HashMap;
@@ -23,6 +24,12 @@ public class BlockBreakHelper
 	public static void handleBlockBreaking(BlockEvent.BreakEvent e)
 	{
 		if (!BBConfig.moduleBlockBreaking)
+		{
+			return;
+		}
+
+		// BC Quarries (and similar) get the okay
+		if (e.getPlayer() instanceof FakePlayer)
 		{
 			return;
 		}
