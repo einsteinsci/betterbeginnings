@@ -51,28 +51,6 @@ public abstract class ItemKnife extends ItemTool implements IBBName
 		return true;
 	}
 
-	// Determines if a block broken with the tool will drop its drops.
-	//@Override
-	//public boolean func_150897_b(Block block)
-	//{
-	//	if (block.getMaterial() == Material.rock && toolMaterial.getHarvestLevel() >= 0)
-	//	{
-	//		return true;
-	//	}
-	//	if (block.getMaterial() == Material.wood && toolMaterial.getHarvestLevel() >= 0)
-	//	{
-	//		return true;
-	//	}
-	//
-	//	return false;
-	//}
-
-	//@Override
-	//public boolean doesContainerItemLeaveCraftingGrid(ItemStack stack)
-	//{
-	//	return false;
-	//}
-
 	@Override
 	public int getHarvestLevel(ItemStack stack, String toolClass)
 	{
