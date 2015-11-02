@@ -152,16 +152,16 @@ public class BlockBreakHelper
 	{
 		switch (level)
 		{
-			case 0:
-				return "WOOD";
-			case 1:
-				return "STONE";
-			case 2:
-				return "IRON";
-			case 3:
-				return "DIAMOND";
-			default:
-				return "Level " + level;
+		case 0:
+			return "flint or bone";
+		case 1:
+			return "stone";
+		case 2:
+			return "iron";
+		case 3:
+			return "diamond";
+		default:
+			return "[LEVEL " + level + "]";
 		}
 	}
 }
