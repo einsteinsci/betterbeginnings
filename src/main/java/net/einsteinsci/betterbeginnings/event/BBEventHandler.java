@@ -166,7 +166,7 @@ public class BBEventHandler
 				ItemStack stack = e.entityPlayer.getHeldItem();
 				Item item = stack.getItem();
 
-				if (item == Items.flint_and_steel || item == RegisterItems.fireBow)
+				if (item instanceof ItemFlintAndSteel || item == RegisterItems.fireBow)
 				{
 					Block b = e.world.getBlockState(e.pos).getBlock();
 
@@ -175,7 +175,7 @@ public class BBEventHandler
 						TileEntityCampfire campfire = (TileEntityCampfire)e.world.getTileEntity(e.pos);
 
 						campfire.lightFuel(); // Light it.
-						e.entityPlayer.getHeldItem().damageItem(1, e.entityPlayer);
+						//e.entityPlayer.getHeldItem().damageItem(1, e.entityPlayer);
 					}
 				}
 			}
