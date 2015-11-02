@@ -2,15 +2,13 @@ package net.einsteinsci.betterbeginnings.items;
 
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.register.IBBName;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemReed;
 
-public class ItemThread extends ItemReed implements IBBName
+public class ItemThread extends Item implements IBBName
 {
 	public ItemThread()
 	{
-		super(Blocks.tripwire);
+		super();
 		setUnlocalizedName("thread");
 		setCreativeTab(ModMain.tabBetterBeginnings);
 	}
