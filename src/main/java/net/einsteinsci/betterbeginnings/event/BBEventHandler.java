@@ -261,22 +261,37 @@ public class BBEventHandler
 		}
 
 		// Makes sure emergency escape mechanic does not let blocks fall out (like logs)
-		ItemStack heldItemStack = player.getHeldItem();
+		if (BBConfig.alwaysBreakable.contains(block))
+		{
+			return;
+		}
 
 		int neededHarvestLevel = block.getHarvestLevel(e.state);
 		String neededToolClass = block.getHarvestTool(e.state);
 		int usedHarvestLevel = 0;
 		String usedToolClass = null;
-		if (heldItemStack != null)
+		if (held != null)
 		{
-			for (String toolClass : heldItemStack.getItem().getToolClasses(heldItemStack))
+			for (String toolClass : held.getItem().getToolClasses(held))
 			{
-				int hl = heldItemStack.getItem().getHarvestLevel(heldItemStack, toolClass);
+				int hl = held.getItem().getHarvestLevel(held, toolClass);
 				if (hl >= usedHarvestLevel)
 				{
 					usedHarvestLevel = hl;
 					usedToolClass = toolClass;
 				}
+			}
+
+			if (BBConfig.alsoPickaxes.containsKey(held.getItem()))
+			{
+				usedToolClass = "pickaxe";
+				usedHarvestLevel = BBConfig.alsoPickaxes.get(held.getItem());
+			}
+
+			if (BBConfig.alsoAxes.containsKey(held.getItem()))
+			{
+				usedToolClass = "axe";
+				usedHarvestLevel = BBConfig.alsoAxes.get(held.getItem());
 			}
 		}
 

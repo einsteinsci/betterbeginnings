@@ -1,6 +1,12 @@
 package net.einsteinsci.betterbeginnings.config;
 
+import net.einsteinsci.betterbeginnings.ModMain;
+import net.einsteinsci.betterbeginnings.util.RegistryUtil;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import org.apache.logging.log4j.Level;
 
 import java.util.*;
 
@@ -46,7 +52,14 @@ public class BBConfig
 
 	public static int diffusionHealthTaken;
 
-	public static List<String> alwaysBreakable;
+	public static List<String> alwaysBreakableStrings;
+	public static List<Block> alwaysBreakable;
+
+	public static List<String> alsoPickaxesStrings;
+	public static Map<Item, Integer> alsoPickaxes;
+
+	public static List<String> alsoAxesStrings;
+	public static Map<Item, Integer> alsoAxes;
 
 	public static void initialize()
 	{
@@ -82,7 +95,9 @@ public class BBConfig
 
 		diffusionHealthTaken = 16;
 
-		alwaysBreakable = new ArrayList<>();
+		alwaysBreakableStrings = new ArrayList<>();
+		alsoPickaxesStrings = new ArrayList<>();
+		alsoAxesStrings = new ArrayList<>();
 	}
 
 	public static void syncConfig(Configuration config)
@@ -161,11 +176,106 @@ public class BBConfig
 		// Arrays //
 		////////////
 
-		String[] _alwaysBreakable = config.getStringList("Always breakable", GENERAL, new String[] {},
-		                                                 "List of blocks to always be breakable. Use this format: " +
-				                                                 "'modid:blockName'.");
-		alwaysBreakable.clear();
-		Collections.addAll(alwaysBreakable, _alwaysBreakable);
+		// region ALWAYS BREAKABLE
+		String[] _alwaysBreakable = config.getStringList("Always breakable", TWEAKS, new String[] {},
+		    "List of blocks to always be breakable. Use this format: 'modid:blockName'.");
+		alwaysBreakableStrings.clear();
+		Collections.addAll(alwaysBreakableStrings, _alwaysBreakable);
+		for (String s : alwaysBreakableStrings)
+		{
+			Block b = RegistryUtil.getBlockFromRegistry(s);
+			if (b == null)
+			{
+				ModMain.log(Level.ERROR, "No block found matching '" + s + "'.");
+			}
+			else
+			{
+				alwaysBreakable.add(b);
+			}
+		}
+		// endregion ALWAYS BREAKABLE
+
+		// region ALSO PICKAXES
+		String[] _alsoPickaxes = config.getStringList("Also pickaxes", TWEAKS, new String[] {},
+			"List of tools that should be treated as pickaxes. Use this format: 'modid:itemName=toolTier'");
+		alsoPickaxesStrings.clear();
+		Collections.addAll(alsoPickaxesStrings, _alsoPickaxes);
+		alsoPickaxes = new HashMap<>();
+		for (String entry : alsoPickaxesStrings)
+		{
+			int colonAt = entry.indexOf(":");
+			int equalsAt = entry.indexOf("=");
+			if (colonAt == -1 || equalsAt == -1)
+			{
+				ModMain.log(Level.ERROR, "Invalid format: '" + entry + "'.");
+				continue;
+			}
+
+			String modid = entry.substring(0, colonAt);
+			String simpleName = entry.substring(colonAt + 1, equalsAt);
+
+			Item item = GameRegistry.findItem(modid, simpleName);
+
+			if (item == null)
+			{
+				ModMain.log(Level.ERROR, "No item found within '" + entry + "'.");
+				continue;
+			}
+
+			String levelStr = entry.substring(equalsAt + 1);
+			try
+			{
+				int level = Integer.parseInt(levelStr);
+
+				alsoPickaxes.put(item, level);
+			}
+			catch (NumberFormatException e)
+			{
+				ModMain.log(Level.ERROR, "Invalid number: " + levelStr + " within " + entry);
+			}
+		}
+		// endregion ALSO PICKAXES
+
+		// region ALSO AXES
+		String[] _alsoAxes = config.getStringList("Also axes", TWEAKS, new String[] {},
+			"List of tools that should be treated as axes. Use this format: 'modid:itemName=toolTier'");
+		alsoAxesStrings.clear();
+		Collections.addAll(alsoAxesStrings, _alsoAxes);
+		alsoAxes = new HashMap<>();
+		for (String entry : alsoAxesStrings)
+		{
+			int colonAt = entry.indexOf(":");
+			int equalsAt = entry.indexOf("=");
+			if (colonAt == -1 || equalsAt == -1)
+			{
+				ModMain.log(Level.ERROR, "Invalid format: '" + entry + "'.");
+				continue;
+			}
+
+			String modid = entry.substring(0, colonAt);
+			String simpleName = entry.substring(colonAt + 1, equalsAt);
+
+			Item item = GameRegistry.findItem(modid, simpleName);
+
+			if (item == null)
+			{
+				ModMain.log(Level.ERROR, "No item found within '" + entry + "'.");
+				continue;
+			}
+
+			String levelStr = entry.substring(equalsAt + 1);
+			try
+			{
+				int level = Integer.parseInt(levelStr);
+
+				alsoAxes.put(item, level);
+			}
+			catch (NumberFormatException e)
+			{
+				ModMain.log(Level.ERROR, "Invalid number: " + levelStr + " within " + entry);
+			}
+		}
+		// endregion ALSO AXES
 
 		//////////
 		// Save //

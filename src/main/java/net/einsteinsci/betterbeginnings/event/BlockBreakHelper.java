@@ -38,12 +38,11 @@ public class BlockBreakHelper
 		EntityPlayer player = e.getPlayer();
 		ItemStack heldItemStack = player.getHeldItem();
 
-		for (String blockID : BBConfig.alwaysBreakable)
+		if (BBConfig.alwaysBreakable.contains(block))
 		{
-			if (block.getUnlocalizedName().equals(blockID))
-			{
-				return;
-			}
+			ModMain.logDebug("Skipped block-breaking for block '" + block.getUnlocalizedName() +
+				"'. Block is marked as always breakable in config.");
+			return;
 		}
 
 		if (player.capabilities.isCreativeMode)
@@ -67,6 +66,17 @@ public class BlockBreakHelper
 					usedHarvestLevel = hl;
 					usedToolClass = toolClass;
 				}
+			}
+
+			if (BBConfig.alsoPickaxes.containsKey(heldItemStack.getItem()))
+			{
+				usedToolClass = "pickaxe";
+				usedHarvestLevel = BBConfig.alsoPickaxes.get(heldItemStack.getItem());
+			}
+			if (BBConfig.alsoAxes.containsKey(heldItemStack.getItem()))
+			{
+				usedToolClass = "axe";
+				usedHarvestLevel = BBConfig.alsoAxes.get(heldItemStack.getItem());
 			}
 		}
 
