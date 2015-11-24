@@ -181,6 +181,7 @@ public class BBConfig
 		    "List of blocks to always be breakable. Use this format: 'modid:blockName'.");
 		alwaysBreakableStrings.clear();
 		Collections.addAll(alwaysBreakableStrings, _alwaysBreakable);
+		alwaysBreakable = new ArrayList<>();
 		for (String s : alwaysBreakableStrings)
 		{
 			Block b = RegistryUtil.getBlockFromRegistry(s);
