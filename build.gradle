@@ -22,7 +22,7 @@ apply plugin: 'forge'
 sourceCompatibility = '1.7'
 targetCompatibility = '1.7'
 
-version = "MC1.8.0-b0.9.5-R3a"
+version = "MC1.8.0-b0.9.5-R4a"
 group= "net.einsteinsci.betterbeginnings" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "betterbeginnings"
 

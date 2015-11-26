@@ -181,6 +181,31 @@ public class BBConfig
 		    "List of blocks to always be breakable. Use this format: 'modid:blockName'.");
 		alwaysBreakableStrings.clear();
 		Collections.addAll(alwaysBreakableStrings, _alwaysBreakable);
+
+		// ALSO PICKAXES
+		String[] _alsoPickaxes = config.getStringList("Also pickaxes", TWEAKS, new String[] {},
+			"List of tools that should be treated as pickaxes. Use this format: 'modid:itemName=toolTier'");
+		alsoPickaxesStrings.clear();
+		Collections.addAll(alsoPickaxesStrings, _alsoPickaxes);
+
+		// ALSO AXES
+		String[] _alsoAxes = config.getStringList("Also axes", TWEAKS, new String[] {},
+			"List of tools that should be treated as axes. Use this format: 'modid:itemName=toolTier'");
+		alsoAxesStrings.clear();
+		Collections.addAll(alsoAxesStrings, _alsoAxes);
+
+		//////////
+		// Save //
+		//////////
+
+		if (config.hasChanged())
+		{
+			config.save();
+		}
+	}
+
+	public static void fillAlwaysBreakable()
+	{
 		alwaysBreakable = new ArrayList<>();
 		for (String s : alwaysBreakableStrings)
 		{
@@ -194,13 +219,10 @@ public class BBConfig
 				alwaysBreakable.add(b);
 			}
 		}
-		// endregion ALWAYS BREAKABLE
+	}
 
-		// region ALSO PICKAXES
-		String[] _alsoPickaxes = config.getStringList("Also pickaxes", TWEAKS, new String[] {},
-			"List of tools that should be treated as pickaxes. Use this format: 'modid:itemName=toolTier'");
-		alsoPickaxesStrings.clear();
-		Collections.addAll(alsoPickaxesStrings, _alsoPickaxes);
+	public static void fillAlsoPickaxes()
+	{
 		alsoPickaxes = new HashMap<>();
 		for (String entry : alsoPickaxesStrings)
 		{
@@ -235,13 +257,10 @@ public class BBConfig
 				ModMain.log(Level.ERROR, "Invalid number: " + levelStr + " within " + entry);
 			}
 		}
-		// endregion ALSO PICKAXES
+	}
 
-		// region ALSO AXES
-		String[] _alsoAxes = config.getStringList("Also axes", TWEAKS, new String[] {},
-			"List of tools that should be treated as axes. Use this format: 'modid:itemName=toolTier'");
-		alsoAxesStrings.clear();
-		Collections.addAll(alsoAxesStrings, _alsoAxes);
+	public static void fillAlsoAxes()
+	{
 		alsoAxes = new HashMap<>();
 		for (String entry : alsoAxesStrings)
 		{
@@ -275,16 +294,6 @@ public class BBConfig
 			{
 				ModMain.log(Level.ERROR, "Invalid number: " + levelStr + " within " + entry);
 			}
-		}
-		// endregion ALSO AXES
-
-		//////////
-		// Save //
-		//////////
-
-		if (config.hasChanged())
-		{
-			config.save();
 		}
 	}
 }

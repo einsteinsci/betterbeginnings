@@ -28,7 +28,7 @@ import org.apache.logging.log4j.Level;
 public class ModMain
 {
 	public static final String MODID = "betterbeginnings";
-	public static final String VERSION = "0.9.5-R3a";
+	public static final String VERSION = "0.9.5-R4a";
 	public static final String NAME = "Better Beginnings";
 	public static final CreativeTabs tabBetterBeginnings = new CreativeTabs("tabBetterBeginnings")
 	{
@@ -126,6 +126,9 @@ public class ModMain
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent e)
 	{
+		BBConfig.fillAlwaysBreakable();
+		BBConfig.fillAlsoPickaxes();
+		BBConfig.fillAlsoAxes();
 
 		RegisterItems.tweakVanilla();
 		Worldgen.addWorldgen();
