@@ -30,7 +30,7 @@ public class NetherBrickOvenRecipeHandler extends BrickOvenRecipeHandler
 		for (j = TileEntityNetherBrickOven.INPUTSTART; j < oven.getSizeInventory(); ++j)
 		{
 			ItemStack itemstack2 = oven.getStackInSlot(j);
-			// System.out.println("\nBrickOvenRecipeHandler.findMatchingRecipe(): j = " + j);
+			// System.out.println("\nBrickOvenRecipeHandler.findMatchingRecipeResult(): j = " + j);
 
 			if (itemstack2 != null)
 			{

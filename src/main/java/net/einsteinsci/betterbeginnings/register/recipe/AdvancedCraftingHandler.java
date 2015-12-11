@@ -2,6 +2,7 @@ package net.einsteinsci.betterbeginnings.register.recipe;
 
 import net.einsteinsci.betterbeginnings.inventory.InventoryWorkbenchAdditionalMaterials;
 import net.minecraft.block.Block;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -135,7 +136,8 @@ public class AdvancedCraftingHandler
 		return CRAFTING;
 	}
 
-	public static AdvancedRecipe AdvancedRecipeByResult(ItemStack result)
+	public static AdvancedRecipe advancedRecipeByResultAndContents(ItemStack result,
+		IInventory craftMatrix, IInventory additionalMaterials, World world)
 	{
 		for (Object obj : crafting().recipes)
 		{
@@ -143,10 +145,16 @@ public class AdvancedCraftingHandler
 			{
 				AdvancedRecipe recipe = (AdvancedRecipe)obj;
 
-				if (recipe.getRecipeOutput().getItem() == result.getItem())
+				if (recipe.matches((InventoryCrafting)craftMatrix,
+					(InventoryWorkbenchAdditionalMaterials)additionalMaterials, world))
 				{
 					return recipe;
 				}
+
+				//if (recipe.getRecipeOutput().getItem() == result.getItem())
+				//{
+				//	return recipe;
+				//}
 			}
 		}
 
@@ -193,8 +201,8 @@ public class AdvancedCraftingHandler
 		return false;
 	}
 
-	public ItemStack findMatchingRecipe(InventoryCrafting crafting, InventoryWorkbenchAdditionalMaterials materials,
-										World world)
+	public ItemStack findMatchingRecipeResult(InventoryCrafting crafting,
+		InventoryWorkbenchAdditionalMaterials materials, World world)
 	{
 		int i = 0;
 		ItemStack itemstack = null;
@@ -246,6 +254,66 @@ public class AdvancedCraftingHandler
 				if (advrecipe.matches(crafting, materials, world))
 				{
 					return advrecipe.getCraftingResult(crafting);
+				}
+			}
+
+			return null;
+		}
+	}
+
+	public AdvancedRecipe findMatchingRecipe(InventoryCrafting crafting,
+		InventoryWorkbenchAdditionalMaterials materials, World world)
+	{
+		int i = 0;
+		ItemStack itemstack = null;
+		ItemStack itemstack1 = null;
+		int j;
+
+		for (j = 0; j < crafting.getSizeInventory(); ++j)
+		{
+			ItemStack itemstack2 = crafting.getStackInSlot(j);
+
+			if (itemstack2 != null)
+			{
+				if (i == 0)
+				{
+					itemstack = itemstack2;
+				}
+
+				if (i == 1)
+				{
+					itemstack1 = itemstack2;
+				}
+
+				++i;
+			}
+		}
+
+		if (i == 2 && itemstack.getItem() == itemstack1.getItem() && itemstack.stackSize == 1 &&
+			itemstack1.stackSize == 1 && itemstack.getItem().isRepairable())
+		{
+			Item item = itemstack.getItem();
+			int j1 = item.getMaxDamage() - itemstack.getItemDamage();
+			int k = item.getMaxDamage() - itemstack1.getItemDamage();
+			int l = j1 + k + item.getMaxDamage() * 5 / 100;
+			int i1 = item.getMaxDamage() - l;
+
+			if (i1 < 0)
+			{
+				i1 = 0;
+			}
+
+			return null;
+		}
+		else
+		{
+			for (j = 0; j < recipes.size(); ++j)
+			{
+				AdvancedRecipe advrecipe = recipes.get(j);
+
+				if (advrecipe.matches(crafting, materials, world))
+				{
+					return advrecipe;
 				}
 			}
 

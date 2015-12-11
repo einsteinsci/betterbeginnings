@@ -284,6 +284,12 @@ public class AdvancedRecipe
 		return this;
 	}
 
+	@Override
+	public String toString()
+	{
+		return "Crafts " + recipeOutput.toString() + " with " + addedMaterials.length + " catalysts";
+	}
+
 	public boolean hasMaterial(ItemStack stack)
 	{
 		for (OreRecipeElement s : addedMaterials)
