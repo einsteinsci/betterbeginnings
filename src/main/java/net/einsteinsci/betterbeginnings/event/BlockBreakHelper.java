@@ -56,6 +56,8 @@ public class BlockBreakHelper
 		String usedToolClass = null;
 		String stackName = heldItemStack != null ? heldItemStack.getDisplayName() : "NULL";
 
+		boolean isConfigPickaxe = false, isConfigAxe = false;
+
 		if (heldItemStack != null)
 		{
 			for (String toolClass : heldItemStack.getItem().getToolClasses(heldItemStack))
@@ -72,11 +74,13 @@ public class BlockBreakHelper
 			{
 				usedToolClass = "pickaxe";
 				usedHarvestLevel = BBConfig.alsoPickaxes.get(heldItemStack.getItem());
+				isConfigPickaxe = true;
 			}
 			if (BBConfig.alsoAxes.containsKey(heldItemStack.getItem()))
 			{
 				usedToolClass = "axe";
 				usedHarvestLevel = BBConfig.alsoAxes.get(heldItemStack.getItem());
+				isConfigAxe = true;
 			}
 		}
 
@@ -102,6 +106,14 @@ public class BlockBreakHelper
 			{
 				cancel = true;
 			}
+		}
+		else if (neededToolClass.equalsIgnoreCase("pickaxe") && isConfigPickaxe)
+		{
+			ModMain.logDebug("Item accepted as pickaxe from config: " + heldItemStack.toString());
+		}
+		else if (neededToolClass.equalsIgnoreCase("axe") && isConfigAxe)
+		{
+			ModMain.logDebug("Item accepted as axe from config: " + heldItemStack.toString());
 		}
 		else
 		{
