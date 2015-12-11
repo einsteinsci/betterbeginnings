@@ -34,6 +34,8 @@ public class BBConfig
 	public static boolean removeWoodToolRecipes;
 	public static boolean anyStringForTraps;
 	public static boolean allowStringAsToolBinding;
+	public static boolean requireBlazePowderForDiamondPick;
+	public static boolean netherlessBlazePowderRecipe;
 
 	public static boolean flamingAnimalsDropCharredMeat;
 	public static boolean spidersDropString;
@@ -77,6 +79,8 @@ public class BBConfig
 		removeWoodToolRecipes = true;
 		anyStringForTraps = false;
 		allowStringAsToolBinding = true;
+		requireBlazePowderForDiamondPick = true;
+		netherlessBlazePowderRecipe = true;
 
 		flamingAnimalsDropCharredMeat = true;
 		spidersDropString = false;
@@ -154,6 +158,12 @@ public class BBConfig
 			"Allow any string to be used for tripwire hooks, trapped chests, etc.");
 		allowStringAsToolBinding = config.getBoolean("Allow string and twine as tool binding", CRAFTING, true,
 			"Allow string and twine to be used in place of leather strips in tool bindings, at a higher cost.");
+		requireBlazePowderForDiamondPick = config.getBoolean("Require blaze powder for diamond pick", CRAFTING, true,
+			"Require blaze powder for a Diamond Pickaxe like all other diamond tools. This will require a trip to the" +
+			" Nether unless 'Netherless blaze powder recipe' is set to true.");
+		netherlessBlazePowderRecipe = config.getBoolean("Netherless blaze powder recipe", CRAFTING, true,
+			"Add an alternate, Netherless, but expensive recipe for blaze powder to help ease getting a diamond " +
+			"pick. Still works even if 'Require blaze powder for diamond pick' is false.");
 
 		// Smelting
 		canSmelterDoKilnStuff = config.getBoolean("Smelter can make kiln products", SMELTING, false,
