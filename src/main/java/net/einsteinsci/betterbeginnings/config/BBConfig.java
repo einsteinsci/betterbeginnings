@@ -1,6 +1,7 @@
 package net.einsteinsci.betterbeginnings.config;
 
 import net.einsteinsci.betterbeginnings.ModMain;
+import net.einsteinsci.betterbeginnings.util.LogUtil;
 import net.einsteinsci.betterbeginnings.util.RegistryUtil;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -222,7 +223,7 @@ public class BBConfig
 			Block b = RegistryUtil.getBlockFromRegistry(s);
 			if (b == null)
 			{
-				ModMain.log(Level.ERROR, "No block found matching '" + s + "'.");
+				LogUtil.log(Level.ERROR, "No block found matching '" + s + "'.");
 			}
 			else
 			{
@@ -240,7 +241,7 @@ public class BBConfig
 			int equalsAt = entry.indexOf("=");
 			if (colonAt == -1 || equalsAt == -1)
 			{
-				ModMain.log(Level.ERROR, "Invalid format: '" + entry + "'.");
+				LogUtil.log(Level.ERROR, "Invalid format: '" + entry + "'.");
 				continue;
 			}
 
@@ -251,7 +252,7 @@ public class BBConfig
 
 			if (item == null)
 			{
-				ModMain.log(Level.ERROR, "No item found within '" + entry + "'.");
+				LogUtil.log(Level.ERROR, "No item found within '" + entry + "'.");
 				continue;
 			}
 
@@ -264,7 +265,7 @@ public class BBConfig
 			}
 			catch (NumberFormatException e)
 			{
-				ModMain.log(Level.ERROR, "Invalid number: " + levelStr + " within " + entry);
+				LogUtil.log(Level.ERROR, "Invalid number: " + levelStr + " within " + entry);
 			}
 		}
 	}
@@ -278,7 +279,7 @@ public class BBConfig
 			int equalsAt = entry.indexOf("=");
 			if (colonAt == -1 || equalsAt == -1)
 			{
-				ModMain.log(Level.ERROR, "Invalid format: '" + entry + "'.");
+				LogUtil.log(Level.ERROR, "Invalid format: '" + entry + "'.");
 				continue;
 			}
 
@@ -289,7 +290,7 @@ public class BBConfig
 
 			if (item == null)
 			{
-				ModMain.log(Level.ERROR, "No item found within '" + entry + "'.");
+				LogUtil.log(Level.ERROR, "No item found within '" + entry + "'.");
 				continue;
 			}
 
@@ -302,7 +303,7 @@ public class BBConfig
 			}
 			catch (NumberFormatException e)
 			{
-				ModMain.log(Level.ERROR, "Invalid number: " + levelStr + " within " + entry);
+				LogUtil.log(Level.ERROR, "Invalid number: " + levelStr + " within " + entry);
 			}
 		}
 	}
