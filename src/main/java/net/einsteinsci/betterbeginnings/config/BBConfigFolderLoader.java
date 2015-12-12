@@ -1,10 +1,7 @@
 package net.einsteinsci.betterbeginnings.config;
 
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.relauncher.Side;
 
 import java.io.File;
 
