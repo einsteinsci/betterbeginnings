@@ -1,6 +1,7 @@
 package net.einsteinsci.betterbeginnings;
 
 import net.einsteinsci.betterbeginnings.config.BBConfig;
+import net.einsteinsci.betterbeginnings.config.BBConfigFolderLoader;
 import net.einsteinsci.betterbeginnings.event.BBEventHandler;
 import net.einsteinsci.betterbeginnings.event.Worldgen;
 import net.einsteinsci.betterbeginnings.network.PacketCampfireState;
@@ -76,7 +77,7 @@ public class ModMain
 	{
 		log("Starting pre-initialization...");
 
-		configFile = new Configuration(e.getSuggestedConfigurationFile());
+		configFile = BBConfigFolderLoader.getConfigFile(e);
 		configFile.load();
 		BBConfig.initialize();
 		BBConfig.syncConfig(configFile);
