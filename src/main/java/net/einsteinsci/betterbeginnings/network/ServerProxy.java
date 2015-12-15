@@ -11,14 +11,10 @@ import org.apache.logging.log4j.Level;
 public class ServerProxy
 {
 	public void registerRenderThings()
-	{
-
-	}
+	{ }
 
 	public void registerTileEntitySpecialRenderer()
-	{
-
-	}
+	{ }
 
 	public void registerNetworkStuff()
 	{
