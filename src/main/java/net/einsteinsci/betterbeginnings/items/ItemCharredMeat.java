@@ -8,7 +8,6 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-// "That's disgusting!"
 public class ItemCharredMeat extends ItemFood implements IBBName
 {
 	public ItemCharredMeat()

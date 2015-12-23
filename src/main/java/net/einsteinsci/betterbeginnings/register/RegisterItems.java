@@ -2,6 +2,7 @@ package net.einsteinsci.betterbeginnings.register;
 
 import net.einsteinsci.betterbeginnings.items.*;
 import net.einsteinsci.betterbeginnings.items.ItemBBCloth;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.*;
 import net.minecraft.item.Item.ToolMaterial;
@@ -99,6 +100,12 @@ public class RegisterItems
 
 		OreDictionary.registerOre("itemStringTough", new ItemStack(Items.string));
 		OreDictionary.registerOre("itemStringTough", new ItemStack(twine));
+
+		OreDictionary.registerOre("itemKindling", new ItemStack(Blocks.sapling));
+		OreDictionary.registerOre("itemKindling", new ItemStack(Blocks.leaves));
+		OreDictionary.registerOre("itemKindling", new ItemStack(Blocks.leaves2));
+		OreDictionary.registerOre("itemKindling", new ItemStack(Blocks.vine));
+		OreDictionary.registerOre("itemKindling", new ItemStack(Blocks.tallgrass));
 	}
 
 	public static void tweakVanilla()

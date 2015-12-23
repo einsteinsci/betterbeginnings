@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL11;
 public class GuiCampfire extends GuiContainer
 {
 
-	private static final ResourceLocation campfireGuiTextures =
+	private static final ResourceLocation RESOURCES =
 			new ResourceLocation(ModMain.MODID + ":textures/gui/container/campfire.png");
 
 	private TileEntityCampfire tileCampfire;
@@ -33,7 +33,7 @@ public class GuiCampfire extends GuiContainer
 	public void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
 		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		mc.getTextureManager().bindTexture(campfireGuiTextures);
+		mc.getTextureManager().bindTexture(RESOURCES);
 		int k = (width - xSize) / 2;
 		int l = (height - ySize) / 2;
 
