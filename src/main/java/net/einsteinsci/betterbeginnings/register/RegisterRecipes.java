@@ -39,6 +39,10 @@ public class RegisterRecipes
 
 		// Twine
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(RegisterItems.twine, 2), Blocks.vine, "itemKnife"));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(RegisterItems.twine),
+			new ItemStack(Blocks.tallgrass, 1, 1), "itemKnife"));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(RegisterItems.twine),
+			new ItemStack(Blocks.tallgrass, 1, 2), "itemKnife"));
 
 		// Roasting Stick
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(RegisterItems.roastingStick),
