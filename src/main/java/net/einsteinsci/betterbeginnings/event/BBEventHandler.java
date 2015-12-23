@@ -526,7 +526,8 @@ public class BBEventHandler
 		{
 			// Flaming mobs drop charred meat instead of cooked meats
 			if (e.entityLiving instanceof EntityCow || e.entityLiving instanceof EntityPig ||
-					e.entityLiving instanceof EntityChicken)
+				e.entityLiving instanceof EntityChicken || e.entityLiving instanceof EntitySheep ||
+				e.entityLiving instanceof EntityRabbit)
 			{
 				int charredDrops = 0;
 
@@ -535,7 +536,8 @@ public class BBEventHandler
 				{
 					EntityItem entityItem = (EntityItem)iterator.next();
 					Item item = entityItem.getEntityItem().getItem();
-					if (item == Items.cooked_beef || item == Items.cooked_porkchop || item == Items.cooked_chicken)
+					if (item == Items.cooked_beef || item == Items.cooked_porkchop || item == Items.cooked_chicken ||
+						item == Items.cooked_mutton || item == Items.cooked_rabbit)
 					{
 						iterator.remove();
 						charredDrops += entityItem.getEntityItem().stackSize;
