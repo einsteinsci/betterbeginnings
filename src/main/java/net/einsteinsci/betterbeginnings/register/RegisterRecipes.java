@@ -1,6 +1,7 @@
 package net.einsteinsci.betterbeginnings.register;
 
 import net.einsteinsci.betterbeginnings.config.BBConfig;
+import net.einsteinsci.betterbeginnings.items.ItemCharredMeat;
 import net.einsteinsci.betterbeginnings.register.recipe.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -74,15 +75,21 @@ public class RegisterRecipes
 		KilnRecipes.addRecipe(Blocks.log, new ItemStack(Items.coal, 1, 1), 0.15f);
 		KilnRecipes.addRecipe(Blocks.log2, new ItemStack(Items.coal, 1, 1), 0.15f);
 		KilnRecipes.addRecipe(Blocks.sand, new ItemStack(Blocks.glass), 0.1f);
-		KilnRecipes.addRecipe(Items.beef, new ItemStack(RegisterItems.charredMeat), 0.1f);
-		KilnRecipes.addRecipe(Items.porkchop, new ItemStack(RegisterItems.charredMeat), 0.1f);
-		KilnRecipes.addRecipe(Items.chicken, new ItemStack(RegisterItems.charredMeat), 0.1f);
-		KilnRecipes.addRecipe(new ItemStack(Items.fish, 1, 0), new ItemStack(RegisterItems.charredMeat), 0.1f);
-		KilnRecipes.addRecipe(new ItemStack(Items.fish, 1, 1), new ItemStack(RegisterItems.charredMeat), 0.1f);
-		KilnRecipes.addRecipe(Items.rabbit, new ItemStack(RegisterItems.charredMeat), 0.1f);
-		KilnRecipes.addRecipe(Items.mutton, new ItemStack(RegisterItems.charredMeat), 0.1f);
 		KilnRecipes.addRecipe(new ItemStack(Blocks.sponge, 1, 1), new ItemStack(Blocks.sponge, 1, 0), 0.1f);
 		KilnRecipes.addRecipe(Blocks.netherrack, new ItemStack(Items.netherbrick), 0.1f);
+
+		KilnRecipes.addRecipe(Items.beef, new ItemStack(RegisterItems.charredMeat), 0.1f);
+		KilnRecipes.addRecipe(Items.porkchop, new ItemStack(RegisterItems.charredMeat), 0.1f);
+		KilnRecipes.addRecipe(Items.chicken, new ItemStack(RegisterItems.charredMeat, 1,
+			ItemCharredMeat.META_CHICKEN), 0.1f);
+		KilnRecipes.addRecipe(new ItemStack(Items.fish, 1, 0), new ItemStack(RegisterItems.charredMeat, 1,
+			ItemCharredMeat.META_FISH), 0.1f);
+		KilnRecipes.addRecipe(new ItemStack(Items.fish, 1, 1), new ItemStack(RegisterItems.charredMeat, 1,
+			ItemCharredMeat.META_FISH), 0.1f);
+		KilnRecipes.addRecipe(Items.rabbit, new ItemStack(RegisterItems.charredMeat, 1,
+			ItemCharredMeat.META_RABBIT), 0.1f);
+		KilnRecipes.addRecipe(Items.mutton, new ItemStack(RegisterItems.charredMeat, 1,
+			ItemCharredMeat.META_MUTTON), 0.1f);
 	}
 
 	private static void addBrickOvenRecipes()
@@ -180,13 +187,19 @@ public class RegisterRecipes
 
 		CampfireRecipes.addRecipe(RegisterItems.roastingStickRawMallow,
 			new ItemStack(RegisterItems.roastingStickCookedMallow), 0.5f);
+
 		CampfireRecipes.addRecipe(Items.beef, new ItemStack(RegisterItems.charredMeat), 0.1f);
 		CampfireRecipes.addRecipe(Items.porkchop, new ItemStack(RegisterItems.charredMeat), 0.1f);
-		CampfireRecipes.addRecipe(Items.chicken, new ItemStack(RegisterItems.charredMeat), 0.1f);
-		CampfireRecipes.addRecipe(new ItemStack(Items.fish, 1, 0), new ItemStack(RegisterItems.charredMeat), 0.1f);
-		CampfireRecipes.addRecipe(new ItemStack(Items.fish, 1, 1), new ItemStack(RegisterItems.charredMeat), 0.1f);
-		CampfireRecipes.addRecipe(Items.rabbit, new ItemStack(RegisterItems.charredMeat), 0.1f);
-		CampfireRecipes.addRecipe(Items.mutton, new ItemStack(RegisterItems.charredMeat), 0.1f);
+		CampfireRecipes.addRecipe(Items.chicken, new ItemStack(RegisterItems.charredMeat, 1,
+			ItemCharredMeat.META_CHICKEN), 0.1f);
+		CampfireRecipes.addRecipe(new ItemStack(Items.fish, 1, 0), new ItemStack(RegisterItems.charredMeat, 1,
+			ItemCharredMeat.META_FISH), 0.1f);
+		CampfireRecipes.addRecipe(new ItemStack(Items.fish, 1, 1), new ItemStack(RegisterItems.charredMeat, 1,
+			ItemCharredMeat.META_FISH), 0.1f);
+		CampfireRecipes.addRecipe(Items.rabbit, new ItemStack(RegisterItems.charredMeat, 1,
+			ItemCharredMeat.META_RABBIT), 0.1f);
+		CampfireRecipes.addRecipe(Items.mutton, new ItemStack(RegisterItems.charredMeat, 1,
+			ItemCharredMeat.META_MUTTON), 0.1f);
 
 		if (BBConfig.canCampfireDoAllKilnStuff)
 		{

@@ -4,22 +4,21 @@ import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.gui.BBGuiHandler;
 import net.einsteinsci.betterbeginnings.util.LogUtil;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import org.apache.logging.log4j.Level;
 
 public class ServerProxy
 {
-	public void registerRenderThings()
-	{ }
-
-	public void registerTileEntitySpecialRenderer()
-	{ }
-
-	public void registerNetworkStuff()
+	public void preInit(FMLPreInitializationEvent e)
 	{
 		NetworkRegistry.INSTANCE.registerGuiHandler(ModMain.modInstance, new BBGuiHandler());
 	}
+
+	public void init(FMLInitializationEvent e)
+	{ }
 
 	public EntityPlayer getPlayerFromMessageContext(MessageContext ctx)
 	{

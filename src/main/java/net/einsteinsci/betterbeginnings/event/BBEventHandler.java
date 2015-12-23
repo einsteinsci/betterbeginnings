@@ -2,6 +2,7 @@ package net.einsteinsci.betterbeginnings.event;
 
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.config.BBConfig;
+import net.einsteinsci.betterbeginnings.items.ItemCharredMeat;
 import net.einsteinsci.betterbeginnings.items.ItemHammer;
 import net.einsteinsci.betterbeginnings.items.ItemKnife;
 import net.einsteinsci.betterbeginnings.register.RegisterBlocks;
@@ -58,7 +59,14 @@ public class BBEventHandler
 		
 		if (item == RegisterItems.charredMeat)
 		{
-			e.toolTip.add("Not to be confused with charcoal");
+			if (e.itemStack.getMetadata() != ItemCharredMeat.META_UNKNOWN)
+			{
+				e.toolTip.add("Not to be confused with charcoal");
+			}
+			else
+			{
+				e.toolTip.add("You don't want to know...");
+			}
 		}
 		
 		if (item == RegisterItems.ironNugget)
@@ -89,12 +97,12 @@ public class BBEventHandler
 
 		if (item == RegisterItems.pan)
 		{
-			e.toolTip.add(ChatUtil.BLUE + "Fry stuff over a campfire!");
+			e.toolTip.add(ChatUtil.WHITE + "Doubles campfire cooking speed");
 		}
 
 		if (item == RegisterItems.rotisserie)
 		{
-			e.toolTip.add(ChatUtil.BLUE + "Not for roasting people");
+			e.toolTip.add(ChatUtil.WHITE + "Cooks food at the cost of speed");
 		}
 
 		if (item == Items.sugar)
@@ -243,23 +251,6 @@ public class BBEventHandler
 				}
 			}
 		}
-
-		// Tripwire -> thread
-		//if (block == Blocks.tripwire)
-		//{
-		//	int rem = 0;
-		//	for (int i = 0; i < e.drops.size(); i++)
-		//	{
-		//		if (e.drops.get(i).getItem() == Items.string)
-		//		{
-		//			rem = i;
-		//		}
-		//	}
-		//
-		//	int count = e.drops.get(rem).stackSize; // Almost certainly 1.
-		//	e.drops.remove(rem);
-		//	e.drops.add(new ItemStack(RegisterItems.thread, count));
-		//}
 
 		// Makes sure emergency escape mechanic does not let blocks fall out (like logs)
 		if (BBConfig.alwaysBreakable.contains(block))
@@ -529,7 +520,7 @@ public class BBEventHandler
 				e.entityLiving instanceof EntityChicken || e.entityLiving instanceof EntitySheep ||
 				e.entityLiving instanceof EntityRabbit)
 			{
-				int charredDrops = 0;
+				List<ItemStack> charred = new ArrayList<>();
 
 				Iterator iterator = e.drops.iterator();
 				while (iterator.hasNext())
@@ -540,11 +531,15 @@ public class BBEventHandler
 						item == Items.cooked_mutton || item == Items.cooked_rabbit)
 					{
 						iterator.remove();
-						charredDrops += entityItem.getEntityItem().stackSize;
+						charred.add(new ItemStack(RegisterItems.charredMeat, entityItem.getEntityItem().stackSize,
+							ItemCharredMeat.getDamageBasedOnMeat(entityItem.getEntityItem())));
 					}
 				}
 
-				e.entityLiving.dropItem(RegisterItems.charredMeat, charredDrops);
+				for (ItemStack s : charred)
+				{
+					e.entityLiving.entityDropItem(s, 0.0f);
+				}
 			}
 		}
 	}

@@ -61,8 +61,7 @@ public class ModMain
 		BBConfig.initialize();
 		BBConfig.syncConfig(configFile);
 
-		proxy.registerNetworkStuff();
-		proxy.registerRenderThings();
+		proxy.preInit(e);
 
 		FMLCommonHandler.instance().bus().register(eventHandler);
 		MinecraftForge.EVENT_BUS.register(eventHandler);
@@ -81,6 +80,8 @@ public class ModMain
 	@EventHandler
 	public void init(FMLInitializationEvent e)
 	{
+		proxy.init(e);
+
 		RemoveRecipes.remove();
 		RegisterRecipes.addShapelessRecipes();
 		RegisterRecipes.addShapedRecipes();
