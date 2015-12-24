@@ -14,11 +14,13 @@ public class ServerProxy
 {
 	public void preInit(FMLPreInitializationEvent e)
 	{
-		NetworkRegistry.INSTANCE.registerGuiHandler(ModMain.modInstance, new BBGuiHandler());
+
 	}
 
 	public void init(FMLInitializationEvent e)
-	{ }
+	{
+		NetworkRegistry.INSTANCE.registerGuiHandler(ModMain.modInstance, new BBGuiHandler());
+	}
 
 	public EntityPlayer getPlayerFromMessageContext(MessageContext ctx)
 	{

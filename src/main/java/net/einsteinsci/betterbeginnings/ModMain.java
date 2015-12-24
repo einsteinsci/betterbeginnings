@@ -88,6 +88,8 @@ public class ModMain
 		RegisterRecipes.addAdvancedRecipes();
 		RegisterRecipes.addFurnaceRecipes();
 
+		BBConfigFolderLoader.loadRecipes(e);
+
 		if (BBConfig.moduleFurnaces)
 		{
 			RemoveRecipes.removeFurnaceRecipes();
