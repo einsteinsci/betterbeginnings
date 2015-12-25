@@ -1,17 +1,13 @@
 package net.einsteinsci.betterbeginnings.config.json;
 
-import net.einsteinsci.betterbeginnings.register.recipe.KilnRecipes;
 import net.einsteinsci.betterbeginnings.util.LogUtil;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import org.apache.logging.log4j.Level;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.OpenOption;
 import java.nio.file.StandardOpenOption;
-import java.util.List;
 
 public class KilnConfig implements IJsonConfig
 {

@@ -26,7 +26,7 @@ public class ItemCharredMeat extends ItemFood implements IBBName
 
 	public ItemCharredMeat()
 	{
-		super(4, 8.0f, true);
+		super(5, 2.0f, true);
 		setHasSubtypes(true);
 		setMaxDamage(0);
 		setCreativeTab(ModMain.tabBetterBeginnings);
