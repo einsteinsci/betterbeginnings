@@ -2,6 +2,7 @@ package net.einsteinsci.betterbeginnings.blocks;
 
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.gui.BBGuiHandler;
+import net.einsteinsci.betterbeginnings.items.ItemFireBow;
 import net.einsteinsci.betterbeginnings.register.*;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityCampfire;
 import net.minecraft.block.BlockContainer;
@@ -11,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.world.IBlockAccess;
@@ -155,7 +157,7 @@ public class BlockCampfire extends BlockContainer implements IBBName
 		{
 			Item item = player.getHeldItem().getItem();
 
-			if (item == Items.flint_and_steel || item == RegisterItems.fireBow)
+			if (item instanceof ItemFlintAndSteel || item instanceof ItemFireBow)
 			{
 				return false;
 			}

@@ -3,6 +3,7 @@ package net.einsteinsci.betterbeginnings.event;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.config.BBConfig;
 import net.einsteinsci.betterbeginnings.items.ItemCharredMeat;
+import net.einsteinsci.betterbeginnings.items.ItemFireBow;
 import net.einsteinsci.betterbeginnings.items.ItemHammer;
 import net.einsteinsci.betterbeginnings.items.ItemKnife;
 import net.einsteinsci.betterbeginnings.register.RegisterBlocks;
@@ -175,7 +176,7 @@ public class BBEventHandler
 				ItemStack stack = e.entityPlayer.getHeldItem();
 				Item item = stack.getItem();
 
-				if (item instanceof ItemFlintAndSteel || item == RegisterItems.fireBow)
+				if (item instanceof ItemFlintAndSteel || item instanceof ItemFireBow)
 				{
 					Block b = e.world.getBlockState(e.pos).getBlock();
 
@@ -184,7 +185,6 @@ public class BBEventHandler
 						TileEntityCampfire campfire = (TileEntityCampfire)e.world.getTileEntity(e.pos);
 
 						campfire.lightFuel(); // Light it.
-						//e.entityPlayer.getHeldItem().damageItem(1, e.entityPlayer);
 					}
 				}
 			}

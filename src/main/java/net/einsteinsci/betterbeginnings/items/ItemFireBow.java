@@ -1,7 +1,9 @@
 package net.einsteinsci.betterbeginnings.items;
 
 import net.einsteinsci.betterbeginnings.ModMain;
+import net.einsteinsci.betterbeginnings.blocks.BlockCampfire;
 import net.einsteinsci.betterbeginnings.register.IBBName;
+import net.einsteinsci.betterbeginnings.register.RegisterBlocks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -30,6 +32,12 @@ public class ItemFireBow extends Item implements IBBName
         int x = pos.getX();
         int y = pos.getY();
         int z = pos.getZ();
+
+        if (world.getBlockState(pos).getBlock() instanceof BlockCampfire)
+        {
+	        stack.damageItem(1, player);
+	        return true;
+        }
 
         if (side == EnumFacing.DOWN)
         {

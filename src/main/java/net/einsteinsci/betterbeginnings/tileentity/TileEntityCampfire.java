@@ -286,8 +286,8 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack)
 	{
-		return slot == SLOT_INPUT || slot == SLOT_PAN && isCampfireUtensil(stack) ||
-			slot == SLOT_FUEL && isItemFuel(stack);
+		return slot == SLOT_INPUT || (slot == SLOT_PAN && isCampfireUtensil(stack)) ||
+			(slot == SLOT_FUEL && isItemFuel(stack));
 	}
 
 	@Override
