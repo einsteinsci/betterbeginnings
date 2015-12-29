@@ -76,7 +76,7 @@ public class TileEntityKiln extends TileEntity implements IUpdatePlayerListBox, 
 		kilnCookTime = tagCompound.getShort("CookTime");
 		currentBurnTime = getItemBurnTime(kilnStacks[1]);
 
-		if (tagCompound.hasKey("CustomName", 8))
+		if (tagCompound.hasKey("CustomName"))
 		{
 			kilnName = tagCompound.getString("CustomName");
 		}

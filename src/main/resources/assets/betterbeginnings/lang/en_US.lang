@@ -60,6 +60,7 @@ container.craftingdouble.warning=Additional Materials Required!
 container.kiln=Kiln
 container.brickoven=Brick Oven
 container.smelter=Smelter
+container.infusion=Infusion Repair
 container.infusion.needed=Needed
 container.infusion.taken=Taken
 container.infusion.level=L

@@ -18,6 +18,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.IInteractionObject;
@@ -26,9 +27,6 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-/**
- * Created by einsteinsci on 8/21/2014.
- */
 public class TileEntityNetherBrickOven extends TileEntity implements ISidedInventory, IFluidHandler,
 		IUpdatePlayerListBox, IInteractionObject
 {
@@ -36,6 +34,7 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 	public static final int OUTPUT = 1;
 	public static final int INPUTSTART = 2;
 	public static final int COOKTIME = 80;
+
 	/**
 	 * Fuel used in mb per operation *
 	 */
@@ -116,6 +115,35 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 	}
 
 	@Override
+	public void writeToNBT(NBTTagCompound tagCompound)
+	{
+		super.writeToNBT(tagCompound);
+
+		tagCompound.setShort("CookTime", (short)ovenCookTime);
+		NBTTagList tagList = new NBTTagList();
+
+		for (int i = 0; i < ovenStacks.length; ++i)
+		{
+			if (ovenStacks[i] != null)
+			{
+				NBTTagCompound itemTag = new NBTTagCompound();
+				ovenStacks[i].writeToNBT(itemTag);
+				itemTag.setByte("Slot", (byte)i);
+				tagList.appendTag(itemTag);
+			}
+		}
+
+		tagCompound.setTag("Items", tagList);
+
+		fuelTank.writeToNBT(tagCompound);
+
+		if (hasCustomName())
+		{
+			tagCompound.setString("CustomName", ovenName);
+		}
+	}
+
+	@Override
 	public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain)
 	{
 		return null;
@@ -150,35 +178,6 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 
 		return fuelTank.getFluidAmount() > 0 && fuelTank.getFluid().getFluid() == fluid;
 		*/
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound tagCompound)
-	{
-		super.writeToNBT(tagCompound);
-
-		tagCompound.setShort("CookTime", (short)ovenCookTime);
-		NBTTagList tagList = new NBTTagList();
-
-		for (int i = 0; i < ovenStacks.length; ++i)
-		{
-			if (ovenStacks[i] != null)
-			{
-				NBTTagCompound itemTag = new NBTTagCompound();
-				ovenStacks[i].writeToNBT(itemTag);
-				itemTag.setByte("Slot", (byte)i);
-				tagList.appendTag(itemTag);
-			}
-		}
-
-		tagCompound.setTag("Items", tagList);
-
-		fuelTank.writeToNBT(tagCompound);
-
-		if (hasCustomName())
-		{
-			tagCompound.setString("CustomName", ovenName);
-		}
 	}
 
 	@Override
@@ -459,7 +458,7 @@ public class TileEntityNetherBrickOven extends TileEntity implements ISidedInven
 	@Override
 	public IChatComponent getDisplayName()
 	{
-		return null;
+		return new ChatComponentText(getCommandSenderName());
 	}
 
 	@Override

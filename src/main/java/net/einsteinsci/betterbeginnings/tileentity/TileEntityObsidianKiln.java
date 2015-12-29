@@ -81,7 +81,7 @@ public class TileEntityObsidianKiln extends TileEntity implements IUpdatePlayerL
 
 		// stacked = tagCompound.getInteger("Stacked");
 
-		if (tagCompound.hasKey("CustomName", 8))
+		if (tagCompound.hasKey("CustomName"))
 		{
 			kilnName = tagCompound.getString("CustomName");
 		}

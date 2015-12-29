@@ -87,7 +87,7 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 		decayTime = tagCompound.getShort("DecayTime");
 		campfireState = tagCompound.getByte("CampfireState");
 
-		if (tagCompound.hasKey("CustomName", 8))
+		if (tagCompound.hasKey("CustomName"))
 		{
 			campfireName = tagCompound.getString("CustomName");
 		}

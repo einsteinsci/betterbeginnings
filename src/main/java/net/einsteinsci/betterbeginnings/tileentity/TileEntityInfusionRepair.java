@@ -71,7 +71,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 			}
 		}
 
-		if (tagCompound.hasKey("CustomName", TAG_STRING))
+		if (tagCompound.hasKey("CustomName"))
 		{
 			tileName = tagCompound.getString("CustomName");
 		}
@@ -737,7 +737,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 	@Override
 	public String getCommandSenderName()
 	{
-		return tileName;
+		return hasCustomName() ? tileName : "container.infusion";
 	}
 
 	@Override

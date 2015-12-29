@@ -208,6 +208,7 @@ public class BlockNetherBrickOven extends BlockContainer implements IBBName
 		return Item.getItemFromBlock(RegisterBlocks.netherBrickOven);
 	}
 
+	@Override
 	protected BlockState createBlockState()
 	{
 		return new BlockState(this, FACING);

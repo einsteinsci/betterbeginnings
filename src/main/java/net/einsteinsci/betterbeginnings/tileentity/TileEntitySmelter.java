@@ -90,7 +90,7 @@ public class TileEntitySmelter extends TileEntity implements ISidedInventory, IU
 		smelterCookTime = tagCompound.getShort("CookTime");
 		currentItemBurnLength = getItemBurnTime(smelterStacks[FUEL]);
 
-		if (tagCompound.hasKey("CustomName", 8))
+		if (tagCompound.hasKey("CustomName"))
 		{
 			smelterName = tagCompound.getString("CustomName");
 		}

@@ -94,6 +94,7 @@ public class TileEntityBrickOven extends TileEntity implements ISidedInventory, 
 		}
 
 		tagCompound.setTag("Items", tagList);
+
 		if (hasCustomName())
 		{
 			tagCompound.setString("CustomName", ovenName);
