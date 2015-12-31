@@ -5,6 +5,7 @@
 /asm/*
 /bin/*
 /libs/*
+/run/*
 /.settings/*
 *.psd
 *.iml
@@ -14,6 +15,6 @@
 *.idea/*
 *.db
 *.pdn
-
+*.launch
 *.classpath
 *.project

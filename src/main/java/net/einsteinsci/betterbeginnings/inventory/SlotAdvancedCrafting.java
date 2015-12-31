@@ -127,6 +127,7 @@ public class SlotAdvancedCrafting extends Slot
 	{
 		FMLCommonHandler.instance().firePlayerCraftingEvent(player, resultStack, craftMatrix);
 		onCrafting(resultStack);
+		AdvancedRecipe advRecipe = container.getLastAdvancedRecipe();
 
 		// Decrease crafted materials
 		for (int i = 0; i < craftMatrix.getSizeInventory(); ++i)
@@ -184,7 +185,6 @@ public class SlotAdvancedCrafting extends Slot
 			if (matStack != null)
 			{
 				int amount = 0;
-				AdvancedRecipe advRecipe = container.getLastAdvancedRecipe();
 
 				if (advRecipe != null)
 				{
