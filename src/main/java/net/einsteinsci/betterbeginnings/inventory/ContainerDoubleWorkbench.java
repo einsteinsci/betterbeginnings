@@ -98,8 +98,6 @@ public class ContainerDoubleWorkbench extends Container
 				}
 			}
 		}
-
-		onCraftMatrixChanged(craftMatrix);
 	}
 
 	/**
