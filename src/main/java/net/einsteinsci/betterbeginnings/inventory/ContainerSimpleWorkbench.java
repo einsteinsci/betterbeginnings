@@ -3,7 +3,6 @@ package net.einsteinsci.betterbeginnings.inventory;
 import net.einsteinsci.betterbeginnings.blocks.BlockDoubleWorkbench;
 import net.einsteinsci.betterbeginnings.register.RegisterBlocks;
 import net.einsteinsci.betterbeginnings.register.recipe.AdvancedCraftingHandler;
-import net.einsteinsci.betterbeginnings.util.LogUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.*;
