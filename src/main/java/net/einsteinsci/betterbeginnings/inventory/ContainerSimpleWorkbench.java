@@ -3,6 +3,7 @@ package net.einsteinsci.betterbeginnings.inventory;
 import net.einsteinsci.betterbeginnings.blocks.BlockDoubleWorkbench;
 import net.einsteinsci.betterbeginnings.register.RegisterBlocks;
 import net.einsteinsci.betterbeginnings.register.recipe.AdvancedCraftingHandler;
+import net.einsteinsci.betterbeginnings.util.LogUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.*;
@@ -170,7 +171,7 @@ public class ContainerSimpleWorkbench extends Container
 		// RegisterBlocks.blockDoubleWorkbench ? false : player.getDistanceSq(
 		// posX + 0.5D, posY + 0.5D, posZ + 0.5D) <= 64.0D;
 
-		return worldObj.getBlockState(pos) == RegisterBlocks.doubleWorkbench
+		return worldObj.getBlockState(pos).getBlock() == RegisterBlocks.doubleWorkbench
 				&& worldObj.getBlockState(pos).getValue(BlockDoubleWorkbench.CONNECTION) == EnumFacing.UP
 				&& player.getDistanceSq((double)pos.getX() + 0.5d, (double)pos.getY() + 0.5d,
 				                        (double)pos.getZ() + 0.5d) <= 64.0D;
