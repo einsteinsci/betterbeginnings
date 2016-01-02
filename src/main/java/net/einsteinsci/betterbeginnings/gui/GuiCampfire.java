@@ -3,11 +3,15 @@ package net.einsteinsci.betterbeginnings.gui;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.inventory.ContainerCampfire;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityCampfire;
+import net.einsteinsci.betterbeginnings.util.ChatUtil;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GuiCampfire extends GuiContainer
 {
@@ -25,9 +29,23 @@ public class GuiCampfire extends GuiContainer
 		ySize = 166;
 	}
 
-	public void drawGuiContainerForegroundLayer(int par1, int par2)
+	public void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
 		fontRendererObj.drawString(I18n.format("container.inventory"), 8, ySize - 96 + 4, 4210752);
+
+		int k = (width - xSize) / 2;
+		int l = (height - ySize) / 2;
+
+		if (tileCampfire.stackFuel() == null)
+		{
+			if (mouseX >= k + 58 && mouseX <= k + 74 && mouseY >= l + 57 && mouseY <= l + 73)
+			{
+				List<String> lines = new ArrayList<>();
+				lines.add(ChatUtil.LIGHT_GRAY + I18n.format("container.campfire.woodFuelsOnly"));
+
+				drawHoveringText(lines, mouseX - k - 72, mouseY - l - 8);
+			}
+		}
 	}
 
 	public void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)

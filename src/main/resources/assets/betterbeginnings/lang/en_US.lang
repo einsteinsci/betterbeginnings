@@ -57,6 +57,7 @@ itemGroup.tabBetterBeginnings=Better Beginnings
 
 container.craftingdouble=Advanced Crafting
 container.craftingdouble.warning=Additional Materials Required!
+container.crafting.needsBigBoyBench=Double workbench is required!
 container.kiln=Kiln
 container.brickoven=Brick Oven
 container.smelter=Smelter
@@ -68,6 +69,7 @@ container.obsidianKiln=Obsidian Kiln
 container.netherbrickoven=Nether Brick Oven
 container.enderSmelter=Ender Smelter
 container.campfire=Campfire
+container.campfire.woodFuelsOnly=Only wood fuels are accepted.
 
 achievement.flintKnife=Survival of the Fittest
 achievement.flintKnife.desc=Craft a flint knife out of two flint
