@@ -1,6 +1,7 @@
 package net.einsteinsci.betterbeginnings;
 
 import net.einsteinsci.betterbeginnings.config.BBConfig;
+import net.einsteinsci.betterbeginnings.config.BBConfigFolderLoader;
 import net.einsteinsci.betterbeginnings.event.BBEventHandler;
 import net.einsteinsci.betterbeginnings.event.Worldgen;
 import net.einsteinsci.betterbeginnings.network.PacketCampfireState;
@@ -8,6 +9,7 @@ import net.einsteinsci.betterbeginnings.network.PacketNetherBrickOvenFuelLevel;
 import net.einsteinsci.betterbeginnings.network.ServerProxy;
 import net.einsteinsci.betterbeginnings.register.*;
 import net.einsteinsci.betterbeginnings.register.achievement.RegisterAchievements;
+import net.einsteinsci.betterbeginnings.util.LogUtil;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.AchievementPage;
@@ -21,15 +23,14 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.apache.logging.log4j.Level;
 
 @Mod(modid = ModMain.MODID, version = ModMain.VERSION, name = ModMain.NAME,
      guiFactory = "net.einsteinsci.betterbeginnings.config.BBConfigGuiFactory")
 public class ModMain
 {
 	public static final String MODID = "betterbeginnings";
-	public static final String VERSION = "0.9.5-R2a";
-	public static final String NAME = "Better Beginnings";
+	public static final String VERSION = "0.9.6-R1";
+	public static final String NAME = "BetterBeginnings";
 	public static final CreativeTabs tabBetterBeginnings = new CreativeTabs("tabBetterBeginnings")
 	{
 		@Override
@@ -50,39 +51,17 @@ public class ModMain
 	public static ServerProxy proxy;
 	public static SimpleNetworkWrapper network;
 
-	public static void logDebug(String text)
-	{
-		if (BBConfig.debugLogging)
-		{
-			log(Level.DEBUG, text);
-		}
-	}
-
-	public static void log(Level level, String text)
-	{
-		FMLLog.log(NAME, level, text);
-	}
-
-	public static void logDebug(Level level, String text)
-	{
-		if (BBConfig.debugLogging)
-		{
-			log(level, text);
-		}
-	}
-
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e)
 	{
-		log("Starting pre-initialization...");
+		LogUtil.logDebug("Starting pre-initialization...");
 
-		configFile = new Configuration(e.getSuggestedConfigurationFile());
+		configFile = BBConfigFolderLoader.getConfigFile(e);
 		configFile.load();
 		BBConfig.initialize();
 		BBConfig.syncConfig(configFile);
 
-		proxy.registerNetworkStuff();
-		proxy.registerRenderThings();
+		proxy.preInit(e);
 
 		FMLCommonHandler.instance().bus().register(eventHandler);
 		MinecraftForge.EVENT_BUS.register(eventHandler);
@@ -98,19 +77,18 @@ public class ModMain
 		RegisterTileEntities.register();
 	}
 
-	public static void log(String text)
-	{
-		log(Level.INFO, text);
-	}
-
 	@EventHandler
 	public void init(FMLInitializationEvent e)
 	{
+		proxy.init(e);
+
 		RemoveRecipes.remove();
 		RegisterRecipes.addShapelessRecipes();
 		RegisterRecipes.addShapedRecipes();
 		RegisterRecipes.addAdvancedRecipes();
 		RegisterRecipes.addFurnaceRecipes();
+
+		BBConfigFolderLoader.loadRecipes(e);
 
 		if (BBConfig.moduleFurnaces)
 		{
@@ -126,10 +104,13 @@ public class ModMain
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent e)
 	{
+		BBConfig.fillAlwaysBreakable();
+		BBConfig.fillAlsoPickaxes();
+		BBConfig.fillAlsoAxes();
 
 		RegisterItems.tweakVanilla();
 		Worldgen.addWorldgen();
 		AchievementPage.registerAchievementPage(new AchievementPage(NAME, RegisterAchievements.getAchievements()));
-		log("Finished post-initialization.");
+		LogUtil.logDebug("Finished post-initialization.");
 	}
 }

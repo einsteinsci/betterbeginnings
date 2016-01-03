@@ -2,6 +2,7 @@ package net.einsteinsci.betterbeginnings.register;
 
 import net.einsteinsci.betterbeginnings.items.*;
 import net.einsteinsci.betterbeginnings.items.ItemBBCloth;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.*;
 import net.minecraft.item.Item.ToolMaterial;
@@ -65,12 +66,13 @@ public class RegisterItems
 		RegisterHelper.registerItem(twine);
 		RegisterHelper.registerItem(leatherStrip);
 		RegisterHelper.registerItem(ironNugget);
-		RegisterHelper.registerItem(charredMeat);
 		RegisterHelper.registerItem(fireBow);
 		RegisterHelper.registerItem(rockHammer);
 		RegisterHelper.registerItem(pan);
 		RegisterHelper.registerItem(rotisserie);
 		RegisterHelper.registerItem(infusionScroll);
+
+		_registerCharredMeats();
 
 		RegisterHelper.registerItem(marshmallow);
 		RegisterHelper.registerItem(roastingStick);
@@ -81,6 +83,13 @@ public class RegisterItems
 		RegisterHelper.registerItem(noobWoodSword);
 
 		oreDictRegistry();
+	}
+
+	private static void _registerCharredMeats()
+	{
+		charredMeat.setUnlocalizedName(charredMeat.getName());
+		GameRegistry.registerItem(charredMeat, charredMeat.getName());
+		allItems.add(charredMeat);
 	}
 
 	public static void oreDictRegistry()
@@ -99,6 +108,12 @@ public class RegisterItems
 
 		OreDictionary.registerOre("itemStringTough", new ItemStack(Items.string));
 		OreDictionary.registerOre("itemStringTough", new ItemStack(twine));
+
+		OreDictionary.registerOre("itemKindling", new ItemStack(Blocks.sapling));
+		OreDictionary.registerOre("itemKindling", new ItemStack(Blocks.leaves));
+		OreDictionary.registerOre("itemKindling", new ItemStack(Blocks.leaves2));
+		OreDictionary.registerOre("itemKindling", new ItemStack(Blocks.vine));
+		OreDictionary.registerOre("itemKindling", new ItemStack(Blocks.tallgrass));
 	}
 
 	public static void tweakVanilla()
@@ -111,7 +126,7 @@ public class RegisterItems
 
 		// Let's face it, the vanilla stack sizes for these suck.
 		GameRegistry.findItem("minecraft", "minecart").setMaxStackSize(16);
-		// Strangely enough the oak one doesn't change.
+		// Strangely enough the oak one doesn't change name.
 		GameRegistry.findItem("minecraft", "wooden_door").setMaxStackSize(16);
 		GameRegistry.findItem("minecraft", "spruce_door").setMaxStackSize(16);
 		GameRegistry.findItem("minecraft", "birch_door").setMaxStackSize(16);

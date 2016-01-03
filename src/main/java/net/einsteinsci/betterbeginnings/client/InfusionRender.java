@@ -2,6 +2,7 @@ package net.einsteinsci.betterbeginnings.client;
 
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityInfusionRepair;
+import net.einsteinsci.betterbeginnings.util.LogUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -31,7 +32,7 @@ public class InfusionRender extends TileEntitySpecialRenderer
 
 		if (renderManager == null)
 		{
-			ModMain.logDebug("InfusionRender.rendermanager is NULL!");
+			LogUtil.logDebug("InfusionRender.rendermanager is NULL!");
 			return;
 		}
 
@@ -88,7 +89,7 @@ public class InfusionRender extends TileEntitySpecialRenderer
 
 			if (renderManager == null)
 			{
-				ModMain.logDebug("InfusionRender.rendermanager is NULL!");
+				LogUtil.logDebug("InfusionRender.rendermanager is NULL!");
 				return;
 			}
 
@@ -180,7 +181,7 @@ public class InfusionRender extends TileEntitySpecialRenderer
 
 		if (renderManager == null)
 		{
-			ModMain.logDebug("InfusionRender.rendermanager is NULL!");
+			LogUtil.logDebug("InfusionRender.rendermanager is NULL!");
 			return;
 		}
 

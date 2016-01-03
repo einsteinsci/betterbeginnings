@@ -71,9 +71,10 @@ public abstract class ItemKnife extends ItemTool implements IBBName
 	@Override
 	public ItemStack getContainerItem(ItemStack itemStack)
 	{
-		itemStack.setItemDamage(itemStack.getItemDamage() + 1);
+		ItemStack result = itemStack.copy();
+		result.setItemDamage(itemStack.getItemDamage() + 1);
 
-		return itemStack;
+		return result;
 	}
 
 	// Allows durability-based crafting.

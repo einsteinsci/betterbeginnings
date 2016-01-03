@@ -1,7 +1,6 @@
 package net.einsteinsci.betterbeginnings.inventory;
 
 import net.einsteinsci.betterbeginnings.items.ItemKnife;
-import net.einsteinsci.betterbeginnings.register.recipe.AdvancedCraftingHandler;
 import net.einsteinsci.betterbeginnings.register.recipe.AdvancedRecipe;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -35,10 +34,13 @@ public class SlotAdvancedCrafting extends Slot
 	 */
 	private int amountCrafted;
 
-	public SlotAdvancedCrafting(EntityPlayer player, IInventory matrix, IInventory resultInv,
-								IInventory addedMats, int id, int x, int y)
+	private ContainerDoubleWorkbench container;
+
+	public SlotAdvancedCrafting(EntityPlayer player, ContainerDoubleWorkbench container_, IInventory matrix,
+		IInventory resultInv, IInventory addedMats, int id, int x, int y)
 	{
 		super(resultInv, id, x, y);
+		container = container_;
 		thePlayer = player;
 		craftMatrix = matrix;
 		additionalMaterials = addedMats;
@@ -126,6 +128,8 @@ public class SlotAdvancedCrafting extends Slot
 		FMLCommonHandler.instance().firePlayerCraftingEvent(player, resultStack, craftMatrix);
 		onCrafting(resultStack);
 
+		AdvancedRecipe advRecipe = container.getLastAdvancedRecipe();
+
 		// Decrease crafted materials
 		for (int i = 0; i < craftMatrix.getSizeInventory(); ++i)
 		{
@@ -182,7 +186,6 @@ public class SlotAdvancedCrafting extends Slot
 			if (matStack != null)
 			{
 				int amount = 0;
-				AdvancedRecipe advRecipe = AdvancedCraftingHandler.AdvancedRecipeByResult(resultStack);
 
 				if (advRecipe != null)
 				{

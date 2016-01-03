@@ -11,12 +11,12 @@ public class InventoryWorkbenchAdditionalMaterials implements IInventory
 {
 	private ItemStack[] stackList;
 
-	private Container eventHandler;
+	private Container container;
 
-	public InventoryWorkbenchAdditionalMaterials(Container container, int size)
+	public InventoryWorkbenchAdditionalMaterials(Container container_, int size)
 	{
 		stackList = new ItemStack[size];
-		eventHandler = container;
+		container = container_;
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class InventoryWorkbenchAdditionalMaterials implements IInventory
 			{
 				itemstack = stackList[slot];
 				stackList[slot] = null;
-				eventHandler.onCraftMatrixChanged(this);
+				container.onCraftMatrixChanged(this);
 				return itemstack;
 			}
 			else
@@ -61,7 +61,7 @@ public class InventoryWorkbenchAdditionalMaterials implements IInventory
 					stackList[slot] = null;
 				}
 
-				eventHandler.onCraftMatrixChanged(this);
+				container.onCraftMatrixChanged(this);
 				return itemstack;
 			}
 		}
@@ -90,7 +90,7 @@ public class InventoryWorkbenchAdditionalMaterials implements IInventory
 	public void setInventorySlotContents(int slot, ItemStack stack)
 	{
 		stackList[slot] = stack;
-		eventHandler.onCraftMatrixChanged(this);
+		container.onCraftMatrixChanged(this);
 	}
 
 	@Override
@@ -120,6 +120,7 @@ public class InventoryWorkbenchAdditionalMaterials implements IInventory
 	@Override
 	public void markDirty()
 	{
+		container.onCraftMatrixChanged(this);
 	}
 
 	@Override
@@ -130,13 +131,11 @@ public class InventoryWorkbenchAdditionalMaterials implements IInventory
 
 	@Override
 	public void openInventory(EntityPlayer player)
-	{
-	}
+	{ }
 
 	@Override
 	public void closeInventory(EntityPlayer player)
-	{
-	}
+	{ }
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack)
@@ -152,8 +151,7 @@ public class InventoryWorkbenchAdditionalMaterials implements IInventory
 
 	@Override
 	public void setField(int id, int value)
-	{
-	}
+	{ }
 
 	@Override
 	public int getFieldCount()

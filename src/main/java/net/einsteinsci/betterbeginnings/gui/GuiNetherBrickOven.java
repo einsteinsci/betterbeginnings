@@ -18,9 +18,6 @@ import org.lwjgl.opengl.GL11;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by einsteinsci on 8/22/2014.
- */
 @SideOnly(Side.CLIENT)
 public class GuiNetherBrickOven extends GuiContainer
 {

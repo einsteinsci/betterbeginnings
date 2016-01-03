@@ -4,6 +4,7 @@ import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.config.BBConfig;
 import net.einsteinsci.betterbeginnings.items.ItemKnife;
 import net.einsteinsci.betterbeginnings.util.ChatUtil;
+import net.einsteinsci.betterbeginnings.util.LogUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -40,7 +41,7 @@ public class BlockBreakHelper
 
 		if (BBConfig.alwaysBreakable.contains(block))
 		{
-			ModMain.logDebug("Skipped block-breaking for block '" + block.getUnlocalizedName() +
+			LogUtil.logDebug("Skipped block-breaking for block '" + block.getUnlocalizedName() +
 				"'. Block is marked as always breakable in config.");
 			return;
 		}
@@ -55,6 +56,8 @@ public class BlockBreakHelper
 		int usedHarvestLevel = 0;
 		String usedToolClass = null;
 		String stackName = heldItemStack != null ? heldItemStack.getDisplayName() : "NULL";
+
+		boolean isConfigPickaxe = false, isConfigAxe = false;
 
 		if (heldItemStack != null)
 		{
@@ -72,11 +75,13 @@ public class BlockBreakHelper
 			{
 				usedToolClass = "pickaxe";
 				usedHarvestLevel = BBConfig.alsoPickaxes.get(heldItemStack.getItem());
+				isConfigPickaxe = true;
 			}
 			if (BBConfig.alsoAxes.containsKey(heldItemStack.getItem()))
 			{
 				usedToolClass = "axe";
 				usedHarvestLevel = BBConfig.alsoAxes.get(heldItemStack.getItem());
+				isConfigAxe = true;
 			}
 		}
 
@@ -102,6 +107,14 @@ public class BlockBreakHelper
 			{
 				cancel = true;
 			}
+		}
+		else if (neededToolClass.equalsIgnoreCase("pickaxe") && isConfigPickaxe)
+		{
+			LogUtil.logDebug("Item accepted as pickaxe from config: " + heldItemStack.toString());
+		}
+		else if (neededToolClass.equalsIgnoreCase("axe") && isConfigAxe)
+		{
+			LogUtil.logDebug("Item accepted as axe from config: " + heldItemStack.toString());
 		}
 		else
 		{
@@ -130,9 +143,9 @@ public class BlockBreakHelper
 					brokenOnce.put(player, null);
 				}
 
-				ModMain.log(Level.INFO, "Block break failed for " + stackName + " on " + block.getUnlocalizedName());
-				ModMain.log(Level.INFO, "  Required tool class: " + neededToolClass + ", supplied: " + usedToolClass);
-				ModMain.log(Level.INFO, "  Minimum harvest level: " + neededHarvestLevel + ", supplied: " +
+				LogUtil.log(Level.INFO, "Block break failed for " + stackName + " on " + block.getUnlocalizedName());
+				LogUtil.log(Level.INFO, "  Required tool class: " + neededToolClass + ", supplied: " + usedToolClass);
+				LogUtil.log(Level.INFO, "  Minimum harvest level: " + neededHarvestLevel + ", supplied: " +
 					usedHarvestLevel);
 			}
 			else
@@ -143,9 +156,9 @@ public class BlockBreakHelper
 
 		if (cancel)
 		{
-			ModMain.log(Level.INFO, "Block break failed for " + stackName + " on " + block.getUnlocalizedName());
-			ModMain.log(Level.INFO, "  Required tool class: " + neededToolClass + ", supplied: " + usedToolClass);
-			ModMain.log(Level.INFO, "  Minimum harvest level: " + neededHarvestLevel + ", supplied: " +
+			LogUtil.log(Level.INFO, "Block break failed for " + stackName + " on " + block.getUnlocalizedName());
+			LogUtil.log(Level.INFO, "  Required tool class: " + neededToolClass + ", supplied: " + usedToolClass);
+			LogUtil.log(Level.INFO, "  Minimum harvest level: " + neededHarvestLevel + ", supplied: " +
 				usedHarvestLevel);
 
 			ChatUtil.sendModChatToPlayer(player, "Wrong tool!" /* I18n.format("blockbreak.wrongtool") */);

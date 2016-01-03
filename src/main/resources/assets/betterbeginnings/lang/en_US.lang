@@ -32,7 +32,6 @@ item.noobWoodSword.name=Wooden Sword
 item.boneShard.name=Bone Shard
 item.leatherStrip.name=Leather Strip
 item.ironNugget.name=Iron Nugget
-item.charredMeat.name=Charred Meat
 item.fireBow.name=Fire Bow
 item.silk.name=Silk
 item.thread.name=Thread
@@ -45,15 +44,24 @@ item.roastingStickRawMallow.name=Marshmallow on a Stick
 item.roastingStickCookedMallow.name=Browned Marshmallow on a Stick
 item.rockHammer.name=Rock Hammer
 
+item.charredMeat.name=Charred Meat
+item.charredChicken.name=Charred Chicken
+item.charredMutton.name=Charred Mutton
+item.charredRabbit.name=Charred Rabbit
+item.charredFish.name=Charred Fish
+item.charredUnknown.name=Charred ???
+
 item.testItem.name=Test Item
 
 itemGroup.tabBetterBeginnings=Better Beginnings
 
 container.craftingdouble=Advanced Crafting
 container.craftingdouble.warning=Additional Materials Required!
+container.crafting.needsBigBoyBench=Double workbench is required!
 container.kiln=Kiln
 container.brickoven=Brick Oven
 container.smelter=Smelter
+container.infusion=Infusion Repair
 container.infusion.needed=Needed
 container.infusion.taken=Taken
 container.infusion.level=L
@@ -61,6 +69,7 @@ container.obsidianKiln=Obsidian Kiln
 container.netherbrickoven=Nether Brick Oven
 container.enderSmelter=Ender Smelter
 container.campfire=Campfire
+container.campfire.woodFuelsOnly=Only wood fuels are accepted.
 
 achievement.flintKnife=Survival of the Fittest
 achievement.flintKnife.desc=Craft a flint knife out of two flint

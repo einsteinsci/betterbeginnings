@@ -3,6 +3,7 @@ package net.einsteinsci.betterbeginnings.inventory;
 import net.einsteinsci.betterbeginnings.blocks.BlockDoubleWorkbench;
 import net.einsteinsci.betterbeginnings.register.RegisterBlocks;
 import net.einsteinsci.betterbeginnings.register.recipe.AdvancedCraftingHandler;
+import net.einsteinsci.betterbeginnings.register.recipe.AdvancedRecipe;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.*;
@@ -24,6 +25,8 @@ public class ContainerDoubleWorkbench extends Container
 	public Slot[] matSlots = new Slot[4];
 	public Slot resultSlot;
 
+	private AdvancedRecipe lastAdvancedRecipe;
+
 	private EntityPlayer openingPlayer;
 
 	private BlockPos pos;
@@ -35,7 +38,7 @@ public class ContainerDoubleWorkbench extends Container
 
 		final int OFFSET = 20;
 
-		resultSlot = new SlotAdvancedCrafting(invPlayer.player, craftMatrix, craftResult, addedMats, 0,
+		resultSlot = new SlotAdvancedCrafting(invPlayer.player, this, craftMatrix, craftResult, addedMats, 0,
 			129 + OFFSET, 35);
 		addSlotToContainer(resultSlot);
 		int i;
@@ -95,8 +98,6 @@ public class ContainerDoubleWorkbench extends Container
 				}
 			}
 		}
-
-		onCraftMatrixChanged(craftMatrix);
 	}
 
 	/**
@@ -222,7 +223,13 @@ public class ContainerDoubleWorkbench extends Container
 	public void onCraftMatrixChanged(IInventory inventory)
 	{
 		boolean hasAddedMats = false;
-		ItemStack result = AdvancedCraftingHandler.crafting().findMatchingRecipe(craftMatrix, addedMats, worldObj);
+		ItemStack result = AdvancedCraftingHandler.crafting()
+			.findMatchingRecipeResult(craftMatrix, addedMats, worldObj);
+		if (result != null)
+		{
+			lastAdvancedRecipe = AdvancedCraftingHandler.crafting().findMatchingRecipe(craftMatrix,
+				addedMats, worldObj);
+		}
 
 		if (result == null)
 		{
@@ -248,13 +255,18 @@ public class ContainerDoubleWorkbench extends Container
 	public boolean canInteractWith(EntityPlayer player)
 	{
 		return worldObj.getBlockState(pos).getBlock() == RegisterBlocks.doubleWorkbench &&
-				worldObj.getBlockState(pos).getValue(BlockDoubleWorkbench.CONNECTION) != EnumFacing.UP &&
-				player.getDistanceSq((double)pos.getX() + 0.5d, (double)pos.getY() + 0.5d,
-				                     (double)pos.getZ() + 0.5d) <= 64.0D;
+			worldObj.getBlockState(pos).getValue(BlockDoubleWorkbench.CONNECTION) != EnumFacing.UP &&
+			player.getDistanceSq((double)pos.getX() + 0.5d, (double)pos.getY() + 0.5d,
+				(double)pos.getZ() + 0.5d) <= 64.0D;
 	}
 
 	public EntityPlayer getOpeningPlayer()
 	{
 		return openingPlayer;
+	}
+
+	public AdvancedRecipe getLastAdvancedRecipe()
+	{
+		return lastAdvancedRecipe;
 	}
 }

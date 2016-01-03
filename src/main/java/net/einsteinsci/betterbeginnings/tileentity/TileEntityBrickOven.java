@@ -15,6 +15,9 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
@@ -94,6 +97,7 @@ public class TileEntityBrickOven extends TileEntity implements ISidedInventory, 
 		}
 
 		tagCompound.setTag("Items", tagList);
+
 		if (hasCustomName())
 		{
 			tagCompound.setString("CustomName", ovenName);
@@ -482,5 +486,19 @@ public class TileEntityBrickOven extends TileEntity implements ISidedInventory, 
 	public String getGuiID()
 	{
 		return ModMain.MODID + ":brickOven";
+	}
+	
+	@Override
+	public Packet getDescriptionPacket()
+	{
+		NBTTagCompound tag = new NBTTagCompound();
+		writeToNBT(tag);
+		return new S35PacketUpdateTileEntity(pos, 1, tag);
+	}
+	
+	@Override
+	public void onDataPacket(NetworkManager manager, S35PacketUpdateTileEntity packet)
+	{
+		readFromNBT(packet.getNbtCompound());
 	}
 }

@@ -2,6 +2,8 @@ package net.einsteinsci.betterbeginnings.event;
 
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.config.BBConfig;
+import net.einsteinsci.betterbeginnings.items.ItemCharredMeat;
+import net.einsteinsci.betterbeginnings.items.ItemFireBow;
 import net.einsteinsci.betterbeginnings.items.ItemHammer;
 import net.einsteinsci.betterbeginnings.items.ItemKnife;
 import net.einsteinsci.betterbeginnings.register.RegisterBlocks;
@@ -37,7 +39,7 @@ public class BBEventHandler
 	{
 		if (BBConfig.greetUser)
 		{
-			ChatUtil.sendModChatToPlayer(e.player, ChatUtil.LIME + "Better Beginnings " + ModMain.VERSION +
+			ChatUtil.sendModChatToPlayer(e.player, ChatUtil.LIME + "BetterBeginnings " + ModMain.VERSION +
 				" loaded successfully.");
 		}
 	}
@@ -58,7 +60,14 @@ public class BBEventHandler
 		
 		if (item == RegisterItems.charredMeat)
 		{
-			e.toolTip.add("Not to be confused with charcoal");
+			if (e.itemStack.getMetadata() != ItemCharredMeat.META_UNKNOWN)
+			{
+				e.toolTip.add("Not to be confused with charcoal");
+			}
+			else
+			{
+				e.toolTip.add("You don't want to know...");
+			}
 		}
 		
 		if (item == RegisterItems.ironNugget)
@@ -89,12 +98,12 @@ public class BBEventHandler
 
 		if (item == RegisterItems.pan)
 		{
-			e.toolTip.add(ChatUtil.BLUE + "Fry stuff over a campfire!");
+			e.toolTip.add(ChatUtil.WHITE + "Doubles campfire cooking speed");
 		}
 
 		if (item == RegisterItems.rotisserie)
 		{
-			e.toolTip.add(ChatUtil.BLUE + "Not for roasting people");
+			e.toolTip.add(ChatUtil.WHITE + "Cooks food at the cost of speed");
 		}
 
 		if (item == Items.sugar)
@@ -167,7 +176,7 @@ public class BBEventHandler
 				ItemStack stack = e.entityPlayer.getHeldItem();
 				Item item = stack.getItem();
 
-				if (item instanceof ItemFlintAndSteel || item == RegisterItems.fireBow)
+				if (item instanceof ItemFlintAndSteel || item instanceof ItemFireBow)
 				{
 					Block b = e.world.getBlockState(e.pos).getBlock();
 
@@ -176,7 +185,6 @@ public class BBEventHandler
 						TileEntityCampfire campfire = (TileEntityCampfire)e.world.getTileEntity(e.pos);
 
 						campfire.lightFuel(); // Light it.
-						//e.entityPlayer.getHeldItem().damageItem(1, e.entityPlayer);
 					}
 				}
 			}
@@ -242,23 +250,6 @@ public class BBEventHandler
 					e.drops.add(crushResult);
 				}
 			}
-		}
-
-		// Tripwire -> thread
-		if (block == Blocks.tripwire)
-		{
-			int rem = 0;
-			for (int i = 0; i < e.drops.size(); i++)
-			{
-				if (e.drops.get(i).getItem() == Items.string)
-				{
-					rem = i;
-				}
-			}
-
-			int count = e.drops.get(rem).stackSize; // Almost certainly 1.
-			e.drops.remove(rem);
-			e.drops.add(new ItemStack(RegisterItems.thread, count));
 		}
 
 		// Makes sure emergency escape mechanic does not let blocks fall out (like logs)
@@ -526,23 +517,29 @@ public class BBEventHandler
 		{
 			// Flaming mobs drop charred meat instead of cooked meats
 			if (e.entityLiving instanceof EntityCow || e.entityLiving instanceof EntityPig ||
-					e.entityLiving instanceof EntityChicken)
+				e.entityLiving instanceof EntityChicken || e.entityLiving instanceof EntitySheep ||
+				e.entityLiving instanceof EntityRabbit)
 			{
-				int charredDrops = 0;
+				List<ItemStack> charred = new ArrayList<>();
 
 				Iterator iterator = e.drops.iterator();
 				while (iterator.hasNext())
 				{
 					EntityItem entityItem = (EntityItem)iterator.next();
 					Item item = entityItem.getEntityItem().getItem();
-					if (item == Items.cooked_beef || item == Items.cooked_porkchop || item == Items.cooked_chicken)
+					if (item == Items.cooked_beef || item == Items.cooked_porkchop || item == Items.cooked_chicken ||
+						item == Items.cooked_mutton || item == Items.cooked_rabbit)
 					{
 						iterator.remove();
-						charredDrops += entityItem.getEntityItem().stackSize;
+						charred.add(new ItemStack(RegisterItems.charredMeat, entityItem.getEntityItem().stackSize,
+							ItemCharredMeat.getDamageBasedOnMeat(entityItem.getEntityItem())));
 					}
 				}
 
-				e.entityLiving.dropItem(RegisterItems.charredMeat, charredDrops);
+				for (ItemStack s : charred)
+				{
+					e.entityLiving.entityDropItem(s, 0.0f);
+				}
 			}
 		}
 	}

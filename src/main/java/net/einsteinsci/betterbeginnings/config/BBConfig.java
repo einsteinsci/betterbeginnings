@@ -1,6 +1,7 @@
 package net.einsteinsci.betterbeginnings.config;
 
 import net.einsteinsci.betterbeginnings.ModMain;
+import net.einsteinsci.betterbeginnings.util.LogUtil;
 import net.einsteinsci.betterbeginnings.util.RegistryUtil;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -34,6 +35,8 @@ public class BBConfig
 	public static boolean removeWoodToolRecipes;
 	public static boolean anyStringForTraps;
 	public static boolean allowStringAsToolBinding;
+	public static boolean requireBlazePowderForDiamondPick;
+	public static boolean netherlessBlazePowderRecipe;
 
 	public static boolean flamingAnimalsDropCharredMeat;
 	public static boolean spidersDropString;
@@ -77,6 +80,8 @@ public class BBConfig
 		removeWoodToolRecipes = true;
 		anyStringForTraps = false;
 		allowStringAsToolBinding = true;
+		requireBlazePowderForDiamondPick = true;
+		netherlessBlazePowderRecipe = true;
 
 		flamingAnimalsDropCharredMeat = true;
 		spidersDropString = false;
@@ -154,6 +159,12 @@ public class BBConfig
 			"Allow any string to be used for tripwire hooks, trapped chests, etc.");
 		allowStringAsToolBinding = config.getBoolean("Allow string and twine as tool binding", CRAFTING, true,
 			"Allow string and twine to be used in place of leather strips in tool bindings, at a higher cost.");
+		requireBlazePowderForDiamondPick = config.getBoolean("Require blaze powder for diamond pick", CRAFTING, true,
+			"Require blaze powder for a Diamond Pickaxe like all other diamond tools. This will require a trip to the" +
+			" Nether unless 'Netherless blaze powder recipe' is set to true.");
+		netherlessBlazePowderRecipe = config.getBoolean("Netherless blaze powder recipe", CRAFTING, true,
+			"Add an alternate, Netherless, but expensive recipe for blaze powder to help ease getting a diamond " +
+			"pick. Still works even if 'Require blaze powder for diamond pick' is false.");
 
 		// Smelting
 		canSmelterDoKilnStuff = config.getBoolean("Smelter can make kiln products", SMELTING, false,
@@ -181,25 +192,48 @@ public class BBConfig
 		    "List of blocks to always be breakable. Use this format: 'modid:blockName'.");
 		alwaysBreakableStrings.clear();
 		Collections.addAll(alwaysBreakableStrings, _alwaysBreakable);
+
+		// ALSO PICKAXES
+		String[] _alsoPickaxes = config.getStringList("Also pickaxes", TWEAKS, new String[] {},
+			"List of tools that should be treated as pickaxes. Use this format: 'modid:itemName=toolTier'");
+		alsoPickaxesStrings.clear();
+		Collections.addAll(alsoPickaxesStrings, _alsoPickaxes);
+
+		// ALSO AXES
+		String[] _alsoAxes = config.getStringList("Also axes", TWEAKS, new String[] {},
+			"List of tools that should be treated as axes. Use this format: 'modid:itemName=toolTier'");
+		alsoAxesStrings.clear();
+		Collections.addAll(alsoAxesStrings, _alsoAxes);
+
+		//////////
+		// Save //
+		//////////
+
+		if (config.hasChanged())
+		{
+			config.save();
+		}
+	}
+
+	public static void fillAlwaysBreakable()
+	{
+		alwaysBreakable = new ArrayList<>();
 		for (String s : alwaysBreakableStrings)
 		{
 			Block b = RegistryUtil.getBlockFromRegistry(s);
 			if (b == null)
 			{
-				ModMain.log(Level.ERROR, "No block found matching '" + s + "'.");
+				LogUtil.log(Level.ERROR, "No block found matching '" + s + "'.");
 			}
 			else
 			{
 				alwaysBreakable.add(b);
 			}
 		}
-		// endregion ALWAYS BREAKABLE
+	}
 
-		// region ALSO PICKAXES
-		String[] _alsoPickaxes = config.getStringList("Also pickaxes", TWEAKS, new String[] {},
-			"List of tools that should be treated as pickaxes. Use this format: 'modid:itemName=toolTier'");
-		alsoPickaxesStrings.clear();
-		Collections.addAll(alsoPickaxesStrings, _alsoPickaxes);
+	public static void fillAlsoPickaxes()
+	{
 		alsoPickaxes = new HashMap<>();
 		for (String entry : alsoPickaxesStrings)
 		{
@@ -207,7 +241,7 @@ public class BBConfig
 			int equalsAt = entry.indexOf("=");
 			if (colonAt == -1 || equalsAt == -1)
 			{
-				ModMain.log(Level.ERROR, "Invalid format: '" + entry + "'.");
+				LogUtil.log(Level.ERROR, "Invalid format: '" + entry + "'.");
 				continue;
 			}
 
@@ -218,7 +252,7 @@ public class BBConfig
 
 			if (item == null)
 			{
-				ModMain.log(Level.ERROR, "No item found within '" + entry + "'.");
+				LogUtil.log(Level.ERROR, "No item found within '" + entry + "'.");
 				continue;
 			}
 
@@ -231,16 +265,13 @@ public class BBConfig
 			}
 			catch (NumberFormatException e)
 			{
-				ModMain.log(Level.ERROR, "Invalid number: " + levelStr + " within " + entry);
+				LogUtil.log(Level.ERROR, "Invalid number: " + levelStr + " within " + entry);
 			}
 		}
-		// endregion ALSO PICKAXES
+	}
 
-		// region ALSO AXES
-		String[] _alsoAxes = config.getStringList("Also axes", TWEAKS, new String[] {},
-			"List of tools that should be treated as axes. Use this format: 'modid:itemName=toolTier'");
-		alsoAxesStrings.clear();
-		Collections.addAll(alsoAxesStrings, _alsoAxes);
+	public static void fillAlsoAxes()
+	{
 		alsoAxes = new HashMap<>();
 		for (String entry : alsoAxesStrings)
 		{
@@ -248,7 +279,7 @@ public class BBConfig
 			int equalsAt = entry.indexOf("=");
 			if (colonAt == -1 || equalsAt == -1)
 			{
-				ModMain.log(Level.ERROR, "Invalid format: '" + entry + "'.");
+				LogUtil.log(Level.ERROR, "Invalid format: '" + entry + "'.");
 				continue;
 			}
 
@@ -259,7 +290,7 @@ public class BBConfig
 
 			if (item == null)
 			{
-				ModMain.log(Level.ERROR, "No item found within '" + entry + "'.");
+				LogUtil.log(Level.ERROR, "No item found within '" + entry + "'.");
 				continue;
 			}
 
@@ -272,18 +303,8 @@ public class BBConfig
 			}
 			catch (NumberFormatException e)
 			{
-				ModMain.log(Level.ERROR, "Invalid number: " + levelStr + " within " + entry);
+				LogUtil.log(Level.ERROR, "Invalid number: " + levelStr + " within " + entry);
 			}
-		}
-		// endregion ALSO AXES
-
-		//////////
-		// Save //
-		//////////
-
-		if (config.hasChanged())
-		{
-			config.save();
 		}
 	}
 }

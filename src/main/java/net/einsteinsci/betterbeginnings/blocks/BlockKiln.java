@@ -50,8 +50,7 @@ public class BlockKiln extends BlockContainer implements IBBName
 				facings[EnumFacing.EAST.ordinal()] = 2;
 			}
 			catch (NoSuchFieldError var3)
-			{
-			}
+			{ }
 
 			try
 			{
@@ -66,8 +65,7 @@ public class BlockKiln extends BlockContainer implements IBBName
 				facings[EnumFacing.SOUTH.ordinal()] = 4;
 			}
 			catch (NoSuchFieldError var1)
-			{
-			}
+			{ }
 		}
 	}
 
@@ -242,6 +240,7 @@ public class BlockKiln extends BlockContainer implements IBBName
 		return Item.getItemFromBlock(RegisterBlocks.kiln);
 	}
 
+	@Override
 	protected BlockState createBlockState()
 	{
 		return new BlockState(this, FACING);

@@ -7,6 +7,7 @@ import net.einsteinsci.betterbeginnings.event.DamageSourceDiffusion;
 import net.einsteinsci.betterbeginnings.items.*;
 import net.einsteinsci.betterbeginnings.util.ChatUtil;
 import net.einsteinsci.betterbeginnings.util.InfusionRepairUtil;
+import net.einsteinsci.betterbeginnings.util.LogUtil;
 import net.einsteinsci.betterbeginnings.util.NBTUtil;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.enchantment.Enchantment;
@@ -70,7 +71,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 			}
 		}
 
-		if (tagCompound.hasKey("CustomName", TAG_STRING))
+		if (tagCompound.hasKey("CustomName"))
 		{
 			tileName = tagCompound.getString("CustomName");
 		}
@@ -350,7 +351,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 
 						if (stackTool == null)
 						{
-							ModMain.log(Level.ERROR, "Tool not found in diffusion!");
+							LogUtil.log(Level.ERROR, "Tool not found in diffusion!");
 							ChatUtil.sendModChatToServer(ChatUtil.DARK_RED + "ERROR! Tool not found in diffusion!");
 							healthTaken = 0;
 							return;
@@ -359,7 +360,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 						NBTTagList enchList = stackTool.getEnchantmentTagList();
 						if (enchList == null)
 						{
-							ModMain.log(Level.ERROR, "Tool does not have enchantments!");
+							LogUtil.log(Level.ERROR, "Tool does not have enchantments!");
 							healthTaken = 0;
 							return;
 						}
@@ -404,6 +405,8 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 								break;
 							}
 						}
+
+						LogUtil.log(Level.INFO, "Enchantment diffusion complete.");
 
 						healthTaken = 0;
 
@@ -734,7 +737,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 	@Override
 	public String getCommandSenderName()
 	{
-		return tileName;
+		return hasCustomName() ? tileName : "container.infusion";
 	}
 
 	@Override

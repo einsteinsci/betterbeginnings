@@ -3,10 +3,7 @@ package net.einsteinsci.betterbeginnings.tileentity;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.blocks.BlockCampfire;
 import net.einsteinsci.betterbeginnings.inventory.ContainerCampfire;
-import net.einsteinsci.betterbeginnings.items.ItemBonePickaxe;
-import net.einsteinsci.betterbeginnings.items.ItemFlintHatchet;
-import net.einsteinsci.betterbeginnings.items.ItemKnifeFlint;
-import net.einsteinsci.betterbeginnings.items.ItemPan;
+import net.einsteinsci.betterbeginnings.items.*;
 import net.einsteinsci.betterbeginnings.network.PacketCampfireState;
 import net.einsteinsci.betterbeginnings.register.recipe.CampfirePanRecipes;
 import net.einsteinsci.betterbeginnings.register.recipe.CampfireRecipes;
@@ -22,6 +19,9 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
@@ -34,8 +34,9 @@ import java.util.List;
 
 public class TileEntityCampfire extends TileEntity implements IInventory, IUpdatePlayerListBox, IInteractionObject
 {
-	public static final int maxCookTime = 300;
-	public static final int maxDecayTime = 400; // 20 sec
+	public static final int MAX_COOK_TIME_UNMODIFIED = 200;
+
+	public static final int MAX_DECAY_TIME = 400; // 20 sec
 
 	public static final int SLOT_INPUT = 0;
 	public static final int SLOT_OUTPUT = 1;
@@ -89,7 +90,7 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 		decayTime = tagCompound.getShort("DecayTime");
 		campfireState = tagCompound.getByte("CampfireState");
 
-		if (tagCompound.hasKey("CustomName", 8))
+		if (tagCompound.hasKey("CustomName"))
 		{
 			campfireName = tagCompound.getString("CustomName");
 		}
@@ -279,19 +280,17 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 
 	@Override
 	public void openInventory(EntityPlayer player)
-	{
-	}
+	{ }
 
 	@Override
 	public void closeInventory(EntityPlayer player)
-	{
-	}
+	{ }
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack)
 	{
-		return slot == SLOT_INPUT || slot == SLOT_PAN && isPan(stack) ||
-			slot == SLOT_FUEL && isItemFuel(stack);
+		return slot == SLOT_INPUT || (slot == SLOT_PAN && isCampfireUtensil(stack)) ||
+			(slot == SLOT_FUEL && isItemFuel(stack));
 	}
 
 	@Override
@@ -302,8 +301,7 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 
 	@Override
 	public void setField(int id, int value)
-	{
-	}
+	{ }
 
 	@Override
 	public int getFieldCount()
@@ -326,19 +324,32 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 		return hasCustomName() ? campfireName : "container.campfire";
 	}
 
-	private static boolean isPan(ItemStack stack)
+	private static boolean isCampfireUtensil(ItemStack stack)
 	{
 		if (stack == null)
 		{
 			return false;
 		}
 
-		return stack.getItem() instanceof ItemPan;
+		return stack.getItem() instanceof ICampfireUtensil;
 	}
 
 	public static boolean isItemFuel(ItemStack itemstack1)
 	{
 		return getBurnTimeForFuel(itemstack1) > 0;
+	}
+
+	public int getMaxCookTime()
+	{
+		float modifier = 1.0f;
+		if (isCampfireUtensil(stackPan()))
+		{
+			ICampfireUtensil item = (ICampfireUtensil)stackPan().getItem();
+			modifier = item.getCampfireSpeedModifier(stackPan());
+		}
+
+		float resf = (float)MAX_COOK_TIME_UNMODIFIED / modifier;
+		return (int)resf;
 	}
 
 	@Override
@@ -358,7 +369,7 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 			if (burning)
 			{
 				burnTime--;
-				decayTime = maxDecayTime;
+				decayTime = MAX_DECAY_TIME;
 				campfireState = STATE_BURNING;
 			}
 			else
@@ -382,7 +393,7 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 				currentItemBurnTime = burnTime;
 				if (burnTime > 0)
 				{
-					decayTime = maxDecayTime;
+					decayTime = MAX_DECAY_TIME;
 					burning = true;
 				}
 
@@ -405,7 +416,7 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 			if (campfireState != STATE_OFF && canCook())
 			{
 				cookTime++;
-				if (cookTime == maxCookTime)
+				if (cookTime == getMaxCookTime())
 				{
 					cookTime = 0;
 					cookItem();     // Tadaaa!
@@ -521,14 +532,14 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 				stacks[SLOT_INPUT] = null;
 			}
 
-			if (stacks[SLOT_PAN] != null)
+			if (stackPan() != null)
 			{
-				if (stacks[SLOT_PAN].getItem() instanceof ItemPan)
+				if (stackPan().getItem() instanceof ICampfireUtensil)
 				{
-					int damage = stacks[SLOT_PAN].getItemDamage();
-					stacks[SLOT_PAN].setItemDamage(damage + 1);
+					ICampfireUtensil pan = (ICampfireUtensil)stackPan().getItem();
+					boolean destroy = pan.doCookingDamage(stackPan());
 
-					if (stacks[SLOT_PAN].getItemDamage() >= stacks[SLOT_PAN].getMaxDamage())
+					if (destroy)
 					{
 						stacks[SLOT_PAN] = null;
 					}
@@ -565,7 +576,7 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 			if (canCook())
 			{
 				burnTime = maxBurn;
-				decayTime = maxDecayTime;
+				decayTime = MAX_DECAY_TIME;
 				campfireState = STATE_BURNING;
 
 				// consume fuel
@@ -591,7 +602,7 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 	@SideOnly(Side.CLIENT)
 	public int getCookProgressScaled(int i)
 	{
-		return cookTime * i / maxCookTime;
+		return cookTime * i / getMaxCookTime();
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -607,7 +618,7 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 
 	public int getDecayTimeRemainingScaled(int i)
 	{
-		return decayTime * i / maxDecayTime;
+		return decayTime * i / MAX_DECAY_TIME;
 	}
 
 	@Override
@@ -620,5 +631,19 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 	public String getGuiID()
 	{
 		return ModMain.MODID + ":campfire";
+	}
+	
+	@Override
+	public Packet getDescriptionPacket()
+	{
+		NBTTagCompound tag = new NBTTagCompound();
+		writeToNBT(tag);
+		return new S35PacketUpdateTileEntity(pos, 1, tag);
+	}
+	
+	@Override
+	public void onDataPacket(NetworkManager manager, S35PacketUpdateTileEntity packet)
+	{
+		readFromNBT(packet.getNbtCompound());
 	}
 }

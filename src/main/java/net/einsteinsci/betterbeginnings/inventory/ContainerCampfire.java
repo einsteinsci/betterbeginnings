@@ -192,5 +192,4 @@ public class ContainerCampfire extends Container
 	{
 		return tileCampfire.isUseableByPlayer(player);
 	}
-
 }

@@ -154,7 +154,7 @@ public class BrickOvenRecipeHandler
 		for (j = TileEntityBrickOven.INPUTSTART; j < oven.getSizeInventory(); ++j)
 		{
 			ItemStack itemstack2 = oven.getStackInSlot(j);
-			// System.out.println("\nBrickOvenRecipeHandler.findMatchingRecipe(): j = " + j);
+			// System.out.println("\nBrickOvenRecipeHandler.findMatchingRecipeResult(): j = " + j);
 
 			if (itemstack2 != null)
 			{
