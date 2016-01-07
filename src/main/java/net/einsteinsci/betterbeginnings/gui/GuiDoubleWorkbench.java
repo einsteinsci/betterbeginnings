@@ -184,7 +184,8 @@ public class GuiDoubleWorkbench extends GuiContainer
 						if (matStack == null || matStack.stackSize < needed.stackSize)
 						{
 							drawItemStack(needed, k + slot.xDisplayPosition + CATALYST_X_OFFSET,
-								l + slot.yDisplayPosition, "" + (matStack == null ? needed.stackSize : needed.stackSize - matStack.stackSize));
+								l + slot.yDisplayPosition,
+								"" + (matStack == null ? needed.stackSize : needed.stackSize - matStack.stackSize));
 						}
 					}
 
