@@ -26,6 +26,11 @@ public class RegisterRecipes
 		// Leather Strip
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(RegisterItems.leatherStrip, 3),
 			Items.leather, "itemKnife"));
+		
+		// Leather Strip (shortcut from rabbit hide)
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(RegisterItems.leatherStrip),
+			Items.rabbit_hide, "itemKnife"));
+
 
 		// Leather Strip (shortcut from rabbit hide)
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(RegisterItems.leatherStrip),
@@ -35,7 +40,7 @@ public class RegisterRecipes
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, 2, 15), RegisterItems.boneShard);
 
 		// Iron Nugget
-		GameRegistry.addShapelessRecipe(new ItemStack(RegisterItems.ironNugget, 9), Items.iron_ingot);
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(RegisterItems.ironNugget, 9), "ingotIron"));
 
 		// String
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.string, 4),
@@ -73,11 +78,10 @@ public class RegisterRecipes
 	{
 		KilnRecipes.addRecipe(Items.clay_ball, new ItemStack(Items.brick), 0.35f);
 		KilnRecipes.addRecipe(Blocks.clay, new ItemStack(Blocks.hardened_clay), 0.1f);
-		KilnRecipes.addRecipe(Blocks.cobblestone, new ItemStack(Blocks.stone), 0.1f);
+		KilnRecipes.addRecipe("cobblestone", new ItemStack(Blocks.stone), 0.1f);
 		KilnRecipes.addRecipe(new ItemStack(Blocks.stonebrick, 1, 0), new ItemStack(Blocks.stonebrick, 1, 2), 0.1f);
 		KilnRecipes.addRecipe(Blocks.cactus, new ItemStack(Items.dye, 1, 2), 0.1f);
-		KilnRecipes.addRecipe(Blocks.log, new ItemStack(Items.coal, 1, 1), 0.15f);
-		KilnRecipes.addRecipe(Blocks.log2, new ItemStack(Items.coal, 1, 1), 0.15f);
+		KilnRecipes.addRecipe("logWood", new ItemStack(Items.coal, 1, 1), 0.15f);
 		KilnRecipes.addRecipe(Blocks.sand, new ItemStack(Blocks.glass), 0.1f);
 		KilnRecipes.addRecipe(new ItemStack(Blocks.sponge, 1, 1), new ItemStack(Blocks.sponge, 1, 0), 0.1f);
 		KilnRecipes.addRecipe(Blocks.netherrack, new ItemStack(Items.netherbrick), 0.1f);
@@ -138,8 +142,8 @@ public class RegisterRecipes
 	private static void addSmelterRecipes()
 	{
 		// Vanilla Ore Recipes (keep the result vanilla to prevent weirdness)
-		RegisterHelper.registerSmelterOreRecipe("oreIron", new ItemStack(Items.iron_ingot), 0.7f, 1, 1, 0.3f);
-		RegisterHelper.registerSmelterOreRecipe("oreGold", new ItemStack(Items.gold_ingot), 1.0f, 2, 1, 0.2f);
+		SmelterRecipeHandler.addRecipe("oreIron", new ItemStack(Items.iron_ingot), 0.7f, 1, 1, 0.3f);
+		SmelterRecipeHandler.addRecipe("oreGold", new ItemStack(Items.gold_ingot), 1.0f, 2, 1, 0.2f);
 
 		// Modded Ore Recipes
 		RegisterHelper.registerSmelterOreRecipe("oreCopper", "ingotCopper", 0.6f, 1, 1, 0.3f);
@@ -160,7 +164,7 @@ public class RegisterRecipes
 			SmelterRecipeHandler.addRecipe(Blocks.netherrack, new ItemStack(Items.netherbrick), 0.25f, 1, 1, 0.25f);
 			SmelterRecipeHandler.addRecipe(Blocks.stonebrick, new ItemStack(Blocks.stonebrick, 1, 2), 0.1f, 1, 0, 0.0f);
 
-			RegisterHelper.registerSmelterOreRecipe("cobblestone", new ItemStack(Blocks.stone), 0.1f, 0, 0, 0.0f);
+			SmelterRecipeHandler.addRecipe("cobblestone", new ItemStack(Blocks.stone), 0.1f, 0, 0, 0.0f);
 			SmelterRecipeHandler.addRecipe(Items.clay_ball, new ItemStack(Items.brick), 0.3f, 0, 0, 0.0f);
 			SmelterRecipeHandler.addRecipe(Blocks.clay, new ItemStack(Blocks.hardened_clay), 0.35f, 0, 0, 0.0f);
 			SmelterRecipeHandler.addRecipe(new ItemStack(Blocks.sponge, 1, 1),
@@ -170,12 +174,12 @@ public class RegisterRecipes
 		}
 
 		// Silk touch recipes
-		RegisterHelper.registerSmelterOreRecipe("oreCoal", new ItemStack(Items.coal, 1), 0.25f, 2, 2, 0.8f);
-		RegisterHelper.registerSmelterOreRecipe("oreQuartz", new ItemStack(Items.quartz, 2), 0.4f, 2, 4, 0.6f);
-		RegisterHelper.registerSmelterOreRecipe("oreLapis", new ItemStack(Items.dye, 8, 4), 0.5f, 2, 8, 0.8f);
-		RegisterHelper.registerSmelterOreRecipe("oreRedstone", new ItemStack(Items.redstone, 4), 0.8f, 2, 4, 0.6f);
-		RegisterHelper.registerSmelterOreRecipe("oreDiamond", new ItemStack(Items.diamond, 1), 1.0f, 3, 2, 0.3f);
-		RegisterHelper.registerSmelterOreRecipe("oreEmerald", new ItemStack(Items.emerald, 1), 1.0f, 3, 2, 0.5f);
+		SmelterRecipeHandler.addRecipe("oreCoal", new ItemStack(Items.coal, 1), 0.25f, 2, 2, 0.8f);
+		SmelterRecipeHandler.addRecipe("oreQuartz", new ItemStack(Items.quartz, 2), 0.4f, 2, 4, 0.6f);
+		SmelterRecipeHandler.addRecipe("oreLapis", new ItemStack(Items.dye, 8, 4), 0.5f, 2, 8, 0.8f);
+		SmelterRecipeHandler.addRecipe("oreRedstone", new ItemStack(Items.redstone, 4), 0.8f, 2, 4, 0.6f);
+		SmelterRecipeHandler.addRecipe("oreDiamond", new ItemStack(Items.diamond, 1), 1.0f, 3, 2, 0.3f);
+		SmelterRecipeHandler.addRecipe("oreEmerald", new ItemStack(Items.emerald, 1), 1.0f, 3, 2, 0.5f);
 
 		// Silk touch recipes (modded)
 		RegisterHelper.registerSmelterOreRecipe("oreRuby", "gemRuby", 0.8f, 2, 2, 0.5f);
@@ -185,8 +189,7 @@ public class RegisterRecipes
 
 	private static void addCampfireRecipes()
 	{
-		CampfireRecipes.addRecipe(Blocks.log, new ItemStack(Items.coal, 1, 1), 0.15f);
-		CampfireRecipes.addRecipe(Blocks.log2, new ItemStack(Items.coal, 1, 1), 0.15f);
+		CampfireRecipes.addRecipe("logWood", new ItemStack(Items.coal, 1, 1), 0.15f);
 		CampfireRecipes.addRecipe(new ItemStack(Blocks.sponge, 1, 1), new ItemStack(Blocks.sponge, 1, 0), 0.1f);
 
 		CampfireRecipes.addRecipe(RegisterItems.roastingStickRawMallow,
@@ -209,7 +212,7 @@ public class RegisterRecipes
 		{
 			CampfireRecipes.addRecipe(Items.clay_ball, new ItemStack(Items.brick), 0.35f);
 			CampfireRecipes.addRecipe(Blocks.clay, new ItemStack(Blocks.hardened_clay), 0.1f);
-			CampfireRecipes.addRecipe(Blocks.cobblestone, new ItemStack(Blocks.stone), 0.1f);
+			CampfireRecipes.addRecipe("cobblestone", new ItemStack(Blocks.stone), 0.1f);
 			CampfireRecipes.addRecipe(new ItemStack(Blocks.stonebrick, 1, 0),
 				new ItemStack(Blocks.stonebrick, 1, 2), 0.1f);
 			CampfireRecipes.addRecipe(Blocks.cactus, new ItemStack(Items.dye, 1, 2), 0.1f);
@@ -535,7 +538,7 @@ public class RegisterRecipes
 				" i ", "iQi", "###",
 				'i', Blocks.redstone_torch,
 				'Q', Items.quartz,
-				'#', Blocks.stone);
+				'#', "stone");
 
 			// Armor Stand
 			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.armor_stand),
@@ -912,8 +915,8 @@ public class RegisterRecipes
 			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.golden_hoe),
 				new Object[] {"itemStringTough", 2},
 				"II", " /", " /",
-				'I', Items.gold_ingot,
-				'/', Items.stick);
+				'I', "ingotGold",
+				'/', "stickWood");
 			AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(Items.golden_hoe), true,
 				new Object[] {"itemStringTough", 2},
 				"II", "/ ", "/ ",
@@ -1171,7 +1174,7 @@ public class RegisterRecipes
 			new Object[] {new ItemStack(RegisterItems.leatherStrip, 2), "nuggetIron", 2},
 		    "I#I", " / ", " / ",
 		    'I', "ingotIron",
-		    '#', new ItemStack(Blocks.stone),
+		    '#', "stone",
 		    '/', "stickWood");
 
 		if (BBConfig.moduleCampfire)
@@ -1247,32 +1250,32 @@ public class RegisterRecipes
 				'#', new ItemStack(Blocks.stonebrick, 1, 0), 'C', new ItemStack(Items.coal, 1, 1));
 
 			// Vanilla Furnace
-			GameRegistry.addShapedRecipe(new ItemStack(Blocks.furnace), "###", "# #", "---",
-				'#', Blocks.cobblestone, '-', new ItemStack(Blocks.stone_slab, 1, 3)); // cobblestone slab
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.furnace), "###", "# #", "---",
+				'#', "cobblestone", '-', new ItemStack(Blocks.stone_slab, 1, 3))); // cobblestone slab
 		}
 
 		// Gravel->Flint
 		GameRegistry.addShapedRecipe(new ItemStack(Items.flint), "##", "##", '#', Blocks.gravel);
 
 		// Iron Nugget->Ingot
-		GameRegistry.addShapedRecipe(new ItemStack(Items.iron_ingot), "***", "***", "***", '*',
-									 RegisterItems.ironNugget);
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Items.iron_ingot), "***", "***", "***", '*',
+									 "nuggetIron"));
 
 		// Workbench
-		GameRegistry.addShapedRecipe(new ItemStack(RegisterBlocks.doubleWorkbench), "##", "##", '#', new ItemStack(
-				Blocks.planks, 1, OreDictionary.WILDCARD_VALUE));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(RegisterBlocks.doubleWorkbench), "##", "##", '#',
+									 "plankWood"));
 
 		if (BBConfig.canMakeChainArmor)
 		{
 			// Chain Armor
-			GameRegistry.addShapedRecipe(new ItemStack(Items.chainmail_helmet), "***", "* *", '*',
-										 RegisterItems.ironNugget);
-			GameRegistry.addShapedRecipe(new ItemStack(Items.chainmail_chestplate), "* *", "***", "***", '*',
-										 RegisterItems.ironNugget);
-			GameRegistry.addShapedRecipe(new ItemStack(Items.chainmail_leggings), "***", "* *", "* *", '*',
-										 RegisterItems.ironNugget);
-			GameRegistry.addShapedRecipe(new ItemStack(Items.chainmail_boots), "* *", "* *", '*',
-										 RegisterItems.ironNugget);
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Items.chainmail_helmet), "***", "* *", '*',
+										 "nuggetIron"));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Items.chainmail_chestplate), "* *", "***", "***", '*',
+										 "nuggetIron"));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Items.chainmail_leggings), "***", "* *", "* *", '*',
+										 "nuggetIron"));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Items.chainmail_boots), "* *", "* *", '*',
+										 "nuggetIron"));
 		}
 
 		// Craft vanilla benches into BB workbenches
