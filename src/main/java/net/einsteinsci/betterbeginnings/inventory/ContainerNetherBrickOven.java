@@ -117,7 +117,7 @@ public class ContainerNetherBrickOven extends Container
 					return null;
 				}
 			}
-			else if (slotId >= 37 && slotId < 46) // hotbar
+			else if (slotId > 37 && slotId <= 46) // hotbar
 			{
 				if (FluidContainerRegistry.isBucket(itemstack1))
 				{
