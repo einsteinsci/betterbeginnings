@@ -23,15 +23,6 @@ public class RegisterHelper
 		RegisterBlocks.allBlocks.add(block);
 	}
 
-	public static void registerSmelterOreRecipe(String input, ItemStack output, float experience, int gravel, int bonus,
-	                                            float chance)
-	{
-		for (ItemStack stack : OreDictionary.getOres(input))
-		{
-			SmelterRecipeHandler.addRecipe(stack, output, experience, gravel, bonus, chance);
-		}
-	}
-
 	public static void registerSmelterOreRecipe(String input, String output, float experience, int gravel, int bonus,
 	                                            float chance)
 	{
