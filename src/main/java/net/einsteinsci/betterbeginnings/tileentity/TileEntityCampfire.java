@@ -41,7 +41,7 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 	public static final int SLOT_INPUT = 0;
 	public static final int SLOT_OUTPUT = 1;
 	public static final int SLOT_FUEL = 2;
-	public static final int SLOT_PAN = 3;
+	public static final int SLOT_UTENSIL = 3;
 
 	public ItemStack[] stacks = new ItemStack[4];
 
@@ -289,7 +289,7 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack)
 	{
-		return slot == SLOT_INPUT || (slot == SLOT_PAN && isCampfireUtensil(stack)) ||
+		return slot == SLOT_INPUT || (slot == SLOT_UTENSIL && isCampfireUtensil(stack)) ||
 			(slot == SLOT_FUEL && isItemFuel(stack));
 	}
 
@@ -342,10 +342,10 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 	public int getMaxCookTime()
 	{
 		float modifier = 1.0f;
-		if (isCampfireUtensil(stackPan()))
+		if (isCampfireUtensil(stackUtensil()))
 		{
-			ICampfireUtensil item = (ICampfireUtensil)stackPan().getItem();
-			modifier = item.getCampfireSpeedModifier(stackPan());
+			ICampfireUtensil item = (ICampfireUtensil)stackUtensil().getItem();
+			modifier = item.getCampfireSpeedModifier(stackUtensil());
 		}
 
 		float resf = (float)MAX_COOK_TIME_UNMODIFIED / modifier;
@@ -470,7 +470,7 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 		}
 
 		ItemStack potentialResult = CampfirePanRecipes.smelting().getSmeltingResult(stackInput());
-		if (potentialResult == null || stackPan() == null)
+		if (potentialResult == null || stackUtensil() == null)
 		{
 			potentialResult = CampfireRecipes.smelting().getSmeltingResult(stackInput());
 		}
@@ -511,7 +511,7 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 		if (canCook())
 		{
 			ItemStack potentialResult = CampfirePanRecipes.smelting().getSmeltingResult(stackInput());
-			if (potentialResult == null || stackPan() == null)
+			if (potentialResult == null || stackUtensil() == null)
 			{
 				potentialResult = CampfireRecipes.smelting().getSmeltingResult(stackInput());
 			}
@@ -532,16 +532,16 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 				stacks[SLOT_INPUT] = null;
 			}
 
-			if (stackPan() != null)
+			if (stackUtensil() != null)
 			{
-				if (stackPan().getItem() instanceof ICampfireUtensil)
+				if (stackUtensil().getItem() instanceof ICampfireUtensil)
 				{
-					ICampfireUtensil pan = (ICampfireUtensil)stackPan().getItem();
-					boolean destroy = pan.doCookingDamage(stackPan());
+					ICampfireUtensil pan = (ICampfireUtensil)stackUtensil().getItem();
+					boolean destroy = pan.doCookingDamage(stackUtensil());
 
 					if (destroy)
 					{
-						stacks[SLOT_PAN] = null;
+						stacks[SLOT_UTENSIL] = null;
 					}
 				}
 			}
@@ -553,9 +553,9 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 		return stacks[SLOT_INPUT];
 	}
 
-	public ItemStack stackPan()
+	public ItemStack stackUtensil()
 	{
-		return stacks[SLOT_PAN];
+		return stacks[SLOT_UTENSIL];
 	}
 
 	public ItemStack stackOutput()

@@ -15,7 +15,7 @@ public class ContainerCampfire extends Container
 	private static final int SLOT_INPUT = TileEntityCampfire.SLOT_INPUT;
 	private static final int SLOT_OUTPUT = TileEntityCampfire.SLOT_OUTPUT;
 	private static final int SLOT_FUEL = TileEntityCampfire.SLOT_FUEL;
-	private static final int SLOT_PAN = TileEntityCampfire.SLOT_PAN;
+	private static final int SLOT_PAN = TileEntityCampfire.SLOT_UTENSIL;
 	public int lastItemBurnTime;
 	public int lastCookTime;
 	private TileEntityCampfire tileCampfire;
