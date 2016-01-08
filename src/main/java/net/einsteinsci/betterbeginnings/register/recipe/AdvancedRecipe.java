@@ -87,7 +87,6 @@ public class AdvancedRecipe
 			{
 				int i1 = k - startX;
 				int j1 = l - startY;
-
 				OreRecipeElement neededCraftingStack = null;
 
 				if (i1 >= 0 && j1 >= 0 && i1 < recipeWidth && j1 < recipeHeight)
@@ -124,17 +123,24 @@ public class AdvancedRecipe
 			return false;
 		}
 		
-		for (int i2 = 0; i2 < addedMaterials.length; ++i2)
+		for (OreRecipeElement requiredMatStack : addedMaterials)
 		{
-			OreRecipeElement requiredMatStack = addedMaterials[i2];
-
-			// we're out of added mats
-			if( requiredMatStack == null )
+			boolean foundIt = false;
+			for (int i2 = 0; i2 < materials.getSizeInventory(); ++i2)
 			{
-				break;
+				ItemStack testedMatStack = materials.getStackInSlot(i2);
+				if (testedMatStack != null)
+				{
+					foundIt = requiredMatStack.matchesCheckSize(testedMatStack);
+				}
+
+				if (foundIt)
+				{
+					break;
+				}
 			}
-			
-			if (!requiredMatStack.matchesCheckSize(materials.getStackInSlot(i2)))
+
+			if (!foundIt)
 			{
 				return false;
 			}
