@@ -27,6 +27,10 @@ public class RegisterRecipes
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(RegisterItems.leatherStrip, 3),
 			Items.leather, "itemKnife"));
 
+		// Leather Strip (shortcut from rabbit hide)
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(RegisterItems.leatherStrip),
+			Items.rabbit_hide, "itemKnife"));
+
 		// Bonemeal from Bone Shard (a bit more rewarding)
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, 2, 15), RegisterItems.boneShard);
 
