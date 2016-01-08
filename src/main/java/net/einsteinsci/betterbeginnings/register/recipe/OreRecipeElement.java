@@ -37,6 +37,10 @@ public class OreRecipeElement
 
 	public boolean matches(ItemStack stackGiven)
 	{
+		if(stackGiven  == null)
+		{
+			return false;
+		}
 		for (ItemStack valid : validItems)
 		{
 			if (valid.getItem() == stackGiven.getItem() && (valid.getItemDamage() == stackGiven.getItemDamage() ||
@@ -51,6 +55,10 @@ public class OreRecipeElement
 
 	public boolean matchesCheckSize(ItemStack stackGiven)
 	{
+		if(stackGiven == null)
+		{
+			return false;
+		}
 		for (ItemStack valid : validItems)
 		{
 			if (valid.getItem() == stackGiven.getItem() && (valid.getItemDamage() == stackGiven.getItemDamage() ||
