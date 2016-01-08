@@ -1258,8 +1258,8 @@ public class RegisterRecipes
 		GameRegistry.addShapedRecipe(new ItemStack(Items.flint), "##", "##", '#', Blocks.gravel);
 
 		// Iron Nugget->Ingot
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Items.iron_ingot), "***", "***", "***", '*',
-									 "nuggetIron"));
+		GameRegistry.addShapedRecipe(new ItemStack(Items.iron_ingot), "***", "***", "***", '*',
+													 RegisterItems.ironNugget);
 
 		// Workbench
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(RegisterBlocks.doubleWorkbench), "##", "##", '#',
