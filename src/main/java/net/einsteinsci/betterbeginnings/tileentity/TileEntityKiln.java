@@ -6,7 +6,7 @@ import net.einsteinsci.betterbeginnings.inventory.ContainerKiln;
 import net.einsteinsci.betterbeginnings.items.ItemBonePickaxe;
 import net.einsteinsci.betterbeginnings.items.ItemFlintHatchet;
 import net.einsteinsci.betterbeginnings.items.ItemKnifeFlint;
-import net.einsteinsci.betterbeginnings.register.recipe.KilnRecipes;
+import net.einsteinsci.betterbeginnings.register.recipe.KilnRecipeHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -236,7 +236,7 @@ public class TileEntityKiln extends TileEntitySpecializedFurnace implements IInt
 		}
 		else
 		{
-			ItemStack stack = KilnRecipes.smelting().getSmeltingResult(specialFurnaceStacks[SLOT_INPUT]);
+			ItemStack stack = KilnRecipeHandler.instance().getSmeltingResult(specialFurnaceStacks[SLOT_INPUT]);
 			if (stack == null)
 			{
 				return false;
@@ -260,7 +260,7 @@ public class TileEntityKiln extends TileEntitySpecializedFurnace implements IInt
 	{
 		if (canSmelt())
 		{
-			ItemStack itemStack = KilnRecipes.smelting().getSmeltingResult(specialFurnaceStacks[SLOT_INPUT]);
+			ItemStack itemStack = KilnRecipeHandler.instance().getSmeltingResult(specialFurnaceStacks[SLOT_INPUT]);
 
 			if (specialFurnaceStacks[SLOT_OUTPUT] == null)
 			{

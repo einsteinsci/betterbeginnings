@@ -211,9 +211,9 @@ public class TileEntityEnderSmelter extends TileEntitySpecializedFurnace impleme
 		}
 		else
 		{
-			ItemStack output = SmelterRecipeHandler.smelting().getSmeltingResult(specialFurnaceStacks[INPUT]);
-			int gravelNeeded = SmelterRecipeHandler.smelting().getGravelCount(specialFurnaceStacks[INPUT]);
-			int bonus = SmelterRecipeHandler.smelting().getBonus(specialFurnaceStacks[INPUT]);
+			ItemStack output = SmelterRecipeHandler.instance().getSmeltingResult(specialFurnaceStacks[INPUT]);
+			int gravelNeeded = SmelterRecipeHandler.instance().getGravelCount(specialFurnaceStacks[INPUT]);
+			int bonus = SmelterRecipeHandler.instance().getBonus(specialFurnaceStacks[INPUT]);
 
 			if (output == null)
 			{
@@ -243,10 +243,10 @@ public class TileEntityEnderSmelter extends TileEntitySpecializedFurnace impleme
 	{
 		if (canSmelt())
 		{
-			ItemStack itemStack = SmelterRecipeHandler.smelting().getSmeltingResult(specialFurnaceStacks[INPUT]);
+			ItemStack itemStack = SmelterRecipeHandler.instance().getSmeltingResult(specialFurnaceStacks[INPUT]);
 
-			int bonus = SmelterRecipeHandler.smelting().getBonus(specialFurnaceStacks[INPUT]);
-			float chance = SmelterRecipeHandler.smelting().getBonusChance(specialFurnaceStacks[INPUT]);
+			int bonus = SmelterRecipeHandler.instance().getBonus(specialFurnaceStacks[INPUT]);
+			float chance = SmelterRecipeHandler.instance().getBonusChance(specialFurnaceStacks[INPUT]);
 			int resultSize = itemStack.stackSize;
 			if (random.nextFloat() < chance)
 			{
@@ -263,7 +263,7 @@ public class TileEntityEnderSmelter extends TileEntitySpecializedFurnace impleme
 				specialFurnaceStacks[OUTPUT].stackSize += resultSize;
 			}
 
-			int gravelUsed = SmelterRecipeHandler.smelting().getGravelCount(specialFurnaceStacks[INPUT]);
+			int gravelUsed = SmelterRecipeHandler.instance().getGravelCount(specialFurnaceStacks[INPUT]);
 
 			--specialFurnaceStacks[INPUT].stackSize;
 

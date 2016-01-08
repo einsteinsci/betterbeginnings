@@ -10,7 +10,7 @@ import java.util.Map.Entry;
 
 public class SmelterRecipeHandler
 {
-	private static final SmelterRecipeHandler SMELTINGBASE = new SmelterRecipeHandler();
+	private static final SmelterRecipeHandler INSTANCE = new SmelterRecipeHandler();
 
 	private Map<ItemStack, Float> experienceList = new HashMap<>();
 
@@ -23,7 +23,7 @@ public class SmelterRecipeHandler
 
 	public static void addRecipe(Item input, ItemStack output, float experience, int gravel, int bonus, float chance)
 	{
-		smelting().putLists(input, output, experience, gravel, bonus, chance);
+		instance().putLists(input, output, experience, gravel, bonus, chance);
 	}
 
 	public void putLists(Item input, ItemStack output, float experience, int gravel, int bonus, float chance)
@@ -31,9 +31,9 @@ public class SmelterRecipeHandler
 		putLists(new ItemStack(input, 1, OreDictionary.WILDCARD_VALUE), output, experience, gravel, bonus, chance);
 	}
 
-	public static SmelterRecipeHandler smelting()
+	public static SmelterRecipeHandler instance()
 	{
-		return SMELTINGBASE;
+		return INSTANCE;
 	}
 
 	public void putLists(ItemStack input, ItemStack output, float experience, int gravel, int bonus, float chance)
@@ -47,18 +47,18 @@ public class SmelterRecipeHandler
 	{
 		for (ItemStack stack : OreDictionary.getOres(input))
 		{
-			smelting().putLists(stack, output, experience, gravel, bonus, chance);
+			instance().putLists(stack, output, experience, gravel, bonus, chance);
 		}
 	}
 	
 	public static void addRecipe(Block input, ItemStack output, float experience, int gravel, int bonus, float chance)
 	{
-		smelting().putLists(Item.getItemFromBlock(input), output, experience, gravel, bonus, chance);
+		instance().putLists(Item.getItemFromBlock(input), output, experience, gravel, bonus, chance);
 	}
 
 	public static void addRecipe(ItemStack input, ItemStack output, float experience, int gravel, int bonus, float chance)
 	{
-		smelting().putLists(input, output, experience, gravel, bonus, chance);
+		instance().putLists(input, output, experience, gravel, bonus, chance);
 	}
 
 	public ItemStack getSmeltingResult(ItemStack input)
@@ -148,6 +148,6 @@ public class SmelterRecipeHandler
 
 	public static List<SmelterRecipe> getRecipes()
 	{
-		return smelting().recipes;
+		return instance().recipes;
 	}
 }

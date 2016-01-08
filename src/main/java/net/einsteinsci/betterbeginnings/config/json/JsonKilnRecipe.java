@@ -1,6 +1,6 @@
 package net.einsteinsci.betterbeginnings.config.json;
 
-import net.einsteinsci.betterbeginnings.register.recipe.KilnRecipes;
+import net.einsteinsci.betterbeginnings.register.recipe.KilnRecipeHandler;
 import net.einsteinsci.betterbeginnings.util.LogUtil;
 import net.minecraft.item.ItemStack;
 import org.apache.logging.log4j.Level;
@@ -50,7 +50,7 @@ public class JsonKilnRecipe
 
 		if (input.isOreDictionary())
 		{
-			KilnRecipes.addRecipe(input.getItemName(), possibleOutputs.get(0), experience);
+			KilnRecipeHandler.addRecipe(input.getItemName(), possibleOutputs.get(0), experience);
 			LogUtil.logDebug("Successfully loaded kiln recipe (OreDictionary) for " + possibleOutputs.get(0).toString());
 		}
 		else
@@ -62,7 +62,7 @@ public class JsonKilnRecipe
 				return;
 			}
 
-			KilnRecipes.addRecipe(possibleInputs.get(0), possibleOutputs.get(0), experience);
+			KilnRecipeHandler.addRecipe(possibleInputs.get(0), possibleOutputs.get(0), experience);
 			LogUtil.logDebug("Successfully loaded kiln recipe for " + possibleOutputs.get(0).toString());
 		}
 	}

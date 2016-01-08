@@ -8,21 +8,21 @@ import net.minecraftforge.oredict.OreDictionary;
 import java.util.*;
 import java.util.Map.Entry;
 
-public class CampfirePanRecipes
+public class CampfirePanRecipeHandler
 {
-	private static final CampfirePanRecipes SMELTINGBASE = new CampfirePanRecipes();
+	private static final CampfirePanRecipeHandler INSTANCE = new CampfirePanRecipeHandler();
 
 	private Map smeltingList = new HashMap();
 	private Map experienceList = new HashMap();
 
-	private CampfirePanRecipes()
+	private CampfirePanRecipeHandler()
 	{
 		// nothing here
 	}
 
 	public static void addRecipe(Item input, ItemStack output, float experience)
 	{
-		smelting().addLists(input, output, experience);
+		instance().addLists(input, output, experience);
 	}
 
 	public void addLists(Item input, ItemStack itemStack, float experience)
@@ -30,25 +30,25 @@ public class CampfirePanRecipes
 		putLists(new ItemStack(input, 1, OreDictionary.WILDCARD_VALUE), itemStack, experience);
 	}
 
-	public static CampfirePanRecipes smelting()
+	public static CampfirePanRecipeHandler instance()
 	{
-		return SMELTINGBASE;
+		return INSTANCE;
 	}
 
 	public void putLists(ItemStack itemStack, ItemStack itemStack2, float experience)
 	{
 		smeltingList.put(itemStack, itemStack2);
-		experienceList.put(itemStack2, Float.valueOf(experience));
+		experienceList.put(itemStack2, experience);
 	}
 
 	public static void addRecipe(Block input, ItemStack output, float experience)
 	{
-		smelting().addLists(Item.getItemFromBlock(input), output, experience);
+		instance().addLists(Item.getItemFromBlock(input), output, experience);
 	}
 
 	public static void addRecipe(ItemStack input, ItemStack output, float experience)
 	{
-		smelting().putLists(input, output, experience);
+		instance().putLists(input, output, experience);
 	}
 
 	public ItemStack getSmeltingResult(ItemStack stack)
@@ -101,6 +101,6 @@ public class CampfirePanRecipes
 
 	public static Map getSmeltingList()
 	{
-		return smelting().smeltingList;
+		return instance().smeltingList;
 	}
 }

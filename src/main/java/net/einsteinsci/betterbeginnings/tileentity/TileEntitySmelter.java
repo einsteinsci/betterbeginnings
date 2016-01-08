@@ -187,8 +187,8 @@ public class TileEntitySmelter extends TileEntitySpecializedFurnace implements I
 		}
 		else
 		{
-			ItemStack stack = SmelterRecipeHandler.smelting().getSmeltingResult(specialFurnaceStacks[INPUT]);
-			int gravelNeeded = SmelterRecipeHandler.smelting().getGravelCount(specialFurnaceStacks[INPUT]);
+			ItemStack stack = SmelterRecipeHandler.instance().getSmeltingResult(specialFurnaceStacks[INPUT]);
+			int gravelNeeded = SmelterRecipeHandler.instance().getGravelCount(specialFurnaceStacks[INPUT]);
 
 			if (stack == null)
 			{
@@ -218,7 +218,7 @@ public class TileEntitySmelter extends TileEntitySpecializedFurnace implements I
 	{
 		if (canSmelt())
 		{
-			ItemStack itemStack = SmelterRecipeHandler.smelting().getSmeltingResult(specialFurnaceStacks[INPUT]);
+			ItemStack itemStack = SmelterRecipeHandler.instance().getSmeltingResult(specialFurnaceStacks[INPUT]);
 
 			if (specialFurnaceStacks[OUTPUT] == null)
 			{
@@ -229,7 +229,7 @@ public class TileEntitySmelter extends TileEntitySpecializedFurnace implements I
 				specialFurnaceStacks[OUTPUT].stackSize += itemStack.stackSize;
 			}
 
-			int gravelUsed = SmelterRecipeHandler.smelting().getGravelCount(specialFurnaceStacks[INPUT]);
+			int gravelUsed = SmelterRecipeHandler.instance().getGravelCount(specialFurnaceStacks[INPUT]);
 
 			--specialFurnaceStacks[INPUT].stackSize;
 

@@ -1,6 +1,6 @@
 package net.einsteinsci.betterbeginnings.inventory;
 
-import net.einsteinsci.betterbeginnings.register.recipe.KilnRecipes;
+import net.einsteinsci.betterbeginnings.register.recipe.KilnRecipeHandler;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityObsidianKiln;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -56,7 +56,7 @@ public class ContainerObsidianKiln extends ContainerSpecializedFurnace
 			}
 			else if (par2 != 1 && par2 != 0)
 			{
-				if (KilnRecipes.smelting().getSmeltingResult(itemstack1) != null)
+				if (KilnRecipeHandler.instance().getSmeltingResult(itemstack1) != null)
 				{
 					if (!mergeItemStack(itemstack1, 0, 1, false))
 					{

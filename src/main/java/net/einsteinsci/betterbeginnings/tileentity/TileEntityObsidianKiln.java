@@ -3,7 +3,7 @@ package net.einsteinsci.betterbeginnings.tileentity;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.blocks.BlockObsidianKiln;
 import net.einsteinsci.betterbeginnings.inventory.ContainerObsidianKiln;
-import net.einsteinsci.betterbeginnings.register.recipe.KilnRecipes;
+import net.einsteinsci.betterbeginnings.register.recipe.KilnRecipeHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
@@ -171,7 +171,7 @@ public class TileEntityObsidianKiln extends TileEntitySpecializedFurnace impleme
 		}
 		else
 		{
-			ItemStack stack = KilnRecipes.smelting().getSmeltingResult(specialFurnaceStacks[SLOT_INPUT]);
+			ItemStack stack = KilnRecipeHandler.instance().getSmeltingResult(specialFurnaceStacks[SLOT_INPUT]);
 			if (stack == null)
 			{
 				return false;
@@ -195,7 +195,7 @@ public class TileEntityObsidianKiln extends TileEntitySpecializedFurnace impleme
 	{
 		if (canSmelt())
 		{
-			ItemStack itemStack = KilnRecipes.smelting().getSmeltingResult(specialFurnaceStacks[0]);
+			ItemStack itemStack = KilnRecipeHandler.instance().getSmeltingResult(specialFurnaceStacks[0]);
 
 			if (specialFurnaceStacks[SLOT_OUTPUT] == null)
 			{

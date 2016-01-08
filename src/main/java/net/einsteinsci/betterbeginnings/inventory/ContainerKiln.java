@@ -1,6 +1,6 @@
 package net.einsteinsci.betterbeginnings.inventory;
 
-import net.einsteinsci.betterbeginnings.register.recipe.KilnRecipes;
+import net.einsteinsci.betterbeginnings.register.recipe.KilnRecipeHandler;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityKiln;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -57,7 +57,7 @@ public class ContainerKiln extends ContainerSpecializedFurnace
 			}
 			else if (par2 != SLOT_FUEL && par2 != SLOT_INPUT)
 			{
-				if (KilnRecipes.smelting().getSmeltingResult(itemstack1) != null)
+				if (KilnRecipeHandler.instance().getSmeltingResult(itemstack1) != null)
 				{
 					if (!mergeItemStack(itemstack1, SLOT_INPUT, SLOT_INPUT + 1, false))
 					{

@@ -8,21 +8,21 @@ import net.minecraftforge.oredict.OreDictionary;
 import java.util.*;
 import java.util.Map.Entry;
 
-public class CampfireRecipes
+public class CampfireRecipeHandler
 {
-	private static final CampfireRecipes SMELTINGBASE = new CampfireRecipes();
+	private static final CampfireRecipeHandler INSTANCE = new CampfireRecipeHandler();
 
 	private Map smeltingList = new HashMap();
 	private Map experienceList = new HashMap();
 
-	private CampfireRecipes()
+	private CampfireRecipeHandler()
 	{
 		// nothing here
 	}
 
 	public static void addRecipe(Item input, ItemStack output, float experience)
 	{
-		smelting().putLists(input, output, experience);
+		instance().putLists(input, output, experience);
 	}
 
 	public void putLists(Item input, ItemStack itemStack, float experience)
@@ -30,9 +30,9 @@ public class CampfireRecipes
 		putLists(new ItemStack(input, 1, OreDictionary.WILDCARD_VALUE), itemStack, experience);
 	}
 
-	public static CampfireRecipes smelting()
+	public static CampfireRecipeHandler instance()
 	{
-		return SMELTINGBASE;
+		return INSTANCE;
 	}
 
 	public void putLists(ItemStack itemStack, ItemStack itemStack2, float experience)
@@ -45,18 +45,18 @@ public class CampfireRecipes
 	{
 		for (ItemStack stack : OreDictionary.getOres(input))
 		{
-			smelting().putLists(stack, output, experience);
+			instance().putLists(stack, output, experience);
 		}
 	}
 	
 	public static void addRecipe(Block input, ItemStack output, float experience)
 	{
-		smelting().putLists(Item.getItemFromBlock(input), output, experience);
+		instance().putLists(Item.getItemFromBlock(input), output, experience);
 	}
 
 	public static void addRecipe(ItemStack input, ItemStack output, float experience)
 	{
-		smelting().putLists(input, output, experience);
+		instance().putLists(input, output, experience);
 	}
 
 	public ItemStack getSmeltingResult(ItemStack stack)
@@ -109,6 +109,6 @@ public class CampfireRecipes
 
 	public static Map getSmeltingList()
 	{
-		return smelting().smeltingList;
+		return instance().smeltingList;
 	}
 }

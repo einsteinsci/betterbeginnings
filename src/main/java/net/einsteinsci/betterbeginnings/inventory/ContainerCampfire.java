@@ -1,7 +1,7 @@
 package net.einsteinsci.betterbeginnings.inventory;
 
 import net.einsteinsci.betterbeginnings.items.ItemPan;
-import net.einsteinsci.betterbeginnings.register.recipe.CampfireRecipes;
+import net.einsteinsci.betterbeginnings.register.recipe.CampfireRecipeHandler;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityCampfire;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -15,7 +15,7 @@ public class ContainerCampfire extends Container
 	private static final int SLOT_INPUT = TileEntityCampfire.SLOT_INPUT;
 	private static final int SLOT_OUTPUT = TileEntityCampfire.SLOT_OUTPUT;
 	private static final int SLOT_FUEL = TileEntityCampfire.SLOT_FUEL;
-	private static final int SLOT_PAN = TileEntityCampfire.SLOT_PAN;
+	private static final int SLOT_PAN = TileEntityCampfire.SLOT_UTENSIL;
 	public int lastItemBurnTime;
 	public int lastCookTime;
 	private TileEntityCampfire tileCampfire;
@@ -125,7 +125,7 @@ public class ContainerCampfire extends Container
 						return null;
 					}
 				}
-				else if (CampfireRecipes.smelting().getSmeltingResult(itemstack) != null)
+				else if (CampfireRecipeHandler.instance().getSmeltingResult(itemstack) != null)
 				{
 					if (!mergeItemStack(itemstack, SLOT_INPUT, SLOT_INPUT + 1, false))
 					{

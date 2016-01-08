@@ -128,7 +128,11 @@ public abstract class BlockSpecializedFurnace extends BlockContainer implements 
 	{
 		return 3;
 	}
-	
+
+	public EnumParticleTypes getFlameParticle()
+	{
+		return EnumParticleTypes.FLAME;
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -147,19 +151,19 @@ public abstract class BlockSpecializedFurnace extends BlockContainer implements 
 			{
 				case 1:
 					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 - d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
-					world.spawnParticle(EnumParticleTypes.FLAME, d0 - d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
+					world.spawnParticle(getFlameParticle(), d0 - d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
 					break;
 				case 2:
 					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
-					world.spawnParticle(EnumParticleTypes.FLAME, d0 + d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
+					world.spawnParticle(getFlameParticle(), d0 + d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
 					break;
 				case 3:
 					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4, d1, d2 - d3, 0.0D, 0.0D, 0.0D);
-					world.spawnParticle(EnumParticleTypes.FLAME, d0 + d4, d1, d2 - d3, 0.0D, 0.0D, 0.0D);
+					world.spawnParticle(getFlameParticle(), d0 + d4, d1, d2 - d3, 0.0D, 0.0D, 0.0D);
 					break;
 				case 4:
 					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4, d1, d2 + d3, 0.0D, 0.0D, 0.0D);
-					world.spawnParticle(EnumParticleTypes.FLAME, d0 + d4, d1, d2 + d3, 0.0D, 0.0D, 0.0D);
+					world.spawnParticle(getFlameParticle(), d0 + d4, d1, d2 + d3, 0.0D, 0.0D, 0.0D);
 			}
 		}
 	}
