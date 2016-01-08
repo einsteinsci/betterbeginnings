@@ -23,10 +23,10 @@ public class SmelterRecipeHandler
 
 	public static void addRecipe(Item input, ItemStack output, float experience, int gravel, int bonus, float chance)
 	{
-		smelting().addLists(input, output, experience, gravel, bonus, chance);
+		smelting().putLists(input, output, experience, gravel, bonus, chance);
 	}
 
-	public void addLists(Item input, ItemStack output, float experience, int gravel, int bonus, float chance)
+	public void putLists(Item input, ItemStack output, float experience, int gravel, int bonus, float chance)
 	{
 		putLists(new ItemStack(input, 1, OreDictionary.WILDCARD_VALUE), output, experience, gravel, bonus, chance);
 	}
@@ -43,9 +43,17 @@ public class SmelterRecipeHandler
 		recipes.add(new SmelterRecipe(output, input, experience, gravel, bonus, chance));
 	}
 
+	public static void addRecipe(String input, ItemStack output, float experience, int gravel, int bonus, float chance)
+	{
+		for (ItemStack stack : OreDictionary.getOres(input))
+		{
+			smelting().putLists(stack, output, experience, gravel, bonus, chance);
+		}
+	}
+	
 	public static void addRecipe(Block input, ItemStack output, float experience, int gravel, int bonus, float chance)
 	{
-		smelting().addLists(Item.getItemFromBlock(input), output, experience, gravel, bonus, chance);
+		smelting().putLists(Item.getItemFromBlock(input), output, experience, gravel, bonus, chance);
 	}
 
 	public static void addRecipe(ItemStack input, ItemStack output, float experience, int gravel, int bonus, float chance)
