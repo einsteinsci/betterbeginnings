@@ -24,6 +24,42 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class BlockSpecializedFurnace extends BlockContainer implements IBBName
 {
+	@SideOnly(Side.CLIENT)
+	static final class SwitchEnumFacing
+	{
+		static final int[] facings = new int[EnumFacing.values().length];
+
+		static
+		{
+			try
+			{
+				facings[EnumFacing.WEST.ordinal()] = 1;
+			}
+			catch (NoSuchFieldError var4)
+			{ }
+
+			try
+			{
+				facings[EnumFacing.EAST.ordinal()] = 2;
+			}
+			catch (NoSuchFieldError var3)
+			{ }
+
+			try
+			{
+				facings[EnumFacing.NORTH.ordinal()] = 3;
+			}
+			catch (NoSuchFieldError var2)
+			{ }
+
+			try
+			{
+				facings[EnumFacing.SOUTH.ordinal()] = 4;
+			}
+			catch (NoSuchFieldError var1)
+			{ }
+		}
+	}
 
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
@@ -93,8 +129,6 @@ public abstract class BlockSpecializedFurnace extends BlockContainer implements 
 	{
 		return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
 	}
-	
-
 
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer,
@@ -147,7 +181,7 @@ public abstract class BlockSpecializedFurnace extends BlockContainer implements 
 			double d3 = 0.52D;
 			double d4 = rand.nextDouble() * 0.6D - 0.3D;
 
-			switch (BlockKiln.SwitchEnumFacing.facings[enumfacing.ordinal()])
+			switch (SwitchEnumFacing.facings[enumfacing.ordinal()])
 			{
 				case 1:
 					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 - d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D);

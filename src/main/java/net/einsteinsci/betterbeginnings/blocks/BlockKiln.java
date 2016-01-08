@@ -19,45 +19,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockKiln extends BlockSpecializedFurnace
 {
-	@SideOnly(Side.CLIENT)
-	static final class SwitchEnumFacing
-	{
-		static final int[] facings = new int[EnumFacing.values().length];
-
-		static
-		{
-			try
-			{
-				facings[EnumFacing.WEST.ordinal()] = 1;
-			}
-			catch (NoSuchFieldError var4)
-			{
-			}
-
-			try
-			{
-				facings[EnumFacing.EAST.ordinal()] = 2;
-			}
-			catch (NoSuchFieldError var3)
-			{ }
-
-			try
-			{
-				facings[EnumFacing.NORTH.ordinal()] = 3;
-			}
-			catch (NoSuchFieldError var2)
-			{
-			}
-
-			try
-			{
-				facings[EnumFacing.SOUTH.ordinal()] = 4;
-			}
-			catch (NoSuchFieldError var1)
-			{ }
-		}
-	}
-
 	public BlockKiln(boolean lit)
 	{
 		super(Material.rock);
