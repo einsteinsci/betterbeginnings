@@ -75,6 +75,12 @@ public class BlockEnderSmelter extends BlockSpecializedFurnace
 	}
 
 	@Override
+	public EnumParticleTypes getFlameParticle()
+	{
+		return EnumParticleTypes.PORTAL;
+	}
+
+	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int par3)
 	{
 		return Item.getItemFromBlock(RegisterBlocks.enderSmelter);
