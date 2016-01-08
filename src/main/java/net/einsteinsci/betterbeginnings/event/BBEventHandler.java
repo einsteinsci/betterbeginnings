@@ -252,6 +252,23 @@ public class BBEventHandler
 			}
 		}
 
+		// Tripwire -> thread
+		if (block == Blocks.tripwire)
+		{
+			int rem = 0;
+			for (int i = 0; i < e.drops.size(); i++)
+			{
+				if (e.drops.get(i).getItem() == Items.string)
+				{
+					rem = i;
+				}
+			}
+
+			int count = e.drops.get(rem).stackSize; // Almost certainly 1.
+			e.drops.remove(rem);
+			e.drops.add(new ItemStack(RegisterItems.thread, count));
+		}
+
 		// Makes sure emergency escape mechanic does not let blocks fall out (like logs)
 		if (BBConfig.alwaysBreakable.contains(block))
 		{
