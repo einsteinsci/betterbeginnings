@@ -5,6 +5,9 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
@@ -21,14 +24,12 @@ public abstract class TileEntitySpecializedFurnace extends TileEntity implements
 	public int cookTime;
 	protected int processTime;
 
-
 	public TileEntitySpecializedFurnace(int numStacks) 
 	{
 		specialFurnaceStacks = new ItemStack[numStacks];
 	}
-	
-	//Client
-	
+
+	// Client
 	@SideOnly(Side.CLIENT)
 	public int getCookProgressScaled(int progress)
 	{
@@ -46,7 +47,7 @@ public abstract class TileEntitySpecializedFurnace extends TileEntity implements
 		return burnTime * time / currentItemBurnLength;
 	}
 	
-	//Inventory
+	// Inventory
 	@Override
 	public void clear()
 	{
@@ -136,11 +137,10 @@ public abstract class TileEntitySpecializedFurnace extends TileEntity implements
 	@Override
 	public void closeInventory(EntityPlayer player) {}
 
-
 	//TE related
 	@Override
-	public void markDirty() {}
-
+	public void markDirty()
+	{ }
 	
 	//Name
 	@Override
@@ -166,8 +166,7 @@ public abstract class TileEntitySpecializedFurnace extends TileEntity implements
 		return new ChatComponentText(getCommandSenderName());
 	}
 
-	
-	//NBT
+	// NBT
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound)
 	{
@@ -227,23 +226,38 @@ public abstract class TileEntitySpecializedFurnace extends TileEntity implements
 		}
 	}
 
-	
-	//Miscellaneous
+	public abstract void smeltItem();
+
+	public abstract boolean canSmelt();
+
 	@Override
-	public int getField(int id) {
-		// TODO Auto-generated method stub
+	public Packet getDescriptionPacket()
+	{
+		NBTTagCompound tag = new NBTTagCompound();
+		writeToNBT(tag);
+		return new S35PacketUpdateTileEntity(pos, 1, tag);
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager manager, S35PacketUpdateTileEntity packet)
+	{
+		readFromNBT(packet.getNbtCompound());
+	}
+	
+	// Miscellaneous
+	@Override
+	public int getField(int id)
+	{
 		return 0;
 	}
 
 	@Override
-	public void setField(int id, int value) {
-		// TODO Auto-generated method stub
-
-	}
+	public void setField(int id, int value)
+	{ }
 
 	@Override
-	public int getFieldCount() {
-		// TODO Auto-generated method stub
+	public int getFieldCount()
+	{
 		return 0;
 	}
 	

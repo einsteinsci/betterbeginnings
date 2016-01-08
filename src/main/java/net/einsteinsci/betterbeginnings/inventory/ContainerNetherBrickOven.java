@@ -15,7 +15,7 @@ public class ContainerNetherBrickOven extends ContainerSpecializedFurnace
 	public ContainerNetherBrickOven(InventoryPlayer playerInv, TileEntityNetherBrickOven tileEntityBrickOven)
 	{
 		tileSpecialFurnace = tileEntityBrickOven;
-		addSlotToContainer(new Slot(tileEntityBrickOven, TileEntityNetherBrickOven.FUELINPUT, 17, 63));
+		addSlotToContainer(new Slot(tileEntityBrickOven, TileEntityNetherBrickOven.FUEL, 17, 63));
 		addSlotToContainer(new SlotFurnaceOutput(playerInv.player, tileEntityBrickOven,
 		                                         TileEntityNetherBrickOven.OUTPUT, 138, 35));
 
@@ -94,8 +94,8 @@ public class ContainerNetherBrickOven extends ContainerSpecializedFurnace
 			{
 				if (FluidContainerRegistry.isBucket(itemstack1))
 				{
-					if (!mergeItemStack(itemstack1, TileEntityNetherBrickOven.FUELINPUT,
-					                    TileEntityNetherBrickOven.FUELINPUT + 1, false))
+					if (!mergeItemStack(itemstack1, TileEntityNetherBrickOven.FUEL,
+					                    TileEntityNetherBrickOven.FUEL + 1, false))
 					{
 						return null;
 					}
@@ -118,8 +118,8 @@ public class ContainerNetherBrickOven extends ContainerSpecializedFurnace
 			{
 				if (FluidContainerRegistry.isBucket(itemstack1))
 				{
-					if (!mergeItemStack(itemstack1, TileEntityNetherBrickOven.FUELINPUT,
-					                    TileEntityNetherBrickOven.FUELINPUT + 1, false))
+					if (!mergeItemStack(itemstack1, TileEntityNetherBrickOven.FUEL,
+					                    TileEntityNetherBrickOven.FUEL + 1, false))
 					{
 						return null;
 					}

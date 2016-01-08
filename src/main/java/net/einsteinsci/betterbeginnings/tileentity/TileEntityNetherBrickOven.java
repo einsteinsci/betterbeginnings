@@ -5,15 +5,13 @@ import net.einsteinsci.betterbeginnings.blocks.BlockNetherBrickOven;
 import net.einsteinsci.betterbeginnings.inventory.ContainerNetherBrickOven;
 import net.einsteinsci.betterbeginnings.inventory.TankNetherBrickOvenFuel;
 import net.einsteinsci.betterbeginnings.network.PacketNetherBrickOvenFuelLevel;
+import net.einsteinsci.betterbeginnings.register.recipe.BrickOvenRecipeHandler;
 import net.einsteinsci.betterbeginnings.register.recipe.NetherBrickOvenRecipeHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IInteractionObject;
 import net.minecraftforge.fluids.Fluid;
@@ -24,27 +22,19 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
-/**
- * Created by einsteinsci on 8/21/2014.
- */
-public class TileEntityNetherBrickOven extends TileEntitySpecializedFurnace implements IFluidHandler, IInteractionObject
+public class TileEntityNetherBrickOven extends TileEntityBrickOvenBase implements IFluidHandler, IInteractionObject
 {
-	public static final int FUELINPUT = 0;
-	public static final int OUTPUT = 1;
-	public static final int INPUTSTART = 2;
-	
 	/**
 	 * Fuel used in mb per operation *
 	 */
 	public static final float FUELFORLAVA = 8; // 512 mb per stack
 	public static final int MINIMUMTEMPERATURE = 500;
+
 	public TankNetherBrickOvenFuel fuelTank;
-	private int[] slotsInput = new int[] {FUELINPUT};
-	private int[] slotsOutput = new int[] {OUTPUT};
 
 	public TileEntityNetherBrickOven()
 	{
-		super(11);
+		super();
 		fuelTank = new TankNetherBrickOvenFuel(this, 8000);
 		processTime = 80;
 	}
@@ -67,17 +57,6 @@ public class TileEntityNetherBrickOven extends TileEntitySpecializedFurnace impl
 	public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain)
 	{
 		return null;
-
-		/*
-		if (resource.isFluidEqual(fuelTank.getFluid()))
-		{
-			return fuelTank.drain(resource.amount, doDrain);
-		}
-		else
-		{
-			return fuelTank.drain(0, doDrain);
-		}
-		*/
 	}
 
 	@Override
@@ -91,37 +70,18 @@ public class TileEntityNetherBrickOven extends TileEntitySpecializedFurnace impl
 	public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain)
 	{
 		return null;
-		//return fuelTank.drain(maxDrain, doDrain);
 	}
 
 	@Override
 	public boolean canFill(EnumFacing from, Fluid fluid)
 	{
 		return true;
-
-		/*
-		if (fuelTank.getFluid() == null)
-		{
-			return true;
-		}
-
-		return fuelTank.getFluidAmount() < fuelTank.getCapacity() && fuelTank.getFluid().getFluid() == fluid;
-		*/
 	}
 
 	@Override
 	public boolean canDrain(EnumFacing from, Fluid fluid)
 	{
 		return false;
-
-		/*
-		if (fuelTank.getFluid() == null)
-		{
-			return false;
-		}
-
-		return fuelTank.getFluidAmount() > 0 && fuelTank.getFluid().getFluid() == fluid;
-		*/
 	}
 
 	@Override
@@ -165,18 +125,15 @@ public class TileEntityNetherBrickOven extends TileEntitySpecializedFurnace impl
 			{
 				cookTime = 0;
 			}
-			BlockNetherBrickOven.updateBlockState(canSmelt(), worldObj, pos);
+			updateBlockState();
 
-			if (specialFurnaceStacks[FUELINPUT] != null)
+			if (specialFurnaceStacks[FUEL] != null)
 			{
-				if (fuelTank.fillFromContainer(specialFurnaceStacks[FUELINPUT]))
+				if (fuelTank.fillFromContainer(specialFurnaceStacks[FUEL]))
 				{
-					specialFurnaceStacks[FUELINPUT] = specialFurnaceStacks[FUELINPUT].getItem().getContainerItem(specialFurnaceStacks[FUELINPUT]);
+					specialFurnaceStacks[FUEL] = specialFurnaceStacks[FUEL].getItem().getContainerItem(specialFurnaceStacks[FUEL]);
 
-					NetworkRegistry.TargetPoint point = new NetworkRegistry.TargetPoint(
-							worldObj.provider.getDimensionId(), pos.getX(), pos.getY(), pos.getZ(), 16.0d);
-					ModMain.network.sendToAllAround(new PacketNetherBrickOvenFuelLevel(
-							pos, fuelTank.getFluid()), point);
+					updateNetwork();
 				}
 			}
 		}
@@ -192,6 +149,22 @@ public class TileEntityNetherBrickOven extends TileEntitySpecializedFurnace impl
 		}
 	}
 
+	@Override
+	public void updateNetwork()
+	{
+		NetworkRegistry.TargetPoint point = new NetworkRegistry.TargetPoint(
+			worldObj.provider.getDimensionId(), pos.getX(), pos.getY(), pos.getZ(), 16.0d);
+		ModMain.network.sendToAllAround(new PacketNetherBrickOvenFuelLevel(
+			pos, fuelTank.getFluid()), point);
+	}
+
+	@Override
+	public void updateBlockState()
+	{
+		BlockNetherBrickOven.updateBlockState(canSmelt(), worldObj, pos);
+	}
+
+	@Override
 	public boolean canSmelt()
 	{
 		if (fuelTank.getFluidAmount() <= 0 || getFuelNeededForSmelt() > fuelTank.getFluidAmount())
@@ -199,92 +172,26 @@ public class TileEntityNetherBrickOven extends TileEntitySpecializedFurnace impl
 			return false;
 		}
 
-		boolean empty = true;
-		for (int i = INPUTSTART; i < specialFurnaceStacks.length; ++i)
-		{
-			if (specialFurnaceStacks[i] != null)
-			{
-				empty = false;
-				break;
-			}
-		}
-
-		if (empty)
-		{
-			return false;
-		}
-		else
-		{
-			ItemStack stack = NetherBrickOvenRecipeHandler.instance().findMatchingRecipe(this);
-			if (stack == null)
-			{
-				return false;
-			}
-
-			if (specialFurnaceStacks[OUTPUT] == null)
-			{
-				return true;
-			}
-			if (!specialFurnaceStacks[OUTPUT].isItemEqual(stack))
-			{
-				return false;
-			}
-
-			int outputNewSize = specialFurnaceStacks[OUTPUT].stackSize + stack.stackSize;
-			boolean result = outputNewSize <= getInventoryStackLimit() && outputNewSize <= specialFurnaceStacks[OUTPUT]
-					.getMaxStackSize();
-			return result;
-		}
+		return super.canSmelt();
 	}
 
+	@Override
 	public void smeltItem()
 	{
+		super.smeltItem();
+
 		if (canSmelt())
 		{
-			ItemStack itemStack = NetherBrickOvenRecipeHandler.instance().findMatchingRecipe(this);
-
-			if (specialFurnaceStacks[OUTPUT] == null)
-			{
-				specialFurnaceStacks[OUTPUT] = itemStack.copy();
-			}
-			else if (specialFurnaceStacks[OUTPUT].getItem() == itemStack.getItem())
-			{
-				specialFurnaceStacks[OUTPUT].stackSize += itemStack.stackSize;
-			}
-
-			for (int i = INPUTSTART; i < specialFurnaceStacks.length; ++i)
-			{
-				ItemStack stack = specialFurnaceStacks[i];
-
-				if (stack != null)
-				{
-					ItemStack containerItem = null;
-
-					if (specialFurnaceStacks[i].getItem().hasContainerItem(specialFurnaceStacks[i]))
-					{
-						containerItem = specialFurnaceStacks[i].getItem().getContainerItem(specialFurnaceStacks[i]);
-					}
-
-					--specialFurnaceStacks[i].stackSize;
-
-					if (specialFurnaceStacks[i].stackSize <= 0)
-					{
-						specialFurnaceStacks[i] = null;
-					}
-
-					if (containerItem != null)
-					{
-						specialFurnaceStacks[i] = containerItem;
-					}
-				}
-			}
-
 			fuelTank.getFluid().amount -= getFuelNeededForSmelt();
 		}
 
-		NetworkRegistry.TargetPoint point = new NetworkRegistry.TargetPoint(
-				worldObj.provider.getDimensionId(), pos.getX(), pos.getY(), pos.getZ(), 16.0d);
-		ModMain.network.sendToAllAround(new PacketNetherBrickOvenFuelLevel(pos, fuelTank.getFluid()), point);
+		updateNetwork();
+	}
+
+	@Override
+	public ItemStack findMatchingRecipe()
+	{
+		return NetherBrickOvenRecipeHandler.instance().findMatchingRecipe(this);
 	}
 
 	public int getFuelNeededForSmelt()
@@ -307,45 +214,6 @@ public class TileEntityNetherBrickOven extends TileEntitySpecializedFurnace impl
 		}
 
 		return result;
-	}
-
-	@Override
-	public Packet getDescriptionPacket()
-	{
-		NBTTagCompound tag = new NBTTagCompound();
-		writeToNBT(tag);
-		return new S35PacketUpdateTileEntity(pos, 1, tag);
-	}
-
-	@Override
-	public int[] getSlotsForFace(EnumFacing side)
-	{
-		if (side == EnumFacing.DOWN)
-		{
-			return slotsOutput;
-		}
-		else
-		{
-			return slotsInput;
-		}
-	}
-
-	@Override
-	public boolean canInsertItem(int par1, ItemStack stack, EnumFacing side)
-	{
-		return isItemValidForSlot(par1, stack);
-	}
-
-	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side)
-	{
-		return side == EnumFacing.DOWN;
-	}
-
-	@Override
-	public void onDataPacket(NetworkManager manager, S35PacketUpdateTileEntity packet)
-	{
-		readFromNBT(packet.getNbtCompound());
 	}
 
 	public boolean isItemFuelContainer(ItemStack stack)
@@ -383,7 +251,7 @@ public class TileEntityNetherBrickOven extends TileEntitySpecializedFurnace impl
 		return fuelTank.getFluidAmount();
 	}
 
-	//I think this will only be called on the client side
+	// I think this will only be called on the client side
 	public void setFuelLevel(FluidStack fluid)
 	{
 		fuelTank.setFluid(fluid);
@@ -402,22 +270,8 @@ public class TileEntityNetherBrickOven extends TileEntitySpecializedFurnace impl
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer player)
-	{
-		if (worldObj.getTileEntity(pos) != this)
-		{
-			return false;
-		}
-		else
-		{
-			return player.getDistanceSq((double)pos.getX() + 0.5d, (double)pos.getY() + 0.5d,
-			                            (double)pos.getZ() + 0.5d) <= 64.0d;
-		}
-	}
-
-	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack)
 	{
-		return slot == OUTPUT ? false : slot == FUELINPUT ? isItemFuelContainer(stack) : true;
+		return slot == OUTPUT ? false : slot == FUEL ? isItemFuelContainer(stack) : true;
 	}
 }

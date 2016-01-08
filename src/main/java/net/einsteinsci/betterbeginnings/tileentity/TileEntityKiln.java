@@ -21,9 +21,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IInteractionObject;
@@ -35,9 +32,9 @@ public class TileEntityKiln extends TileEntitySpecializedFurnace implements IInt
 	public static final int SLOT_FUEL = 1;
 	public static final int SLOT_OUTPUT = 2;
 	
-	private static final int[] slotsTop = new int[] {SLOT_INPUT};
-	private static final int[] slotsBottom = new int[] {SLOT_OUTPUT};
-	private static final int[] slotsSides = new int[] {SLOT_FUEL, SLOT_INPUT};
+	private static final int[] SLOTS_TOP = new int[] {SLOT_INPUT};
+	private static final int[] SLOTS_BOTTOM = new int[] {SLOT_OUTPUT};
+	private static final int[] SLOTS_SIDES = new int[] {SLOT_FUEL, SLOT_INPUT};
 	
 	public TileEntityKiln()
 	{
@@ -228,7 +225,7 @@ public class TileEntityKiln extends TileEntitySpecializedFurnace implements IInt
 		}
 	}
 
-	private boolean canSmelt()
+	public boolean canSmelt()
 	{
 		if (specialFurnaceStacks[SLOT_INPUT] == null)
 		{
@@ -297,15 +294,15 @@ public class TileEntityKiln extends TileEntitySpecializedFurnace implements IInt
 	{
 		if (side == EnumFacing.DOWN)
 		{
-			return slotsBottom;
+			return SLOTS_BOTTOM;
 		}
 		else if (side == EnumFacing.UP)
 		{
-			return slotsTop;
+			return SLOTS_TOP;
 		}
 		else
 		{
-			return slotsSides;
+			return SLOTS_SIDES;
 		}
 	}
 
@@ -325,20 +322,4 @@ public class TileEntityKiln extends TileEntitySpecializedFurnace implements IInt
 	{
 		return par3 != EnumFacing.UP || par1 != 1 || stack.getItem() == Items.bucket;
 	}
-
-
-	@Override
-	public Packet getDescriptionPacket()
-	{
-		NBTTagCompound tag = new NBTTagCompound();
-		writeToNBT(tag);
-		return new S35PacketUpdateTileEntity(pos, 1, tag);
-	}
-	
-	@Override
-	public void onDataPacket(NetworkManager manager, S35PacketUpdateTileEntity packet)
-	{
-		readFromNBT(packet.getNbtCompound());
-	}
-	
 }

@@ -17,9 +17,6 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IInteractionObject;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -31,8 +28,8 @@ public class TileEntityEnderSmelter extends TileEntitySpecializedFurnace impleme
 	public static final int OUTPUT = 2;
 	public static final int GRAVEL = 3;
 	public static final Random random = new Random();
-	private static final int[] slotsTop = new int[] {GRAVEL, INPUT};
-	private static final int[] slotsBottom = new int[] {OUTPUT};
+	private static final int[] SLOTS_TOP = new int[] {GRAVEL, INPUT};
+	private static final int[] SLOTS_BOTTOM = new int[] {OUTPUT};
 	private static final int[] slotsSides = new int[] {FUEL, GRAVEL, INPUT};
 	public boolean oreDoubled = false;
 
@@ -203,7 +200,7 @@ public class TileEntityEnderSmelter extends TileEntitySpecializedFurnace impleme
 		}
 	}
 
-	private boolean canSmelt()
+	public boolean canSmelt()
 	{
 		if (specialFurnaceStacks[INPUT] == null || specialFurnaceStacks[GRAVEL] == null)
 		{
@@ -285,11 +282,11 @@ public class TileEntityEnderSmelter extends TileEntitySpecializedFurnace impleme
 	{
 		if (side == EnumFacing.DOWN)
 		{
-			return slotsBottom;
+			return SLOTS_BOTTOM;
 		}
 		else if (side == EnumFacing.UP)
 		{
-			return slotsTop;
+			return SLOTS_TOP;
 		}
 
 		return slotsSides;
@@ -336,22 +333,4 @@ public class TileEntityEnderSmelter extends TileEntitySpecializedFurnace impleme
 	{
 		return ModMain.MODID + ":enderSmelter";
 	}
-
-	@Override
-	public Packet getDescriptionPacket()
-	{
-		NBTTagCompound tag = new NBTTagCompound();
-		writeToNBT(tag);
-		return new S35PacketUpdateTileEntity(pos, 1, tag);
-	}
-	
-	@Override
-	public void onDataPacket(NetworkManager manager, S35PacketUpdateTileEntity packet)
-	{
-		readFromNBT(packet.getNbtCompound());
-	}
-
-
-
-
 }

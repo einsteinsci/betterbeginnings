@@ -2,7 +2,6 @@ package net.einsteinsci.betterbeginnings.nei;
 
 import codechicken.nei.ItemList;
 import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.FurnaceRecipeHandler;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.gui.GuiBrickOven;
@@ -235,7 +234,7 @@ public class NEIBrickOvenRecipeHandler extends TemplateRecipeHandler
 				continue;
 			}
 
-			int burnTime = TileEntityBrickOven.getItemBurnTime(item);
+			int burnTime = TileEntityBrickOven.getItemBurnTimeStatic(item);
 			if (burnTime > 0)
 			{
 				afuels.add(new FuelPair(item.copy(), burnTime));
