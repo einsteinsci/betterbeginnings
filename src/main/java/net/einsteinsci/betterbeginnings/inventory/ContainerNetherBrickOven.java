@@ -10,14 +10,11 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ContainerNetherBrickOven extends Container
+public class ContainerNetherBrickOven extends ContainerSpecializedFurnace
 {
-	private TileEntityNetherBrickOven tileBrickOven;
-	private int lastCookTime;
-
 	public ContainerNetherBrickOven(InventoryPlayer playerInv, TileEntityNetherBrickOven tileEntityBrickOven)
 	{
-		tileBrickOven = tileEntityBrickOven;
+		tileSpecialFurnace = tileEntityBrickOven;
 		addSlotToContainer(new Slot(tileEntityBrickOven, TileEntityNetherBrickOven.FUELINPUT, 17, 63));
 		addSlotToContainer(new SlotFurnaceOutput(playerInv.player, tileEntityBrickOven,
 		                                         TileEntityNetherBrickOven.OUTPUT, 138, 35));
@@ -52,7 +49,7 @@ public class ContainerNetherBrickOven extends Container
 	{
 		super.onCraftGuiOpened(craft);
 
-		craft.sendProgressBarUpdate(this, 0, tileBrickOven.ovenCookTime);
+		craft.sendProgressBarUpdate(this, 0, tileSpecialFurnace.cookTime);
 	}
 
 	@Override
@@ -64,13 +61,13 @@ public class ContainerNetherBrickOven extends Container
 		{
 			ICrafting craft = (ICrafting)crafters.get(i);
 
-			if (lastCookTime != tileBrickOven.ovenCookTime)
+			if (lastCookTime != tileSpecialFurnace.cookTime)
 			{
-				craft.sendProgressBarUpdate(this, 0, tileBrickOven.ovenCookTime);
+				craft.sendProgressBarUpdate(this, 0, tileSpecialFurnace.cookTime);
 			}
 		}
 
-		lastCookTime = tileBrickOven.ovenCookTime;
+		lastCookTime = tileSpecialFurnace.cookTime;
 	}
 
 	@Override
@@ -172,13 +169,7 @@ public class ContainerNetherBrickOven extends Container
 	{
 		if (par1 == 0)
 		{
-			tileBrickOven.ovenCookTime = par2;
+			tileSpecialFurnace.cookTime = par2;
 		}
-	}
-
-	@Override
-	public boolean canInteractWith(EntityPlayer player)
-	{
-		return tileBrickOven.isUseableByPlayer(player);
 	}
 }

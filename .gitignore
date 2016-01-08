@@ -18,3 +18,4 @@
 *.launch
 *.classpath
 *.project
+/bin/

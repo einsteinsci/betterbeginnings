@@ -4,24 +4,18 @@ import net.einsteinsci.betterbeginnings.register.recipe.KilnRecipes;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityObsidianKiln;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.*;
+import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Created by einsteinsci on 8/17/2014.
  */
-public class ContainerObsidianKiln extends Container
+public class ContainerObsidianKiln extends ContainerSpecializedFurnace
 {
-	private TileEntityObsidianKiln tileKiln;
-	private int lastCookTime;
-	private int lastBurnTime;
-	private int lastItemBurnTime;
-
 	public ContainerObsidianKiln(InventoryPlayer playerInv, TileEntityObsidianKiln obsKiln)
 	{
-		tileKiln = obsKiln;
+		tileSpecialFurnace = obsKiln;
 		addSlotToContainer(new Slot(obsKiln, 0, 56, 17));
 		addSlotToContainer(new Slot(obsKiln, 1, 56, 53));
 		addSlotToContainer(new SlotFurnaceOutput(playerInv.player, obsKiln, 2, 116, 35));
@@ -39,44 +33,6 @@ public class ContainerObsidianKiln extends Container
 		{
 			addSlotToContainer(new Slot(playerInv, i, 8 + i * 18, 142));
 		}
-	}
-
-	@Override
-	public void onCraftGuiOpened(ICrafting craft)
-	{
-		super.onCraftGuiOpened(craft);
-
-		craft.sendProgressBarUpdate(this, 0, tileKiln.kilnCookTime);
-		craft.sendProgressBarUpdate(this, 1, tileKiln.kilnBurnTime);
-		craft.sendProgressBarUpdate(this, 2, tileKiln.currentBurnTime);
-	}
-
-	@Override
-	public void detectAndSendChanges()
-	{
-		super.detectAndSendChanges();
-
-		for (int i = 0; i < crafters.size(); ++i)
-		{
-			ICrafting craft = (ICrafting)crafters.get(i);
-
-			if (lastCookTime != tileKiln.kilnCookTime)
-			{
-				craft.sendProgressBarUpdate(this, 0, tileKiln.kilnCookTime);
-			}
-			if (lastBurnTime != tileKiln.kilnBurnTime)
-			{
-				craft.sendProgressBarUpdate(this, 1, tileKiln.kilnBurnTime);
-			}
-			if (lastItemBurnTime != tileKiln.currentBurnTime)
-			{
-				craft.sendProgressBarUpdate(this, 2, tileKiln.currentBurnTime);
-			}
-		}
-
-		lastBurnTime = tileKiln.kilnBurnTime;
-		lastCookTime = tileKiln.kilnCookTime;
-		lastItemBurnTime = tileKiln.currentBurnTime;
 	}
 
 	@Override
@@ -145,29 +101,5 @@ public class ContainerObsidianKiln extends Container
 			slot.onPickupFromSlot(player, itemstack1);
 		}
 		return itemstack;
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void updateProgressBar(int par1, int par2)
-	{
-		if (par1 == 0)
-		{
-			tileKiln.kilnCookTime = par2;
-		}
-		if (par1 == 1)
-		{
-			tileKiln.kilnBurnTime = par2;
-		}
-		if (par1 == 2)
-		{
-			tileKiln.currentBurnTime = par2;
-		}
-	}
-
-	@Override
-	public boolean canInteractWith(EntityPlayer player)
-	{
-		return tileKiln.isUseableByPlayer(player);
 	}
 }
