@@ -22,10 +22,10 @@ public class CampfireRecipes
 
 	public static void addRecipe(Item input, ItemStack output, float experience)
 	{
-		smelting().addLists(input, output, experience);
+		smelting().putLists(input, output, experience);
 	}
 
-	public void addLists(Item input, ItemStack itemStack, float experience)
+	public void putLists(Item input, ItemStack itemStack, float experience)
 	{
 		putLists(new ItemStack(input, 1, OreDictionary.WILDCARD_VALUE), itemStack, experience);
 	}
@@ -41,9 +41,17 @@ public class CampfireRecipes
 		experienceList.put(itemStack2, experience);
 	}
 
+	public static void addRecipe(String input, ItemStack output, float experience)
+	{
+		for (ItemStack stack : OreDictionary.getOres(input))
+		{
+			smelting().putLists(stack, output, experience);
+		}
+	}
+	
 	public static void addRecipe(Block input, ItemStack output, float experience)
 	{
-		smelting().addLists(Item.getItemFromBlock(input), output, experience);
+		smelting().putLists(Item.getItemFromBlock(input), output, experience);
 	}
 
 	public static void addRecipe(ItemStack input, ItemStack output, float experience)
