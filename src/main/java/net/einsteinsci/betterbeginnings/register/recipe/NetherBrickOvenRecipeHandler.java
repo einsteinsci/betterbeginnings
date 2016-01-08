@@ -3,9 +3,7 @@ package net.einsteinsci.betterbeginnings.register.recipe;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityNetherBrickOven;
 import net.minecraft.item.ItemStack;
 
-/**
- * Created by einsteinsci on 8/21/2014.
- */
+// Needed for looking at the inventory of a NBE instead of a normal Brick Oven
 public class NetherBrickOvenRecipeHandler extends BrickOvenRecipeHandler
 {
 	private static final NetherBrickOvenRecipeHandler INSTANCE = new NetherBrickOvenRecipeHandler();
@@ -30,7 +28,6 @@ public class NetherBrickOvenRecipeHandler extends BrickOvenRecipeHandler
 		for (j = TileEntityNetherBrickOven.INPUTSTART; j < oven.getSizeInventory(); ++j)
 		{
 			ItemStack itemstack2 = oven.getStackInSlot(j);
-			// System.out.println("\nBrickOvenRecipeHandler.findMatchingRecipeResult(): j = " + j);
 
 			if (itemstack2 != null)
 			{

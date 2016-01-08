@@ -2,24 +2,17 @@ package net.einsteinsci.betterbeginnings.nei;
 
 import codechicken.nei.ItemList;
 import codechicken.nei.PositionedStack;
-import codechicken.nei.api.IOverlayHandler;
-import codechicken.nei.api.IRecipeOverlayRenderer;
 import codechicken.nei.recipe.*;
-import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.gui.GuiKiln;
-import net.einsteinsci.betterbeginnings.register.RegisterBlocks;
-import net.einsteinsci.betterbeginnings.register.recipe.KilnRecipes;
+import net.einsteinsci.betterbeginnings.register.recipe.KilnRecipeHandler;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityKiln;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.*;
@@ -89,7 +82,7 @@ public class NEIKilnRecipeHandler extends TemplateRecipeHandler
 	@Override
 	public void loadCraftingRecipes(ItemStack result)
 	{
-		for (Object obj : KilnRecipes.getSmeltingList().entrySet())
+		for (Object obj : KilnRecipeHandler.getSmeltingList().entrySet())
 		{
 			Map.Entry entry = (Map.Entry)obj;
 
@@ -108,7 +101,7 @@ public class NEIKilnRecipeHandler extends TemplateRecipeHandler
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient)
 	{
-		for (Object obj : KilnRecipes.getSmeltingList().entrySet())
+		for (Object obj : KilnRecipeHandler.getSmeltingList().entrySet())
 		{
 			Map.Entry entry = (Map.Entry)obj;
 

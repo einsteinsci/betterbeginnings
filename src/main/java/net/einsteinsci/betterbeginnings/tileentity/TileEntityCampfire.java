@@ -5,8 +5,8 @@ import net.einsteinsci.betterbeginnings.blocks.BlockCampfire;
 import net.einsteinsci.betterbeginnings.inventory.ContainerCampfire;
 import net.einsteinsci.betterbeginnings.items.*;
 import net.einsteinsci.betterbeginnings.network.PacketCampfireState;
-import net.einsteinsci.betterbeginnings.register.recipe.CampfirePanRecipes;
-import net.einsteinsci.betterbeginnings.register.recipe.CampfireRecipes;
+import net.einsteinsci.betterbeginnings.register.recipe.CampfirePanRecipeHandler;
+import net.einsteinsci.betterbeginnings.register.recipe.CampfireRecipeHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
@@ -469,10 +469,10 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 			return false;
 		}
 
-		ItemStack potentialResult = CampfirePanRecipes.smelting().getSmeltingResult(stackInput());
+		ItemStack potentialResult = CampfirePanRecipeHandler.instance().getSmeltingResult(stackInput());
 		if (potentialResult == null || stackUtensil() == null)
 		{
-			potentialResult = CampfireRecipes.smelting().getSmeltingResult(stackInput());
+			potentialResult = CampfireRecipeHandler.instance().getSmeltingResult(stackInput());
 		}
 
 		if (potentialResult == null)
@@ -510,10 +510,10 @@ public class TileEntityCampfire extends TileEntity implements IInventory, IUpdat
 	{
 		if (canCook())
 		{
-			ItemStack potentialResult = CampfirePanRecipes.smelting().getSmeltingResult(stackInput());
+			ItemStack potentialResult = CampfirePanRecipeHandler.instance().getSmeltingResult(stackInput());
 			if (potentialResult == null || stackUtensil() == null)
 			{
-				potentialResult = CampfireRecipes.smelting().getSmeltingResult(stackInput());
+				potentialResult = CampfireRecipeHandler.instance().getSmeltingResult(stackInput());
 			}
 
 			if (stackOutput() == null)

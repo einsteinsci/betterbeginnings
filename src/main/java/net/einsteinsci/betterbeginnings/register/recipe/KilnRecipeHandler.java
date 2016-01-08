@@ -8,21 +8,21 @@ import net.minecraftforge.oredict.OreDictionary;
 import java.util.*;
 import java.util.Map.Entry;
 
-public class KilnRecipes
+public class KilnRecipeHandler
 {
-	private static final KilnRecipes SMELTINGBASE = new KilnRecipes();
+	private static final KilnRecipeHandler INSTANCE = new KilnRecipeHandler();
 
 	private Map<ItemStack, ItemStack> smeltingList = new HashMap<>();
 	private Map<ItemStack, Float> experienceList = new HashMap<>();
 
-	private KilnRecipes()
+	private KilnRecipeHandler()
 	{
 		// nothing here
 	}
 
 	public static void addRecipe(Item input, ItemStack output, float experience)
 	{
-		smelting().addLists(input, output, experience);
+		instance().addLists(input, output, experience);
 	}
 
 	public void addLists(Item input, ItemStack itemStack, float experience)
@@ -30,9 +30,9 @@ public class KilnRecipes
 		putLists(new ItemStack(input, 1, OreDictionary.WILDCARD_VALUE), itemStack, experience);
 	}
 
-	public static KilnRecipes smelting()
+	public static KilnRecipeHandler instance()
 	{
-		return SMELTINGBASE;
+		return INSTANCE;
 	}
 
 	public void putLists(ItemStack itemStack, ItemStack itemStack2, float experience)
@@ -45,18 +45,18 @@ public class KilnRecipes
 	{
 		for (ItemStack stack : OreDictionary.getOres(input))
 		{
-			smelting().putLists(stack, output, experience);
+			instance().putLists(stack, output, experience);
 		}
 	}
 
 	public static void addRecipe(Block input, ItemStack output, float experience)
 	{
-		smelting().addLists(Item.getItemFromBlock(input), output, experience);
+		instance().addLists(Item.getItemFromBlock(input), output, experience);
 	}
 
 	public static void addRecipe(ItemStack input, ItemStack output, float experience)
 	{
-		smelting().putLists(input, output, experience);
+		instance().putLists(input, output, experience);
 	}
 
 	public ItemStack getSmeltingResult(ItemStack stack)
@@ -79,7 +79,7 @@ public class KilnRecipes
 
 	public static Map getSmeltingList()
 	{
-		return smelting().smeltingList;
+		return instance().smeltingList;
 	}
 
 	private boolean canBeSmelted(ItemStack stack, ItemStack stack2)

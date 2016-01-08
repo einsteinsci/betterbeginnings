@@ -6,8 +6,8 @@ import codechicken.nei.recipe.TemplateRecipeHandler;
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.gui.GuiCampfire;
 import net.einsteinsci.betterbeginnings.register.RegisterItems;
-import net.einsteinsci.betterbeginnings.register.recipe.CampfirePanRecipes;
-import net.einsteinsci.betterbeginnings.register.recipe.CampfireRecipes;
+import net.einsteinsci.betterbeginnings.register.recipe.CampfirePanRecipeHandler;
+import net.einsteinsci.betterbeginnings.register.recipe.CampfireRecipeHandler;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityCampfire;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
@@ -109,7 +109,7 @@ public class NEICampfireRecipeHandler extends TemplateRecipeHandler
 	@Override
 	public void loadCraftingRecipes(ItemStack result)
 	{
-		for (Object obj : CampfireRecipes.getSmeltingList().entrySet())
+		for (Object obj : CampfireRecipeHandler.getSmeltingList().entrySet())
 		{
 			Map.Entry entry = (Map.Entry)obj;
 
@@ -124,7 +124,7 @@ public class NEICampfireRecipeHandler extends TemplateRecipeHandler
 			}
 		}
 
-		for (Object obj : CampfirePanRecipes.getSmeltingList().entrySet())
+		for (Object obj : CampfirePanRecipeHandler.getSmeltingList().entrySet())
 		{
 			Map.Entry entry = (Map.Entry)obj;
 
@@ -143,7 +143,7 @@ public class NEICampfireRecipeHandler extends TemplateRecipeHandler
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient)
 	{
-		for (Object obj : CampfireRecipes.getSmeltingList().entrySet())
+		for (Object obj : CampfireRecipeHandler.getSmeltingList().entrySet())
 		{
 			Map.Entry entry = (Map.Entry)obj;
 
@@ -158,7 +158,7 @@ public class NEICampfireRecipeHandler extends TemplateRecipeHandler
 			}
 		}
 
-		for (Object obj : CampfirePanRecipes.getSmeltingList().entrySet())
+		for (Object obj : CampfirePanRecipeHandler.getSmeltingList().entrySet())
 		{
 			Map.Entry entry = (Map.Entry)obj;
 

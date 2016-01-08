@@ -58,7 +58,7 @@ public class ContainerEnderSmelter extends ContainerSpecializedFurnace
 			else if (fromId != TileEntityEnderSmelter.FUEL && fromId != TileEntityEnderSmelter.INPUT &&
 					fromId != TileEntityEnderSmelter.GRAVEL)
 			{
-				if (SmelterRecipeHandler.smelting().getSmeltingResult(movedStack) != null)
+				if (SmelterRecipeHandler.instance().getSmeltingResult(movedStack) != null)
 				{
 					if (!mergeItemStack(movedStack,
 					                    TileEntityEnderSmelter.INPUT,
