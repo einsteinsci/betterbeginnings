@@ -4,7 +4,6 @@
 /out/*
 /asm/*
 /bin/*
-/libs/*
 /run/*
 /.settings/*
 *.psd
