@@ -133,20 +133,6 @@ public class SmelterRecipeHandler
 		return 0;
 	}
 
-	@Deprecated
-	public float getBonusChance(ItemStack input)
-	{
-		for (SmelterRecipe recipe : recipes)
-		{
-			if (recipe.getInput().getItem() == input.getItem())
-			{
-				return recipe.getBonusChance();
-			}
-		}
-
-		return 0.0f;
-	}
-
 	public static List<SmelterRecipe> getRecipes()
 	{
 		return instance().recipes;

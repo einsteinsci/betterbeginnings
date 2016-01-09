@@ -287,15 +287,17 @@ public abstract class TileEntitySmelterBase extends TileEntitySpecializedFurnace
 	public final int getMinOutputCount()
 	{
 		int countPerBoost = SmelterRecipeHandler.instance().getBonusPerBoost(specialFurnaceStacks[INPUT]);
+		int countUnboosted = SmelterRecipeHandler.instance().getSmeltingResult(specialFurnaceStacks[INPUT]).stackSize;
 		int boostFloor = (int)getTotalBoost();
-		return 1 + (boostFloor - 1) * countPerBoost;
+		return countUnboosted + (boostFloor - 1) * countPerBoost;
 	}
 
 	public final int getMaxOutputCount()
 	{
 		int countPerBoost = SmelterRecipeHandler.instance().getBonusPerBoost(specialFurnaceStacks[INPUT]);
+		int countUnboosted = SmelterRecipeHandler.instance().getSmeltingResult(specialFurnaceStacks[INPUT]).stackSize;
 		int boostCeiling = MathUtil.roundUp(getTotalBoost());
-		return 1 + (boostCeiling - 1) * countPerBoost;
+		return countUnboosted + (boostCeiling - 1) * countPerBoost;
 	}
 
 	public abstract void updateBlockState();

@@ -9,8 +9,6 @@ public class SmelterRecipe
 	private float experienceGiven;
 	private int boostersNeeded;
 	private int bonusPerBoost;
-	@Deprecated
-	private float bonusChance;
 
 	public SmelterRecipe(ItemStack output, ItemStack input, float experience, int boosters, int bonus)
 	{
@@ -19,7 +17,6 @@ public class SmelterRecipe
 		experienceGiven = experience;
 		boostersNeeded = boosters;
 		bonusPerBoost = bonus;
-		bonusChance = 0;
 	}
 
 	public ItemStack getOutput()
@@ -45,11 +42,5 @@ public class SmelterRecipe
 	public int getBonusPerBoost()
 	{
 		return bonusPerBoost;
-	}
-
-	@Deprecated
-	public float getBonusChance()
-	{
-		return bonusChance;
 	}
 }

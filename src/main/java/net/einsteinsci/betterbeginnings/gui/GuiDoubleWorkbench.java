@@ -48,14 +48,6 @@ public class GuiDoubleWorkbench extends GuiContainer
 	}
 
 	@Override
-	public void drawScreen(int xMouse, int yMouse, float par3)
-	{
-		super.drawScreen(xMouse, yMouse, par3);
-
-		//renderTransparentItems();
-	}
-
-	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
 		// I'm guessing the really big number at the end is the z layer.
@@ -206,7 +198,7 @@ public class GuiDoubleWorkbench extends GuiContainer
 						}
 						boolean hasMatStack = (matStack != null);
 						if (!hasMatStack ||
-								(hasMatStack && (matStack.stackSize < needed.stackSize || matStack.getItem() != needed.getItem())))
+							(matStack.stackSize < needed.stackSize || matStack.getItem() != needed.getItem()))
 						{
 							drawItemStack(needed, k + slot.xDisplayPosition + CATALYST_X_OFFSET,
 								l + slot.yDisplayPosition,
@@ -238,10 +230,6 @@ public class GuiDoubleWorkbench extends GuiContainer
 	{
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 
-		// GL11.glEnable(GL11.GL_BLEND);
-		// GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		// GL11.glColor4f(1,1,1, 0.80f);
-
 		renderItem.renderItemAndEffectIntoGUI(stack, xPos, yPos);
 
 		FontRenderer font = null;
@@ -255,9 +243,5 @@ public class GuiDoubleWorkbench extends GuiContainer
 		}
 
 		renderItem.renderItemOverlayIntoGUI(font, stack, xPos, yPos, note);
-
-		// GL11.glDisable(GL11.GL_BLEND);
-		// GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		// GL11.glBlendFunc(GL11.GL_SRC_ALPHA, 0);
 	}
 }

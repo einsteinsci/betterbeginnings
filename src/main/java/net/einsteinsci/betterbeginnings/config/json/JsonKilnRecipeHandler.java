@@ -16,7 +16,7 @@ public class JsonKilnRecipeHandler
 		recipes = new ArrayList<>();
 
 		// TESTING ONLY
-		recipes.add(new JsonKilnRecipe(new ItemStack(Blocks.bedrock), new ItemStack(Items.blaze_rod), 0.5f));
+		//recipes.add(new JsonKilnRecipe(new ItemStack(Blocks.bedrock), new ItemStack(Items.blaze_rod), 0.5f));
 	}
 
 	public List<JsonKilnRecipe> getRecipes()
