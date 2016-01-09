@@ -18,19 +18,12 @@ import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.world.IInteractionObject;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class TileEntityEnderSmelter extends TileEntitySpecializedFurnace implements IInteractionObject
+public class TileEntityEnderSmelter extends TileEntitySmelterBase
 {
-	public static final int INPUT = 0;
-	public static final int FUEL = 1;
-	public static final int OUTPUT = 2;
-	public static final int GRAVEL = 3;
-	public static final Random random = new Random();
-	private static final int[] SLOTS_TOP = new int[] {GRAVEL, INPUT};
-	private static final int[] SLOTS_BOTTOM = new int[] {OUTPUT};
-	private static final int[] slotsSides = new int[] {FUEL, GRAVEL, INPUT};
+	public static final Random RANDOM = new Random();
+
 	public boolean oreDoubled = false;
 
 	public TileEntityEnderSmelter()
@@ -44,7 +37,7 @@ public class TileEntityEnderSmelter extends TileEntitySpecializedFurnace impleme
 	{
 		super.readFromNBT(tagCompound);
 		currentItemBurnLength = getItemBurnTime(specialFurnaceStacks[FUEL]);
-		oreDoubled = tagCompound.getByte("oreDoubled") == 1;
+		oreDoubled = tagCompound.getByte("oreDoubled") != 0;
 	}
 
 	@Override
@@ -54,84 +47,27 @@ public class TileEntityEnderSmelter extends TileEntitySpecializedFurnace impleme
 		tagCompound.setByte("oreDoubled", oreDoubled ? (byte)1 : (byte)0);
 	}
 
-	public static int getItemBurnTime(ItemStack itemStack)
+	@Override
+	public int getItemBurnTime(ItemStack itemStack)
 	{
 		if (itemStack == null)
 		{
 			return 0;
 		}
-		else
+
+		Item item = itemStack.getItem();
+
+		// Ender eyes and pearls are great fuel sources for the ender furnace.
+		if (item == Items.ender_pearl)
 		{
-			Item item = itemStack.getItem();
-
-			if (item instanceof ItemBlock && Block.getBlockFromItem(item) != Blocks.air)
-			{
-				Block block = Block.getBlockFromItem(item);
-			}
-
-			// Charcoal
-			if (item == Items.coal && itemStack.getItemDamage() == 1)
-			{
-				return 1600;
-			}
-
-			// Blaze Rods and Lava are valid fuel sources for a Smelter.
-			if (item == Items.blaze_rod)
-			{
-				return 600;
-			}
-			if (item == Items.lava_bucket)
-			{
-				return 7200;
-			}
-
-			// Ender eyes and pearls are great fuel sources for the ender furnace.
-			if (item == Items.ender_pearl)
-			{
-				return 1200;
-			}
-			if (item == Items.ender_eye)
-			{
-				return 2400;
-			}
-
-			return GameRegistry.getFuelValue(itemStack);
+			return 1200;
 		}
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player)
-	{
-		if (worldObj.getTileEntity(pos) != this)
+		if (item == Items.ender_eye)
 		{
-			return false;
-		}
-		else
-		{
-			return player.getDistanceSq((double)pos.getX() + 0.5d, (double)pos.getY() + 0.5d,
-			                            (double)pos.getZ() + 0.5d) <= 64.0d;
-		}
-	}
-
-	@Override
-	public boolean isItemValidForSlot(int slot, ItemStack stack)
-	{
-		if (stack == null || slot == OUTPUT)
-		{
-			return false;
+			return 2400;
 		}
 
-		if (slot == GRAVEL && stack.getItem() == Item.getItemFromBlock(Blocks.gravel))
-		{
-			return true;
-		}
-
-		if (slot == FUEL && getItemBurnTime(stack) > 0)
-		{
-			return true;
-		}
-
-		return slot == INPUT;
+		return super.getItemBurnTime(itemStack);
 	}
 
 	@Override
@@ -141,65 +77,6 @@ public class TileEntityEnderSmelter extends TileEntitySpecializedFurnace impleme
 	}
 
 	@Override
-	public void update()
-	{
-		if (!worldObj.isRemote)
-		{
-			boolean flag = burnTime > 0;
-			boolean flag1 = false;
-
-			if (burnTime > 0)
-			{
-				--burnTime;
-			}
-
-			if (burnTime == 0 && canSmelt())
-			{
-				currentItemBurnLength = burnTime = getItemBurnTime(specialFurnaceStacks[FUEL]);
-
-				if (burnTime > 0)
-				{
-					flag1 = true;
-					if (specialFurnaceStacks[FUEL] != null)
-					{
-						--specialFurnaceStacks[FUEL].stackSize;
-
-						if (specialFurnaceStacks[FUEL].stackSize == 0)
-						{
-							specialFurnaceStacks[FUEL] = specialFurnaceStacks[FUEL].getItem().getContainerItem(specialFurnaceStacks[FUEL]);
-						}
-					}
-				}
-			}
-
-			if (isBurning() && canSmelt())
-			{
-				++cookTime;
-				if (cookTime == processTime)
-				{
-					cookTime = 0;
-					smeltItem();
-					flag1 = true;
-				}
-			}
-			else
-			{
-				cookTime = 0;
-			}
-
-			if (flag != burnTime > 0)
-			{
-				flag1 = true;
-				BlockEnderSmelter.updateBlockState(burnTime > 0, worldObj, pos);
-			}
-
-			if (flag1)
-			{
-				markDirty();
-			}
-		}
-	}
-
 	public boolean canSmelt()
 	{
 		if (specialFurnaceStacks[INPUT] == null || specialFurnaceStacks[GRAVEL] == null)
@@ -236,6 +113,7 @@ public class TileEntityEnderSmelter extends TileEntitySpecializedFurnace impleme
 		}
 	}
 
+	@Override
 	public void smeltItem()
 	{
 		if (canSmelt())
@@ -245,7 +123,7 @@ public class TileEntityEnderSmelter extends TileEntitySpecializedFurnace impleme
 			int bonus = SmelterRecipeHandler.instance().getBonus(specialFurnaceStacks[INPUT]);
 			float chance = SmelterRecipeHandler.instance().getBonusChance(specialFurnaceStacks[INPUT]);
 			int resultSize = itemStack.stackSize;
-			if (random.nextFloat() < chance)
+			if (RANDOM.nextFloat() < chance)
 			{
 				resultSize += bonus;
 				oreDoubled = true;
@@ -278,48 +156,9 @@ public class TileEntityEnderSmelter extends TileEntitySpecializedFurnace impleme
 	}
 
 	@Override
-	public int[] getSlotsForFace(EnumFacing side)
+	public void updateBlockState()
 	{
-		if (side == EnumFacing.DOWN)
-		{
-			return SLOTS_BOTTOM;
-		}
-		else if (side == EnumFacing.UP)
-		{
-			return SLOTS_TOP;
-		}
-
-		return slotsSides;
-	}
-
-	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side)
-	{
-		return isItemValidForSlot(slot, stack);
-	}
-
-	public static boolean isItemFuel(ItemStack itemStack)
-	{
-		return getItemBurnTime(itemStack) > 0;
-	}
-
-	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side)
-	{
-		if (slot == OUTPUT)
-		{
-			return true;
-		}
-		else if (stack.getItem() instanceof ItemBucket)
-		{
-			return true;
-		}
-		else if (side != EnumFacing.UP)
-		{
-			return true;
-		}
-
-		return false;
+		BlockEnderSmelter.updateBlockState(burnTime > 0, worldObj, pos);
 	}
 
 	@Override

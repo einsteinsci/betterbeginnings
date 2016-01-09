@@ -169,7 +169,7 @@ public class NEISmelterRecipeHandler extends TemplateRecipeHandler
 				continue;
 			}
 
-			int burnTime = TileEntitySmelter.getItemBurnTime(item);
+			int burnTime = TileEntitySmelter.getItemBurnTimeStatic(item);
 			if (burnTime > 0)
 			{
 				afuels.add(new FurnaceRecipeHandler.FuelPair(item.copy(), burnTime));

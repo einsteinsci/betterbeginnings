@@ -2,6 +2,7 @@ package net.einsteinsci.betterbeginnings.inventory;
 
 import net.einsteinsci.betterbeginnings.register.recipe.SmelterRecipeHandler;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntitySmelter;
+import net.einsteinsci.betterbeginnings.tileentity.TileEntitySmelterBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
@@ -42,6 +43,8 @@ public class ContainerSmelter extends ContainerSpecializedFurnace
 		ItemStack movedStackDupe = null;
 		Slot slot = (Slot)inventorySlots.get(fromId);
 
+		TileEntitySmelterBase smelter = (TileEntitySmelterBase)tileSpecialFurnace;
+
 		if (slot != null && slot.getHasStack())
 		{
 			ItemStack movedStack = slot.getStack();
@@ -72,7 +75,7 @@ public class ContainerSmelter extends ContainerSpecializedFurnace
 						return null;
 					}
 				}
-				else if (TileEntitySmelter.isItemFuel(movedStack))
+				else if (smelter.isItemFuel(movedStack))
 				{
 					if (!mergeItemStack(movedStack, TileEntitySmelter.FUEL, TileEntitySmelter.FUEL + 1, false))
 					{
