@@ -319,7 +319,7 @@ public abstract class TileEntitySmelterBase extends TileEntitySpecializedFurnace
 		}
 		if (item == Items.prismarine_shard)
 		{
-			return 1.5f;
+			return 1.25f;
 		}
 
 		if (item instanceof ItemBlock && Block.getBlockFromItem(item) != Blocks.air)

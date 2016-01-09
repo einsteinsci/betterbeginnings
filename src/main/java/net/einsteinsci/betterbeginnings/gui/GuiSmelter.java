@@ -58,7 +58,7 @@ public class GuiSmelter extends GuiContainer
 				{
 					lines.add(ChatUtil.CYAN + "Output: " + min + " - " + max);
 					int boostPct = (int)(tileSmelter.getTotalBoost() * 100.0f);
-					lines.add(ChatUtil.BLUE + "Balance: " + (boostPct % 100) + "% to upper");
+					lines.add(ChatUtil.BLUE + "Total Boost: +" + boostPct + "%");
 				}
 
 				drawHoveringText(lines, mouseX - k, mouseY - l - (min == max ? 18 : 30));
