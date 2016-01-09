@@ -139,49 +139,49 @@ public class RegisterRecipes
 	private static void addSmelterRecipes()
 	{
 		// Vanilla Ore Recipes (keep the result vanilla to prevent weirdness)
-		SmelterRecipeHandler.addRecipe("oreIron", new ItemStack(Items.iron_ingot), 0.7f, 1, 1, 0.3f);
-		SmelterRecipeHandler.addRecipe("oreGold", new ItemStack(Items.gold_ingot), 1.0f, 2, 1, 0.2f);
+		SmelterRecipeHandler.addRecipe("oreIron", new ItemStack(Items.iron_ingot), 0.7f, 1, 1);
+		SmelterRecipeHandler.addRecipe("oreGold", new ItemStack(Items.gold_ingot), 1.0f, 2, 1);
 
 		// Modded Ore Recipes
-		RegisterHelper.registerSmelterOreRecipe("oreCopper", "ingotCopper", 0.6f, 1, 1, 0.3f);
-		RegisterHelper.registerSmelterOreRecipe("oreTin", "ingotTin", 0.6f, 1, 1, 0.2f);
-		RegisterHelper.registerSmelterOreRecipe("oreAluminum", "ingotAluminum", 0.8f, 1, 1, 0.2f);
-		RegisterHelper.registerSmelterOreRecipe("oreSilver", "ingotSilver", 1.0f, 1, 1, 0.2f);
-		RegisterHelper.registerSmelterOreRecipe("oreLead", "ingotLead", 0.6f, 1, 1, 0.3f);
-		RegisterHelper.registerSmelterOreRecipe("orePlatinum", "ingotPlatinum", 1.0f, 2, 1, 0.2f);
-		RegisterHelper.registerSmelterOreRecipe("oreNickel", "ingotNickel", 0.8f, 1, 1, 0.3f);
+		RegisterHelper.registerSmelterOreRecipe("oreCopper", "ingotCopper", 0.6f, 1, 1);
+		RegisterHelper.registerSmelterOreRecipe("oreTin", "ingotTin", 0.6f, 1, 1);
+		RegisterHelper.registerSmelterOreRecipe("oreAluminum", "ingotAluminum", 0.8f, 1, 1);
+		RegisterHelper.registerSmelterOreRecipe("oreSilver", "ingotSilver", 1.0f, 1, 1);
+		RegisterHelper.registerSmelterOreRecipe("oreLead", "ingotLead", 0.6f, 1, 1);
+		RegisterHelper.registerSmelterOreRecipe("orePlatinum", "ingotPlatinum", 1.0f, 2, 1);
+		RegisterHelper.registerSmelterOreRecipe("oreNickel", "ingotNickel", 0.8f, 1, 1);
 
 		// Recipes that might be better suited in Kiln only
 		if (BBConfig.canSmelterDoKilnStuff)
 		{
 			SmelterRecipeHandler.addRecipe(new ItemStack(Blocks.sand, 1, 0),
-				new ItemStack(Blocks.glass), 0.1f, 1, 0, 0.0f);
+				new ItemStack(Blocks.glass), 0.1f, 1, 0);
 			SmelterRecipeHandler.addRecipe(new ItemStack(Blocks.sand, 1, 1),
-				new ItemStack(Blocks.stained_glass, 1, 1), 0.1f, 1, 0, 0.0f); // Red sand makes orange stained glass.
-			SmelterRecipeHandler.addRecipe(Blocks.netherrack, new ItemStack(Items.netherbrick), 0.25f, 1, 1, 0.25f);
-			SmelterRecipeHandler.addRecipe(Blocks.stonebrick, new ItemStack(Blocks.stonebrick, 1, 2), 0.1f, 1, 0, 0.0f);
+				new ItemStack(Blocks.stained_glass, 1, 1), 0.1f, 1, 0); // Red sand makes orange stained glass.
+			SmelterRecipeHandler.addRecipe(Blocks.netherrack, new ItemStack(Items.netherbrick), 0.25f, 1, 1);
+			SmelterRecipeHandler.addRecipe(Blocks.stonebrick, new ItemStack(Blocks.stonebrick, 1, 2), 0.1f, 1, 0);
 
-			SmelterRecipeHandler.addRecipe("cobblestone", new ItemStack(Blocks.stone), 0.1f, 0, 0, 0.0f);
-			SmelterRecipeHandler.addRecipe(Items.clay_ball, new ItemStack(Items.brick), 0.3f, 0, 0, 0.0f);
-			SmelterRecipeHandler.addRecipe(Blocks.clay, new ItemStack(Blocks.hardened_clay), 0.35f, 0, 0, 0.0f);
+			SmelterRecipeHandler.addRecipe("cobblestone", new ItemStack(Blocks.stone), 0.1f, 0, 0);
+			SmelterRecipeHandler.addRecipe(Items.clay_ball, new ItemStack(Items.brick), 0.3f, 0, 0);
+			SmelterRecipeHandler.addRecipe(Blocks.clay, new ItemStack(Blocks.hardened_clay), 0.35f, 0, 0);
 			SmelterRecipeHandler.addRecipe(new ItemStack(Blocks.sponge, 1, 1),
-				new ItemStack(Blocks.sponge, 1, 0), 0.1f, 0, 0, 0.0f);
+				new ItemStack(Blocks.sponge, 1, 0), 0.1f, 0, 0);
 			SmelterRecipeHandler.addRecipe(new ItemStack(Blocks.stonebrick, 1, 0),
-				new ItemStack(Blocks.stonebrick, 1, 2), 0.1f, 0, 0, 0.0f);
+				new ItemStack(Blocks.stonebrick, 1, 2), 0.1f, 0, 0);
 		}
 
 		// Silk touch recipes
-		SmelterRecipeHandler.addRecipe("oreCoal", new ItemStack(Items.coal, 1), 0.25f, 2, 2, 0.8f);
-		SmelterRecipeHandler.addRecipe("oreQuartz", new ItemStack(Items.quartz, 2), 0.4f, 2, 4, 0.6f);
-		SmelterRecipeHandler.addRecipe("oreLapis", new ItemStack(Items.dye, 8, 4), 0.5f, 2, 8, 0.8f);
-		SmelterRecipeHandler.addRecipe("oreRedstone", new ItemStack(Items.redstone, 4), 0.8f, 2, 4, 0.6f);
-		SmelterRecipeHandler.addRecipe("oreDiamond", new ItemStack(Items.diamond, 1), 1.0f, 3, 2, 0.3f);
-		SmelterRecipeHandler.addRecipe("oreEmerald", new ItemStack(Items.emerald, 1), 1.0f, 3, 2, 0.5f);
+		SmelterRecipeHandler.addRecipe("oreCoal", new ItemStack(Items.coal, 1), 0.25f, 2, 1);
+		SmelterRecipeHandler.addRecipe("oreQuartz", new ItemStack(Items.quartz, 2), 0.4f, 2, 2);
+		SmelterRecipeHandler.addRecipe("oreLapis", new ItemStack(Items.dye, 8, 4), 0.5f, 2, 3);
+		SmelterRecipeHandler.addRecipe("oreRedstone", new ItemStack(Items.redstone, 4), 0.8f, 2, 2);
+		SmelterRecipeHandler.addRecipe("oreDiamond", new ItemStack(Items.diamond, 1), 1.0f, 3, 1);
+		SmelterRecipeHandler.addRecipe("oreEmerald", new ItemStack(Items.emerald, 1), 1.0f, 3, 1);
 
 		// Silk touch recipes (modded)
-		RegisterHelper.registerSmelterOreRecipe("oreRuby", "gemRuby", 0.8f, 2, 2, 0.5f);
-		RegisterHelper.registerSmelterOreRecipe("oreSapphire", "gemSapphire", 0.8f, 2, 2, 0.5f);
-		RegisterHelper.registerSmelterOreRecipe("oreOlivine", "gemOlivine", 0.8f, 2, 2, 0.5f);
+		RegisterHelper.registerSmelterOreRecipe("oreRuby", "gemRuby", 0.8f, 2, 1);
+		RegisterHelper.registerSmelterOreRecipe("oreSapphire", "gemSapphire", 0.8f, 2, 1);
+		RegisterHelper.registerSmelterOreRecipe("oreOlivine", "gemOlivine", 0.8f, 2, 1);
 	}
 
 	private static void addCampfireRecipes()

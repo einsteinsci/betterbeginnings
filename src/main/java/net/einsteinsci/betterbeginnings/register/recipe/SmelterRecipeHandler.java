@@ -21,14 +21,14 @@ public class SmelterRecipeHandler
 		// nothing here
 	}
 
-	public static void addRecipe(Item input, ItemStack output, float experience, int gravel, int bonus, float chance)
+	public static void addRecipe(Item input, ItemStack output, float experience, int boosters, int bonus)
 	{
-		instance().putLists(input, output, experience, gravel, bonus, chance);
+		instance().putLists(input, output, experience, boosters, bonus);
 	}
 
-	public void putLists(Item input, ItemStack output, float experience, int gravel, int bonus, float chance)
+	public void putLists(Item input, ItemStack output, float experience, int boosters, int bonus)
 	{
-		putLists(new ItemStack(input, 1, OreDictionary.WILDCARD_VALUE), output, experience, gravel, bonus, chance);
+		putLists(new ItemStack(input, 1, OreDictionary.WILDCARD_VALUE), output, experience, boosters, bonus);
 	}
 
 	public static SmelterRecipeHandler instance()
@@ -36,29 +36,29 @@ public class SmelterRecipeHandler
 		return INSTANCE;
 	}
 
-	public void putLists(ItemStack input, ItemStack output, float experience, int gravel, int bonus, float chance)
+	public void putLists(ItemStack input, ItemStack output, float experience, int boosters, int bonus)
 	{
 		experienceList.put(output, experience);
 
-		recipes.add(new SmelterRecipe(output, input, experience, gravel, bonus, chance));
+		recipes.add(new SmelterRecipe(output, input, experience, boosters, bonus));
 	}
 
-	public static void addRecipe(String input, ItemStack output, float experience, int gravel, int bonus, float chance)
+	public static void addRecipe(String input, ItemStack output, float experience, int boosters, int bonus)
 	{
 		for (ItemStack stack : OreDictionary.getOres(input))
 		{
-			instance().putLists(stack, output, experience, gravel, bonus, chance);
+			instance().putLists(stack, output, experience, boosters, bonus);
 		}
 	}
 	
-	public static void addRecipe(Block input, ItemStack output, float experience, int gravel, int bonus, float chance)
+	public static void addRecipe(Block input, ItemStack output, float experience, int boosters, int bonus)
 	{
-		instance().putLists(Item.getItemFromBlock(input), output, experience, gravel, bonus, chance);
+		instance().putLists(Item.getItemFromBlock(input), output, experience, boosters, bonus);
 	}
 
-	public static void addRecipe(ItemStack input, ItemStack output, float experience, int gravel, int bonus, float chance)
+	public static void addRecipe(ItemStack input, ItemStack output, float experience, int boosters, int bonus)
 	{
-		instance().putLists(input, output, experience, gravel, bonus, chance);
+		instance().putLists(input, output, experience, boosters, bonus);
 	}
 
 	public ItemStack getSmeltingResult(ItemStack input)
@@ -74,7 +74,7 @@ public class SmelterRecipeHandler
 		return null;
 	}
 
-	public int getGravelCount(ItemStack stack)
+	public int getBoosterCount(ItemStack stack)
 	{
 		for (SmelterRecipe recipe : recipes)
 		{
@@ -82,7 +82,7 @@ public class SmelterRecipeHandler
 			{
 				if (recipe.getInput().getItem() == stack.getItem())
 				{
-					return recipe.getGravel();
+					return recipe.getBoosters();
 				}
 			}
 		}
@@ -120,19 +120,20 @@ public class SmelterRecipeHandler
 						.getItemDamage());
 	}
 
-	public int getBonus(ItemStack input)
+	public int getBonusPerBoost(ItemStack input)
 	{
 		for (SmelterRecipe recipe : recipes)
 		{
 			if (recipe.getInput().getItem() == input.getItem())
 			{
-				return recipe.getBonus();
+				return recipe.getBonusPerBoost();
 			}
 		}
 
 		return 0;
 	}
 
+	@Deprecated
 	public float getBonusChance(ItemStack input)
 	{
 		for (SmelterRecipe recipe : recipes)

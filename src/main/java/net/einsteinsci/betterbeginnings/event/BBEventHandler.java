@@ -10,6 +10,7 @@ import net.einsteinsci.betterbeginnings.register.RegisterBlocks;
 import net.einsteinsci.betterbeginnings.register.RegisterItems;
 import net.einsteinsci.betterbeginnings.register.achievement.RegisterAchievements;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityCampfire;
+import net.einsteinsci.betterbeginnings.tileentity.TileEntitySmelterBase;
 import net.einsteinsci.betterbeginnings.util.ChatUtil;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -120,6 +121,17 @@ public class BBEventHandler
 			!BBConfig.moduleInfusionRepair)
 		{
 			e.toolTip.add(ChatUtil.RED + "Module disabled in config.");
+		}
+
+		if (TileEntitySmelterBase.isBooster(e.itemStack))
+		{
+			int percent = (int)(TileEntitySmelterBase.getBoostFromBooster(e.itemStack) * 100.0f);
+			String line = ChatUtil.LIME + "Smelter Booster";
+			if (percent > 0)
+			{
+				line += ": +" + percent + "% chance of bonus";
+			}
+			e.toolTip.add(line);
 		}
 
 		Block block = Block.getBlockFromItem(item);

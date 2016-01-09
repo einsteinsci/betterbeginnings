@@ -9,6 +9,7 @@ import net.einsteinsci.betterbeginnings.gui.GuiSmelter;
 import net.einsteinsci.betterbeginnings.register.recipe.SmelterRecipe;
 import net.einsteinsci.betterbeginnings.register.recipe.SmelterRecipeHandler;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntitySmelter;
+import net.einsteinsci.betterbeginnings.tileentity.TileEntitySmelterBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -26,27 +27,28 @@ public class NEISmelterRecipeHandler extends TemplateRecipeHandler
 	{
 		PositionedStack input;
 		PositionedStack output;
-		PositionedStack gravel;
+		PositionedStack booster;
 
-		public SmelterCachedRecipe(ItemStack _input, ItemStack _output, int _gravel)
+		public SmelterCachedRecipe(ItemStack _input, ItemStack _output, int boosterCount)
 		{
 			input = new PositionedStack(_input, 41, 6);
 			output = new PositionedStack(_output, 111, 24);
-			gravel = new PositionedStack(new ItemStack(Blocks.gravel, _gravel), 61, 6);
+			booster = new PositionedStack(new ItemStack(Blocks.gravel, boosterCount), 61, 6);
 		}
 		public SmelterCachedRecipe(SmelterRecipe sr)
 		{
-			this(sr.getInput(), sr.getOutput(), sr.getGravel());
+			this(sr.getInput(), sr.getOutput(), sr.getBoosters());
 		}
 
 		@Override
 		public List<PositionedStack> getIngredients()
 		{
-			return getCycledIngredients(cycleticks / 48, Arrays.asList(input, gravel));
+			return getCycledIngredients(cycleticks / 48, Arrays.asList(input, booster));
 		}
 
 		@Override
-		public PositionedStack getOtherStack() {
+		public PositionedStack getOtherStack()
+		{
 			return afuels.get((cycleticks / 48) % afuels.size()).stack;
 		}
 
@@ -111,7 +113,7 @@ public class NEISmelterRecipeHandler extends TemplateRecipeHandler
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient)
 	{
-		if (ingredient.getItem() == Item.getItemFromBlock(Blocks.gravel))
+		if (TileEntitySmelterBase.isBooster(ingredient))
 		{
 			for (SmelterRecipe sr : SmelterRecipeHandler.getRecipes())
 			{

@@ -21,16 +21,15 @@ public class TileEntitySmelter extends TileEntitySmelterBase
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound tagCompound)
-	{
-		super.readFromNBT(tagCompound);
-		currentItemBurnLength = getItemBurnTime(specialFurnaceStacks[FUEL]);
-	}
-
-	@Override
 	public String getCommandSenderName()
 	{
 		return hasCustomName() ? customName : "container.smelter";
+	}
+
+	@Override
+	public float getBaseBoosterLevel()
+	{
+		return 1.0f;
 	}
 
 	@Override

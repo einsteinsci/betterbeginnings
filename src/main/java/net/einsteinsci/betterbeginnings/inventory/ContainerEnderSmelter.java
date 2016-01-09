@@ -20,7 +20,7 @@ public class ContainerEnderSmelter extends ContainerSpecializedFurnace
 		addSlotToContainer(new Slot(tileSmelter, TileEntityEnderSmelter.FUEL, 56, 53));
 		addSlotToContainer(new SlotFurnaceOutput(playerInv.player, tileSmelter,
 		                                         TileEntityEnderSmelter.OUTPUT, 116, 35));
-		addSlotToContainer(new Slot(tileSmelter, TileEntityEnderSmelter.GRAVEL, 66, 17));
+		addSlotToContainer(new Slot(tileSmelter, TileEntityEnderSmelter.BOOSTER, 66, 17));
 
 		int i;
 		for (i = 0; i < 3; ++i)
@@ -59,7 +59,7 @@ public class ContainerEnderSmelter extends ContainerSpecializedFurnace
 				slot.onSlotChange(movedStack, movedStackDupe);
 			}
 			else if (fromId != TileEntityEnderSmelter.FUEL && fromId != TileEntityEnderSmelter.INPUT &&
-					fromId != TileEntityEnderSmelter.GRAVEL)
+					fromId != TileEntityEnderSmelter.BOOSTER)
 			{
 				if (SmelterRecipeHandler.instance().getSmeltingResult(movedStack) != null)
 				{
@@ -74,8 +74,8 @@ public class ContainerEnderSmelter extends ContainerSpecializedFurnace
 				else if (movedStack.getItem() == Item.getItemFromBlock(Blocks.gravel))
 				{
 					if (!mergeItemStack(movedStack,
-					                    TileEntityEnderSmelter.GRAVEL,
-					                    TileEntityEnderSmelter.GRAVEL + 1,
+					                    TileEntityEnderSmelter.BOOSTER,
+					                    TileEntityEnderSmelter.BOOSTER + 1,
 					                    false))
 					{
 						return null;

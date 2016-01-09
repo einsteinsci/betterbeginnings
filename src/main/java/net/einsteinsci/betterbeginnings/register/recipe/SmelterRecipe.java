@@ -7,19 +7,19 @@ public class SmelterRecipe
 	private ItemStack outputStack;
 	private ItemStack inputStack;
 	private float experienceGiven;
-	private int gravelNeeded;
-
-	private int bonusIfEnder;
+	private int boostersNeeded;
+	private int bonusPerBoost;
+	@Deprecated
 	private float bonusChance;
 
-	public SmelterRecipe(ItemStack output, ItemStack input, float experience, int gravel, int bonus, float chance)
+	public SmelterRecipe(ItemStack output, ItemStack input, float experience, int boosters, int bonus)
 	{
 		outputStack = output;
 		inputStack = input;
 		experienceGiven = experience;
-		gravelNeeded = gravel;
-		bonusIfEnder = bonus;
-		bonusChance = chance;
+		boostersNeeded = boosters;
+		bonusPerBoost = bonus;
+		bonusChance = 0;
 	}
 
 	public ItemStack getOutput()
@@ -37,16 +37,17 @@ public class SmelterRecipe
 		return experienceGiven;
 	}
 
-	public int getGravel()
+	public int getBoosters()
 	{
-		return gravelNeeded;
+		return boostersNeeded;
 	}
 
-	public int getBonus()
+	public int getBonusPerBoost()
 	{
-		return bonusIfEnder;
+		return bonusPerBoost;
 	}
 
+	@Deprecated
 	public float getBonusChance()
 	{
 		return bonusChance;

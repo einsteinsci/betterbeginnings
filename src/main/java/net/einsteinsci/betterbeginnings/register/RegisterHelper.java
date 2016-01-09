@@ -23,8 +23,7 @@ public class RegisterHelper
 		RegisterBlocks.allBlocks.add(block);
 	}
 
-	public static void registerSmelterOreRecipe(String input, String output, float experience, int gravel, int bonus,
-	                                            float chance)
+	public static void registerSmelterOreRecipe(String input, String output, float experience, int gravel, int bonus)
 	{
 		for (ItemStack stack : OreDictionary.getOres(input))
 		{
@@ -32,7 +31,7 @@ public class RegisterHelper
 			if (!valid.isEmpty())
 			{
 				SmelterRecipeHandler.addRecipe(stack, OreDictionary.getOres(output).get(0),
-				                               experience, gravel, bonus, chance);
+				                               experience, gravel, bonus);
 			}
 		}
 	}
