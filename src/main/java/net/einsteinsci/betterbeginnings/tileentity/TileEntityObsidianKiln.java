@@ -13,23 +13,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IInteractionObject;
 
-public class TileEntityObsidianKiln extends TileEntitySpecializedFurnace implements IUpdatePlayerListBox, ISidedInventory,
-		IInteractionObject
+public class TileEntityObsidianKiln extends TileEntityKilnBase
 {
-	public static final int SLOT_INPUT = 0;
-	public static final int SLOT_FUEL = 1;
-	public static final int SLOT_OUTPUT = 2;
-
-	private static final int[] SLOTS_TOP = new int[] {SLOT_INPUT};
-	private static final int[] SLOTS_BOTTOM = new int[] {SLOT_OUTPUT};
-	private static final int[] SLOTS_SIDES = new int[] {SLOT_FUEL, SLOT_INPUT};
-
 	public TileEntityObsidianKiln()
 	{
-		super(3);
+		super();
 		processTime = 250;
 	}
 
@@ -38,18 +28,10 @@ public class TileEntityObsidianKiln extends TileEntitySpecializedFurnace impleme
 	{
 		super.readFromNBT(tagCompound);
 		currentItemBurnLength = getItemBurnTime(specialFurnaceStacks[SLOT_FUEL]);
-
-		// stacked = tagCompound.getInteger("Stacked");
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound tagCompound)
-	{
-		super.writeToNBT(tagCompound);
-		// tagCompound.setInteger("Stacked", stacked);
-	}
-
-	public static int getItemBurnTime(ItemStack itemStack)
+	public int getItemBurnTime(ItemStack itemStack)
 	{
 		if (itemStack == null)
 		{
@@ -70,28 +52,8 @@ public class TileEntityObsidianKiln extends TileEntitySpecializedFurnace impleme
 			}
 
 			// All fuels from the Kiln apply here too.
-			return TileEntityKiln.getItemBurnTime(itemStack);
+			return super.getItemBurnTime(itemStack);
 		}
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player)
-	{
-		if (worldObj.getTileEntity(pos) != this)
-		{
-			return false;
-		}
-		else
-		{
-			return player.getDistanceSq((double)pos.getX() + 0.5d, (double)pos.getY() + 0.5d,
-			                            (double)pos.getZ() + 0.5d) <= 64.0d;
-		}
-	}
-
-	@Override
-	public boolean isItemValidForSlot(int slot, ItemStack stack)
-	{
-		return slot != SLOT_OUTPUT && (slot == SLOT_FUEL || isItemFuel(stack));
 	}
 	
 	@Override
@@ -100,139 +62,10 @@ public class TileEntityObsidianKiln extends TileEntitySpecializedFurnace impleme
 		return hasCustomName() ? customName : "container.obsidianKiln";
 	}
 
-	public void update()
-	{
-		if (!worldObj.isRemote)
-		{
-			boolean flag = burnTime > 0;
-			boolean flag1 = false;
-
-			if (burnTime > 0)
-			{
-				--burnTime;
-			}
-
-			if (burnTime == 0 && canSmelt())
-			{
-				currentItemBurnLength = burnTime = getItemBurnTime(specialFurnaceStacks[1]);
-
-				if (burnTime > 0)
-				{
-					flag1 = true;
-					if (specialFurnaceStacks[SLOT_FUEL] != null)
-					{
-						--specialFurnaceStacks[SLOT_FUEL].stackSize;
-
-						if (specialFurnaceStacks[SLOT_FUEL].stackSize == 0)
-						{
-							specialFurnaceStacks[SLOT_FUEL] = specialFurnaceStacks[SLOT_FUEL].getItem()
-								.getContainerItem(specialFurnaceStacks[SLOT_FUEL]);
-						}
-					}
-				}
-			}
-
-			if (isBurning() && canSmelt())
-			{
-				++cookTime;
-				if (cookTime == processTime)
-				{
-					cookTime = 0;
-					smeltItem();
-					flag1 = true;
-				}
-			}
-			else
-			{
-				cookTime = 0;
-			}
-
-			if (flag != burnTime > 0)
-			{
-				flag1 = true;
-				BlockObsidianKiln.updateBlockState(burnTime > 0, worldObj, pos);
-			}
-
-			if (flag1)
-			{
-				markDirty();
-			}
-		}
-	}
-
-	public boolean canSmelt()
-	{
-		if (specialFurnaceStacks[SLOT_INPUT] == null)
-		{
-			return false;
-		}
-		else
-		{
-			ItemStack stack = KilnRecipeHandler.instance().getSmeltingResult(specialFurnaceStacks[SLOT_INPUT]);
-			if (stack == null)
-			{
-				return false;
-			}
-
-			if (specialFurnaceStacks[SLOT_OUTPUT] == null)
-			{
-				return true;
-			}
-			if (!specialFurnaceStacks[SLOT_OUTPUT].isItemEqual(stack))
-			{
-				return false;
-			}
-
-			int result = specialFurnaceStacks[SLOT_OUTPUT].stackSize + stack.stackSize;
-			return result <= getInventoryStackLimit() && result <= specialFurnaceStacks[SLOT_OUTPUT].getMaxStackSize();
-		}
-	}
-
-	public void smeltItem()
-	{
-		if (canSmelt())
-		{
-			ItemStack itemStack = KilnRecipeHandler.instance().getSmeltingResult(specialFurnaceStacks[0]);
-
-			if (specialFurnaceStacks[SLOT_OUTPUT] == null)
-			{
-				specialFurnaceStacks[SLOT_OUTPUT] = itemStack.copy();
-			}
-			else if (specialFurnaceStacks[SLOT_OUTPUT].getItem() == itemStack.getItem())
-			{
-				specialFurnaceStacks[SLOT_OUTPUT].stackSize += itemStack.stackSize;
-			}
-
-			--specialFurnaceStacks[SLOT_INPUT].stackSize;
-
-			if (specialFurnaceStacks[SLOT_INPUT].stackSize <= 0)
-			{
-				specialFurnaceStacks[SLOT_INPUT] = null;
-			}
-		}
-	}
-
 	@Override
-	public int[] getSlotsForFace(EnumFacing side)
+	public void updateBlockState()
 	{
-		return side == EnumFacing.DOWN ? SLOTS_BOTTOM : side == EnumFacing.UP ? SLOTS_TOP : SLOTS_SIDES;
-	}
-
-	@Override
-	public boolean canInsertItem(int par1, ItemStack stack, EnumFacing par3)
-	{
-		return isItemValidForSlot(par1, stack);
-	}
-
-	public static boolean isItemFuel(ItemStack itemStack)
-	{
-		return getItemBurnTime(itemStack) > 0;
-	}
-
-	@Override
-	public boolean canExtractItem(int par1, ItemStack stack, EnumFacing par3)
-	{
-		return par3 != EnumFacing.DOWN || par1 != 0 || stack.getItem() == Items.bucket;
+		BlockObsidianKiln.updateBlockState(burnTime > 0, worldObj, pos);
 	}
 
 	@Override

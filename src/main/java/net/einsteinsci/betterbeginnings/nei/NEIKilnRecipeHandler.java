@@ -159,7 +159,7 @@ public class NEIKilnRecipeHandler extends TemplateRecipeHandler
 				continue;
 			}
 
-			int burnTime = TileEntityKiln.getItemBurnTime(item);
+			int burnTime = TileEntityKiln.getItemBurnTimeStatic(item);
 			if (burnTime > 0)
 			{
 				afuels.add(new FurnaceRecipeHandler.FuelPair(item.copy(), burnTime));

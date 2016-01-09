@@ -229,7 +229,7 @@ public abstract class TileEntityBrickOvenBase extends TileEntitySpecializedFurna
 				clone.setItemDamage(0);
 			}
 
-			return TileEntityKiln.getItemBurnTime(itemStack);
+			return TileEntityKiln.getItemBurnTimeStatic(itemStack);
 		}
 	}
 

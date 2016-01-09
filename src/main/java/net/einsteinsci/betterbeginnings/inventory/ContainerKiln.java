@@ -2,6 +2,7 @@ package net.einsteinsci.betterbeginnings.inventory;
 
 import net.einsteinsci.betterbeginnings.register.recipe.KilnRecipeHandler;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityKiln;
+import net.einsteinsci.betterbeginnings.tileentity.TileEntityKilnBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -39,6 +40,8 @@ public class ContainerKiln extends ContainerSpecializedFurnace
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int par2)
 	{
+		TileEntityKilnBase kiln = (TileEntityKilnBase)tileSpecialFurnace;
+
 		ItemStack itemstack = null;
 		Slot slot = (Slot)inventorySlots.get(par2);
 
@@ -64,7 +67,7 @@ public class ContainerKiln extends ContainerSpecializedFurnace
 						return null;
 					}
 				}
-				else if (TileEntityKiln.isItemFuel(itemstack1))
+				else if (kiln.isItemFuel(itemstack1))
 				{
 					if (!mergeItemStack(itemstack1, SLOT_FUEL, SLOT_FUEL + 1, false))
 					{
