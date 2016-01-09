@@ -26,13 +26,14 @@ apply plugin: 'java'
 sourceCompatibility = '1.7'
 targetCompatibility = '1.7'
 
-version = "MC1.8.0-b0.9.6-R1"
+version = "MC" + project.mcversion + "-" + project.modversion
 group = "net.einsteinsci.betterbeginnings" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "betterbeginnings"
 
 minecraft {
-    version = "1.8-11.14.4.1577"
+    version = project.mcversion + "-" + project.forgeversion
     runDir = "run"
+	replace '${version}', project.modversion
     
     // the mappings can be changed at any time, and must be in the following format.
     // snapshot_YYYYMMDD   snapshot are built nightly.
