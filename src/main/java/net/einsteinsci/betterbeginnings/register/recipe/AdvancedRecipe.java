@@ -1,6 +1,9 @@
 package net.einsteinsci.betterbeginnings.register.recipe;
 
+import org.apache.logging.log4j.Level;
+
 import net.einsteinsci.betterbeginnings.inventory.InventoryWorkbenchAdditionalMaterials;
+import net.einsteinsci.betterbeginnings.util.LogUtil;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -24,10 +27,15 @@ public class AdvancedRecipe
 	/**
 	 * Is the ItemStack that you get when craft the recipe.
 	 */
-
+	private ItemStack recipeOutput;
+	/**
+	 * Whether the recipe should be valid when mirrored
+	 */
+	protected boolean mirrored = true;
+	
 	public final boolean hideFromNEI;
 
-	private ItemStack recipeOutput;
+	
 
 	// additional materials in the side slots
 	private OreRecipeElement[] addedMaterials;
@@ -54,12 +62,12 @@ public class AdvancedRecipe
 		{
 			for (int j = 0; j <= 3 - recipeHeight; ++j)
 			{
-				if (checkMatch(invCrafting, materials, i, j, true))
+				if (checkMatch(invCrafting, materials, i, j, false))
 				{
 					return true;
 				}
 
-				if (checkMatch(invCrafting, materials, i, j, false))
+				if (mirrored && checkMatch(invCrafting, materials, i, j, true))
 				{
 					return true;
 				}
@@ -69,21 +77,21 @@ public class AdvancedRecipe
 		return false;
 	}
 
-	// Not sure what that fourth flag is...
-	private boolean checkMatch(InventoryCrafting crafting, InventoryWorkbenchAdditionalMaterials materials, int width,
-	                           int height, boolean flag4)
+	// Not sure what that fourth flag is...(it's mirroring)
+	private boolean checkMatch(InventoryCrafting crafting, InventoryWorkbenchAdditionalMaterials materials, int startX,
+	                           int startY, boolean mirror)
 	{
 		for (int k = 0; k < 3; ++k)
 		{
 			for (int l = 0; l < 3; ++l)
 			{
-				int i1 = k - width;
-				int j1 = l - height;
+				int i1 = k - startX;
+				int j1 = l - startY;
 				OreRecipeElement neededCraftingStack = null;
 
 				if (i1 >= 0 && j1 >= 0 && i1 < recipeWidth && j1 < recipeHeight)
 				{
-					if (flag4)
+					if (mirror)
 					{
 						neededCraftingStack = recipeItems[recipeWidth - i1 - 1 + j1 * recipeWidth];
 					}
@@ -95,42 +103,46 @@ public class AdvancedRecipe
 
 				ItemStack craftingStackInQuestion = crafting.getStackInRowAndColumn(k, l);
 
-				if (craftingStackInQuestion != null || neededCraftingStack != null)
+				if (craftingStackInQuestion != null && neededCraftingStack != null)
 				{
-					if (craftingStackInQuestion == null && neededCraftingStack != null ||
-							craftingStackInQuestion != null && neededCraftingStack == null)
-					{
-						return false;
-					}
-
 					if (!neededCraftingStack.matches(craftingStackInQuestion))
 					{
 						return false;
 					}
 				}
-
-				for (OreRecipeElement requiredMatStack : addedMaterials)
+				else if ((craftingStackInQuestion == null) ^ (neededCraftingStack == null))
 				{
-					boolean foundIt = false;
-					for (int i2 = 0; i2 < materials.getSizeInventory(); ++i2)
-					{
-						ItemStack testedMatStack = materials.getStackInSlot(i2);
-						if (testedMatStack != null)
-						{
-							foundIt = requiredMatStack.matchesCheckSize(testedMatStack);
-						}
-
-						if (foundIt)
-						{
-							break;
-						}
-					}
-
-					if (!foundIt)
-					{
-						return false;
-					}
+					return false;
 				}
+			}
+		}
+
+		if(addedMaterials.length > materials.getSizeInventory())
+		{
+			LogUtil.log(Level.ERROR, "Recipe for " + this.recipeOutput.getDisplayName() + " has too many catalysts required.");
+			return false;
+		}
+		
+		for (OreRecipeElement requiredMatStack : addedMaterials)
+		{
+			boolean foundIt = false;
+			for (int i2 = 0; i2 < materials.getSizeInventory(); ++i2)
+			{
+				ItemStack testedMatStack = materials.getStackInSlot(i2);
+				if (testedMatStack != null)
+				{
+					foundIt = requiredMatStack.matchesCheckSize(testedMatStack);
+				}
+
+				if (foundIt)
+				{
+					break;
+				}
+			}
+
+			if (!foundIt)
+			{
+				return false;
 			}
 		}
 
@@ -143,12 +155,12 @@ public class AdvancedRecipe
 		{
 			for (int j = 0; j <= 3 - recipeHeight; ++j)
 			{
-				if (checkMatchMostly(invCrafting, i, j, true))
+				if (checkMatchMostly(invCrafting, i, j, false))
 				{
 					return true;
 				}
 
-				if (checkMatchMostly(invCrafting, i, j, false))
+				if (mirrored && checkMatchMostly(invCrafting, i, j, true))
 				{
 					return true;
 				}
@@ -182,19 +194,18 @@ public class AdvancedRecipe
 
 				ItemStack craftingStackInQuestion = crafting.getStackInRowAndColumn(k, l);
 
-				if (craftingStackInQuestion != null || neededCraftingStack != null)
+				if (craftingStackInQuestion != null && neededCraftingStack != null)
 				{
-					// If one is null but not the other
-					if (craftingStackInQuestion == null || neededCraftingStack == null)
-					{
-						return false;
-					}
-
 					if (!neededCraftingStack.matches(craftingStackInQuestion))
 					{
 						return false;
 					}
 				}
+				else if ((craftingStackInQuestion == null) ^ (neededCraftingStack == null))
+				{
+					return false;
+				}
+
 			}
 		}
 

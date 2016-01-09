@@ -180,10 +180,38 @@ public class GuiDoubleWorkbench extends GuiContainer
 						}
 
 						Slot slot = container.matSlots[i];
-						if (container.addedMats.getStackInSlot(i) == null)
+						
+						ItemStack matStack = null;
+						
+						for(int s = 0; s < container.addedMats.getSizeInventory(); ++s)
+						{
+							ItemStack stack = container.addedMats.getStackInSlot(s);
+							
+							if(stack == null){ continue; }
+							
+							if(stack.getItem().equals(needed.getItem()))
+							{
+								if(matStack != null)
+								{
+									if(stack.stackSize > matStack.stackSize)
+									{
+										matStack = stack;
+									}
+								}
+								else
+								{
+									matStack = stack;
+								}
+							}
+						}
+						boolean hasMatStack = (matStack != null);
+						if (!hasMatStack ||
+								(hasMatStack && (matStack.stackSize < needed.stackSize || matStack.getItem() != needed.getItem())))
 						{
 							drawItemStack(needed, k + slot.xDisplayPosition + CATALYST_X_OFFSET,
-								l + slot.yDisplayPosition, "" + needed.stackSize);
+								l + slot.yDisplayPosition,
+								"" + ((matStack == null || matStack.getItem()!= needed.getItem()) ?
+										needed.stackSize : needed.stackSize - matStack.stackSize));
 						}
 					}
 
