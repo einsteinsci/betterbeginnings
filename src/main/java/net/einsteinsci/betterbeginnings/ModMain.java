@@ -29,7 +29,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ModMain
 {
 	public static final String MODID = "betterbeginnings";
-	public static final String VERSION = "0.9.6-R1";
+	public static final String VERSION = "${version}";
 	public static final String NAME = "BetterBeginnings";
 	public static final CreativeTabs tabBetterBeginnings = new CreativeTabs("tabBetterBeginnings")
 	{
