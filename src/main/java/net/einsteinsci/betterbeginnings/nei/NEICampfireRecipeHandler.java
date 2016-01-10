@@ -41,7 +41,8 @@ public class NEICampfireRecipeHandler extends TemplateRecipeHandler
 		@Override
 		public List<PositionedStack> getIngredients()
 		{
-			List<PositionedStack> list = Collections.singletonList(input);
+			List<PositionedStack> list = new ArrayList<>();
+			list.add(input);
 
 			if (pan != null)
 			{
