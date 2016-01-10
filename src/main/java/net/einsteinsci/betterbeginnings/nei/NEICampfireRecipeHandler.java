@@ -42,14 +42,14 @@ public class NEICampfireRecipeHandler extends TemplateRecipeHandler
 		@Override
 		public List<PositionedStack> getIngredients()
 		{
+			List<PositionedStack> list = Collections.singletonList(input);
+
 			if (pan != null)
 			{
-				return getCycledIngredients(cycleticks / 48, Arrays.asList(new Object[]{input, pan}));
+				list.add(pan);
 			}
-			else
-			{
-				return getCycledIngredients(cycleticks / 48, Collections.singletonList(input));
-			}
+
+			return getCycledIngredients(cycleticks / 48, list);
 		}
 
 		@Override
