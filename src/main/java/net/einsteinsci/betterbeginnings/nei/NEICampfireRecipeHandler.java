@@ -17,7 +17,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import scala.actors.threadpool.Arrays;
 
 import java.util.*;
 
@@ -44,7 +43,7 @@ public class NEICampfireRecipeHandler extends TemplateRecipeHandler
 		{
 			if (pan != null)
 			{
-				return getCycledIngredients(cycleticks / 48, Arrays.asList(new Object[]{input, pan}));
+				return getCycledIngredients(cycleticks / 48, Arrays.asList(new PositionedStack[]{input, pan}));
 			}
 			else
 			{
