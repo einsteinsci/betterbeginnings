@@ -1,16 +1,19 @@
 package net.einsteinsci.betterbeginnings.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.inventory.ContainerDoubleWorkbench;
-import net.einsteinsci.betterbeginnings.register.recipe.*;
+import net.einsteinsci.betterbeginnings.register.recipe.AdvancedCraftingHandler;
+import net.einsteinsci.betterbeginnings.register.recipe.AdvancedRecipe;
+import net.einsteinsci.betterbeginnings.register.recipe.OreRecipeElement;
 import net.einsteinsci.betterbeginnings.util.ChatUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.block.model.ItemModelGenerator;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -22,11 +25,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiDoubleWorkbench extends GuiContainer
@@ -200,6 +198,8 @@ public class GuiDoubleWorkbench extends GuiContainer
 						if (!hasMatStack ||
 							(matStack.stackSize < needed.stackSize || matStack.getItem() != needed.getItem()))
 						{
+					        RenderHelper.enableGUIStandardItemLighting();
+
 							drawItemStack(needed, k + slot.xDisplayPosition + CATALYST_X_OFFSET,
 								l + slot.yDisplayPosition,
 								"" + ((matStack == null || matStack.getItem()!= needed.getItem()) ?
@@ -228,9 +228,7 @@ public class GuiDoubleWorkbench extends GuiContainer
 
 	private void drawItemStack(ItemStack stack, int xPos, int yPos, String note)
 	{
-		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
-
-		renderItem.renderItemAndEffectIntoGUI(stack, xPos, yPos);
+		this.itemRender.renderItemAndEffectIntoGUI(stack, xPos, yPos);
 
 		FontRenderer font = null;
 		if (stack != null)
@@ -242,6 +240,6 @@ public class GuiDoubleWorkbench extends GuiContainer
 			font = fontRendererObj;
 		}
 
-		renderItem.renderItemOverlayIntoGUI(font, stack, xPos, yPos, note);
+		this.itemRender.renderItemOverlayIntoGUI(font, stack, xPos, yPos, note);
 	}
 }
