@@ -49,6 +49,7 @@ public class BBConfig
 	public static boolean removeSmeltingRecipes;
 	public static boolean removeOnlyVanillaSmeltingRecipes;
 	public static boolean canCampfireDoAllKilnStuff;
+	public static boolean smeltersCanUseCoal;
 
 	public static boolean makeStuffStackable;
 	public static boolean noDamageOnBadBreak;
@@ -94,6 +95,7 @@ public class BBConfig
 		removeSmeltingRecipes = true;
 		removeOnlyVanillaSmeltingRecipes = true;
 		canCampfireDoAllKilnStuff = false;
+		smeltersCanUseCoal = false;
 
 		makeStuffStackable = true;
 		noDamageOnBadBreak = false;
@@ -176,6 +178,8 @@ public class BBConfig
 				" 'Disable vanilla smelting'.");
 		canCampfireDoAllKilnStuff = config.getBoolean("Allow campfire to use all kiln recipes", SMELTING, false,
 			"Allow campfire to process all recipes kiln can, instead of just a few.");
+		smeltersCanUseCoal = config.getBoolean("Allow smelters to use coal as fuel", SMELTING, false,
+			"Allow smelters to use regular coal as fuel in addition to charcoal.");
 
 		//////////
 		// ints //
@@ -187,7 +191,7 @@ public class BBConfig
 		// Arrays //
 		////////////
 
-		// region ALWAYS BREAKABLE
+		// ALWAYS BREAKABLE
 		String[] _alwaysBreakable = config.getStringList("Always breakable", TWEAKS, new String[] {},
 		    "List of blocks to always be breakable. Use this format: 'modid:blockName'.");
 		alwaysBreakableStrings.clear();

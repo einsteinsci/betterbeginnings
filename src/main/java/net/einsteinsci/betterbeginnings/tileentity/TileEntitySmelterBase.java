@@ -1,5 +1,6 @@
 package net.einsteinsci.betterbeginnings.tileentity;
 
+import net.einsteinsci.betterbeginnings.config.BBConfig;
 import net.einsteinsci.betterbeginnings.register.recipe.SmelterRecipeHandler;
 import net.einsteinsci.betterbeginnings.util.MathUtil;
 import net.minecraft.block.Block;
@@ -386,7 +387,7 @@ public abstract class TileEntitySmelterBase extends TileEntitySpecializedFurnace
 		}
 
 		// Charcoal
-		if (item == Items.coal && itemStack.getItemDamage() == 1)
+		if (item == Items.coal && (itemStack.getItemDamage() == 1 || BBConfig.smeltersCanUseCoal))
 		{
 			return 1600;
 		}
