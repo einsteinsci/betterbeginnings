@@ -1,6 +1,6 @@
 package net.einsteinsci.betterbeginnings.config.json;
 
-import net.einsteinsci.betterbeginnings.register.recipe.BrickOvenRecipeHandler;
+import net.einsteinsci.betterbeginnings.register.recipe.AdvancedCraftingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -11,15 +11,44 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class JsonBrickOvenShapedRecipe
+public class JsonAdvancedRecipe
 {
 	private JsonLoadedItemStack output;
 	private List<String> recipe = new ArrayList<>();
 	private Map<Character, JsonLoadedItem> ingredients = new HashMap<>();
+	private List<JsonLoadedItemStack> catalysts = new ArrayList<>();
 
-	public JsonBrickOvenShapedRecipe(ItemStack output, Object... params)
+	public JsonAdvancedRecipe(ItemStack output, Object[] catalysts, Object... params)
 	{
 		this.output = new JsonLoadedItemStack(output);
+
+		String ore = null;
+		for (Object obj : catalysts)
+		{
+			if (obj instanceof String)
+			{
+				ore = (String)obj;
+			}
+			else if (obj instanceof Integer)
+			{
+				if (ore == null)
+				{
+					continue;
+				}
+
+				int count = (Integer)obj;
+				JsonLoadedItemStack jlis = JsonLoadedItemStack.makeOreDictionary(ore, count);
+				this.catalysts.add(jlis);
+			}
+			else if (obj instanceof ItemStack)
+			{
+				ore = null;
+
+				ItemStack stack = (ItemStack)obj;
+				JsonLoadedItemStack jlis = new JsonLoadedItemStack(stack);
+				this.catalysts.add(jlis);
+			}
+		}
 
 		char active = '\0';
 		boolean recipeFinished = false;
@@ -53,6 +82,17 @@ public class JsonBrickOvenShapedRecipe
 					{
 						active = c;
 					}
+				}
+				else if (obj instanceof String)
+				{
+					if (active == '\0')
+					{
+						continue;
+					}
+
+					String str = (String)obj;
+					JsonLoadedItem ing = JsonLoadedItem.makeOreDictionary(str);
+					ingredients.put(active, ing);
 				}
 				else if (obj instanceof ItemStack)
 				{
@@ -91,42 +131,62 @@ public class JsonBrickOvenShapedRecipe
 		}
 	}
 
-	public JsonBrickOvenShapedRecipe(JsonLoadedItemStack output, List<String> recipe, Map<Character, JsonLoadedItem> ingredients)
+	public JsonAdvancedRecipe(JsonLoadedItemStack output, List<String> recipe,
+		Map<Character, JsonLoadedItem> ingredients, List<JsonLoadedItemStack> catalysts)
 	{
 		this.output = output;
 		this.recipe = recipe;
 		this.ingredients = ingredients;
+		this.catalysts = catalysts;
 	}
 
 	public void register()
 	{
 		List<Object> res = new ArrayList<>();
+		for (JsonLoadedItemStack jlis : catalysts)
+		{
+			if (jlis.isOreDictionary())
+			{
+				res.add(jlis.getItemName());
+				res.add(jlis.getStackSize());
+			}
+			else
+			{
+				res.add(jlis.getFirstItemStackOrNull());
+			}
+		}
+		Object[] addedMats = res.toArray();
+
+		res = new ArrayList<>();
 		for (String s : recipe)
 		{
 			res.add(s);
 		}
-
-		boolean oreDict = false;
 		for (Map.Entry<Character, JsonLoadedItem> entry : ingredients.entrySet())
 		{
 			res.add(entry.getKey());
-
-			JsonLoadedItem jli = entry.getValue();
-
-			ItemStack stack = jli.getFirstItemStackOrNull();
-			if (stack != null)
+			if (entry.getValue().isOreDictionary())
 			{
-				res.add(stack);
+				res.add(entry.getValue().getItemName());
 			}
 			else
 			{
-				ItemStack invalid = new ItemStack(Blocks.barrier);
-				invalid.setStackDisplayName("ERROR IN LOADING JSON RECIPE. MISSING INGREDIENT.");
-				res.add(invalid);
+				ItemStack stack = entry.getValue().getFirstItemStackOrNull();
+				if (stack != null)
+				{
+					res.add(stack);
+				}
+				else
+				{
+					ItemStack invalid = new ItemStack(Blocks.barrier);
+					invalid.setStackDisplayName("ERROR IN LOADING JSON RECIPE. MISSING INGREDIENT.");
+					res.add(invalid);
+				}
 			}
 		}
 		Object[] params = res.toArray();
-		BrickOvenRecipeHandler.addShapedRecipe(output.getFirstItemStackOrNull(), params);
+
+		AdvancedCraftingHandler.addAdvancedRecipe(output.getFirstItemStackOrNull(), addedMats, params);
 	}
 
 	public JsonLoadedItemStack getOutput()
@@ -142,5 +202,10 @@ public class JsonBrickOvenShapedRecipe
 	public Map<Character, JsonLoadedItem> getIngredients()
 	{
 		return ingredients;
+	}
+
+	public List<JsonLoadedItemStack> getCatalysts()
+	{
+		return catalysts;
 	}
 }
