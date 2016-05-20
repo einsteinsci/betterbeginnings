@@ -3,6 +3,7 @@ package net.einsteinsci.betterbeginnings.config;
 import net.einsteinsci.betterbeginnings.config.json.BBJsonLoader;
 import net.einsteinsci.betterbeginnings.config.json.IJsonConfig;
 import net.einsteinsci.betterbeginnings.config.json.KilnConfig;
+import net.einsteinsci.betterbeginnings.config.json.SmelterConfig;
 import net.einsteinsci.betterbeginnings.util.LogUtil;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -24,9 +25,7 @@ public class BBConfigFolderLoader
 		configFolder = new File(e.getModConfigurationDirectory(), FOLDERNAME);
 
 		File file = new File(e.getModConfigurationDirectory(), FOLDERNAME + "/" + CONFIG_FILENAME);
-		Configuration res = new Configuration(file);
-
-		return res;
+		return new Configuration(file);
 	}
 
 	public static void loadRecipes(FMLInitializationEvent e)
@@ -34,6 +33,7 @@ public class BBConfigFolderLoader
 		BBJsonLoader.initialize();
 
 		loadJsonConfig(e, KilnConfig.INSTANCE);
+		loadJsonConfig(e, SmelterConfig.INSTANCE);
 	}
 
 	public static void loadJsonConfig(FMLInitializationEvent e, IJsonConfig config)

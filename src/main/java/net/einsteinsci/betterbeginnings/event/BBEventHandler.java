@@ -104,7 +104,12 @@ public class BBEventHandler
 
 		if (item == RegisterItems.rotisserie)
 		{
-			e.toolTip.add(ChatUtil.WHITE + "Cooks food at the cost of speed");
+			e.toolTip.add(ChatUtil.WHITE + "Cooks food like a pan at the cost of speed");
+		}
+
+		if (item == RegisterItems.roastingStick)
+		{
+			e.toolTip.add(ChatUtil.WHITE + "Right-click to impale a marshmallow.");
 		}
 
 		if (item == Items.sugar)

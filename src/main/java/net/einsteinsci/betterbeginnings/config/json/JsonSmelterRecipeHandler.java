@@ -7,19 +7,19 @@ import net.minecraft.item.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JsonKilnRecipeHandler
+public class JsonSmelterRecipeHandler
 {
-	private List<JsonKilnRecipe> recipes;
+	private List<JsonSmelterRecipe> recipes;
 
-	public JsonKilnRecipeHandler()
+	public JsonSmelterRecipeHandler()
 	{
 		recipes = new ArrayList<>();
 
 		// TESTING ONLY
-		recipes.add(new JsonKilnRecipe(new ItemStack(Blocks.bedrock), new ItemStack(Items.blaze_rod), 0.5f));
+		recipes.add(new JsonSmelterRecipe(new ItemStack(Blocks.bedrock), new ItemStack(Items.golden_hoe), 0.5f, 1, 0));
 	}
 
-	public List<JsonKilnRecipe> getRecipes()
+	public List<JsonSmelterRecipe> getRecipes()
 	{
 		return recipes;
 	}

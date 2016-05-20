@@ -7,7 +7,9 @@ public class SmelterRecipe
 	private ItemStack outputStack;
 	private ItemStack inputStack;
 	private float experienceGiven;
+	// Booster items consumed per smelting operation
 	private int boostersNeeded;
+	// Bonus items given per level of boost upon smelting
 	private int bonusPerBoost;
 
 	public SmelterRecipe(ItemStack output, ItemStack input, float experience, int boosters, int bonus)
