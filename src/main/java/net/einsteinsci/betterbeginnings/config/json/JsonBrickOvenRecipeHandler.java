@@ -14,11 +14,17 @@ public class JsonBrickOvenRecipeHandler
 
 	private List<String> includes;
 
+	private List<String> __COMMENTS;
+
 	public JsonBrickOvenRecipeHandler()
 	{
 		shaped = new ArrayList<>();
 		shapeless = new ArrayList<>();
 		includes = new ArrayList<>();
+
+		__COMMENTS = new ArrayList<>();
+		__COMMENTS.add("Brick Oven recipes do not support ore dictionary in ingredients.");
+		__COMMENTS.add("This will change eventually. This only applies to Brick Oven recipes.");
 
 		// TESTING ONLY
 		shaped.add(new JsonBrickOvenShapedRecipe(new ItemStack(Items.beef), "x ", "ox", 'x',

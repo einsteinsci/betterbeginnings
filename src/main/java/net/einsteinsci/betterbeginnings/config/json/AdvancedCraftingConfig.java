@@ -1,13 +1,9 @@
 package net.einsteinsci.betterbeginnings.config.json;
 
-import net.einsteinsci.betterbeginnings.util.LogUtil;
+import net.einsteinsci.betterbeginnings.util.FileUtil;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import org.apache.logging.log4j.Level;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,23 +25,13 @@ public class AdvancedCraftingConfig implements IJsonConfig
 	public String getMainJson(File subfolder)
 	{
 		File mainf = new File(subfolder, "main.json");
-		if (!mainf.exists())
+		String json = FileUtil.readAllText(mainf);
+		if (json == null)
 		{
-			return "{}";
+			json = "{}";
 		}
 
-		try
-		{
-			return new String(Files.readAllBytes(mainf.toPath()));
-		}
-		catch (IOException e)
-		{
-			LogUtil.log(Level.ERROR, "IOException occurred opening config/betterbeginnings/advancedcrafting/main.json!");
-			LogUtil.log("");
-			LogUtil.log(Level.ERROR, e.toString());
-
-			return "{}";
-		}
+		return json;
 	}
 
 	@Override
@@ -67,23 +53,8 @@ public class AdvancedCraftingConfig implements IJsonConfig
 		for (String fileName : mainRecipes.getIncludes())
 		{
 			File incf = new File(subfolder, fileName);
-			if (!incf.exists())
-			{
-				LogUtil.log(Level.ERROR, "Included file not found: config/betterbeginnings/advancedcrafting/" +
-					fileName + " - Skipping.");
-				continue;
-			}
-
-			try
-			{
-				res.add(new String(Files.readAllBytes(incf.toPath())));
-			}
-			catch (IOException ex)
-			{
-				LogUtil.log(Level.ERROR, "IOException occurred opening config/betterbeginnings/advancedcrafting/" + fileName);
-				LogUtil.log("");
-				LogUtil.log(Level.ERROR, ex.toString());
-			}
+			String json = FileUtil.readAllText(incf);
+			res.add(json);
 		}
 
 		return res;
@@ -125,17 +96,8 @@ public class AdvancedCraftingConfig implements IJsonConfig
 	public void savePostLoad(File subfolder)
 	{
 		String json = BBJsonLoader.serializeObject(mainRecipes);
-		try
-		{
-			File mainf = new File(subfolder, "main.json");
-			Files.write(mainf.toPath(), json.getBytes(), StandardOpenOption.CREATE);
-		}
-		catch (IOException e)
-		{
-			LogUtil.log(Level.ERROR, "IOException occurred saving config/betterbeginnings/advancedcrafting/main.json!");
-			LogUtil.log("");
-			LogUtil.log(Level.ERROR, e.toString());
-		}
+		File mainf = new File(subfolder, "main.json");
+		FileUtil.overwriteAllText(mainf, json);
 	}
 
 	public JsonAdvancedCraftingHandler getMainRecipes()
