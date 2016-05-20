@@ -15,7 +15,7 @@ public class JsonSmelterRecipeHandler
 	{
 		recipes = new ArrayList<>();
 
-		// TESTING ONLY
+		// TESTING ONLY //
 		recipes.add(new JsonSmelterRecipe(new ItemStack(Blocks.bedrock), new ItemStack(Items.golden_hoe), 0.5f, 1, 0));
 	}
 

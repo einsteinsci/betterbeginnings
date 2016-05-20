@@ -1,9 +1,6 @@
 package net.einsteinsci.betterbeginnings.config;
 
-import net.einsteinsci.betterbeginnings.config.json.BBJsonLoader;
-import net.einsteinsci.betterbeginnings.config.json.IJsonConfig;
-import net.einsteinsci.betterbeginnings.config.json.KilnConfig;
-import net.einsteinsci.betterbeginnings.config.json.SmelterConfig;
+import net.einsteinsci.betterbeginnings.config.json.*;
 import net.einsteinsci.betterbeginnings.util.LogUtil;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -34,6 +31,7 @@ public class BBConfigFolderLoader
 
 		loadJsonConfig(e, KilnConfig.INSTANCE);
 		loadJsonConfig(e, SmelterConfig.INSTANCE);
+		loadJsonConfig(e, BrickOvenConfig.INSTANCE);
 	}
 
 	public static void loadJsonConfig(FMLInitializationEvent e, IJsonConfig config)

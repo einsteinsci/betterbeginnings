@@ -9,16 +9,16 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 
-public class SmelterConfig implements IJsonConfig
+public class BrickOvenConfig implements IJsonConfig
 {
-	public static final SmelterConfig INSTANCE = new SmelterConfig();
+	public static final BrickOvenConfig INSTANCE = new BrickOvenConfig();
 
-	private JsonSmelterRecipeHandler mainRecipes = new JsonSmelterRecipeHandler();
+	private JsonBrickOvenRecipeHandler mainRecipes = new JsonBrickOvenRecipeHandler();
 
 	@Override
 	public String getSubFolder()
 	{
-		return "smelter";
+		return "brickoven";
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class SmelterConfig implements IJsonConfig
 		}
 		catch (IOException e)
 		{
-			LogUtil.log(Level.ERROR, "IOException occurred opening config/betterbeginnings/smelter/main.json!");
+			LogUtil.log(Level.ERROR, "IOException occurred opening config/betterbeginnings/brickoven/main.json!");
 			LogUtil.log("");
 			LogUtil.log(Level.ERROR, e.toString());
 
@@ -65,9 +65,14 @@ public class SmelterConfig implements IJsonConfig
 	@Override
 	public void loadJsonConfig(FMLInitializationEvent e, String mainJson, String autoJson, String customJson)
 	{
-		mainRecipes = BBJsonLoader.deserializeObject(mainJson, JsonSmelterRecipeHandler.class);
+		mainRecipes = BBJsonLoader.deserializeObject(mainJson, JsonBrickOvenRecipeHandler.class);
 
-		for (JsonSmelterRecipe j : mainRecipes.getRecipes())
+		for (JsonBrickOvenShapedRecipe j : mainRecipes.getShaped())
+		{
+			j.register();
+		}
+
+		for (JsonBrickOvenShapelessRecipe j : mainRecipes.getShapeless())
 		{
 			j.register();
 		}
@@ -84,13 +89,13 @@ public class SmelterConfig implements IJsonConfig
 		}
 		catch (IOException e)
 		{
-			LogUtil.log(Level.ERROR, "IOException occurred saving config/betterbeginnings/smelter/main.json!");
+			LogUtil.log(Level.ERROR, "IOException occurred saving config/betterbeginnings/brickoven/main.json!");
 			LogUtil.log("");
 			LogUtil.log(Level.ERROR, e.toString());
 		}
 	}
 
-	public JsonSmelterRecipeHandler getMainRecipes()
+	public JsonBrickOvenRecipeHandler getMainRecipes()
 	{
 		return mainRecipes;
 	}
