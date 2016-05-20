@@ -223,7 +223,7 @@ public abstract class TileEntitySmelterBase extends TileEntitySpecializedFurnace
 				return false;
 			}
 
-			int resultCount = specialFurnaceStacks[OUTPUT].stackSize + getNextOutputCount();
+			int resultCount = specialFurnaceStacks[OUTPUT].stackSize + getMaxNextOutputCount();
 			return resultCount <= getInventoryStackLimit() && resultCount <=
 				specialFurnaceStacks[OUTPUT].getMaxStackSize();
 		}
@@ -266,11 +266,35 @@ public abstract class TileEntitySmelterBase extends TileEntitySpecializedFurnace
 		}
 	}
 
+	// used for space checking in canSmelt(), not actual smelting
+	public final int getMaxNextOutputCount()
+	{
+		float boost = getTotalBoost();
+		int ceiling = MathUtil.roundUp(boost);
+		return getOutputCountFromBoostLevel(ceiling);
+	}
+
 	public final int getNextOutputCount()
 	{
-		int diff = getMaxOutputCount() - getMinOutputCount() + 1;
+		float boost = getTotalBoost();
+		int floor = (int)boost;
 
-		return (int)(nextPosition * diff) + getMinOutputCount();
+		if (boost == (float)floor)
+		{
+			return getOutputCountFromBoostLevel(floor);
+		}
+
+		int ceiling = MathUtil.roundUp(boost);
+		float determiner = RANDOM.nextFloat() + floor; // width is always 1
+
+		if (determiner > boost) // It's kind of reversed if you try to picture it.
+		{
+			return getOutputCountFromBoostLevel(floor);
+		}
+		else
+		{
+			return  getOutputCountFromBoostLevel(ceiling);
+		}
 	}
 
 	public final float getTotalBoost()
@@ -286,18 +310,21 @@ public abstract class TileEntitySmelterBase extends TileEntitySpecializedFurnace
 
 	public final int getMinOutputCount()
 	{
-		int countPerBoost = SmelterRecipeHandler.instance().getBonusPerBoost(specialFurnaceStacks[INPUT]);
-		int countUnboosted = SmelterRecipeHandler.instance().getSmeltingResult(specialFurnaceStacks[INPUT]).stackSize;
 		int boostFloor = (int)getTotalBoost();
-		return countUnboosted + (boostFloor - 1) * countPerBoost;
+		return getOutputCountFromBoostLevel(boostFloor);
 	}
 
 	public final int getMaxOutputCount()
 	{
+		int boostCeiling = MathUtil.roundUp(getTotalBoost());
+		return getOutputCountFromBoostLevel(boostCeiling);
+	}
+
+	public final int getOutputCountFromBoostLevel(int roundedBoost)
+	{
 		int countPerBoost = SmelterRecipeHandler.instance().getBonusPerBoost(specialFurnaceStacks[INPUT]);
 		int countUnboosted = SmelterRecipeHandler.instance().getSmeltingResult(specialFurnaceStacks[INPUT]).stackSize;
-		int boostCeiling = MathUtil.roundUp(getTotalBoost());
-		return countUnboosted + (boostCeiling - 1) * countPerBoost;
+		return countUnboosted + (roundedBoost - 1) * countPerBoost;
 	}
 
 	public abstract void updateBlockState();
