@@ -8,12 +8,15 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BrickOvenConfig implements IJsonConfig
 {
 	public static final BrickOvenConfig INSTANCE = new BrickOvenConfig();
 
 	private JsonBrickOvenRecipeHandler mainRecipes = new JsonBrickOvenRecipeHandler();
+	private List<JsonBrickOvenRecipeHandler> includes = new ArrayList<>();
 
 	@Override
 	public String getSubFolder()
@@ -57,6 +60,35 @@ public class BrickOvenConfig implements IJsonConfig
 	}
 
 	@Override
+	public List<String> getIncludedJson(File subfolder)
+	{
+		List<String> res = new ArrayList<>();
+		for (String fileName : mainRecipes.getIncludes())
+		{
+			File incf = new File(subfolder, fileName);
+			if (!incf.exists())
+			{
+				LogUtil.log(Level.ERROR, "Included file not found: config/betterbeginnings/brickoven/" +
+					fileName + " - Skipping.");
+				continue;
+			}
+
+			try
+			{
+				res.add(new String(Files.readAllBytes(incf.toPath())));
+			}
+			catch (IOException ex)
+			{
+				LogUtil.log(Level.ERROR, "IOException occurred opening config/betterbeginnings/brickoven/" + fileName);
+				LogUtil.log("");
+				LogUtil.log(Level.ERROR, ex.toString());
+			}
+		}
+
+		return res;
+	}
+
+	@Override
 	public boolean isOnlyMain()
 	{
 		return true;
@@ -75,6 +107,26 @@ public class BrickOvenConfig implements IJsonConfig
 		for (JsonBrickOvenShapelessRecipe j : mainRecipes.getShapeless())
 		{
 			j.register();
+		}
+	}
+
+	@Override
+	public void loadIncludedConfig(FMLInitializationEvent e, List<String> includedJsons)
+	{
+		for (String json : includedJsons)
+		{
+			JsonBrickOvenRecipeHandler handler = BBJsonLoader.deserializeObject(json, JsonBrickOvenRecipeHandler.class);
+			includes.add(handler);
+
+			for (JsonBrickOvenShapedRecipe r : handler.getShaped())
+			{
+				r.register();
+			}
+
+			for (JsonBrickOvenShapelessRecipe r : handler.getShapeless())
+			{
+				r.register();
+			}
 		}
 	}
 

@@ -8,12 +8,16 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.List;
 
 public class KilnConfig implements IJsonConfig
 {
 	public static final KilnConfig INSTANCE = new KilnConfig();
 
 	private JsonKilnRecipeHandler mainRecipes = new JsonKilnRecipeHandler();
+
+	private List<JsonKilnRecipeHandler> includes = new ArrayList<>();
 
 	@Override
 	public String getSubFolder()
@@ -57,6 +61,35 @@ public class KilnConfig implements IJsonConfig
 	}
 
 	@Override
+	public List<String> getIncludedJson(File subfolder)
+	{
+		List<String> res = new ArrayList<>();
+		for (String fileName : mainRecipes.getIncludes())
+		{
+			File incf = new File(subfolder, fileName);
+			if (!incf.exists())
+			{
+				LogUtil.log(Level.ERROR, "Included file not found: config/betterbeginnings/kiln/" +
+					fileName + " - Skipping.");
+				continue;
+			}
+
+			try
+			{
+				res.add(new String(Files.readAllBytes(incf.toPath())));
+			}
+			catch (IOException ex)
+			{
+				LogUtil.log(Level.ERROR, "IOException occurred opening config/betterbeginnings/kiln/" + fileName);
+				LogUtil.log("");
+				LogUtil.log(Level.ERROR, ex.toString());
+			}
+		}
+
+		return res;
+	}
+
+	@Override
 	public boolean isOnlyMain()
 	{
 		return true;
@@ -70,6 +103,21 @@ public class KilnConfig implements IJsonConfig
 		for (JsonKilnRecipe j : mainRecipes.getRecipes())
 		{
 			j.register();
+		}
+	}
+
+	@Override
+	public void loadIncludedConfig(FMLInitializationEvent e, List<String> includedJsons)
+	{
+		for (String json : includedJsons)
+		{
+			JsonKilnRecipeHandler handler = BBJsonLoader.deserializeObject(json, JsonKilnRecipeHandler.class);
+			includes.add(handler);
+
+			for (JsonKilnRecipe r : handler.getRecipes())
+			{
+				r.register();
+			}
 		}
 	}
 

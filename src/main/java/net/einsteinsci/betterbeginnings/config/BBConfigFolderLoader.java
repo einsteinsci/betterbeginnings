@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Level;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class BBConfigFolderLoader
 {
@@ -45,6 +46,9 @@ public class BBConfigFolderLoader
 		String custom = config.getCustomJson(subfolder);
 
 		config.loadJsonConfig(e, main, auto, custom);
+
+		List<String> includes = config.getIncludedJson(subfolder);
+		config.loadIncludedConfig(e, includes);
 
 		config.savePostLoad(subfolder);
 	}

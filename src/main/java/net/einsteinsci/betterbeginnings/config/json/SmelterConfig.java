@@ -8,12 +8,15 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SmelterConfig implements IJsonConfig
 {
 	public static final SmelterConfig INSTANCE = new SmelterConfig();
 
 	private JsonSmelterRecipeHandler mainRecipes = new JsonSmelterRecipeHandler();
+	private List<JsonSmelterRecipeHandler> includes = new ArrayList<>();
 
 	@Override
 	public String getSubFolder()
@@ -57,6 +60,35 @@ public class SmelterConfig implements IJsonConfig
 	}
 
 	@Override
+	public List<String> getIncludedJson(File subfolder)
+	{
+		List<String> res = new ArrayList<>();
+		for (String fileName : mainRecipes.getIncludes())
+		{
+			File incf = new File(subfolder, fileName);
+			if (!incf.exists())
+			{
+				LogUtil.log(Level.ERROR, "Included file not found: config/betterbeginnings/smelter/" +
+					fileName + " - Skipping.");
+				continue;
+			}
+
+			try
+			{
+				res.add(new String(Files.readAllBytes(incf.toPath())));
+			}
+			catch (IOException ex)
+			{
+				LogUtil.log(Level.ERROR, "IOException occurred opening config/betterbeginnings/smelter/" + fileName);
+				LogUtil.log("");
+				LogUtil.log(Level.ERROR, ex.toString());
+			}
+		}
+
+		return res;
+	}
+
+	@Override
 	public boolean isOnlyMain()
 	{
 		return true;
@@ -70,6 +102,21 @@ public class SmelterConfig implements IJsonConfig
 		for (JsonSmelterRecipe j : mainRecipes.getRecipes())
 		{
 			j.register();
+		}
+	}
+
+	@Override
+	public void loadIncludedConfig(FMLInitializationEvent e, List<String> includedJsons)
+	{
+		for (String json : includedJsons)
+		{
+			JsonSmelterRecipeHandler handler = BBJsonLoader.deserializeObject(json, JsonSmelterRecipeHandler.class);
+			includes.add(handler);
+
+			for (JsonSmelterRecipe r : handler.getRecipes())
+			{
+				r.register();
+			}
 		}
 	}
 

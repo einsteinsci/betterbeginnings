@@ -11,9 +11,12 @@ public class JsonSmelterRecipeHandler
 {
 	private List<JsonSmelterRecipe> recipes;
 
+	private List<String> includes;
+
 	public JsonSmelterRecipeHandler()
 	{
 		recipes = new ArrayList<>();
+		includes = new ArrayList<>();
 
 		// TESTING ONLY //
 		recipes.add(new JsonSmelterRecipe(new ItemStack(Blocks.bedrock), new ItemStack(Items.golden_hoe), 0.5f, 1, 0));
@@ -22,5 +25,10 @@ public class JsonSmelterRecipeHandler
 	public List<JsonSmelterRecipe> getRecipes()
 	{
 		return recipes;
+	}
+
+	public List<String> getIncludes()
+	{
+		return includes;
 	}
 }

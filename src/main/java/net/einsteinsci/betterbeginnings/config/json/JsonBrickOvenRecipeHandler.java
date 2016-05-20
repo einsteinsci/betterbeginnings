@@ -12,10 +12,13 @@ public class JsonBrickOvenRecipeHandler
 	private List<JsonBrickOvenShapedRecipe> shaped;
 	private List<JsonBrickOvenShapelessRecipe> shapeless;
 
+	private List<String> includes;
+
 	public JsonBrickOvenRecipeHandler()
 	{
 		shaped = new ArrayList<>();
 		shapeless = new ArrayList<>();
+		includes = new ArrayList<>();
 
 		// TESTING ONLY
 		shaped.add(new JsonBrickOvenShapedRecipe(new ItemStack(Items.beef), "x ", "ox", 'x',
@@ -32,5 +35,10 @@ public class JsonBrickOvenRecipeHandler
 	public List<JsonBrickOvenShapelessRecipe> getShapeless()
 	{
 		return shapeless;
+	}
+
+	public List<String> getIncludes()
+	{
+		return includes;
 	}
 }

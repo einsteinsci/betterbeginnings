@@ -12,9 +12,12 @@ public class JsonAdvancedCraftingHandler
 {
 	private List<JsonAdvancedRecipe> recipes;
 
+	private List<String> includes;
+
 	public JsonAdvancedCraftingHandler()
 	{
 		recipes = new ArrayList<>();
+		includes = new ArrayList<>();
 
 		// TESTING ONLY
 		recipes.add(new JsonAdvancedRecipe(new ItemStack(Items.string, 38),
@@ -25,5 +28,10 @@ public class JsonAdvancedCraftingHandler
 	public List<JsonAdvancedRecipe> getRecipes()
 	{
 		return recipes;
+	}
+
+	public List<String> getIncludes()
+	{
+		return includes;
 	}
 }
