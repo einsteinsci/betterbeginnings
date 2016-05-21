@@ -41,7 +41,7 @@ public class BBEventHandler
 		if (BBConfig.greetUser)
 		{
 			ChatUtil.sendModChatToPlayer(e.player, ChatUtil.LIME + "BetterBeginnings " + ModMain.VERSION +
-				" loaded successfully.");
+				" loaded " + ChatUtil.LIME + "successfully.");
 		}
 	}
 	
