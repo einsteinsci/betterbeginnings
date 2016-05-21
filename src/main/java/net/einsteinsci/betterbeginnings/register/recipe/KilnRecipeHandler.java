@@ -20,11 +20,6 @@ public class KilnRecipeHandler
 		// nothing here
 	}
 
-	public static void addRecipe(Item input, ItemStack output, float experience)
-	{
-		instance().addLists(input, output, experience);
-	}
-
 	public void addLists(Item input, ItemStack itemStack, float experience)
 	{
 		putLists(new ItemStack(input, 1, OreDictionary.WILDCARD_VALUE), itemStack, experience);
@@ -47,6 +42,11 @@ public class KilnRecipeHandler
 		{
 			instance().putLists(stack, output, experience);
 		}
+	}
+
+	public static void addRecipe(Item input, ItemStack output, float experience)
+	{
+		instance().addLists(input, output, experience);
 	}
 
 	public static void addRecipe(Block input, ItemStack output, float experience)

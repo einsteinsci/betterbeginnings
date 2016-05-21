@@ -63,12 +63,6 @@ public class BrickOvenConfig implements IJsonConfig
 	}
 
 	@Override
-	public boolean isOnlyMain()
-	{
-		return true;
-	}
-
-	@Override
 	public void loadJsonConfig(FMLInitializationEvent e, String mainJson, String autoJson, String customJson)
 	{
 		mainRecipes = BBJsonLoader.deserializeObject(mainJson, JsonBrickOvenRecipeHandler.class);

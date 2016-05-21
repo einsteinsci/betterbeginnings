@@ -15,9 +15,15 @@ public class JsonKilnRecipeHandler
 	private List<String> modDependencies = new ArrayList<>();
 
 	public JsonKilnRecipeHandler()
+	{ }
+
+	public JsonKilnRecipeHandler(boolean includeTesting)
 	{
-		// TESTING ONLY
-		recipes.add(new JsonKilnRecipe(new ItemStack(Blocks.bedrock), new ItemStack(Items.blaze_rod), 0.5f));
+		if (includeTesting)
+		{
+			// TESTING ONLY
+			recipes.add(new JsonKilnRecipe(new ItemStack(Blocks.bedrock), new ItemStack(Items.blaze_rod), 0.5f));
+		}
 	}
 
 	public List<JsonKilnRecipe> getRecipes()

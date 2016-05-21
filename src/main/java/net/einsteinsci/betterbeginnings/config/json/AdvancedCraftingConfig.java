@@ -64,12 +64,6 @@ public class AdvancedCraftingConfig implements IJsonConfig
 	}
 
 	@Override
-	public boolean isOnlyMain()
-	{
-		return true;
-	}
-
-	@Override
 	public void loadJsonConfig(FMLInitializationEvent e, String mainJson, String autoJson, String customJson)
 	{
 		mainRecipes = BBJsonLoader.deserializeObject(mainJson, JsonAdvancedCraftingHandler.class);

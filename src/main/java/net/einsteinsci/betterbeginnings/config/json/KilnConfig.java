@@ -2,6 +2,9 @@ package net.einsteinsci.betterbeginnings.config.json;
 
 import net.einsteinsci.betterbeginnings.util.FileUtil;
 import net.einsteinsci.betterbeginnings.util.LogUtil;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import org.apache.logging.log4j.Level;
@@ -20,6 +23,24 @@ public class KilnConfig implements IJsonConfig
 	private JsonKilnRecipeHandler customRecipes = new JsonKilnRecipeHandler();
 
 	private List<JsonKilnRecipeHandler> includes = new ArrayList<>();
+
+	public static void addRecipe(ItemStack input, ItemStack output, float xp)
+	{
+		initialRecipes.getRecipes().add(new JsonKilnRecipe(input, output, xp));
+	}
+	public static void addRecipe(Item input, ItemStack output, float xp)
+	{
+		addRecipe(new ItemStack(input), output, xp);
+	}
+	public static void addRecipe(Block input, ItemStack output, float xp)
+	{
+		addRecipe(new ItemStack(input), output, xp);
+	}
+	public static void addRecipe(String input, ItemStack output, float xp)
+	{
+		initialRecipes.getRecipes().add(new JsonKilnRecipe(JsonLoadedItem.makeOreDictionary(input),
+			new JsonLoadedItemStack(output), xp));
+	}
 
 	@Override
 	public String getSubFolder()
@@ -50,14 +71,21 @@ public class KilnConfig implements IJsonConfig
 	@Override
 	public String getCustomJson(File subfolder)
 	{
-		return "{}";
+		File customf = new File(subfolder, "custom.json");
+		String json = FileUtil.readAllText(customf);
+		if (json == null)
+		{
+			json = "{}";
+		}
+
+		return json;
 	}
 
 	@Override
 	public List<String> getIncludedJson(File subfolder)
 	{
 		List<String> res = new ArrayList<>();
-		for (String fileName : mainRecipes.getIncludes())
+		for (String fileName : customRecipes.getIncludes())
 		{
 			File incf = new File(subfolder, fileName);
 			String json = FileUtil.readAllText(incf);
@@ -68,19 +96,18 @@ public class KilnConfig implements IJsonConfig
 	}
 
 	@Override
-	public boolean isOnlyMain()
-	{
-		return true;
-	}
-
-	@Override
 	public void loadJsonConfig(FMLInitializationEvent e, String mainJson, String autoJson, String customJson)
 	{
 		mainRecipes = BBJsonLoader.deserializeObject(mainJson, JsonKilnRecipeHandler.class);
-
 		for (JsonKilnRecipe j : mainRecipes.getRecipes())
 		{
 			j.register();
+		}
+
+		customRecipes = BBJsonLoader.deserializeObject(customJson, JsonKilnRecipeHandler.class);
+		for (JsonKilnRecipe r : customRecipes.getRecipes())
+		{
+			r.register();
 		}
 	}
 

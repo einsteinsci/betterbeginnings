@@ -15,8 +15,6 @@ public interface IJsonConfig
 
 	List<String> getIncludedJson(File subfolder);
 
-	boolean isOnlyMain();
-
 	void loadJsonConfig(FMLInitializationEvent e, String mainJson, String autoJson, String customJson);
 	void loadIncludedConfig(FMLInitializationEvent e, List<String> includedJsons);
 
