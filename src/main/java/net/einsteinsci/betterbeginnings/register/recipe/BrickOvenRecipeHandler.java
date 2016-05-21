@@ -13,12 +13,8 @@ public class BrickOvenRecipeHandler
 	private static final BrickOvenRecipeHandler INSTANCE = new BrickOvenRecipeHandler();
 	protected List<IBrickOvenRecipe> recipes = new ArrayList<IBrickOvenRecipe>();
 
-	// private Map experienceList;
-
 	public BrickOvenRecipeHandler()
-	{
-
-	}
+	{ }
 
 	public static void addShapedRecipe(ItemStack output, Object... args)
 	{

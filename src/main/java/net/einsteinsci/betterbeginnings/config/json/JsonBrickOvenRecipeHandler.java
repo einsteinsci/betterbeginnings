@@ -19,15 +19,22 @@ public class JsonBrickOvenRecipeHandler
 
 	public JsonBrickOvenRecipeHandler()
 	{
+		this(false);
+	}
+	public JsonBrickOvenRecipeHandler(boolean includeTesting)
+	{
 		__COMMENTS = new ArrayList<>();
 		__COMMENTS.add("Brick Oven recipes do not support ore dictionary in ingredients.");
 		__COMMENTS.add("This will change eventually. This only applies to Brick Oven recipes.");
 
-		// TESTING ONLY
-		shaped.add(new JsonBrickOvenShapedRecipe(new ItemStack(Items.beef), "x ", "ox", 'x',
-			Blocks.bedrock, 'o', Items.chainmail_chestplate));
+		if (includeTesting)
+		{
+			// TESTING ONLY
+			shaped.add(new JsonBrickOvenShapedRecipe(new ItemStack(Items.beef), "x ", "ox", 'x',
+				Blocks.bedrock, 'o', Items.chainmail_chestplate));
 
-		shapeless.add(new JsonBrickOvenShapelessRecipe(new ItemStack(Items.porkchop), Blocks.bedrock, Items.chainmail_boots));
+			shapeless.add(new JsonBrickOvenShapelessRecipe(new ItemStack(Items.porkchop), Blocks.bedrock, Items.chainmail_boots));
+		}
 	}
 
 	public List<JsonBrickOvenShapedRecipe> getShaped()

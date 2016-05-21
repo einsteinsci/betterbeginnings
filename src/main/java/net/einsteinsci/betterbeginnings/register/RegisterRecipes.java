@@ -2,6 +2,7 @@ package net.einsteinsci.betterbeginnings.register;
 
 import net.einsteinsci.betterbeginnings.config.BBConfig;
 import net.einsteinsci.betterbeginnings.config.json.AdvancedCraftingConfig;
+import net.einsteinsci.betterbeginnings.config.json.BrickOvenConfig;
 import net.einsteinsci.betterbeginnings.config.json.KilnConfig;
 import net.einsteinsci.betterbeginnings.config.json.SmelterConfig;
 import net.einsteinsci.betterbeginnings.items.ItemCharredMeat;
@@ -102,40 +103,40 @@ public class RegisterRecipes
 
 	private static void addBrickOvenRecipes()
 	{
-		BrickOvenRecipeHandler.addShapedRecipe(new ItemStack(Items.golden_apple), "GGG", "GAG", "GGG", 'G',
+		BrickOvenConfig.addShapedRecipe(new ItemStack(Items.golden_apple), "GGG", "GAG", "GGG", 'G',
 		                                       Items.gold_ingot, 'A', Items.apple);
-		BrickOvenRecipeHandler.addShapedRecipe(new ItemStack(Items.golden_apple, 1, 1), "###", "#A#", "###", '#',
+		BrickOvenConfig.addShapedRecipe(new ItemStack(Items.golden_apple, 1, 1), "###", "#A#", "###", '#',
 		                                       Blocks.gold_block, 'A', Items.apple);
-		BrickOvenRecipeHandler.addShapedRecipe(new ItemStack(Items.cake), "MMM", "SES", "WWW", 'M', Items.milk_bucket,
+		BrickOvenConfig.addShapedRecipe(new ItemStack(Items.cake), "MMM", "SES", "WWW", 'M', Items.milk_bucket,
 		                                       'S', Items.sugar, 'E', Items.egg, 'W', Items.wheat);
-		BrickOvenRecipeHandler.addShapedRecipe(new ItemStack(Items.bread, 2), "WWW", 'W', Items.wheat);
-		BrickOvenRecipeHandler.addShapedRecipe(new ItemStack(Items.cookie, 8), "WCW", 'W', Items.wheat, 'C',
+		BrickOvenConfig.addShapedRecipe(new ItemStack(Items.bread, 2), "WWW", 'W', Items.wheat);
+		BrickOvenConfig.addShapedRecipe(new ItemStack(Items.cookie, 8), "WCW", 'W', Items.wheat, 'C',
 		                                       new ItemStack(Items.dye, 1, 3)); // Cocoa bean
-		BrickOvenRecipeHandler.addShapedRecipe(new ItemStack(Items.rabbit_stew), " R ", "CPM", " B ",
+		BrickOvenConfig.addShapedRecipe(new ItemStack(Items.rabbit_stew), " R ", "CPM", " B ",
 			'R', Items.cooked_rabbit, 'C', Items.carrot, 'P', Items.baked_potato,
 			'M', Blocks.brown_mushroom, 'B', Items.bowl);
-		BrickOvenRecipeHandler.addShapedRecipe(new ItemStack(Items.rabbit_stew), " R ", "CPM", " B ",
+		BrickOvenConfig.addShapedRecipe(new ItemStack(Items.rabbit_stew), " R ", "CPM", " B ",
 			'R', Items.cooked_rabbit, 'C', Items.carrot, 'P', Items.baked_potato,
 			'M', Blocks.red_mushroom, 'B', Items.bowl);
-		BrickOvenRecipeHandler.addShapedRecipe(new ItemStack(RegisterItems.marshmallow, 3), " S ", "SSS", " S ",
+		BrickOvenConfig.addShapedRecipe(new ItemStack(RegisterItems.marshmallow, 3), " S ", "SSS", " S ",
 			'S', Items.sugar);
 
-		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.mushroom_stew), Blocks.brown_mushroom,
+		BrickOvenConfig.addShapelessRecipe(new ItemStack(Items.mushroom_stew), Blocks.brown_mushroom,
 			Blocks.red_mushroom, Items.bowl);
-		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.cooked_beef), Items.beef);
-		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.cooked_porkchop), Items.porkchop);
-		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.cooked_chicken), Items.chicken);
-		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.cooked_fish), Items.fish);
-		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.cooked_fish, 1, 1),
+		BrickOvenConfig.addShapelessRecipe(new ItemStack(Items.cooked_beef), Items.beef);
+		BrickOvenConfig.addShapelessRecipe(new ItemStack(Items.cooked_porkchop), Items.porkchop);
+		BrickOvenConfig.addShapelessRecipe(new ItemStack(Items.cooked_chicken), Items.chicken);
+		BrickOvenConfig.addShapelessRecipe(new ItemStack(Items.cooked_fish), Items.fish);
+		BrickOvenConfig.addShapelessRecipe(new ItemStack(Items.cooked_fish, 1, 1),
 			new ItemStack(Items.fish, 1, 1));
-		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.cooked_rabbit), Items.rabbit);
-		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.cooked_mutton), Items.mutton);
-		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.baked_potato), Items.potato);
-		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.pumpkin_pie), Items.egg, Items.sugar,
+		BrickOvenConfig.addShapelessRecipe(new ItemStack(Items.cooked_rabbit), Items.rabbit);
+		BrickOvenConfig.addShapelessRecipe(new ItemStack(Items.cooked_mutton), Items.mutton);
+		BrickOvenConfig.addShapelessRecipe(new ItemStack(Items.baked_potato), Items.potato);
+		BrickOvenConfig.addShapelessRecipe(new ItemStack(Items.pumpkin_pie), Items.egg, Items.sugar,
 		                                          Blocks.pumpkin);
-		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.fermented_spider_eye), Items.spider_eye,
+		BrickOvenConfig.addShapelessRecipe(new ItemStack(Items.fermented_spider_eye), Items.spider_eye,
 												  Items.sugar, Blocks.brown_mushroom);
-		BrickOvenRecipeHandler.addShapelessRecipe(new ItemStack(Items.magma_cream),
+		BrickOvenConfig.addShapelessRecipe(new ItemStack(Items.magma_cream),
 			Items.slime_ball, Items.blaze_powder);
 	}
 

@@ -2,6 +2,7 @@ package net.einsteinsci.betterbeginnings.config.json;
 
 import net.einsteinsci.betterbeginnings.util.FileUtil;
 import net.einsteinsci.betterbeginnings.util.LogUtil;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import org.apache.logging.log4j.Level;
@@ -14,8 +15,21 @@ public class BrickOvenConfig implements IJsonConfig
 {
 	public static final BrickOvenConfig INSTANCE = new BrickOvenConfig();
 
+	private static JsonBrickOvenRecipeHandler initialRecipes = new JsonBrickOvenRecipeHandler();
+
 	private JsonBrickOvenRecipeHandler mainRecipes = new JsonBrickOvenRecipeHandler();
+	private JsonBrickOvenRecipeHandler customRecipes = new JsonBrickOvenRecipeHandler();
+
 	private List<JsonBrickOvenRecipeHandler> includes = new ArrayList<>();
+
+	public static void addShapedRecipe(ItemStack output, Object... args)
+	{
+		initialRecipes.getShaped().add(new JsonBrickOvenShapedRecipe(output, args));
+	}
+	public static void addShapelessRecipe(ItemStack output, Object... args)
+	{
+		initialRecipes.getShapeless().add(new JsonBrickOvenShapelessRecipe(output, args));
+	}
 
 	@Override
 	public String getSubFolder()
@@ -30,7 +44,8 @@ public class BrickOvenConfig implements IJsonConfig
 		String json = FileUtil.readAllText(mainf);
 		if (json == null)
 		{
-			json = "{}";
+			// Kind of inefficient, but it's easiest this way.
+			json = BBJsonLoader.serializeObject(initialRecipes);
 		}
 
 		return json;
@@ -45,14 +60,21 @@ public class BrickOvenConfig implements IJsonConfig
 	@Override
 	public String getCustomJson(File subfolder)
 	{
-		return "{}";
+		File customf = new File(subfolder, "custom.json");
+		String json = FileUtil.readAllText(customf);
+		if (json == null)
+		{
+			json = "{}";
+		}
+
+		return json;
 	}
 
 	@Override
 	public List<String> getIncludedJson(File subfolder)
 	{
 		List<String> res = new ArrayList<>();
-		for (String fileName : mainRecipes.getIncludes())
+		for (String fileName : customRecipes.getIncludes())
 		{
 			File incf = new File(subfolder, fileName);
 			String json = FileUtil.readAllText(incf);
@@ -66,15 +88,23 @@ public class BrickOvenConfig implements IJsonConfig
 	public void loadJsonConfig(FMLInitializationEvent e, String mainJson, String autoJson, String customJson)
 	{
 		mainRecipes = BBJsonLoader.deserializeObject(mainJson, JsonBrickOvenRecipeHandler.class);
-
 		for (JsonBrickOvenShapedRecipe j : mainRecipes.getShaped())
 		{
 			j.register();
 		}
-
 		for (JsonBrickOvenShapelessRecipe j : mainRecipes.getShapeless())
 		{
 			j.register();
+		}
+
+		customRecipes = BBJsonLoader.deserializeObject(customJson, JsonBrickOvenRecipeHandler.class);
+		for (JsonBrickOvenShapedRecipe r : customRecipes.getShaped())
+		{
+			r.register();
+		}
+		for (JsonBrickOvenShapelessRecipe r : customRecipes.getShapeless())
+		{
+			r.register();
 		}
 	}
 
@@ -126,5 +156,10 @@ public class BrickOvenConfig implements IJsonConfig
 	public JsonBrickOvenRecipeHandler getMainRecipes()
 	{
 		return mainRecipes;
+	}
+
+	public JsonBrickOvenRecipeHandler getCustomRecipes()
+	{
+		return customRecipes;
 	}
 }
