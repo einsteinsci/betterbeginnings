@@ -1,6 +1,7 @@
 package net.einsteinsci.betterbeginnings.register;
 
 import net.einsteinsci.betterbeginnings.config.BBConfig;
+import net.einsteinsci.betterbeginnings.config.json.SmelterConfig;
 import net.einsteinsci.betterbeginnings.items.ItemCharredMeat;
 import net.einsteinsci.betterbeginnings.register.recipe.*;
 import net.minecraft.init.Blocks;
@@ -139,8 +140,8 @@ public class RegisterRecipes
 	private static void addSmelterRecipes()
 	{
 		// Vanilla Ore Recipes (keep the result vanilla to prevent weirdness)
-		SmelterRecipeHandler.addRecipe("oreIron", new ItemStack(Items.iron_ingot), 0.7f, 1, 1);
-		SmelterRecipeHandler.addRecipe("oreGold", new ItemStack(Items.gold_ingot), 1.0f, 2, 1);
+		SmelterConfig.addRecipe("oreIron", new ItemStack(Items.iron_ingot), 0.7f, 1, 1);
+		SmelterConfig.addRecipe("oreGold", new ItemStack(Items.gold_ingot), 1.0f, 2, 1);
 
 		// Modded Ore Recipes
 		RegisterHelper.registerSmelterOreRecipe("oreCopper", "ingotCopper", 0.6f, 1, 1);
@@ -154,29 +155,29 @@ public class RegisterRecipes
 		// Recipes that might be better suited in Kiln only
 		if (BBConfig.canSmelterDoKilnStuff)
 		{
-			SmelterRecipeHandler.addRecipe(new ItemStack(Blocks.sand, 1, 0),
+			SmelterConfig.addRecipe(new ItemStack(Blocks.sand, 1, 0),
 				new ItemStack(Blocks.glass), 0.1f, 1, 0);
-			SmelterRecipeHandler.addRecipe(new ItemStack(Blocks.sand, 1, 1),
+			SmelterConfig.addRecipe(new ItemStack(Blocks.sand, 1, 1),
 				new ItemStack(Blocks.stained_glass, 1, 1), 0.1f, 1, 0); // Red sand makes orange stained glass.
-			SmelterRecipeHandler.addRecipe(Blocks.netherrack, new ItemStack(Items.netherbrick), 0.25f, 1, 1);
-			SmelterRecipeHandler.addRecipe(Blocks.stonebrick, new ItemStack(Blocks.stonebrick, 1, 2), 0.1f, 1, 0);
+			SmelterConfig.addRecipe(Blocks.netherrack, new ItemStack(Items.netherbrick), 0.25f, 1, 1);
+			SmelterConfig.addRecipe(Blocks.stonebrick, new ItemStack(Blocks.stonebrick, 1, 2), 0.1f, 1, 0);
 
-			SmelterRecipeHandler.addRecipe("cobblestone", new ItemStack(Blocks.stone), 0.1f, 0, 0);
-			SmelterRecipeHandler.addRecipe(Items.clay_ball, new ItemStack(Items.brick), 0.3f, 0, 0);
-			SmelterRecipeHandler.addRecipe(Blocks.clay, new ItemStack(Blocks.hardened_clay), 0.35f, 0, 0);
-			SmelterRecipeHandler.addRecipe(new ItemStack(Blocks.sponge, 1, 1),
+			SmelterConfig.addRecipe("cobblestone", new ItemStack(Blocks.stone), 0.1f, 0, 0);
+			SmelterConfig.addRecipe(Items.clay_ball, new ItemStack(Items.brick), 0.3f, 0, 0);
+			SmelterConfig.addRecipe(Blocks.clay, new ItemStack(Blocks.hardened_clay), 0.35f, 0, 0);
+			SmelterConfig.addRecipe(new ItemStack(Blocks.sponge, 1, 1),
 				new ItemStack(Blocks.sponge, 1, 0), 0.1f, 0, 0);
-			SmelterRecipeHandler.addRecipe(new ItemStack(Blocks.stonebrick, 1, 0),
+			SmelterConfig.addRecipe(new ItemStack(Blocks.stonebrick, 1, 0),
 				new ItemStack(Blocks.stonebrick, 1, 2), 0.1f, 0, 0);
 		}
 
 		// Silk touch recipes
-		SmelterRecipeHandler.addRecipe("oreCoal", new ItemStack(Items.coal, 1), 0.25f, 2, 1);
-		SmelterRecipeHandler.addRecipe("oreQuartz", new ItemStack(Items.quartz, 2), 0.4f, 2, 2);
-		SmelterRecipeHandler.addRecipe("oreLapis", new ItemStack(Items.dye, 8, 4), 0.5f, 2, 3);
-		SmelterRecipeHandler.addRecipe("oreRedstone", new ItemStack(Items.redstone, 4), 0.8f, 2, 2);
-		SmelterRecipeHandler.addRecipe("oreDiamond", new ItemStack(Items.diamond, 1), 1.0f, 3, 1);
-		SmelterRecipeHandler.addRecipe("oreEmerald", new ItemStack(Items.emerald, 1), 1.0f, 3, 1);
+		SmelterConfig.addRecipe("oreCoal", new ItemStack(Items.coal, 1), 0.25f, 2, 1);
+		SmelterConfig.addRecipe("oreQuartz", new ItemStack(Items.quartz, 2), 0.4f, 2, 2);
+		SmelterConfig.addRecipe("oreLapis", new ItemStack(Items.dye, 8, 4), 0.5f, 2, 3);
+		SmelterConfig.addRecipe("oreRedstone", new ItemStack(Items.redstone, 4), 0.8f, 2, 2);
+		SmelterConfig.addRecipe("oreDiamond", new ItemStack(Items.diamond, 1), 1.0f, 3, 1);
+		SmelterConfig.addRecipe("oreEmerald", new ItemStack(Items.emerald, 1), 1.0f, 3, 1);
 
 		// Silk touch recipes (modded)
 		RegisterHelper.registerSmelterOreRecipe("oreRuby", "gemRuby", 0.8f, 2, 1);

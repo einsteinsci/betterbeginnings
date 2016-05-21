@@ -15,9 +15,15 @@ public class JsonSmelterRecipeHandler
 	private List<String> modDependencies = new ArrayList<>();
 
 	public JsonSmelterRecipeHandler()
+	{ }
+
+	public JsonSmelterRecipeHandler(boolean addTesting)
 	{
-		// TESTING ONLY //
-		recipes.add(new JsonSmelterRecipe(new ItemStack(Blocks.bedrock), new ItemStack(Items.golden_hoe), 0.5f, 1, 0));
+		if (addTesting)
+		{
+			// TESTING ONLY //
+			recipes.add(new JsonSmelterRecipe(new ItemStack(Blocks.bedrock), new ItemStack(Items.golden_hoe), 0.5f, 1, 0));
+		}
 	}
 
 	public List<JsonSmelterRecipe> getRecipes()
