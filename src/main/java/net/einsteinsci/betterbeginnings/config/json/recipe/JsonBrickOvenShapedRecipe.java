@@ -1,5 +1,7 @@
-package net.einsteinsci.betterbeginnings.config.json;
+package net.einsteinsci.betterbeginnings.config.json.recipe;
 
+import net.einsteinsci.betterbeginnings.config.json.JsonLoadedItem;
+import net.einsteinsci.betterbeginnings.config.json.JsonLoadedItemStack;
 import net.einsteinsci.betterbeginnings.register.recipe.BrickOvenRecipeHandler;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;

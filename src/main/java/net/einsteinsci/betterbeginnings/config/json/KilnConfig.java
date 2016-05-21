@@ -1,5 +1,7 @@
 package net.einsteinsci.betterbeginnings.config.json;
 
+import net.einsteinsci.betterbeginnings.config.json.recipe.JsonKilnRecipe;
+import net.einsteinsci.betterbeginnings.config.json.recipe.JsonKilnRecipeHandler;
 import net.einsteinsci.betterbeginnings.util.FileUtil;
 import net.einsteinsci.betterbeginnings.util.LogUtil;
 import net.minecraft.block.Block;

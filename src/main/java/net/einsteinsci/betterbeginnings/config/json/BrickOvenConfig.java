@@ -1,5 +1,8 @@
 package net.einsteinsci.betterbeginnings.config.json;
 
+import net.einsteinsci.betterbeginnings.config.json.recipe.JsonBrickOvenRecipeHandler;
+import net.einsteinsci.betterbeginnings.config.json.recipe.JsonBrickOvenShapedRecipe;
+import net.einsteinsci.betterbeginnings.config.json.recipe.JsonBrickOvenShapelessRecipe;
 import net.einsteinsci.betterbeginnings.util.FileUtil;
 import net.einsteinsci.betterbeginnings.util.LogUtil;
 import net.minecraft.item.ItemStack;

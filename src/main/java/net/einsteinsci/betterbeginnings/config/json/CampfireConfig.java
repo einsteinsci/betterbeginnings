@@ -1,5 +1,8 @@
 package net.einsteinsci.betterbeginnings.config.json;
 
+import net.einsteinsci.betterbeginnings.config.json.recipe.JsonCampfirePanRecipe;
+import net.einsteinsci.betterbeginnings.config.json.recipe.JsonCampfireRecipe;
+import net.einsteinsci.betterbeginnings.config.json.recipe.JsonCampfireRecipeHandler;
 import net.einsteinsci.betterbeginnings.util.FileUtil;
 import net.einsteinsci.betterbeginnings.util.LogUtil;
 import net.minecraft.block.Block;

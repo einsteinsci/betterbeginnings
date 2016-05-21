@@ -1,5 +1,7 @@
 package net.einsteinsci.betterbeginnings.config.json;
 
+import net.einsteinsci.betterbeginnings.config.json.recipe.JsonAdvancedCraftingHandler;
+import net.einsteinsci.betterbeginnings.config.json.recipe.JsonAdvancedRecipe;
 import net.einsteinsci.betterbeginnings.util.FileUtil;
 import net.einsteinsci.betterbeginnings.util.LogUtil;
 import net.minecraft.item.ItemStack;

@@ -1,4 +1,4 @@
-package net.einsteinsci.betterbeginnings.config.json;
+package net.einsteinsci.betterbeginnings.config.json.recipe;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
