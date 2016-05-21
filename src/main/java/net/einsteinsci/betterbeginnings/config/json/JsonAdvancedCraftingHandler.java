@@ -16,11 +16,17 @@ public class JsonAdvancedCraftingHandler
 	private List<String> modDependencies = new ArrayList<>();
 
 	public JsonAdvancedCraftingHandler()
+	{ }
+
+	public JsonAdvancedCraftingHandler(boolean addTesting)
 	{
-		// TESTING ONLY
-		recipes.add(new JsonAdvancedRecipe(new ItemStack(Items.string, 38),
-			new Object[]{new ItemStack(RegisterItems.cloth, 7), "dustRedstone", 13}, "ox ", "xxx", " xo",
-			'x', Blocks.bedrock, 'o', "nuggetIron"));
+		if (addTesting)
+		{
+			// TESTING ONLY
+			recipes.add(new JsonAdvancedRecipe(new ItemStack(Items.string, 38),
+				new Object[]{new ItemStack(RegisterItems.cloth, 7), "dustRedstone", 13}, "ox ", "xxx", " xo",
+				'x', Blocks.bedrock, 'o', "nuggetIron"));
+		}
 	}
 
 	public List<JsonAdvancedRecipe> getRecipes()

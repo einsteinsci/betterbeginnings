@@ -120,6 +120,12 @@ public class SmelterConfig implements IJsonConfig
 		{
 			JsonSmelterRecipeHandler handler = BBJsonLoader.deserializeObject(json, JsonSmelterRecipeHandler.class);
 
+			if (handler == null)
+			{
+				LogUtil.log(Level.ERROR, "Could not deserialize included json.");
+				continue;
+			}
+
 			boolean missingDependencies = false;
 			for (String mod : handler.getModDependencies())
 			{
@@ -156,5 +162,10 @@ public class SmelterConfig implements IJsonConfig
 	public JsonSmelterRecipeHandler getMainRecipes()
 	{
 		return mainRecipes;
+	}
+
+	public JsonSmelterRecipeHandler getCustomRecipes()
+	{
+		return customRecipes;
 	}
 }

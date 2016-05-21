@@ -118,6 +118,12 @@ public class KilnConfig implements IJsonConfig
 		{
 			JsonKilnRecipeHandler handler = BBJsonLoader.deserializeObject(json, JsonKilnRecipeHandler.class);
 
+			if (handler == null)
+			{
+				LogUtil.log(Level.ERROR, "Could not deserialize included json.");
+				continue;
+			}
+
 			boolean missingDependencies = false;
 			for (String mod : handler.getModDependencies())
 			{
@@ -154,5 +160,10 @@ public class KilnConfig implements IJsonConfig
 	public JsonKilnRecipeHandler getMainRecipes()
 	{
 		return mainRecipes;
+	}
+
+	public JsonKilnRecipeHandler getCustomRecipes()
+	{
+		return customRecipes;
 	}
 }

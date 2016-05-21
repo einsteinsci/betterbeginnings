@@ -150,7 +150,8 @@ public class BBConfig
 
 		// Crafting
 		advancedCraftingForLotsOfThings = config.getBoolean("Advanced crafting for lots of things", CRAFTING, true,
-			"Require Advanced Crafting for things like doors, pistons, chests, etc.");
+			"Require Advanced Crafting for things like doors, pistons, chests, etc." +
+			" Delete your config/betterbeginnings/advancedcrafting/main.json file afterward.");
 		removeCraftedFoodRecipes = config.getBoolean("Remove crafted food recipes", CRAFTING, true,
 			"Remove crafting recipes of vanilla food items, enforcing the use of the brick ovens.");
 		canMakeChainArmor = config.getBoolean("Enable chain armor", CRAFTING, true,
@@ -158,15 +159,19 @@ public class BBConfig
 		removeWoodToolRecipes = config.getBoolean("Remove wooden tool recipes", CRAFTING, true,
 			"Remove recipes for wooden pickaxe, axe, shovel, and hoe.");
 		anyStringForTraps = config.getBoolean("Any string for traps", CRAFTING, false,
-			"Allow any string to be used for tripwire hooks, trapped chests, etc.");
+			"Allow any string to be used for tripwire hooks, trapped chests, etc. Delete your" +
+			" config/betterbeginnings/advancedcrafting/main.json file afterward.");
 		allowStringAsToolBinding = config.getBoolean("Allow string and twine as tool binding", CRAFTING, true,
-			"Allow string and twine to be used in place of leather strips in tool bindings, at a higher cost.");
+			"Allow string and twine to be used in place of leather strips in tool bindings, at a higher cost." +
+			" Delete your config/betterbeginnings/advancedcrafting/main.json file afterward.");
 		requireBlazePowderForDiamondPick = config.getBoolean("Require blaze powder for diamond pick", CRAFTING, true,
 			"Require blaze powder for a Diamond Pickaxe like all other diamond tools. This will require a trip to the" +
-			" Nether unless 'Netherless blaze powder recipe' is set to true.");
+			" Nether unless 'Netherless blaze powder recipe' is set to true. Delete your" +
+			" config/betterbeginnings/advancedcrafting/main.json file afterward.");
 		netherlessBlazePowderRecipe = config.getBoolean("Netherless blaze powder recipe", CRAFTING, true,
-			"Add an alternate, Netherless, but expensive recipe for blaze powder to help ease getting a diamond " +
-			"pick. Still works even if 'Require blaze powder for diamond pick' is false.");
+			"Add an alternate, Netherless, but expensive recipe for blaze powder to help ease getting a diamond" +
+			" pick. Still works even if 'Require blaze powder for diamond pick' is false." +
+			" Delete your config/betterbeginnings/advancedcrafting/main.json file afterward.");
 
 		// Smelting
 		canSmelterDoKilnStuff = config.getBoolean("Smelter can make kiln products", SMELTING, false,

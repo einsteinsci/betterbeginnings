@@ -17,10 +17,16 @@ public class JsonAdvancedRecipe
 	private List<String> recipe = new ArrayList<>();
 	private Map<Character, JsonLoadedItem> ingredients = new HashMap<>();
 	private List<JsonLoadedItemStack> catalysts = new ArrayList<>();
+	private boolean hideFromNEI;
 
 	public JsonAdvancedRecipe(ItemStack output, Object[] catalysts, Object... params)
 	{
+		this(output, false, catalysts, params);
+	}
+	public JsonAdvancedRecipe(ItemStack output, boolean hide, Object[] catalysts, Object... params)
+	{
 		this.output = new JsonLoadedItemStack(output);
+		hideFromNEI = hide;
 
 		String ore = null;
 		for (Object obj : catalysts)
@@ -186,7 +192,7 @@ public class JsonAdvancedRecipe
 		}
 		Object[] params = res.toArray();
 
-		AdvancedCraftingHandler.addAdvancedRecipe(output.getFirstItemStackOrNull(), addedMats, params);
+		AdvancedCraftingHandler.addAdvancedRecipe(output.getFirstItemStackOrNull(), hideFromNEI, addedMats, params);
 	}
 
 	public JsonLoadedItemStack getOutput()

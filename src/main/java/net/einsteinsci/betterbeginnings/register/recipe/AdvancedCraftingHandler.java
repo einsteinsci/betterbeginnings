@@ -17,9 +17,7 @@ public class AdvancedCraftingHandler
 	public List<AdvancedRecipe> recipes = new ArrayList<>();
 
 	public AdvancedCraftingHandler()
-	{
-
-	}
+	{ }
 
 	public static void addAdvancedRecipe(ItemStack result, Object[] additionalMaterials, Object... args)
 	{
