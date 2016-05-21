@@ -1,5 +1,6 @@
 package net.einsteinsci.betterbeginnings.util;
 
+import net.einsteinsci.betterbeginnings.config.json.RepairInfusionConfig;
 import net.einsteinsci.betterbeginnings.inventory.InventoryInfusionRepair;
 import net.einsteinsci.betterbeginnings.register.RegisterItems;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,12 +10,55 @@ import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.oredict.OreDictionary;
+import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class InfusionRepairUtil
 {
+	public static Map<Integer, ItemStack> enchantmentMapping = new HashMap<>();
+
+	public static void registerVanillaEnchantsConfig()
+	{
+		RepairInfusionConfig.registerEnchantment(0, new ItemStack(Blocks.iron_bars, 2));
+		RepairInfusionConfig.registerEnchantment(1, new ItemStack(Items.bucket));
+		RepairInfusionConfig.registerEnchantment(2, new ItemStack(Items.feather, 2));
+		RepairInfusionConfig.registerEnchantment(3, new ItemStack(Blocks.cobblestone, 8));
+		RepairInfusionConfig.registerEnchantment(4, new ItemStack(Items.snowball, 4));
+		RepairInfusionConfig.registerEnchantment(5, new ItemStack(Items.glass_bottle));
+		RepairInfusionConfig.registerEnchantment(6, new ItemStack(Blocks.clay));
+		RepairInfusionConfig.registerEnchantment(7, new ItemStack(Blocks.cactus, 4));
+		RepairInfusionConfig.registerEnchantment(8, new ItemStack(Blocks.prismarine));
+
+		RepairInfusionConfig.registerEnchantment(16, new ItemStack(Items.quartz, 4));
+		RepairInfusionConfig.registerEnchantment(17, new ItemStack(Blocks.soul_sand, 2));
+		RepairInfusionConfig.registerEnchantment(18, new ItemStack(Items.fermented_spider_eye));
+		RepairInfusionConfig.registerEnchantment(19, new ItemStack(Blocks.piston));
+		RepairInfusionConfig.registerEnchantment(20, new ItemStack(Items.blaze_powder, 2));
+		RepairInfusionConfig.registerEnchantment(21, new ItemStack(Items.gold_ingot, 2));
+
+		RepairInfusionConfig.registerEnchantment(32, new ItemStack(Items.sugar, 4));
+		RepairInfusionConfig.registerEnchantment(33, new ItemStack(RegisterItems.cloth, 8));
+		RepairInfusionConfig.registerEnchantment(34, new ItemStack(Blocks.obsidian));
+		RepairInfusionConfig.registerEnchantment(35, new ItemStack(Items.dye, 4, 4));
+
+		RepairInfusionConfig.registerEnchantment(48, new ItemStack(RegisterItems.leatherStrip));
+		RepairInfusionConfig.registerEnchantment(49, new ItemStack(Items.gunpowder));
+		RepairInfusionConfig.registerEnchantment(50, new ItemStack(Items.fire_charge));
+		RepairInfusionConfig.registerEnchantment(51, new ItemStack(Items.arrow, 16));
+
+		RepairInfusionConfig.registerEnchantment(61, new ItemStack(Blocks.waterlily));
+		RepairInfusionConfig.registerEnchantment(62, new ItemStack(Items.fish, 1, 3));
+	}
+
+	public static void registerEnchantment(int enchID, ItemStack stack)
+	{
+		enchantmentMapping.put(enchID, stack);
+	}
+
 	public static boolean canRepair(InventoryInfusionRepair repairTable, EntityPlayer player)
 	{
 		return canRepairIgnoreXp(repairTable) && player.experienceLevel >= getNeededLevels(repairTable);
@@ -346,107 +390,21 @@ public class InfusionRepairUtil
 			int enchId = enchant.getInteger("id");
 			int level = enchant.getInteger("lvl");
 
-			switch (enchId)
+			ItemStack associated = enchantmentMapping.get(enchId);
+
+			if (associated != null)
 			{
-			case 0: // Protection
-				requiredItems.add(new ItemStack(Blocks.iron_bars, 2 * level));
-				break;
-			case 1: // Fire Protection
-				requiredItems.add(new ItemStack(Items.bucket, level));
-				break;
-			case 2: // Feather Falling
-				requiredItems.add(new ItemStack(Items.feather, 2 * level));
-				break;
-			case 3: // Blast Protection
-				requiredItems.add(new ItemStack(Blocks.cobblestone, 8 * level));
-				break;
-			case 4: // Projectile Protection
-				requiredItems.add(new ItemStack(Items.snowball, 4 * level));
-				break;
-			case 5: // Respiration
-				requiredItems.add(new ItemStack(Items.glass_bottle, level));
-				break;
-			case 6: // Aqua Affinity
-				requiredItems.add(new ItemStack(Blocks.clay, level));
-				break;
-			case 7: // Thorns
-				requiredItems.add(new ItemStack(Blocks.cactus, 4 * level));
-				break;
-			case 8: // Depth Strider
-				requiredItems.add(new ItemStack(Blocks.prismarine, level));
-				break;
-			case 16: // Sharpness
-				requiredItems.add(new ItemStack(Items.quartz, 4 * level));
-				break;
-			case 17: // Smite
-				requiredItems.add(new ItemStack(Blocks.soul_sand, 2 * level));
-				break;
-			case 18: // Anthropods
-				requiredItems.add(new ItemStack(Items.fermented_spider_eye, level));
-				break;
-			case 19: // Knockback
-				requiredItems.add(new ItemStack(Blocks.piston, level));
-				break;
-			case 20: // Fire Aspect
-				requiredItems.add(new ItemStack(Items.blaze_powder, 2 * level));
-				break;
-			case 21: // Looting
-				requiredItems.add(new ItemStack(Items.gold_ingot, 2 * level));
-				break;
-			case 32: // Efficiency
-				requiredItems.add(new ItemStack(Items.sugar, 4 * level));
-				break;
-			case 33: // Silk Touch
-				requiredItems.add(new ItemStack(RegisterItems.cloth, 8 * level));
-				break;
-			case 34: // Unbreaking
-				requiredItems.add(new ItemStack(Blocks.obsidian, level));
-				break;
-			case 35: // Fortune
-				requiredItems.add(new ItemStack(Items.dye, 4 * level, 4));
-				break;
-			case 48: // Power
-				requiredItems.add(new ItemStack(RegisterItems.leatherStrip, level));
-				break;
-			case 49: // Punch
-				requiredItems.add(new ItemStack(Items.gunpowder, level));
-				break;
-			case 50: // Flame
-				requiredItems.add(new ItemStack(Items.fire_charge, level));
-				break;
-			case 51: // Infinity
-				requiredItems.add(new ItemStack(Items.arrow, 16 * level));
-				break;
-			case 61: // Luck of the Sea
-				requiredItems.add(new ItemStack(Blocks.waterlily, level));
-				break;
-			case 62: // Lure
-				requiredItems.add(new ItemStack(Items.fish, level, 3));
-				break;
+				ItemStack req = new ItemStack(associated.getItem(), associated.stackSize * level, associated.getMetadata());
+				requiredItems.add(req);
+			}
+			else
+			{
+				//LogUtil.log(Level.ERROR, "No repair infusion item associated with enchantment #" + enchId); // This spams the console
 			}
 		}
 
 		return requiredItems;
 	}
-
-	/* // unsure
-	public static List<ItemStack> getItemsFromEnchants(ItemStack stack)
-	{
-		if (stack.isItemEnchanted())
-		{
-			if (stack.getTagCompound() != null)
-			{
-				if (stack.getTagCompound().getTag("ench") != null)
-				{
-					NBTTagList enchants = (NBTTagList)stack.getTagCompound().getTag("ench");
-					return getEnchantmentItems(enchants);
-				}
-			}
-		}
-
-		return new ArrayList<>(); // empty
-	}
-	*/
 
 	public static boolean isToolValidForDiffusion(ItemStack stack)
 	{
