@@ -37,7 +37,7 @@ public class BrickOvenConfig implements IJsonConfig
 	@Override
 	public String getSubFolder()
 	{
-		return "brickoven";
+		return "BrickOven";
 	}
 
 	@Override
@@ -154,6 +154,10 @@ public class BrickOvenConfig implements IJsonConfig
 		String json = BBJsonLoader.serializeObject(mainRecipes);
 		File mainf = new File(subfolder, "main.json");
 		FileUtil.overwriteAllText(mainf, json);
+
+		json = BBJsonLoader.serializeObject(customRecipes);
+		File customf = new File(subfolder, "custom.json");
+		FileUtil.overwriteAllText(customf, json);
 	}
 
 	public JsonBrickOvenRecipeHandler getMainRecipes()

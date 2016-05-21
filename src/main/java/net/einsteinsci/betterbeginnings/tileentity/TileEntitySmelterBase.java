@@ -1,6 +1,7 @@
 package net.einsteinsci.betterbeginnings.tileentity;
 
 import net.einsteinsci.betterbeginnings.config.BBConfig;
+import net.einsteinsci.betterbeginnings.config.json.BoosterConfig;
 import net.einsteinsci.betterbeginnings.register.recipe.SmelterRecipeHandler;
 import net.einsteinsci.betterbeginnings.util.MathUtil;
 import net.minecraft.block.Block;
@@ -15,7 +16,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IInteractionObject;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public abstract class TileEntitySmelterBase extends TileEntitySpecializedFurnace implements IInteractionObject
@@ -29,9 +33,25 @@ public abstract class TileEntitySmelterBase extends TileEntitySpecializedFurnace
 	public static final int[] SLOTS_BOTTOM = new int[] {OUTPUT};
 	public static final int[] SLOTS_SIDES = new int[] {FUEL, BOOSTER, INPUT};
 
+	public static Map<ItemStack, Float> boosterRegistry = new HashMap<>();
+
 	public static final Random RANDOM = new Random();
 
 	private float nextPosition = 0;
+
+	public static void registerBooster(ItemStack booster, float amount)
+	{
+		boosterRegistry.put(booster, amount);
+	}
+
+	public static void registerDefaultBoosters()
+	{
+		BoosterConfig.registerBooster(new ItemStack(Blocks.gravel), 0.0f);
+		BoosterConfig.registerBooster(new ItemStack(Blocks.soul_sand), 0.3f);
+		BoosterConfig.registerBooster(new ItemStack(Items.quartz), 1.0f);
+		BoosterConfig.registerBooster(new ItemStack(Items.prismarine_shard), 1.5f);
+		// BoosterConfig.registerBooster(new ItemStack(Items.crushed_purpur), 1.3f); // 1.9+
+	}
 
 	public TileEntitySmelterBase()
 	{
@@ -339,28 +359,22 @@ public abstract class TileEntitySmelterBase extends TileEntitySpecializedFurnace
 			return Float.NaN;
 		}
 
-		Item item = stack.getItem();
-
-		if (item == Items.quartz)
+		for (Map.Entry<ItemStack, Float> entry : boosterRegistry.entrySet())
 		{
-			return 1.0f;
-		}
-		if (item == Items.prismarine_shard)
-		{
-			return 1.25f;
-		}
-
-		if (item instanceof ItemBlock && Block.getBlockFromItem(item) != Blocks.air)
-		{
-			Block block = Block.getBlockFromItem(item);
-
-			if (block == Blocks.gravel)
+			ItemStack tested = entry.getKey();
+			if (tested.getMetadata() == OreDictionary.WILDCARD_VALUE)
 			{
-				return 0.0f;
+				if (tested.getItem() == stack.getItem())
+				{
+					return entry.getValue();
+				}
 			}
-			if (block == Blocks.soul_sand)
+			else
 			{
-				return 0.3f;
+				if (tested.getItem() == stack.getItem() && tested.getMetadata() == stack.getMetadata())
+				{
+					return entry.getValue();
+				}
 			}
 		}
 

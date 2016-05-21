@@ -32,7 +32,7 @@ public class RepairInfusionConfig implements IJsonConfig
 	@Override
 	public String getSubFolder()
 	{
-		return "repairinfusion";
+		return "RepairInfusion";
 	}
 
 	@Override
@@ -142,6 +142,10 @@ public class RepairInfusionConfig implements IJsonConfig
 		String json = BBJsonLoader.serializeObject(mainAssociations);
 		File mainf = new File(subfolder, "main.json");
 		FileUtil.overwriteAllText(mainf, json);
+
+		json = BBJsonLoader.serializeObject(customAssociations);
+		File customf = new File(subfolder, "custom.json");
+		FileUtil.overwriteAllText(customf, json);
 	}
 
 	public JsonRepairInfusionHandler getMainAssociations()

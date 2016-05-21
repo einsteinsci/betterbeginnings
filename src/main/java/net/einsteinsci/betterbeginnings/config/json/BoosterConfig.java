@@ -1,7 +1,7 @@
 package net.einsteinsci.betterbeginnings.config.json;
 
-import net.einsteinsci.betterbeginnings.config.json.recipe.JsonAdvancedCraftingHandler;
-import net.einsteinsci.betterbeginnings.config.json.recipe.JsonAdvancedRecipe;
+import net.einsteinsci.betterbeginnings.config.json.recipe.JsonBooster;
+import net.einsteinsci.betterbeginnings.config.json.recipe.JsonBoosterHandler;
 import net.einsteinsci.betterbeginnings.util.FileUtil;
 import net.einsteinsci.betterbeginnings.util.LogUtil;
 import net.minecraft.item.ItemStack;
@@ -13,30 +13,26 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdvancedCraftingConfig implements IJsonConfig
+public class BoosterConfig implements IJsonConfig
 {
-	public static final AdvancedCraftingConfig INSTANCE = new AdvancedCraftingConfig();
+	public static final BoosterConfig INSTANCE = new BoosterConfig();
 
-	private static JsonAdvancedCraftingHandler initialRecipes = new JsonAdvancedCraftingHandler();
+	private static JsonBoosterHandler initialAssociations = new JsonBoosterHandler();
 
-	private JsonAdvancedCraftingHandler mainRecipes = new JsonAdvancedCraftingHandler();
-	private JsonAdvancedCraftingHandler customRecipes = new JsonAdvancedCraftingHandler();
+	private JsonBoosterHandler mainBoosters = new JsonBoosterHandler();
+	private JsonBoosterHandler customBoosters = new JsonBoosterHandler();
 
-	private List<JsonAdvancedCraftingHandler> includes = new ArrayList<>();
+	private List<JsonBoosterHandler> includes = new ArrayList<>();
 
-	public static void addAdvancedRecipe(ItemStack result, Object[] additionalMaterials, Object... args)
+	public static void registerBooster(ItemStack booster, float amount)
 	{
-		addAdvancedRecipe(result, false, additionalMaterials, args);
-	}
-	public static void addAdvancedRecipe(ItemStack result, boolean hide, Object[] additionalMaterials, Object... args)
-	{
-		initialRecipes.getRecipes().add(new JsonAdvancedRecipe(result, hide, additionalMaterials, args));
+		initialAssociations.getBoosters().add(new JsonBooster(booster, amount));
 	}
 
 	@Override
 	public String getSubFolder()
 	{
-		return "AdvancedCrafting";
+		return "SmelterBoosters";
 	}
 
 	@Override
@@ -47,7 +43,7 @@ public class AdvancedCraftingConfig implements IJsonConfig
 		if (json == null)
 		{
 			// Kind of inefficient, but it's easiest this way.
-			json = BBJsonLoader.serializeObject(initialRecipes);
+			json = BBJsonLoader.serializeObject(initialAssociations);
 		}
 
 		return json;
@@ -76,7 +72,7 @@ public class AdvancedCraftingConfig implements IJsonConfig
 	public List<String> getIncludedJson(File subfolder)
 	{
 		List<String> res = new ArrayList<>();
-		for (String fileName : customRecipes.getIncludes())
+		for (String fileName : customBoosters.getIncludes())
 		{
 			File incf = new File(subfolder, fileName);
 			String json = FileUtil.readAllText(incf);
@@ -89,16 +85,16 @@ public class AdvancedCraftingConfig implements IJsonConfig
 	@Override
 	public void loadJsonConfig(FMLInitializationEvent e, String mainJson, String autoJson, String customJson)
 	{
-		mainRecipes = BBJsonLoader.deserializeObject(mainJson, JsonAdvancedCraftingHandler.class);
-		for (JsonAdvancedRecipe j : mainRecipes.getRecipes())
+		mainBoosters = BBJsonLoader.deserializeObject(mainJson, JsonBoosterHandler.class);
+		for (JsonBooster j : mainBoosters.getBoosters())
 		{
 			j.register();
 		}
 
-		customRecipes = BBJsonLoader.deserializeObject(customJson, JsonAdvancedCraftingHandler.class);
-		for (JsonAdvancedRecipe r : customRecipes.getRecipes())
+		customBoosters = BBJsonLoader.deserializeObject(customJson, JsonBoosterHandler.class);
+		for (JsonBooster j : customBoosters.getBoosters())
 		{
-			r.register();
+			j.register();
 		}
 	}
 
@@ -107,7 +103,7 @@ public class AdvancedCraftingConfig implements IJsonConfig
 	{
 		for (String json : includedJsons)
 		{
-			JsonAdvancedCraftingHandler handler = BBJsonLoader.deserializeObject(json, JsonAdvancedCraftingHandler.class);
+			JsonBoosterHandler handler = BBJsonLoader.deserializeObject(json, JsonBoosterHandler.class);
 
 			if (handler == null)
 			{
@@ -133,7 +129,7 @@ public class AdvancedCraftingConfig implements IJsonConfig
 
 			includes.add(handler);
 
-			for (JsonAdvancedRecipe r : handler.getRecipes())
+			for (JsonBooster r : handler.getBoosters())
 			{
 				r.register();
 			}
@@ -143,18 +139,22 @@ public class AdvancedCraftingConfig implements IJsonConfig
 	@Override
 	public void savePostLoad(File subfolder)
 	{
-		String json = BBJsonLoader.serializeObject(mainRecipes);
+		String json = BBJsonLoader.serializeObject(mainBoosters);
 		File mainf = new File(subfolder, "main.json");
 		FileUtil.overwriteAllText(mainf, json);
+
+		json = BBJsonLoader.serializeObject(customBoosters);
+		File customf = new File(subfolder, "custom.json");
+		FileUtil.overwriteAllText(customf, json);
 	}
 
-	public JsonAdvancedCraftingHandler getMainRecipes()
+	public JsonBoosterHandler getMainBoosters()
 	{
-		return mainRecipes;
+		return mainBoosters;
 	}
 
-	public JsonAdvancedCraftingHandler getCustomRecipes()
+	public JsonBoosterHandler getCustomBoosters()
 	{
-		return customRecipes;
+		return customBoosters;
 	}
 }

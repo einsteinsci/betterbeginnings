@@ -65,7 +65,7 @@ public class CampfireConfig implements IJsonConfig
 	@Override
 	public String getSubFolder()
 	{
-		return "campfire";
+		return "Campfire";
 	}
 
 	@Override
@@ -187,6 +187,10 @@ public class CampfireConfig implements IJsonConfig
 		String json = BBJsonLoader.serializeObject(mainRecipes);
 		File mainf = new File(subfolder, "main.json");
 		FileUtil.overwriteAllText(mainf, json);
+
+		json = BBJsonLoader.serializeObject(customRecipes);
+		File customf = new File(subfolder, "custom.json");
+		FileUtil.overwriteAllText(customf, json);
 	}
 
 	public JsonCampfireRecipeHandler getMainRecipes()

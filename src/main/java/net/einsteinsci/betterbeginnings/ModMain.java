@@ -9,6 +9,7 @@ import net.einsteinsci.betterbeginnings.network.PacketNetherBrickOvenFuelLevel;
 import net.einsteinsci.betterbeginnings.network.ServerProxy;
 import net.einsteinsci.betterbeginnings.register.*;
 import net.einsteinsci.betterbeginnings.register.achievement.RegisterAchievements;
+import net.einsteinsci.betterbeginnings.tileentity.TileEntitySmelterBase;
 import net.einsteinsci.betterbeginnings.util.InfusionRepairUtil;
 import net.einsteinsci.betterbeginnings.util.LogUtil;
 import net.minecraft.creativetab.CreativeTabs;
@@ -89,6 +90,7 @@ public class ModMain
 		RegisterRecipes.addAdvancedRecipes();
 		RegisterRecipes.addFurnaceRecipes();
 		InfusionRepairUtil.registerVanillaEnchantsConfig();
+		TileEntitySmelterBase.registerDefaultBoosters();
 
 		BBConfigFolderLoader.loadRecipes(e);
 
