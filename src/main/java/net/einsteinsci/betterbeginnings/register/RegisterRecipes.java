@@ -144,13 +144,13 @@ public class RegisterRecipes
 		SmelterConfig.addRecipe("oreGold", new ItemStack(Items.gold_ingot), 1.0f, 2, 1);
 
 		// Modded Ore Recipes
-		RegisterHelper.registerSmelterOreRecipe("oreCopper", "ingotCopper", 0.6f, 1, 1);
-		RegisterHelper.registerSmelterOreRecipe("oreTin", "ingotTin", 0.6f, 1, 1);
-		RegisterHelper.registerSmelterOreRecipe("oreAluminum", "ingotAluminum", 0.8f, 1, 1);
-		RegisterHelper.registerSmelterOreRecipe("oreSilver", "ingotSilver", 1.0f, 1, 1);
-		RegisterHelper.registerSmelterOreRecipe("oreLead", "ingotLead", 0.6f, 1, 1);
-		RegisterHelper.registerSmelterOreRecipe("orePlatinum", "ingotPlatinum", 1.0f, 2, 1);
-		RegisterHelper.registerSmelterOreRecipe("oreNickel", "ingotNickel", 0.8f, 1, 1);
+		RegisterHelper.registerSmelterConfigOreRecipe("oreCopper", "ingotCopper", 0.6f, 1, 1);
+		RegisterHelper.registerSmelterConfigOreRecipe("oreTin", "ingotTin", 0.6f, 1, 1);
+		RegisterHelper.registerSmelterConfigOreRecipe("oreAluminum", "ingotAluminum", 0.8f, 1, 1);
+		RegisterHelper.registerSmelterConfigOreRecipe("oreSilver", "ingotSilver", 1.0f, 1, 1);
+		RegisterHelper.registerSmelterConfigOreRecipe("oreLead", "ingotLead", 0.6f, 1, 1);
+		RegisterHelper.registerSmelterConfigOreRecipe("orePlatinum", "ingotPlatinum", 1.0f, 2, 1);
+		RegisterHelper.registerSmelterConfigOreRecipe("oreNickel", "ingotNickel", 0.8f, 1, 1);
 
 		// Recipes that might be better suited in Kiln only
 		if (BBConfig.canSmelterDoKilnStuff)
@@ -180,9 +180,9 @@ public class RegisterRecipes
 		SmelterConfig.addRecipe("oreEmerald", new ItemStack(Items.emerald, 1), 1.0f, 3, 1);
 
 		// Silk touch recipes (modded)
-		RegisterHelper.registerSmelterOreRecipe("oreRuby", "gemRuby", 0.8f, 2, 1);
-		RegisterHelper.registerSmelterOreRecipe("oreSapphire", "gemSapphire", 0.8f, 2, 1);
-		RegisterHelper.registerSmelterOreRecipe("oreOlivine", "gemOlivine", 0.8f, 2, 1);
+		RegisterHelper.registerSmelterConfigOreRecipe("oreRuby", "gemRuby", 0.8f, 2, 1);
+		RegisterHelper.registerSmelterConfigOreRecipe("oreSapphire", "gemSapphire", 0.8f, 2, 1);
+		RegisterHelper.registerSmelterConfigOreRecipe("oreOlivine", "gemOlivine", 0.8f, 2, 1);
 	}
 
 	private static void addCampfireRecipes()

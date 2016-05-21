@@ -14,7 +14,10 @@ public class KilnConfig implements IJsonConfig
 {
 	public static final KilnConfig INSTANCE = new KilnConfig();
 
+	private static JsonKilnRecipeHandler initialRecipes = new JsonKilnRecipeHandler();
+
 	private JsonKilnRecipeHandler mainRecipes = new JsonKilnRecipeHandler();
+	private JsonKilnRecipeHandler customRecipes = new JsonKilnRecipeHandler();
 
 	private List<JsonKilnRecipeHandler> includes = new ArrayList<>();
 
@@ -31,7 +34,8 @@ public class KilnConfig implements IJsonConfig
 		String json = FileUtil.readAllText(mainf);
 		if (json == null)
 		{
-			json = "{}";
+			// Kind of inefficient, but it's easiest this way.
+			json = BBJsonLoader.serializeObject(initialRecipes);
 		}
 
 		return json;
