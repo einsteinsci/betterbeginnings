@@ -34,6 +34,7 @@ public class BBConfigFolderLoader
 		loadJsonConfig(e, SmelterConfig.INSTANCE);
 		loadJsonConfig(e, BrickOvenConfig.INSTANCE);
 		loadJsonConfig(e, AdvancedCraftingConfig.INSTANCE);
+		loadJsonConfig(e, CampfireConfig.INSTANCE);
 	}
 
 	public static void loadJsonConfig(FMLInitializationEvent e, IJsonConfig config)

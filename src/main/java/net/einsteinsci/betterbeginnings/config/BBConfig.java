@@ -182,7 +182,8 @@ public class BBConfig
 			SMELTING, true, "Only remove furnace recipes for vanilla items/blocks. Requires" +
 				" 'Disable vanilla smelting'.");
 		canCampfireDoAllKilnStuff = config.getBoolean("Allow campfire to use all kiln recipes", SMELTING, false,
-			"Allow campfire to process all recipes kiln can, instead of just a few.");
+			"Allow campfire to process all recipes kiln can, instead of just a few. Delete your" +
+			" config/betterbeginnings/advancedcrafting/main.json file afterward.");
 		smeltersCanUseCoal = config.getBoolean("Allow smelters to use coal as fuel", SMELTING, false,
 			"Allow smelters to use regular coal as fuel in addition to charcoal.");
 

@@ -16,9 +16,7 @@ public class CampfireRecipeHandler
 	private Map experienceList = new HashMap();
 
 	private CampfireRecipeHandler()
-	{
-		// nothing here
-	}
+	{ }
 
 	public static void addRecipe(Item input, ItemStack output, float experience)
 	{

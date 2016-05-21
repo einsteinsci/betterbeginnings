@@ -35,6 +35,14 @@ public class CampfirePanRecipeHandler
 		return INSTANCE;
 	}
 
+	public static void addRecipe(String input, ItemStack output, float experience)
+	{
+		for (ItemStack stack : OreDictionary.getOres(input))
+		{
+			instance().putLists(stack, output, experience);
+		}
+	}
+
 	public void putLists(ItemStack itemStack, ItemStack itemStack2, float experience)
 	{
 		smeltingList.put(itemStack, itemStack2);
