@@ -9,14 +9,13 @@ import java.util.List;
 
 public class JsonKilnRecipeHandler
 {
-	private List<JsonKilnRecipe> recipes;
-	private List<String> includes;
+	private List<JsonKilnRecipe> recipes = new ArrayList<>();
+
+	private List<String> includes = new ArrayList<>();
+	private List<String> modDependencies = new ArrayList<>();
 
 	public JsonKilnRecipeHandler()
 	{
-		recipes = new ArrayList<>();
-		includes = new ArrayList<>();
-
 		// TESTING ONLY
 		recipes.add(new JsonKilnRecipe(new ItemStack(Blocks.bedrock), new ItemStack(Items.blaze_rod), 0.5f));
 	}
@@ -29,5 +28,10 @@ public class JsonKilnRecipeHandler
 	public List<String> getIncludes()
 	{
 		return includes;
+	}
+
+	public List<String> getModDependencies()
+	{
+		return modDependencies;
 	}
 }

@@ -9,15 +9,13 @@ import java.util.List;
 
 public class JsonSmelterRecipeHandler
 {
-	private List<JsonSmelterRecipe> recipes;
+	private List<JsonSmelterRecipe> recipes = new ArrayList<>();
 
-	private List<String> includes;
+	private List<String> includes = new ArrayList<>();
+	private List<String> modDependencies = new ArrayList<>();
 
 	public JsonSmelterRecipeHandler()
 	{
-		recipes = new ArrayList<>();
-		includes = new ArrayList<>();
-
 		// TESTING ONLY //
 		recipes.add(new JsonSmelterRecipe(new ItemStack(Blocks.bedrock), new ItemStack(Items.golden_hoe), 0.5f, 1, 0));
 	}
@@ -30,5 +28,10 @@ public class JsonSmelterRecipeHandler
 	public List<String> getIncludes()
 	{
 		return includes;
+	}
+
+	public List<String> getModDependencies()
+	{
+		return modDependencies;
 	}
 }

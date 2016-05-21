@@ -10,15 +10,13 @@ import java.util.List;
 
 public class JsonAdvancedCraftingHandler
 {
-	private List<JsonAdvancedRecipe> recipes;
+	private List<JsonAdvancedRecipe> recipes = new ArrayList<>();
 
-	private List<String> includes;
+	private List<String> includes = new ArrayList<>();
+	private List<String> modDependencies = new ArrayList<>();
 
 	public JsonAdvancedCraftingHandler()
 	{
-		recipes = new ArrayList<>();
-		includes = new ArrayList<>();
-
 		// TESTING ONLY
 		recipes.add(new JsonAdvancedRecipe(new ItemStack(Items.string, 38),
 			new Object[]{new ItemStack(RegisterItems.cloth, 7), "dustRedstone", 13}, "ox ", "xxx", " xo",
@@ -33,5 +31,10 @@ public class JsonAdvancedCraftingHandler
 	public List<String> getIncludes()
 	{
 		return includes;
+	}
+
+	public List<String> getModDependencies()
+	{
+		return modDependencies;
 	}
 }

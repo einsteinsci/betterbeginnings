@@ -9,19 +9,16 @@ import java.util.List;
 
 public class JsonBrickOvenRecipeHandler
 {
-	private List<JsonBrickOvenShapedRecipe> shaped;
-	private List<JsonBrickOvenShapelessRecipe> shapeless;
+	private List<JsonBrickOvenShapedRecipe> shaped = new ArrayList<>();
+	private List<JsonBrickOvenShapelessRecipe> shapeless = new ArrayList<>();
 
-	private List<String> includes;
+	private List<String> includes = new ArrayList<>();
+	private List<String> modDependencies = new ArrayList<>();
 
-	private List<String> __COMMENTS;
+	private List<String> __COMMENTS = new ArrayList<>();
 
 	public JsonBrickOvenRecipeHandler()
 	{
-		shaped = new ArrayList<>();
-		shapeless = new ArrayList<>();
-		includes = new ArrayList<>();
-
 		__COMMENTS = new ArrayList<>();
 		__COMMENTS.add("Brick Oven recipes do not support ore dictionary in ingredients.");
 		__COMMENTS.add("This will change eventually. This only applies to Brick Oven recipes.");
@@ -46,5 +43,10 @@ public class JsonBrickOvenRecipeHandler
 	public List<String> getIncludes()
 	{
 		return includes;
+	}
+
+	public List<String> getModDependencies()
+	{
+		return modDependencies;
 	}
 }

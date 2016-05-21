@@ -1,13 +1,10 @@
 package net.einsteinsci.betterbeginnings.register;
 
-import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.blocks.*;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.oredict.OreDictionary;
-import org.apache.logging.log4j.Level;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 

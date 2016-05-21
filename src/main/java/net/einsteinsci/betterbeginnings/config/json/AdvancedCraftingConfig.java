@@ -1,7 +1,10 @@
 package net.einsteinsci.betterbeginnings.config.json;
 
 import net.einsteinsci.betterbeginnings.util.FileUtil;
+import net.einsteinsci.betterbeginnings.util.LogUtil;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import org.apache.logging.log4j.Level;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -83,6 +86,23 @@ public class AdvancedCraftingConfig implements IJsonConfig
 		for (String json : includedJsons)
 		{
 			JsonAdvancedCraftingHandler handler = BBJsonLoader.deserializeObject(json, JsonAdvancedCraftingHandler.class);
+
+			boolean missingDependencies = false;
+			for (String mod : handler.getModDependencies())
+			{
+				if (!Loader.isModLoaded(mod))
+				{
+					LogUtil.log(Level.WARN, "Mod '" + mod + "' missing, skipping all recipes in file.");
+					missingDependencies = true;
+					break;
+				}
+			}
+
+			if (missingDependencies)
+			{
+				continue;
+			}
+
 			includes.add(handler);
 
 			for (JsonAdvancedRecipe r : handler.getRecipes())
