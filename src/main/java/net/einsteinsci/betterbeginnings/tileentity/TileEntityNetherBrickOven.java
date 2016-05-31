@@ -231,11 +231,6 @@ public class TileEntityNetherBrickOven extends TileEntityBrickOvenBase implement
 		return false;
 	}
 
-	public ItemStack getStackInRowAndColumn(int row, int column)
-	{
-		return getStackInSlot(INPUTSTART + row + column * 3);
-	}
-
 	public int getFuelLevelScaled(int maxLevel)
 	{
 		float levelAbs = getFuelLevel();

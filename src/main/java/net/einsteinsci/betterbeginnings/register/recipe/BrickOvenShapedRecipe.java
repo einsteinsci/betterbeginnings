@@ -1,6 +1,7 @@
 package net.einsteinsci.betterbeginnings.register.recipe;
 
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityBrickOven;
+import net.einsteinsci.betterbeginnings.tileentity.TileEntityBrickOvenBase;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityNetherBrickOven;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -22,14 +23,14 @@ public class BrickOvenShapedRecipe implements IBrickOvenRecipe
 	/**
 	 * Is a array of ItemStack that composes the recipe.
 	 */
-	public final ItemStack[] recipeItems;
+	public final OreRecipeElement[] recipeItems;
 	/**
 	 * Is the ItemStack that you get when craft the recipe.
 	 */
 	private ItemStack recipeOutput;
 	private boolean strangeField;
 
-	public BrickOvenShapedRecipe(int width, int height, ItemStack[] input, ItemStack output)
+	public BrickOvenShapedRecipe(int width, int height, OreRecipeElement[] input, ItemStack output)
 	{
 		recipeWidth = width;
 		recipeHeight = height;
@@ -41,7 +42,7 @@ public class BrickOvenShapedRecipe implements IBrickOvenRecipe
 	 * Used to check if a recipe matches current crafting inventory
 	 */
 	@Override
-	public boolean matches(TileEntityBrickOven oven)
+	public boolean matches(TileEntityBrickOvenBase oven)
 	{
 		for (int i = 0; i <= 3 - recipeWidth; ++i)
 		{
@@ -62,29 +63,7 @@ public class BrickOvenShapedRecipe implements IBrickOvenRecipe
 		return false;
 	}
 
-	@Override
-	public boolean matches(TileEntityNetherBrickOven oven)
-	{
-		for (int i = 0; i <= 3 - recipeWidth; ++i)
-		{
-			for (int j = 0; j <= 3 - recipeHeight; ++j)
-			{
-				if (checkMatch(oven, i, j, true))
-				{
-					return true;
-				}
-
-				if (checkMatch(oven, i, j, false))
-				{
-					return true;
-				}
-			}
-		}
-
-		return false;
-	}
-
-	private boolean checkMatch(TileEntityNetherBrickOven oven, int width, int height, boolean flag4)
+	private boolean checkMatch(TileEntityBrickOvenBase oven, int width, int height, boolean flag4)
 	{
 		for (int k = 0; k < 3; ++k)
 		{
@@ -92,36 +71,30 @@ public class BrickOvenShapedRecipe implements IBrickOvenRecipe
 			{
 				int i1 = k - width;
 				int j1 = l - height;
-				ItemStack itemstack = null;
+				OreRecipeElement recipeIngredient = null;
 
 				if (i1 >= 0 && j1 >= 0 && i1 < recipeWidth && j1 < recipeHeight)
 				{
 					if (flag4)
 					{
-						itemstack = recipeItems[recipeWidth - i1 - 1 + j1 * recipeWidth];
+						recipeIngredient = recipeItems[recipeWidth - i1 - 1 + j1 * recipeWidth];
 					}
 					else
 					{
-						itemstack = recipeItems[i1 + j1 * recipeWidth];
+						recipeIngredient = recipeItems[i1 + j1 * recipeWidth];
 					}
 				}
 
 				ItemStack itemstack1 = oven.getStackInRowAndColumn(k, l);
 
-				if (itemstack1 != null || itemstack != null)
+				if (itemstack1 != null || recipeIngredient != null)
 				{
-					if (itemstack1 == null && itemstack != null || itemstack1 != null && itemstack == null)
+					if (itemstack1 == null && recipeIngredient != null || itemstack1 != null && recipeIngredient == null)
 					{
 						return false;
 					}
 
-					if (itemstack.getItem() != itemstack1.getItem())
-					{
-						return false;
-					}
-
-					if (itemstack.getItemDamage() != OreDictionary.WILDCARD_VALUE &&
-							itemstack.getItemDamage() != itemstack1.getItemDamage())
+					if(!recipeIngredient.matches(itemstack1))
 					{
 						return false;
 					}
@@ -136,28 +109,7 @@ public class BrickOvenShapedRecipe implements IBrickOvenRecipe
 	 * Returns an Item that is the result of this recipe
 	 */
 	@Override
-	public ItemStack getCraftingResult(TileEntityBrickOven oven)
-	{
-		ItemStack itemstack = getRecipeOutput().copy();
-
-		if (strangeField)
-		{
-			for (int i = 0; i < oven.getSizeInventory(); ++i)
-			{
-				ItemStack itemstack1 = oven.getStackInSlot(i);
-
-				if (itemstack1 != null && itemstack1.hasTagCompound())
-				{
-					itemstack.setTagCompound((NBTTagCompound)itemstack1.getTagCompound().copy());
-				}
-			}
-		}
-
-		return itemstack;
-	}
-
-	@Override
-	public ItemStack getCraftingResult(TileEntityNetherBrickOven oven)
+	public ItemStack getCraftingResult(TileEntityBrickOvenBase oven)
 	{
 		ItemStack itemstack = getRecipeOutput().copy();
 
@@ -189,14 +141,14 @@ public class BrickOvenShapedRecipe implements IBrickOvenRecipe
 	@Override
 	public boolean contains(ItemStack stack)
 	{
-		for (ItemStack s : recipeItems)
+		for (OreRecipeElement ore : recipeItems)
 		{
-			if (s == null)
+			if (ore == null)
 			{
 				continue;
 			}
 
-			if (s.getItem() == stack.getItem())
+			if(ore.matches(stack))
 			{
 				return true;
 			}
@@ -210,45 +162,6 @@ public class BrickOvenShapedRecipe implements IBrickOvenRecipe
 		return recipeOutput;
 	}
 
-	@Override
-	public ItemStack[] getInputs()
-	{
-		List<ItemStack> buf = new ArrayList<>();
-		for (ItemStack is : recipeItems)
-		{
-			if (is != null)
-			{
-				buf.add(is);
-			}
-		}
-
-		return buf.toArray(new ItemStack[0]);
-	}
-
-	public ItemStack[] getThreeByThree()
-	{
-		ItemStack[] res = new ItemStack[9];
-
-		int y = 0, x = 0;
-		int v = 0, u = 0;
-		for (int i = 0; i < getRecipeSize(); i++)
-		{
-			res[x + y * 3] = recipeItems[u + v * recipeWidth];
-
-			u++;
-			if (u >= recipeWidth)
-			{
-				u = 0;
-				v++;
-			}
-
-			x = u;
-			y = v;
-		}
-
-		return res;
-	}
-
 	/**
 	 * Checks if the region of a crafting inventory is match for the recipe.
 	 */
@@ -260,36 +173,30 @@ public class BrickOvenShapedRecipe implements IBrickOvenRecipe
 			{
 				int i1 = k - width;
 				int j1 = l - height;
-				ItemStack itemstack = null;
+				OreRecipeElement recipeIngredient = null;
 
 				if (i1 >= 0 && j1 >= 0 && i1 < recipeWidth && j1 < recipeHeight)
 				{
 					if (flag4)
 					{
-						itemstack = recipeItems[recipeWidth - i1 - 1 + j1 * recipeWidth];
+						recipeIngredient = recipeItems[recipeWidth - i1 - 1 + j1 * recipeWidth];
 					}
 					else
 					{
-						itemstack = recipeItems[i1 + j1 * recipeWidth];
+						recipeIngredient = recipeItems[i1 + j1 * recipeWidth];
 					}
 				}
 
 				ItemStack itemstack1 = oven.getStackInRowAndColumn(k, l);
 
-				if (itemstack1 != null || itemstack != null)
+				if (itemstack1 != null || recipeIngredient != null)
 				{
-					if (itemstack1 == null && itemstack != null || itemstack1 != null && itemstack == null)
+					if (itemstack1 == null && recipeIngredient != null || itemstack1 != null && recipeIngredient == null)
 					{
 						return false;
 					}
 
-					if (itemstack.getItem() != itemstack1.getItem())
-					{
-						return false;
-					}
-
-					if (itemstack.getItemDamage() != OreDictionary.WILDCARD_VALUE &&
-							itemstack.getItemDamage() != itemstack1.getItemDamage())
+					if(!recipeIngredient.matches(itemstack1))
 					{
 						return false;
 					}
@@ -300,9 +207,54 @@ public class BrickOvenShapedRecipe implements IBrickOvenRecipe
 		return true;
 	}
 
-	public BrickOvenShapedRecipe func_92100_c()
+	/*public BrickOvenShapedRecipe func_92100_c()
 	{
 		strangeField = true;
 		return this;
+	}*/
+
+	@Override
+	public OreRecipeElement[] getInputs()
+	{
+		List<OreRecipeElement> buf = new ArrayList<>();
+		for (OreRecipeElement ore : recipeItems)
+		{
+			if (ore != null)
+			{
+				buf.add(ore);
+			}
+
+		}
+
+		return buf.toArray(new OreRecipeElement[0]);
+	}
+
+	public OreRecipeElement[] getThreeByThree()
+	{
+		OreRecipeElement[] res = new OreRecipeElement[9];
+
+		int y = 0, x = 0;
+		int v = 0, u = 0;
+		for (int i = 0; i < getRecipeSize(); i++)
+		{
+			if(recipeItems[u + v * recipeWidth] == null)
+			{
+				res[x + y * 3] = null;
+			}
+			else
+			{
+				res[x + y * 3] = recipeItems[u + v * recipeWidth];
+			}
+			u++;
+			if (u >= recipeWidth)
+			{
+				u = 0;
+				v++;
+			}
+
+			x = u;
+			y = v;
+		}
+		return res;
 	}
 }
