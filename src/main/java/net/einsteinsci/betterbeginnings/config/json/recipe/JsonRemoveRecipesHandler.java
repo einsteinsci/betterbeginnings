@@ -15,7 +15,7 @@ public class JsonRemoveRecipesHandler
 	List<String> includes = new ArrayList<>();
 	List<String> modDependencies = new ArrayList<>();
 
-	String __COMMENT = "Add items whose recipes you want to remove below. This does not affect recipes removed by " +
+	String __COMMENT = "Add items whose recipes you want to remove above. This does not affect recipes removed by " +
 		"BetterBeginnings through regular config. Some examples are provided above (both of which have no recipe already).";
 
 	public JsonRemoveRecipesHandler()
