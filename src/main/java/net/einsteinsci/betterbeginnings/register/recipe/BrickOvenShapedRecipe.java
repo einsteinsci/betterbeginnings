@@ -223,7 +223,6 @@ public class BrickOvenShapedRecipe implements IBrickOvenRecipe
 			{
 				buf.add(ore);
 			}
-
 		}
 
 		return buf.toArray(new OreRecipeElement[0]);

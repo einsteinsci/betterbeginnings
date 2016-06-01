@@ -149,15 +149,19 @@ public class BrickOvenShapelessRecipe implements IBrickOvenRecipe
 	@Override
 	public OreRecipeElement[] getInputs()
 	{
-		List<OreRecipeElement> buf = new ArrayList<>();
+		OreRecipeElement[] res = new OreRecipeElement[9];
+
+		int i = 0;
 		for (OreRecipeElement ore : recipeItems)
 		{
 			if (ore != null)
 			{
-				buf.add(ore);
+				res[i] = ore;
 			}
+
+			i++;
 		}
 
-		return buf.toArray(new OreRecipeElement[0]);
+		return res;
 	}
 }

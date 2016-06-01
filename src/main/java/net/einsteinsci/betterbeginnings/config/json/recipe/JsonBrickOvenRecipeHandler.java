@@ -15,7 +15,7 @@ public class JsonBrickOvenRecipeHandler
 	private List<String> includes = new ArrayList<>();
 	private List<String> modDependencies = new ArrayList<>();
 
-	private List<String> __COMMENTS = new ArrayList<>();
+	//private List<String> __COMMENTS = new ArrayList<>();
 
 	public JsonBrickOvenRecipeHandler()
 	{
@@ -23,9 +23,9 @@ public class JsonBrickOvenRecipeHandler
 	}
 	public JsonBrickOvenRecipeHandler(boolean includeTesting)
 	{
-		__COMMENTS = new ArrayList<>();
-		__COMMENTS.add("Brick Oven recipes do not support ore dictionary in ingredients.");
-		__COMMENTS.add("This will change eventually. This only applies to Brick Oven recipes.");
+		//__COMMENTS = new ArrayList<>();
+		//__COMMENTS.add("Brick Oven recipes do not support ore dictionary in ingredients.");
+		//__COMMENTS.add("This will change eventually. This only applies to Brick Oven recipes.");
 
 		if (includeTesting)
 		{

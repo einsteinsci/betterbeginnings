@@ -41,6 +41,11 @@ public class JsonBrickOvenShapelessRecipe
 				Block block = (Block)obj;
 				inputs.add(new JsonLoadedItem(new ItemStack(block)));
 			}
+			else if (obj instanceof String)
+			{
+				String ore = (String)obj;
+				inputs.add(JsonLoadedItem.makeOreDictionary(ore));
+			}
 		}
 	}
 
@@ -55,10 +60,17 @@ public class JsonBrickOvenShapelessRecipe
 		List<Object> res = new ArrayList<>();
 		for (JsonLoadedItem jli : inputs)
 		{
-			ItemStack stack = jli.getFirstItemStackOrNull();
-			if (stack != null)
+			if (jli.isOreDictionary())
 			{
-				res.add(stack);
+				res.add(jli.getItemName());
+			}
+			else
+			{
+				ItemStack stack = jli.getFirstItemStackOrNull();
+				if (stack != null)
+				{
+					res.add(stack);
+				}
 			}
 		}
 		Object[] params = res.toArray();

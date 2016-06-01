@@ -89,6 +89,12 @@ public class JsonBrickOvenShapedRecipe
 					JsonLoadedItem ing = new JsonLoadedItem(new ItemStack(block));
 					ingredients.put(active, ing);
 				}
+				else if (obj instanceof String)
+				{
+					String ore = (String)obj;
+					JsonLoadedItem ing = JsonLoadedItem.makeOreDictionary(ore);
+					ingredients.put(active, ing);
+				}
 			}
 		}
 	}
@@ -115,16 +121,23 @@ public class JsonBrickOvenShapedRecipe
 
 			JsonLoadedItem jli = entry.getValue();
 
-			ItemStack stack = jli.getFirstItemStackOrNull();
-			if (stack != null)
+			if (jli.isOreDictionary())
 			{
-				res.add(stack);
+				res.add(jli.getItemName());
 			}
 			else
 			{
-				ItemStack invalid = new ItemStack(Blocks.barrier);
-				invalid.setStackDisplayName("ERROR IN LOADING JSON RECIPE. MISSING INGREDIENT.");
-				res.add(invalid);
+				ItemStack stack = jli.getFirstItemStackOrNull();
+				if (stack != null)
+				{
+					res.add(stack);
+				}
+				else
+				{
+					ItemStack invalid = new ItemStack(Blocks.barrier);
+					invalid.setStackDisplayName("ERROR IN LOADING JSON RECIPE. MISSING INGREDIENT.");
+					res.add(invalid);
+				}
 			}
 		}
 		Object[] params = res.toArray();

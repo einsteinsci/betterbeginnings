@@ -7,6 +7,7 @@ import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.gui.GuiBrickOven;
 import net.einsteinsci.betterbeginnings.register.recipe.*;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityBrickOven;
+import net.einsteinsci.betterbeginnings.util.LogUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -15,6 +16,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import org.apache.logging.log4j.Level;
 
 import java.util.*;
 
@@ -56,19 +58,27 @@ public class NEIBrickOvenRecipeHandler extends TemplateRecipeHandler
 
 				output = new PositionedStack(shapeless.getRecipeOutput(), 119, 10);
 				OreRecipeElement[] stacks = shapeless.getInputs();
-				for (int y = 0; y < 3; y++)
+
+				if (stacks.length > 0)
 				{
-					for (int x = 0; x < 3; x++)
+					for (int y = 0; y < 3; y++)
 					{
-						int i = y * 3 + x;
-
-						if (stacks[i] == null)
+						for (int x = 0; x < 3; x++)
 						{
-							continue;
-						}
+							int i = y * 3 + x;
 
-						inputs[i] = new PositionedStack(stacks[i].getValidItems(), 25 + x * 18, 6 + y * 18);
+							if (stacks[i] == null)
+							{
+								continue;
+							}
+
+							inputs[i] = new PositionedStack(stacks[i].getValidItems(), 25 + x * 18, 6 + y * 18);
+						}
 					}
+				}
+				else
+				{
+					LogUtil.log(Level.ERROR, "getInputs() returned empty array!");
 				}
 			}
 		}

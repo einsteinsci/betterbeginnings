@@ -105,15 +105,15 @@ public class RegisterRecipes
 		BrickOvenConfig.addShapedRecipe(new ItemStack(Items.golden_apple, 1, 1), "###", "#A#", "###", '#',
 		                                       Blocks.gold_block, 'A', Items.apple);
 		BrickOvenConfig.addShapedRecipe(new ItemStack(Items.cake), "MMM", "SES", "WWW", 'M', Items.milk_bucket,
-		                                       'S', Items.sugar, 'E', Items.egg, 'W', Items.wheat);
-		BrickOvenConfig.addShapedRecipe(new ItemStack(Items.bread, 2), "WWW", 'W', Items.wheat);
-		BrickOvenConfig.addShapedRecipe(new ItemStack(Items.cookie, 8), "WCW", 'W', Items.wheat, 'C',
+		                                       'S', Items.sugar, 'E', Items.egg, 'W', "cropWheat");
+		BrickOvenConfig.addShapedRecipe(new ItemStack(Items.bread, 2), "WWW", 'W', "cropWheat");
+		BrickOvenConfig.addShapedRecipe(new ItemStack(Items.cookie, 8), "WCW", 'W', "cropWheat", 'C',
 		                                       new ItemStack(Items.dye, 1, 3)); // Cocoa bean
 		BrickOvenConfig.addShapedRecipe(new ItemStack(Items.rabbit_stew), " R ", "CPM", " B ",
-			'R', Items.cooked_rabbit, 'C', Items.carrot, 'P', Items.baked_potato,
+			'R', Items.cooked_rabbit, 'C', "cropCarrot", 'P', "cropPotato",
 			'M', Blocks.brown_mushroom, 'B', Items.bowl);
 		BrickOvenConfig.addShapedRecipe(new ItemStack(Items.rabbit_stew), " R ", "CPM", " B ",
-			'R', Items.cooked_rabbit, 'C', Items.carrot, 'P', Items.baked_potato,
+			'R', Items.cooked_rabbit, 'C', "cropCarrot", 'P', "cropPotato",
 			'M', Blocks.red_mushroom, 'B', Items.bowl);
 		BrickOvenConfig.addShapedRecipe(new ItemStack(RegisterItems.marshmallow, 3), " S ", "SSS", " S ",
 			'S', Items.sugar);
@@ -128,7 +128,7 @@ public class RegisterRecipes
 			new ItemStack(Items.fish, 1, 1));
 		BrickOvenConfig.addShapelessRecipe(new ItemStack(Items.cooked_rabbit), Items.rabbit);
 		BrickOvenConfig.addShapelessRecipe(new ItemStack(Items.cooked_mutton), Items.mutton);
-		BrickOvenConfig.addShapelessRecipe(new ItemStack(Items.baked_potato), Items.potato);
+		BrickOvenConfig.addShapelessRecipe(new ItemStack(Items.baked_potato), "cropPotato");
 		BrickOvenConfig.addShapelessRecipe(new ItemStack(Items.pumpkin_pie), Items.egg, Items.sugar,
 		                                          Blocks.pumpkin);
 		BrickOvenConfig.addShapelessRecipe(new ItemStack(Items.fermented_spider_eye), Items.spider_eye,

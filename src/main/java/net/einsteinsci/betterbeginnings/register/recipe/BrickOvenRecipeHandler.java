@@ -131,6 +131,10 @@ public class BrickOvenRecipeHandler
 			{
 				res.add(new OreRecipeElement(new ItemStack((Block)obj)));
 			}
+			else if (obj instanceof String)
+			{
+				res.add(new OreRecipeElement((String)obj));
+			}
 			else if(obj instanceof OreRecipeElement)
 			{
 				res.add(obj);
