@@ -1,10 +1,9 @@
 package net.einsteinsci.betterbeginnings.tileentity;
 
-import io.netty.handler.logging.LogLevel;
-import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.config.BBConfig;
 import net.einsteinsci.betterbeginnings.event.DamageSourceDiffusion;
 import net.einsteinsci.betterbeginnings.items.*;
+import net.einsteinsci.betterbeginnings.register.recipe.OreRecipeElement;
 import net.einsteinsci.betterbeginnings.util.ChatUtil;
 import net.einsteinsci.betterbeginnings.util.InfusionRepairUtil;
 import net.einsteinsci.betterbeginnings.util.LogUtil;
@@ -24,7 +23,6 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
-import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Level;
 
 import java.util.*;
@@ -427,9 +425,9 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 
 				if (next.isXP)
 				{
-					if (levelsToFill != next.count)
+					if (levelsToFill != next.xp)
 					{
-						levelsToFill = (short)next.count;
+						levelsToFill = (short)next.xp;
 
 						worldObj.markBlockForUpdate(pos);
 						markDirty();
@@ -463,24 +461,31 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 						markDirty();
 					}
 				}
-
-				for (EntityItem ei : entitiesOnTop)
+				else
 				{
-					ItemStack stack = ei.getEntityItem();
-
-					if (stack.getItem() == next.item && stack.stackSize >= next.count &&
-						stack.getItemDamage() == next.damage || next.damage == OreDictionary.WILDCARD_VALUE)
+					for (EntityItem ei : entitiesOnTop)
 					{
-						stack.stackSize -= next.count;
-						addInput(new ItemStack(next.item, next.count, next.damage));
+						ItemStack stack = ei.getEntityItem();
 
-						if (stack.stackSize <= 0)
+						if (next.ore == null)
 						{
-							ei.setDead();
+							LogUtil.logDebug(Level.ERROR, "next.ore is null!");
+							continue;
 						}
 
-						worldObj.markBlockForUpdate(pos);
-						markDirty();
+						if (next.ore.matches(stack) && stack.stackSize >= next.ore.stackSize)
+						{
+							stack.stackSize -= next.ore.stackSize;
+							addInput(new ItemStack(stack.getItem(), next.ore.stackSize, stack.getMetadata()));
+
+							if (stack.stackSize <= 0)
+							{
+								ei.setDead();
+							}
+
+							worldObj.markBlockForUpdate(pos);
+							markDirty();
+						}
 					}
 				}
 			}
@@ -606,7 +611,8 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 
 		Item item = stack.getItem();
 
-		return item instanceof ItemTool || item instanceof ItemSword || item instanceof ItemArmor;
+		return item instanceof ItemTool || item instanceof ItemSword || item instanceof ItemArmor ||
+			item instanceof ItemBow || item instanceof ItemFishingRod || item instanceof ItemFlintAndSteel;
 	}
 
 	// when TE is clicked by player
@@ -641,7 +647,7 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 			return null;
 		}
 
-		List<ItemStack> req = InfusionRepairUtil.getRequiredStacks(stackTool());
+		List<OreRecipeElement> req = InfusionRepairUtil.getRequiredStacks(stackTool());
 
 		if (req == null || req.isEmpty())
 		{
@@ -655,11 +661,10 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 				continue;
 			}
 
-			ItemStack needs = null;
-			for (ItemStack s : req)
+			OreRecipeElement needs = null;
+			for (OreRecipeElement s : req)
 			{
-				if (s.getItem().equals(sHas.getItem()) && sHas.stackSize >= s.stackSize &&
-					(s.getItemDamage() == sHas.getItemDamage() || s.getItemDamage() == OreDictionary.WILDCARD_VALUE))
+				if (s.matches(sHas))
 				{
 					needs = s;
 					break;
@@ -677,8 +682,8 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 			return new InfusionIngredient(InfusionRepairUtil.getTakenLevels(stackTool()));
 		}
 
-		ItemStack stack = req.get(0);
-		return new InfusionIngredient(stack.getItem(), stack.stackSize, stack.getItemDamage());
+		OreRecipeElement ore = req.get(0);
+		return new InfusionIngredient(ore);
 	}
 
 	public boolean diffusionHasTool()
@@ -759,24 +764,27 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 
 	public static class InfusionIngredient
 	{
-		public Item item;
-		public int count;
-		public int damage;
+		public OreRecipeElement ore;
 
 		public boolean isXP;
+		public int xp;
 
-		public InfusionIngredient(Item _item, int _count, int _damage)
+		public InfusionIngredient(Item item, int _count, int meta)
 		{
 			isXP = false;
-			item = _item;
-			count = _count;
-			damage = _damage;
+			ore = new OreRecipeElement(new ItemStack(item, _count, meta));
+		}
+
+		public InfusionIngredient(OreRecipeElement _ore)
+		{
+			ore = _ore;
+			isXP = false;
 		}
 
 		public InfusionIngredient(int levelCount)
 		{
 			isXP = true;
-			count = levelCount;
+			xp = levelCount;
 		}
 
 		@Override
@@ -784,10 +792,17 @@ public class TileEntityInfusionRepair extends TileEntity implements IUpdatePlaye
 		{
 			if (isXP)
 			{
-				return "XP: " + count + "L";
+				return "XP: " + xp + "L";
 			}
 
-			return count + "x" + item.getUnlocalizedName() + "@" + damage;
+			if (ore.getOreDictionaryEntry().isEmpty())
+			{
+				return ore.stackSize + "x" + ore.getFirst().getUnlocalizedName() + "@" + ore.getFirst().getItemDamage();
+			}
+			else
+			{
+				return ore.stackSize + "x" + ore.getOreDictionaryEntry();
+			}
 		}
 	}
 }

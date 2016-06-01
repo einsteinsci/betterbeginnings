@@ -2,6 +2,7 @@ package net.einsteinsci.betterbeginnings.config.json;
 
 import net.einsteinsci.betterbeginnings.config.json.recipe.JsonRepairInfusionAssociation;
 import net.einsteinsci.betterbeginnings.config.json.recipe.JsonRepairInfusionHandler;
+import net.einsteinsci.betterbeginnings.register.recipe.OreRecipeElement;
 import net.einsteinsci.betterbeginnings.util.FileUtil;
 import net.einsteinsci.betterbeginnings.util.LogUtil;
 import net.minecraft.item.ItemStack;
@@ -24,7 +25,7 @@ public class RepairInfusionConfig implements IJsonConfig
 
 	private List<JsonRepairInfusionHandler> includes = new ArrayList<>();
 
-	public static void registerEnchantment(int enchID, ItemStack associatedItem)
+	public static void registerEnchantment(int enchID, OreRecipeElement associatedItem)
 	{
 		initialAssociations.getEnchantmentAssociations().add(new JsonRepairInfusionAssociation(enchID, associatedItem));
 	}

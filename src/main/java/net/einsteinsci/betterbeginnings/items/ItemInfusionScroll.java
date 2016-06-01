@@ -4,6 +4,7 @@ import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.blocks.BlockInfusionRepairStation;
 import net.einsteinsci.betterbeginnings.config.BBConfig;
 import net.einsteinsci.betterbeginnings.register.IBBName;
+import net.einsteinsci.betterbeginnings.register.recipe.OreRecipeElement;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityInfusionRepair;
 import net.einsteinsci.betterbeginnings.util.ChatUtil;
 import net.minecraft.block.Block;
@@ -65,13 +66,13 @@ public class ItemInfusionScroll extends Item implements IBBName
 					}
 					else if (ingredient.isXP)
 					{
-						ChatUtil.sendChatToPlayer(player, I18n.format("scroll.xp", ingredient.count));
+						ChatUtil.sendChatToPlayer(player, I18n.format("scroll.xp", ingredient.xp));
 					}
 					else
 					{
-						ItemStack ingredientStack = new ItemStack(ingredient.item, ingredient.count, ingredient.damage);
-						ChatUtil.sendChatToPlayer(player, I18n.format("scroll.item", ingredient.count,
-							ingredientStack.getDisplayName()));
+						OreRecipeElement ingredientStack = ingredient.ore;
+						ChatUtil.sendChatToPlayer(player, I18n.format("scroll.item", ingredient.ore.stackSize,
+							ingredientStack.getFirst().getDisplayName()));
 					}
 				}
 				else

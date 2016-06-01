@@ -3,6 +3,7 @@ package net.einsteinsci.betterbeginnings.util;
 import net.einsteinsci.betterbeginnings.config.json.RepairInfusionConfig;
 import net.einsteinsci.betterbeginnings.inventory.InventoryInfusionRepair;
 import net.einsteinsci.betterbeginnings.register.RegisterItems;
+import net.einsteinsci.betterbeginnings.register.recipe.OreRecipeElement;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -19,42 +20,42 @@ import java.util.Map;
 
 public class InfusionRepairUtil
 {
-	public static Map<Integer, ItemStack> enchantmentMapping = new HashMap<>();
+	public static Map<Integer, OreRecipeElement> enchantmentMapping = new HashMap<>();
 
 	public static void registerVanillaEnchantsConfig()
 	{
-		RepairInfusionConfig.registerEnchantment(0, new ItemStack(Blocks.iron_bars, 2));
-		RepairInfusionConfig.registerEnchantment(1, new ItemStack(Items.bucket));
-		RepairInfusionConfig.registerEnchantment(2, new ItemStack(Items.feather, 2));
-		RepairInfusionConfig.registerEnchantment(3, new ItemStack(Blocks.cobblestone, 8));
-		RepairInfusionConfig.registerEnchantment(4, new ItemStack(Items.snowball, 4));
-		RepairInfusionConfig.registerEnchantment(5, new ItemStack(Items.glass_bottle));
-		RepairInfusionConfig.registerEnchantment(6, new ItemStack(Blocks.clay));
-		RepairInfusionConfig.registerEnchantment(7, new ItemStack(Blocks.cactus, 4));
-		RepairInfusionConfig.registerEnchantment(8, new ItemStack(Blocks.prismarine));
+		RepairInfusionConfig.registerEnchantment(0, new OreRecipeElement(Blocks.iron_bars, 2));
+		RepairInfusionConfig.registerEnchantment(1, new OreRecipeElement(Items.bucket));
+		RepairInfusionConfig.registerEnchantment(2, new OreRecipeElement(Items.feather, 2));
+		RepairInfusionConfig.registerEnchantment(3, new OreRecipeElement("cobblestone", 8));
+		RepairInfusionConfig.registerEnchantment(4, new OreRecipeElement(Items.snowball, 4));
+		RepairInfusionConfig.registerEnchantment(5, new OreRecipeElement(Items.glass_bottle));
+		RepairInfusionConfig.registerEnchantment(6, new OreRecipeElement(Blocks.clay));
+		RepairInfusionConfig.registerEnchantment(7, new OreRecipeElement(Blocks.cactus, 4));
+		RepairInfusionConfig.registerEnchantment(8, new OreRecipeElement(Blocks.prismarine));
 
-		RepairInfusionConfig.registerEnchantment(16, new ItemStack(Items.quartz, 4));
-		RepairInfusionConfig.registerEnchantment(17, new ItemStack(Blocks.soul_sand, 2));
-		RepairInfusionConfig.registerEnchantment(18, new ItemStack(Items.fermented_spider_eye));
-		RepairInfusionConfig.registerEnchantment(19, new ItemStack(Blocks.piston));
-		RepairInfusionConfig.registerEnchantment(20, new ItemStack(Items.blaze_powder, 2));
-		RepairInfusionConfig.registerEnchantment(21, new ItemStack(Items.gold_ingot, 2));
+		RepairInfusionConfig.registerEnchantment(16, new OreRecipeElement("gemQuartz", 4));
+		RepairInfusionConfig.registerEnchantment(17, new OreRecipeElement(Blocks.soul_sand, 2));
+		RepairInfusionConfig.registerEnchantment(18, new OreRecipeElement(Items.fermented_spider_eye));
+		RepairInfusionConfig.registerEnchantment(19, new OreRecipeElement(Blocks.piston));
+		RepairInfusionConfig.registerEnchantment(20, new OreRecipeElement(Items.blaze_powder, 2));
+		RepairInfusionConfig.registerEnchantment(21, new OreRecipeElement("ingotGold", 2));
 
-		RepairInfusionConfig.registerEnchantment(32, new ItemStack(Items.sugar, 4));
-		RepairInfusionConfig.registerEnchantment(33, new ItemStack(RegisterItems.cloth, 8));
-		RepairInfusionConfig.registerEnchantment(34, new ItemStack(Blocks.obsidian));
-		RepairInfusionConfig.registerEnchantment(35, new ItemStack(Items.dye, 4, 4));
+		RepairInfusionConfig.registerEnchantment(32, new OreRecipeElement(Items.sugar, 4));
+		RepairInfusionConfig.registerEnchantment(33, new OreRecipeElement(RegisterItems.cloth, 8));
+		RepairInfusionConfig.registerEnchantment(34, new OreRecipeElement(Blocks.obsidian));
+		RepairInfusionConfig.registerEnchantment(35, new OreRecipeElement("gemLapis", 4));
 
-		RepairInfusionConfig.registerEnchantment(48, new ItemStack(RegisterItems.leatherStrip));
-		RepairInfusionConfig.registerEnchantment(49, new ItemStack(Items.gunpowder));
-		RepairInfusionConfig.registerEnchantment(50, new ItemStack(Items.fire_charge));
-		RepairInfusionConfig.registerEnchantment(51, new ItemStack(Items.arrow, 16));
+		RepairInfusionConfig.registerEnchantment(48, new OreRecipeElement(RegisterItems.leatherStrip));
+		RepairInfusionConfig.registerEnchantment(49, new OreRecipeElement(Items.gunpowder));
+		RepairInfusionConfig.registerEnchantment(50, new OreRecipeElement(Items.fire_charge));
+		RepairInfusionConfig.registerEnchantment(51, new OreRecipeElement(Items.arrow, 16));
 
-		RepairInfusionConfig.registerEnchantment(61, new ItemStack(Blocks.waterlily));
-		RepairInfusionConfig.registerEnchantment(62, new ItemStack(Items.fish, 1, 3));
+		RepairInfusionConfig.registerEnchantment(61, new OreRecipeElement(Blocks.waterlily));
+		RepairInfusionConfig.registerEnchantment(62, new OreRecipeElement(Items.fish, 1, 3));
 	}
 
-	public static void registerEnchantment(int enchID, ItemStack stack)
+	public static void registerEnchantment(int enchID, OreRecipeElement stack)
 	{
 		enchantmentMapping.put(enchID, stack);
 	}
@@ -66,7 +67,7 @@ public class InfusionRepairUtil
 
 	public static boolean canRepairIgnoreXp(InventoryInfusionRepair repairTable)
 	{
-		ArrayList<ItemStack> requiredItems = getRequiredStacks(repairTable);
+		ArrayList<OreRecipeElement> requiredItems = getRequiredStacks(repairTable);
 
 		if (repairTable.getStackInSlot(0) == null)
 		{
@@ -78,7 +79,7 @@ public class InfusionRepairUtil
 			return false;
 		}
 
-		for (ItemStack needed : requiredItems)
+		for (OreRecipeElement needed : requiredItems)
 		{
 			boolean foundIt = false;
 			for (int j = 1; j < repairTable.getSizeInventory(); ++j)
@@ -86,10 +87,7 @@ public class InfusionRepairUtil
 				if (repairTable.getStackInSlot(j) != null)
 				{
 					ItemStack tested = repairTable.getStackInSlot(j);
-					if (tested.getItem() == needed.getItem() &&
-							(tested.getItemDamage() == needed.getItemDamage() || needed
-									.getItemDamage() == OreDictionary.WILDCARD_VALUE) &&
-							tested.stackSize >= needed.stackSize)
+					if (needed.matches(tested))
 					{
 						foundIt = true;
 						break;
@@ -225,14 +223,14 @@ public class InfusionRepairUtil
 		return 0;
 	}
 
-	public static ArrayList<ItemStack> getRequiredStacks(InventoryInfusionRepair repairTable)
+	public static ArrayList<OreRecipeElement> getRequiredStacks(InventoryInfusionRepair repairTable)
 	{
 		return getRequiredStacks(repairTable.getStackInSlot(0));
 	}
 
-	public static ArrayList<ItemStack> getRequiredStacks(ItemStack repaired)
+	public static ArrayList<OreRecipeElement> getRequiredStacks(ItemStack repaired)
 	{
-		ArrayList<ItemStack> requiredItems = new ArrayList<>();
+		ArrayList<OreRecipeElement> requiredItems = new ArrayList<>();
 
 		if (repaired == null)
 		{
@@ -246,25 +244,25 @@ public class InfusionRepairUtil
 
 		if (repaired.getItem() instanceof ItemBow)
 		{
-			requiredItems.add(new ItemStack(Items.stick, 2));
-			requiredItems.add(new ItemStack(Items.string, 2));
+			requiredItems.add(new OreRecipeElement("stickWood", 2));
+			requiredItems.add(new OreRecipeElement("itemString", 2));
 		}
 
 		if (repaired.getItem() == RegisterItems.noobWoodSword)
 		{
-			requiredItems.add(new ItemStack(Blocks.planks, 1, OreDictionary.WILDCARD_VALUE));
+			requiredItems.add(new OreRecipeElement("plankWood"));
 		}
 		else if (repaired.getItem() == RegisterItems.flintKnife || repaired.getItem() == RegisterItems.flintHatchet)
 		{
-			requiredItems.add(new ItemStack(Items.flint));
+			requiredItems.add(new OreRecipeElement(Items.flint));
 		}
 		else if (repaired.getItem() == RegisterItems.boneKnife)
 		{
-			requiredItems.add(new ItemStack(Items.bone));
+			requiredItems.add(new OreRecipeElement(Items.bone));
 		}
 		else if (repaired.getItem() == RegisterItems.bonePickaxe)
 		{
-			requiredItems.add(new ItemStack(RegisterItems.boneShard));
+			requiredItems.add(new OreRecipeElement(RegisterItems.boneShard));
 		}
 		else if (repaired.getItem() instanceof ItemTool)
 		{
@@ -274,22 +272,22 @@ public class InfusionRepairUtil
 			switch (material)
 			{
 				case WOOD:
-					requiredItems.add(new ItemStack(Blocks.planks, 1, OreDictionary.WILDCARD_VALUE));
+					requiredItems.add(new OreRecipeElement("plankWood"));
 					break;
 				case STONE:
-					requiredItems.add(new ItemStack(Blocks.stone, 1));
+					requiredItems.add(new OreRecipeElement("stone"));
 					break;
 				case IRON:
-					requiredItems.add(new ItemStack(Items.iron_ingot));
+					requiredItems.add(new OreRecipeElement("ingotIron"));
 					break;
 				case GOLD:
-					requiredItems.add(new ItemStack(Items.gold_nugget, 2));
+					requiredItems.add(new OreRecipeElement("nuggetGold", 2));
 					break;
 				case EMERALD: // See "WTF" below.
-					requiredItems.add(new ItemStack(Items.redstone, 24));
+					requiredItems.add(new OreRecipeElement("dustRedstone", 24));
 					break;
 				default:
-					requiredItems.add(new ItemStack(Items.emerald, 4));
+					requiredItems.add(new OreRecipeElement("gemEmerald", 4));
 					break;
 			}
 		}
@@ -301,27 +299,27 @@ public class InfusionRepairUtil
 			switch (material)
 			{
 				case WOOD:
-					requiredItems.add(new ItemStack(Blocks.planks, 1, OreDictionary.WILDCARD_VALUE));
+					requiredItems.add(new OreRecipeElement("plankWood"));
 					break;
 				case STONE:
-					requiredItems.add(new ItemStack(Blocks.stone, 1));
+					requiredItems.add(new OreRecipeElement("stone"));
 				case IRON:
-					requiredItems.add(new ItemStack(Items.iron_ingot));
+					requiredItems.add(new OreRecipeElement("ingotIron"));
 					break;
 				case GOLD:
-					requiredItems.add(new ItemStack(Items.gold_nugget, 2));
+					requiredItems.add(new OreRecipeElement("nuggetGold", 2));
 					break;
 				case EMERALD: // See "WTF" below.
-					requiredItems.add(new ItemStack(Items.redstone, 16));
+					requiredItems.add(new OreRecipeElement("dustRedstone", 16));
 					break;
 				default:
 					if (material == RegisterItems.NOOBWOOD)
 					{
-						requiredItems.add(new ItemStack(Blocks.planks, 1, OreDictionary.WILDCARD_VALUE));
+						requiredItems.add(new OreRecipeElement("plankWood"));
 					}
 					else
 					{
-						requiredItems.add(new ItemStack(Items.emerald, 4));
+						requiredItems.add(new OreRecipeElement("gemEmerald", 4));
 					}
 					break;
 			}
@@ -333,36 +331,36 @@ public class InfusionRepairUtil
 			switch (armor.getArmorMaterial())
 			{
 				case LEATHER:
-					requiredItems.add(new ItemStack(Items.leather));
+					requiredItems.add(new OreRecipeElement(Items.leather));
 					break;
 				case CHAIN:
-					requiredItems.add(new ItemStack(RegisterItems.ironNugget, 6));
+					requiredItems.add(new OreRecipeElement("nuggetIron", 6));
 					break;
 				case IRON:
-					requiredItems.add(new ItemStack(Items.iron_ingot, 3));
+					requiredItems.add(new OreRecipeElement("ingotIron", 3));
 					break;
 				case GOLD:
-					requiredItems.add(new ItemStack(Items.gold_nugget, 2));
+					requiredItems.add(new OreRecipeElement("nuggetGold", 2));
 					break;
 				case DIAMOND: // WTF MOJANG?! (See above)
-					requiredItems.add(new ItemStack(Items.redstone, 24));
+					requiredItems.add(new OreRecipeElement("dustRedstone", 24));
 					break;
 				default:
-					requiredItems.add(new ItemStack(Items.emerald, 4));
+					requiredItems.add(new OreRecipeElement("gemEmerald", 4));
 					break;
 			}
 		}
 		else if (repaired.getItem() == Items.shears)
 		{
-			requiredItems.add(new ItemStack(Items.iron_ingot));
+			requiredItems.add(new OreRecipeElement("ingotIron"));
 		}
 		else if (repaired.getItem() == Items.fishing_rod)
 		{
-			requiredItems.add(new ItemStack(Items.string, 4));
+			requiredItems.add(new OreRecipeElement("itemString", 4));
 		}
 		else if (repaired.getItem() == Items.flint_and_steel)
 		{
-			requiredItems.add(new ItemStack(Items.flint));
+			requiredItems.add(new OreRecipeElement(Items.flint));
 		}
 
 		if (repaired.isItemEnchanted())
@@ -380,9 +378,9 @@ public class InfusionRepairUtil
 		return requiredItems;
 	}
 
-	public static List<ItemStack> getEnchantmentItems(NBTTagList enchants)
+	public static List<OreRecipeElement> getEnchantmentItems(NBTTagList enchants)
 	{
-		List<ItemStack> requiredItems = new ArrayList<>();
+		List<OreRecipeElement> requiredItems = new ArrayList<>();
 
 		for (int i = 0; i < enchants.tagCount(); i++)
 		{
@@ -390,11 +388,12 @@ public class InfusionRepairUtil
 			int enchId = enchant.getInteger("id");
 			int level = enchant.getInteger("lvl");
 
-			ItemStack associated = enchantmentMapping.get(enchId);
+			OreRecipeElement associated = enchantmentMapping.get(enchId);
 
 			if (associated != null)
 			{
-				ItemStack req = new ItemStack(associated.getItem(), associated.stackSize * level, associated.getMetadata());
+				OreRecipeElement req = associated.copy();
+				req.stackSize *= level;
 				requiredItems.add(req);
 			}
 			else
@@ -554,6 +553,10 @@ public class InfusionRepairUtil
 		else if (infusedItem.getItem() == Items.flint_and_steel)
 		{
 			return 1;
+		}
+		else if (infusedItem.getItem() == Items.bow)
+		{
+			return  5;
 		}
 
 		return 0;

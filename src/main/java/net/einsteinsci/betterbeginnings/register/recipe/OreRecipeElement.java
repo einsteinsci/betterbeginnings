@@ -1,5 +1,7 @@
 package net.einsteinsci.betterbeginnings.register.recipe;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -20,12 +22,43 @@ public class OreRecipeElement
 		stackSize = stack.stackSize;
 	}
 
+	public OreRecipeElement(Item item)
+	{
+		this(new ItemStack(item));
+	}
+	public OreRecipeElement(Item item, int count)
+	{
+		this(new ItemStack(item, count));
+	}
+	public OreRecipeElement(Item item, int count, int meta)
+	{
+		this(new ItemStack(item, count, meta));
+	}
+
+	public OreRecipeElement(Block block)
+	{
+		this(new ItemStack(block));
+	}
+	public OreRecipeElement(Block block, int count)
+	{
+		this(new ItemStack(block, count));
+	}
+	public OreRecipeElement(Block block, int count, int meta)
+	{
+		this(new ItemStack(block, count, meta));
+	}
+
 	public OreRecipeElement(String dictionaryEntry, int size)
 	{
 		validItems = new ArrayList<>();
 		validItems.addAll(OreDictionary.getOres(dictionaryEntry));
 		oreDictionaryEntry = dictionaryEntry;
 		stackSize = size;
+	}
+
+	public OreRecipeElement(String dictionaryEntry)
+	{
+		this(dictionaryEntry, 1);
 	}
 
 	public OreRecipeElement(List<ItemStack> valid, String entry, int size)

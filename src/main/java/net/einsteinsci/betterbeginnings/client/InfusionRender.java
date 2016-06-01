@@ -1,6 +1,5 @@
 package net.einsteinsci.betterbeginnings.client;
 
-import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityInfusionRepair;
 import net.einsteinsci.betterbeginnings.util.LogUtil;
 import net.minecraft.client.Minecraft;
@@ -8,6 +7,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.relauncher.Side;
@@ -185,7 +185,16 @@ public class InfusionRender extends TileEntitySpecialRenderer
 			return;
 		}
 
-		ItemStack stack = new ItemStack(ing.item, ing.count, ing.damage);
+		ItemStack stack = new ItemStack(Blocks.barrier);
+
+		if (ing.ore.getValidItems().size() > 0)
+		{
+			int maxOreItem = ing.ore.getValidItems().size();
+			int det = te.getTicksAge() / 30;
+			int oreItem = det % maxOreItem;
+
+			stack = ing.ore.getValidItems().get(oreItem).copy();
+		}
 
 		GlStateManager.pushMatrix();
 		GlStateManager.color(1F, 1F, 1F, 1F);

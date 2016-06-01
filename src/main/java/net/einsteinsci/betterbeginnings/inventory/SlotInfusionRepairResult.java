@@ -1,5 +1,6 @@
 package net.einsteinsci.betterbeginnings.inventory;
 
+import net.einsteinsci.betterbeginnings.register.recipe.OreRecipeElement;
 import net.einsteinsci.betterbeginnings.util.InfusionRepairUtil;
 import net.einsteinsci.betterbeginnings.register.RegisterItems;
 import net.einsteinsci.betterbeginnings.register.achievement.RegisterAchievements;
@@ -14,9 +15,6 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.ArrayList;
 
-/**
- * Created by einsteinsci on 8/20/2014.
- */
 public class SlotInfusionRepairResult extends Slot
 {
 	IInventory inputSlots;
@@ -39,17 +37,15 @@ public class SlotInfusionRepairResult extends Slot
 
 		InventoryInfusionRepair inputs = (InventoryInfusionRepair)inputSlots;
 
-		ArrayList<ItemStack> required = InfusionRepairUtil.getRequiredStacks(inputs);
+		ArrayList<OreRecipeElement> required = InfusionRepairUtil.getRequiredStacks(inputs);
 
-		for (ItemStack requiredStack : required)
+		for (OreRecipeElement requiredStack : required)
 		{
 			for (int i = 0; i < inputSlots.getSizeInventory(); ++i)
 			{
 				if (requiredStack != null && inputSlots.getStackInSlot(i) != null)
 				{
-					if (requiredStack.getItem() == inputSlots.getStackInSlot(i).getItem() &&
-							(requiredStack.getItemDamage() == OreDictionary.WILDCARD_VALUE ||
-									requiredStack.getItemDamage() == inputSlots.getStackInSlot(i).getItemDamage()))
+					if (requiredStack.matches(inputSlots.getStackInSlot(i)))
 					{
 						inputSlots.decrStackSize(i, requiredStack.stackSize);
 
@@ -64,8 +60,7 @@ public class SlotInfusionRepairResult extends Slot
 								if (containerStack != null && containerStack.isItemStackDamageable() && containerStack
 										.getItemDamage() > containerStack.getMaxDamage())
 								{
-									MinecraftForge.EVENT_BUS
-											.post(new PlayerDestroyItemEvent(entityPlayer, containerStack));
+									MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(entityPlayer, containerStack));
 									continue;
 								}
 
