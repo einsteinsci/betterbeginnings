@@ -1,16 +1,22 @@
 package net.einsteinsci.betterbeginnings.register;
 
 import net.einsteinsci.betterbeginnings.config.BBConfig;
+import net.einsteinsci.betterbeginnings.util.LogUtil;
+import net.einsteinsci.betterbeginnings.util.RegistryUtil;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.*;
+import org.apache.logging.log4j.Level;
 
 import java.util.*;
 
 public class RemoveRecipes
 {
+	static List<ItemStack> customRemovedCraftingRecipes = new ArrayList<>();
+	static List<ItemStack> customRemovedFurnaceRecipes = new ArrayList<>();
+
 	public static void remove()
 	{
 		List<Item> removedRecipes = new ArrayList<>();
@@ -158,11 +164,11 @@ public class RemoveRecipes
 		while (iterator.hasNext())
 		{
 			IRecipe recipe = iterator.next();
-			ItemStack stack = recipe.getRecipeOutput();
+			ItemStack result = recipe.getRecipeOutput();
 
-			if (stack != null)
+			if (result != null)
 			{
-				Item item = stack.getItem();
+				Item item = result.getItem();
 				if (item == Item.getItemFromBlock(Blocks.crafting_table) &&
 					recipe.getRecipeSize() != 4)
 				{
@@ -170,6 +176,24 @@ public class RemoveRecipes
 				}
 
 				if (item != null && removedRecipes.contains(item))
+				{
+					iterator.remove();
+					continue;
+				}
+
+				boolean removeMe = false;
+				for (ItemStack customRemoved : customRemovedCraftingRecipes)
+				{
+					if (RegistryUtil.areItemStacksEqualIgnoreSize(customRemoved, result))
+					{
+						LogUtil.logDebug(Level.INFO, "Custom removed crafting recipe for " + result.getDisplayName());
+
+						removeMe = true;
+						break;
+					}
+				}
+
+				if (removeMe)
 				{
 					iterator.remove();
 				}
@@ -230,8 +254,38 @@ public class RemoveRecipes
 				}
 			}
 		}
+
+		Map recipes = FurnaceRecipes.instance().getSmeltingList();
+		Iterator iterator = recipes.entrySet().iterator();
+
+		while (iterator.hasNext())
+		{
+			Map.Entry entry = (Map.Entry)iterator.next();
+			ItemStack result = (ItemStack)entry.getValue();
+			boolean removeMe = false;
+			for (ItemStack customRemoved : customRemovedFurnaceRecipes)
+			{
+				if (RegistryUtil.areItemStacksEqualIgnoreSize(customRemoved, result))
+				{
+					removeMe = true;
+					break;
+				}
+			}
+
+			if (removeMe)
+			{
+				iterator.remove();
+			}
+		}
+	}
+
+	public static List<ItemStack> getCustomRemovedCraftingRecipes()
+	{
+		return customRemovedCraftingRecipes;
+	}
+
+	public static List<ItemStack> getCustomRemovedFurnaceRecipes()
+	{
+		return customRemovedFurnaceRecipes;
 	}
 }
-
-
-// Buffer

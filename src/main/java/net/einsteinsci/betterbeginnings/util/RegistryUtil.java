@@ -5,6 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class RegistryUtil
 {
@@ -61,5 +62,20 @@ public class RegistryUtil
 		}
 
 		return getForgeName(stack.getItem());
+	}
+
+	public static boolean areItemStacksEqualIgnoreSize(ItemStack template, ItemStack tested)
+	{
+		if (template == null)
+		{
+			return tested == null;
+		}
+		else if (tested == null)
+		{
+			return false;
+		}
+
+		return template.getItem() == tested.getItem() && (template.getMetadata() == tested.getMetadata() ||
+			template.getMetadata() == OreDictionary.WILDCARD_VALUE);
 	}
 }

@@ -28,8 +28,6 @@ public class BBConfigFolderLoader
 
 	public static void loadRecipes(FMLInitializationEvent e)
 	{
-		BBJsonLoader.initialize();
-
 		loadJsonConfig(e, KilnConfig.INSTANCE);
 		loadJsonConfig(e, SmelterConfig.INSTANCE);
 		loadJsonConfig(e, BrickOvenConfig.INSTANCE);
@@ -37,6 +35,14 @@ public class BBConfigFolderLoader
 		loadJsonConfig(e, CampfireConfig.INSTANCE);
 		loadJsonConfig(e, RepairInfusionConfig.INSTANCE);
 		loadJsonConfig(e, BoosterConfig.INSTANCE);
+	}
+
+	// Should be run before RemoveRecipes.remove() and .removeFurnaceRecipes()
+	public static void loadRemovedRecipes(FMLInitializationEvent e)
+	{
+		BBJsonLoader.initialize();
+
+		loadJsonConfig(e, RemovalConfig.INSTANCE);
 	}
 
 	public static void loadJsonConfig(FMLInitializationEvent e, IJsonConfig config)

@@ -84,7 +84,14 @@ public class ModMain
 	{
 		proxy.init(e);
 
+		BBConfigFolderLoader.loadRemovedRecipes(e);
+
 		RemoveRecipes.remove();
+		if (BBConfig.moduleFurnaces)
+		{
+			RemoveRecipes.removeFurnaceRecipes();
+		}
+
 		RegisterRecipes.addShapelessRecipes();
 		RegisterRecipes.addShapedRecipes();
 		RegisterRecipes.addAdvancedRecipes();
@@ -93,11 +100,6 @@ public class ModMain
 		TileEntitySmelterBase.registerDefaultBoosters();
 
 		BBConfigFolderLoader.loadRecipes(e);
-
-		if (BBConfig.moduleFurnaces)
-		{
-			RemoveRecipes.removeFurnaceRecipes();
-		}
 
 		if (e.getSide() == Side.CLIENT)
 		{
