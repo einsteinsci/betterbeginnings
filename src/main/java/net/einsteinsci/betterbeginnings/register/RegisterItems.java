@@ -109,11 +109,12 @@ public class RegisterItems
 		OreDictionary.registerOre("itemStringTough", new ItemStack(Items.string));
 		OreDictionary.registerOre("itemStringTough", new ItemStack(twine));
 
-		OreDictionary.registerOre("itemKindling", new ItemStack(Blocks.sapling));
-		OreDictionary.registerOre("itemKindling", new ItemStack(Blocks.leaves));
-		OreDictionary.registerOre("itemKindling", new ItemStack(Blocks.leaves2));
+		// Don't forget to wildcard
+		OreDictionary.registerOre("itemKindling", new ItemStack(Blocks.sapling, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("itemKindling", new ItemStack(Blocks.leaves, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("itemKindling", new ItemStack(Blocks.leaves2, 1, OreDictionary.WILDCARD_VALUE));
 		OreDictionary.registerOre("itemKindling", new ItemStack(Blocks.vine));
-		OreDictionary.registerOre("itemKindling", new ItemStack(Blocks.tallgrass));
+		OreDictionary.registerOre("itemKindling", new ItemStack(Blocks.tallgrass, 1, OreDictionary.WILDCARD_VALUE));
 	}
 
 	public static void tweakVanilla()
