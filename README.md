@@ -1,6 +1,8 @@
 Better Beginnings Mod
 =====================
 
+[![Join the chat at https://gitter.im/einsteinsci/betterbeginnings](https://badges.gitter.im/einsteinsci/betterbeginnings.svg)](https://gitter.im/einsteinsci/betterbeginnings?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Better Beginnings mod for Minecraft v1.8.x. Requires Forge (built with 11.14.4.1577).
 
 Kind of complicated. See the [forum topic](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/wip-mods/2192122-betterbeginnings-mod).
