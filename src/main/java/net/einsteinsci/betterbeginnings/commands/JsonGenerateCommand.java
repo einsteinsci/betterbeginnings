@@ -2,6 +2,7 @@ package net.einsteinsci.betterbeginnings.commands;
 
 import net.einsteinsci.betterbeginnings.config.BBConfigFolderLoader;
 import net.einsteinsci.betterbeginnings.config.json.BrickOvenConfig;
+import net.einsteinsci.betterbeginnings.config.json.SmelterConfig;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -28,7 +29,7 @@ public class JsonGenerateCommand extends CommandBase
 	public String getCommandUsage(ICommandSender sender)
 	{
 		// Do not translate this, as "smelter", "brickoven", and "kiln" are hardcoded.
-		return "jsongen <smelter|brickoven|kiln>";
+		return "jsongen <smelter | brickoven | kiln>";
 	}
 
 	public int getRequiredPermissionLevel()
@@ -47,7 +48,8 @@ public class JsonGenerateCommand extends CommandBase
 		String code = args[0];
 		if (code.equalsIgnoreCase(SMELTER))
 		{
-
+			SmelterConfig.INSTANCE.generateAutoConfig();
+			BBConfigFolderLoader.saveAutoJson(SmelterConfig.INSTANCE);
 		}
 		else if (code.equalsIgnoreCase(BRICKOVEN))
 		{
@@ -56,7 +58,8 @@ public class JsonGenerateCommand extends CommandBase
 		}
 		else if (code.equalsIgnoreCase(KILN))
 		{
-
+			SmelterConfig.INSTANCE.generateAffectedInputs();
+			BrickOvenConfig.INSTANCE.generateAffectedOutputs();
 		}
 		else
 		{

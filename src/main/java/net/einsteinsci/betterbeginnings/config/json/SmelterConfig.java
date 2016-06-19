@@ -2,11 +2,15 @@ package net.einsteinsci.betterbeginnings.config.json;
 
 import net.einsteinsci.betterbeginnings.config.json.recipe.JsonSmelterRecipe;
 import net.einsteinsci.betterbeginnings.config.json.recipe.JsonSmelterRecipeHandler;
+import net.einsteinsci.betterbeginnings.register.recipe.SmelterRecipeHandler;
 import net.einsteinsci.betterbeginnings.util.FileUtil;
 import net.einsteinsci.betterbeginnings.util.LogUtil;
+import net.einsteinsci.betterbeginnings.util.RegistryUtil;
+import net.einsteinsci.betterbeginnings.util.Util;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import org.apache.logging.log4j.Level;
@@ -14,17 +18,23 @@ import org.apache.logging.log4j.Level;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class SmelterConfig implements IJsonConfig
 {
 	public static final SmelterConfig INSTANCE = new SmelterConfig();
 
+	public static final List<ItemStack> AFFECTED_INPUTS = new ArrayList<>();
+
 	private static JsonSmelterRecipeHandler initialRecipes = new JsonSmelterRecipeHandler();
 
 	private JsonSmelterRecipeHandler mainRecipes = new JsonSmelterRecipeHandler();
 	private JsonSmelterRecipeHandler customRecipes = new JsonSmelterRecipeHandler();
+	private JsonSmelterRecipeHandler autoRecipes = new JsonSmelterRecipeHandler();
 
 	private List<JsonSmelterRecipeHandler> includes = new ArrayList<>();
+
+	private static boolean hasGenerated = false;
 
 	public static void addRecipe(String input, ItemStack output, float experience, int boosters, int bonus)
 	{
@@ -42,6 +52,11 @@ public class SmelterConfig implements IJsonConfig
 	public static void addRecipe(Block input, ItemStack output, float experience, int boosters, int bonus)
 	{
 		initialRecipes.getRecipes().add(new JsonSmelterRecipe(new ItemStack(input), output, experience, boosters, bonus));
+	}
+
+	public static JsonSmelterRecipe convert(ItemStack input, ItemStack output)
+	{
+		return new JsonSmelterRecipe(input, output, 0.1f, 1, 1);
 	}
 
 	@Override
@@ -113,6 +128,92 @@ public class SmelterConfig implements IJsonConfig
 		{
 			j.register();
 		}
+
+		autoRecipes = BBJsonLoader.deserializeObject(autoJson, JsonSmelterRecipeHandler.class);
+
+		for (JsonSmelterRecipe j : autoRecipes.getRecipes())
+		{
+			j.register();
+		}
+	}
+
+	public void generateAutoConfig()
+	{
+		for (Object obj : FurnaceRecipes.instance().getSmeltingList().entrySet())
+		{
+			if (!(obj instanceof Map.Entry))
+			{
+				continue; // No idea if this works.
+			}
+
+			Map.Entry<ItemStack, ItemStack> kvp = (Map.Entry<ItemStack, ItemStack>)obj;
+
+			List<String> inputNames = RegistryUtil.getOreNames(kvp.getKey());
+			boolean isOre = false;
+			for (String s : inputNames)
+			{
+				if (s.toLowerCase().startsWith("ore"))
+				{
+					isOre = true;
+					break;
+				}
+			}
+
+			if (isOre && !RegistryUtil.getModOwner(kvp.getKey().getItem()).equals("minecraft"))
+			{
+				if (!Util.listContainsItemStackIgnoreSize(AFFECTED_INPUTS, kvp.getKey()))
+				{
+					AFFECTED_INPUTS.add(kvp.getKey());
+				}
+
+				if (!SmelterRecipeHandler.instance().existsRecipeFrom(kvp.getKey()))
+				{
+					JsonSmelterRecipe recipe = convert(kvp.getKey(), kvp.getValue());
+					recipe.register();
+					autoRecipes.getRecipes().add(recipe);
+				}
+			}
+		}
+
+		hasGenerated = true;
+	}
+
+	// generates affected outputs without adding recipes
+	public void generateAffectedInputs()
+	{
+		if (!hasGenerated)
+		{
+			for (Object obj : FurnaceRecipes.instance().getSmeltingList().entrySet())
+			{
+				if (!(obj instanceof Map.Entry))
+				{
+					continue; // No idea if this works.
+				}
+
+				Map.Entry<ItemStack, ItemStack> kvp = (Map.Entry<ItemStack, ItemStack>)obj;
+
+				List<String> inputNames = RegistryUtil.getOreNames(kvp.getKey());
+				boolean isOre = false;
+				for (String s : inputNames)
+				{
+					if (s.toLowerCase().startsWith("ore"))
+					{
+						isOre = true;
+						break;
+					}
+				}
+
+				if (isOre && !RegistryUtil.getModOwner(kvp.getKey().getItem()).equals("minecraft"))
+				{
+					if (!Util.listContainsItemStackIgnoreSize(AFFECTED_INPUTS, kvp.getKey()))
+					{
+						AFFECTED_INPUTS.add(kvp.getKey());
+					}
+				}
+			}
+
+			hasGenerated = true;
+		}
 	}
 
 	@Override
@@ -167,7 +268,11 @@ public class SmelterConfig implements IJsonConfig
 
 	@Override
 	public void saveAutoJson(File subfolder)
-	{ }
+	{
+		String json = BBJsonLoader.serializeObject(autoRecipes);
+		File autof = new File(subfolder, "auto.json");
+		FileUtil.overwriteAllText(autof, json);
+	}
 
 	public JsonSmelterRecipeHandler getMainRecipes()
 	{

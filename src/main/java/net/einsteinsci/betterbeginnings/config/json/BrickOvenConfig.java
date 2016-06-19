@@ -11,10 +11,7 @@ import net.einsteinsci.betterbeginnings.util.Util;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraft.item.crafting.*;
 import net.minecraft.util.Tuple;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -266,6 +263,167 @@ public class BrickOvenConfig implements IJsonConfig
 
 	public void generateAutoConfig()
 	{
+		_addCraftingRecipes();
+		_addFurnaceRecipes();
+
+		hasGenerated = true;
+	}
+
+	private void _addCraftingRecipes()
+	{
+		for (Object obj : CraftingManager.getInstance().getRecipeList())
+		{
+			if (!(obj instanceof IRecipe))
+			{
+				continue;
+			}
+
+			IRecipe r = (IRecipe)obj;
+			ItemStack output = r.getRecipeOutput();
+
+			if (output == null)
+			{
+				continue; // no idea why this happens
+			}
+
+			Item item = output.getItem();
+			if (item != null && item instanceof ItemFood &&
+				!RegistryUtil.getModOwner(item).equals("minecraft"))
+			{
+				if (Util.listContainsItemStackIgnoreSize(AFFECTED_OUTPUTS, r.getRecipeOutput()))
+				{
+					//AFFECTED_OUTPUTS.add(r.getRecipeOutput());
+				}
+
+				// Don't add recipes for items already added.
+				if (BrickOvenRecipeHandler.instance().existsRecipeFor(output))
+				{
+					continue;
+				}
+
+				_addAutoRecipe(r);
+			}
+		}
+	}
+
+	private void _addAutoRecipe(IRecipe r)
+	{
+		if (r instanceof ShapedOreRecipe)
+		{
+			JsonBrickOvenShapedRecipe recipe = convert((ShapedOreRecipe)r);
+			if (recipe != null)
+			{
+				recipe.register();
+				autoRecipes.getShaped().add(recipe);
+			}
+		}
+		else if (r instanceof ShapedRecipes)
+		{
+			JsonBrickOvenShapedRecipe recipe = convert((ShapedRecipes)r);
+			if (recipe != null)
+			{
+				recipe.register();
+				autoRecipes.getShaped().add(recipe);
+			}
+		}
+		else if (r instanceof ShapelessOreRecipe)
+		{
+			JsonBrickOvenShapelessRecipe recipe = convert((ShapelessOreRecipe)r);
+			if (recipe != null)
+			{
+				recipe.register();
+				autoRecipes.getShapeless().add(recipe);
+			}
+		}
+		else if (r instanceof ShapelessRecipes)
+		{
+			JsonBrickOvenShapelessRecipe recipe = convert((ShapelessRecipes)r);
+			recipe.register();
+			autoRecipes.getShapeless().add(recipe);
+		}
+	}
+
+	private void _addFurnaceRecipes()
+	{
+		for (Object obj : FurnaceRecipes.instance().getSmeltingList().entrySet())
+		{
+			if (!(obj instanceof Map.Entry))
+			{
+				continue;
+			}
+
+			Map.Entry<ItemStack, ItemStack> kvp = (Map.Entry<ItemStack, ItemStack>)obj;
+
+			if (kvp.getValue() == null)
+			{
+				continue;
+			}
+
+			Item item = kvp.getValue().getItem();
+
+			if (item != null && item instanceof ItemFood &&
+				!RegistryUtil.getModOwner(item).equals("minecraft"))
+			{
+				if (Util.listContainsItemStackIgnoreSize(AFFECTED_OUTPUTS, kvp.getValue()))
+				{
+					AFFECTED_OUTPUTS.add(kvp.getValue());
+				}
+
+				// Don't add recipes for items already added.
+				if (BrickOvenRecipeHandler.instance().existsRecipeFor(kvp.getValue()))
+				{
+					continue;
+				}
+
+				JsonBrickOvenShapelessRecipe recipe = convertFurnace(kvp.getKey(), kvp.getValue());
+				recipe.register();
+				autoRecipes.getShapeless().add(recipe);
+			}
+		}
+	}
+
+	// generates affected outputs without adding recipes
+	public void generateAffectedOutputs()
+	{
+		if (!hasGenerated)
+		{
+			//_generateOutputsForCrafting();
+			_generateOutputsForFurnace();
+
+			hasGenerated = true;
+		}
+	}
+
+	private void _generateOutputsForFurnace()
+	{
+		for (Object obj : FurnaceRecipes.instance().getSmeltingList().entrySet())
+		{
+			if (!(obj instanceof Map.Entry))
+			{
+				continue;
+			}
+
+			Map.Entry<ItemStack, ItemStack> kvp = (Map.Entry<ItemStack, ItemStack>)obj;
+
+			if (kvp.getValue() == null)
+			{
+				continue;
+			}
+
+			Item item = kvp.getValue().getItem();
+			if (item != null && item instanceof ItemFood &&
+				!RegistryUtil.getModOwner(item).equals("minecraft"))
+			{
+				if (Util.listContainsItemStackIgnoreSize(AFFECTED_OUTPUTS, kvp.getValue()))
+				{
+					AFFECTED_OUTPUTS.add(kvp.getValue());
+				}
+			}
+		}
+	}
+
+	private void _generateOutputsForCrafting()
+	{
 		for (Object obj : CraftingManager.getInstance().getRecipeList())
 		{
 			if (!(obj instanceof IRecipe))
@@ -289,67 +447,7 @@ public class BrickOvenConfig implements IJsonConfig
 				{
 					AFFECTED_OUTPUTS.add(r.getRecipeOutput());
 				}
-
-				// Don't add recipes for items already added.
-				if (BrickOvenRecipeHandler.instance().existsRecipeFor(output))
-				{
-					continue;
-				}
-
-				if (r instanceof ShapedOreRecipe)
-				{
-					autoRecipes.getShaped().add(convert((ShapedOreRecipe)r));
-				}
-				else if (r instanceof ShapedRecipes)
-				{
-					autoRecipes.getShaped().add(convert((ShapedRecipes)r));
-				}
-				else if (r instanceof ShapelessOreRecipe)
-				{
-					autoRecipes.getShapeless().add(convert((ShapelessOreRecipe)r));
-				}
-				else if (r instanceof ShapelessRecipes)
-				{
-					autoRecipes.getShapeless().add(convert((ShapelessRecipes)r));
-				}
 			}
-		}
-
-		hasGenerated = true;
-	}
-
-	// generates affected outputs without adding recipes
-	public void generateAffectedOutputs()
-	{
-		if (!hasGenerated)
-		{
-			for (Object obj : CraftingManager.getInstance().getRecipeList())
-			{
-				if (!(obj instanceof IRecipe))
-				{
-					continue;
-				}
-
-				IRecipe r = (IRecipe)obj;
-				ItemStack output = r.getRecipeOutput();
-
-				if (output == null)
-				{
-					continue; // no idea why this happens
-				}
-
-				Item item = output.getItem();
-				if (item != null && item instanceof ItemFood &&
-					!RegistryUtil.getModOwner(item).equals("minecraft"))
-				{
-					if (Util.listContainsItemStackIgnoreSize(AFFECTED_OUTPUTS, r.getRecipeOutput()))
-					{
-						AFFECTED_OUTPUTS.add(r.getRecipeOutput());
-					}
-				}
-			}
-
-			hasGenerated = true;
 		}
 	}
 

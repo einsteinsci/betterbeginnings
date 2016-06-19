@@ -1,5 +1,6 @@
 package net.einsteinsci.betterbeginnings.register.recipe;
 
+import net.einsteinsci.betterbeginnings.util.Util;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -118,6 +119,32 @@ public class SmelterRecipeHandler
 		return stack2.getItem() == stack.getItem() &&
 				(stack2.getItemDamage() == OreDictionary.WILDCARD_VALUE || stack2.getItemDamage() == stack
 						.getItemDamage());
+	}
+
+	public boolean existsRecipeFor(ItemStack stack)
+	{
+		for (SmelterRecipe recipe : recipes)
+		{
+			if (Util.areItemStacksEqualIgnoreSize(recipe.getOutput(), stack))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public boolean existsRecipeFrom(ItemStack stack)
+	{
+		for (SmelterRecipe recipe : recipes)
+		{
+			if (Util.areItemStacksEqualIgnoreSize(recipe.getInput(), stack))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public int getBonusPerBoost(ItemStack input)
