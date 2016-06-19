@@ -2,6 +2,7 @@ package net.einsteinsci.betterbeginnings.commands;
 
 import net.einsteinsci.betterbeginnings.config.BBConfigFolderLoader;
 import net.einsteinsci.betterbeginnings.config.json.BrickOvenConfig;
+import net.einsteinsci.betterbeginnings.config.json.KilnConfig;
 import net.einsteinsci.betterbeginnings.config.json.SmelterConfig;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -60,6 +61,9 @@ public class JsonGenerateCommand extends CommandBase
 		{
 			SmelterConfig.INSTANCE.generateAffectedInputs();
 			BrickOvenConfig.INSTANCE.generateAffectedOutputs();
+
+			KilnConfig.INSTANCE.generateAutoConfig();
+			BBConfigFolderLoader.saveAutoJson(KilnConfig.INSTANCE);
 		}
 		else
 		{

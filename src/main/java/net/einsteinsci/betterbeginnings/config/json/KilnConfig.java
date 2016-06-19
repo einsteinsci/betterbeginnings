@@ -2,11 +2,15 @@ package net.einsteinsci.betterbeginnings.config.json;
 
 import net.einsteinsci.betterbeginnings.config.json.recipe.JsonKilnRecipe;
 import net.einsteinsci.betterbeginnings.config.json.recipe.JsonKilnRecipeHandler;
+import net.einsteinsci.betterbeginnings.register.recipe.KilnRecipeHandler;
 import net.einsteinsci.betterbeginnings.util.FileUtil;
 import net.einsteinsci.betterbeginnings.util.LogUtil;
+import net.einsteinsci.betterbeginnings.util.RegistryUtil;
+import net.einsteinsci.betterbeginnings.util.Util;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import org.apache.logging.log4j.Level;
@@ -14,6 +18,7 @@ import org.apache.logging.log4j.Level;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class KilnConfig implements IJsonConfig
 {
@@ -23,6 +28,7 @@ public class KilnConfig implements IJsonConfig
 
 	private JsonKilnRecipeHandler mainRecipes = new JsonKilnRecipeHandler();
 	private JsonKilnRecipeHandler customRecipes = new JsonKilnRecipeHandler();
+	private JsonKilnRecipeHandler autoRecipes = new JsonKilnRecipeHandler();
 
 	private List<JsonKilnRecipeHandler> includes = new ArrayList<>();
 
@@ -42,6 +48,11 @@ public class KilnConfig implements IJsonConfig
 	{
 		initialRecipes.getRecipes().add(new JsonKilnRecipe(JsonLoadedItem.makeOreDictionary(input),
 			new JsonLoadedItemStack(output), xp));
+	}
+
+	public static JsonKilnRecipe convert(ItemStack input, ItemStack output)
+	{
+		return new JsonKilnRecipe(input, output, 0.1f);
 	}
 
 	@Override
@@ -110,6 +121,51 @@ public class KilnConfig implements IJsonConfig
 		for (JsonKilnRecipe r : customRecipes.getRecipes())
 		{
 			r.register();
+		}
+	}
+
+	public void generateAutoConfig()
+	{
+		for (Object obj : FurnaceRecipes.instance().getSmeltingList().entrySet())
+		{
+			if (!(obj instanceof Map.Entry))
+			{
+				continue; // No idea if this works.
+			}
+
+			Map.Entry<ItemStack, ItemStack> kvp = (Map.Entry<ItemStack, ItemStack>)obj;
+
+			boolean isAlreadyDone = false;
+			for (ItemStack stack : BrickOvenConfig.AFFECTED_OUTPUTS)
+			{
+				if (Util.areItemStacksEqualIgnoreSize(stack, kvp.getValue()))
+				{
+					isAlreadyDone = true;
+					break;
+				}
+			}
+
+			if (!isAlreadyDone)
+			{
+				for (ItemStack stack : SmelterConfig.AFFECTED_INPUTS)
+				{
+					if (Util.areItemStacksEqualIgnoreSize(stack, kvp.getKey()))
+					{
+						isAlreadyDone = true;
+						break;
+					}
+				}
+			}
+
+			if (isAlreadyDone && !RegistryUtil.getModOwner(kvp.getKey().getItem()).equals("minecraft"))
+			{
+				if (!KilnRecipeHandler.instance().existsRecipeFrom(kvp.getKey()))
+				{
+					JsonKilnRecipe recipe = convert(kvp.getKey(), kvp.getValue());
+					recipe.register();
+					autoRecipes.getRecipes().add(recipe);
+				}
+			}
 		}
 	}
 

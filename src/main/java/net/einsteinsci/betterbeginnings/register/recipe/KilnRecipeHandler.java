@@ -1,5 +1,6 @@
 package net.einsteinsci.betterbeginnings.register.recipe;
 
+import net.einsteinsci.betterbeginnings.util.Util;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -87,6 +88,26 @@ public class KilnRecipeHandler
 		return stack2.getItem() == stack.getItem()
 				&& (stack2.getItemDamage() == OreDictionary.WILDCARD_VALUE || stack2.getItemDamage() == stack
 				.getItemDamage());
+	}
+
+	public boolean existsRecipeFrom(ItemStack input)
+	{
+		for (Object obj : getSmeltingList().entrySet())
+		{
+			if (!(obj instanceof Map.Entry))
+			{
+				continue; // No idea if this works.
+			}
+
+			Map.Entry<ItemStack, ItemStack> kvp = (Map.Entry<ItemStack, ItemStack>)obj;
+
+			if (Util.areItemStacksEqualIgnoreSize(input, kvp.getKey()))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public float giveExperience(ItemStack stack)
