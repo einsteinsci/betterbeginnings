@@ -124,6 +124,8 @@ blockbreak.success=Ouch! But at least it worked.
 blockbreak.wrongtool=Wrong tool!
 blockbreak.wrongtool.message=Requires %1$s %2$s.
 
+command.jsongen.complete=JSON generation complete!
+
 scroll.notool=No tool on table.
 scroll.repaired=Tool is repaired.
 scroll.error=Next ingredient is NULL.

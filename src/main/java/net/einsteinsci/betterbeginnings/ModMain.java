@@ -1,5 +1,6 @@
 package net.einsteinsci.betterbeginnings;
 
+import net.einsteinsci.betterbeginnings.commands.JsonGenerateCommand;
 import net.einsteinsci.betterbeginnings.config.BBConfig;
 import net.einsteinsci.betterbeginnings.config.BBConfigFolderLoader;
 import net.einsteinsci.betterbeginnings.event.BBEventHandler;
@@ -118,5 +119,11 @@ public class ModMain
 		Worldgen.addWorldgen();
 		AchievementPage.registerAchievementPage(new AchievementPage(NAME, RegisterAchievements.getAchievements()));
 		LogUtil.logDebug("Finished post-initialization.");
+	}
+
+	@EventHandler
+	public void serverLoad(FMLServerStartingEvent e)
+	{
+		e.registerServerCommand(new JsonGenerateCommand());
 	}
 }

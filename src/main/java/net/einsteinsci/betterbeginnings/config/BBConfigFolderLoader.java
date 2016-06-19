@@ -61,4 +61,12 @@ public class BBConfigFolderLoader
 
 		config.savePostLoad(subfolder);
 	}
+
+	public static void saveAutoJson(IJsonConfig config)
+	{
+		File subfolder = new File(configFolder, config.getSubFolder());
+		subfolder.mkdirs();
+
+		config.saveAutoJson(subfolder);
+	}
 }

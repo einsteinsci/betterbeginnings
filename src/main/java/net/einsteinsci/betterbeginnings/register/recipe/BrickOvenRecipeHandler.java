@@ -2,6 +2,7 @@ package net.einsteinsci.betterbeginnings.register.recipe;
 
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityBrickOven;
 import net.einsteinsci.betterbeginnings.util.LogUtil;
+import net.einsteinsci.betterbeginnings.util.Util;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -201,6 +202,19 @@ public class BrickOvenRecipeHandler
 				return true;
 			}
 		}
+		return false;
+	}
+
+	public boolean existsRecipeFor(ItemStack stack)
+	{
+		for (IBrickOvenRecipe recipe : recipes)
+		{
+			if (Util.areItemStacksEqualIgnoreSize(recipe.getRecipeOutput(), stack))
+			{
+				return true;
+			}
+		}
+
 		return false;
 	}
 

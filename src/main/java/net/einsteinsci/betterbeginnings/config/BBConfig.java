@@ -1,6 +1,5 @@
 package net.einsteinsci.betterbeginnings.config;
 
-import net.einsteinsci.betterbeginnings.ModMain;
 import net.einsteinsci.betterbeginnings.util.LogUtil;
 import net.einsteinsci.betterbeginnings.util.RegistryUtil;
 import net.minecraft.block.Block;
@@ -8,6 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.Level;
+import sun.security.krb5.Config;
 
 import java.util.*;
 
@@ -219,6 +219,16 @@ public class BBConfig
 		// Save //
 		//////////
 
+		save(config);
+	}
+
+	public static void TurnOffAutoJSON(Configuration config)
+	{
+
+	}
+
+	public static void save(Configuration config)
+	{
 		if (config.hasChanged())
 		{
 			config.save();

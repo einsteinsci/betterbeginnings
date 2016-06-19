@@ -3,6 +3,7 @@ package net.einsteinsci.betterbeginnings.register;
 import net.einsteinsci.betterbeginnings.config.BBConfig;
 import net.einsteinsci.betterbeginnings.util.LogUtil;
 import net.einsteinsci.betterbeginnings.util.RegistryUtil;
+import net.einsteinsci.betterbeginnings.util.Util;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -184,7 +185,7 @@ public class RemoveRecipes
 				boolean removeMe = false;
 				for (ItemStack customRemoved : customRemovedCraftingRecipes)
 				{
-					if (RegistryUtil.areItemStacksEqualIgnoreSize(customRemoved, result))
+					if (Util.areItemStacksEqualIgnoreSize(customRemoved, result))
 					{
 						LogUtil.logDebug(Level.INFO, "Custom removed crafting recipe for " + result.getDisplayName());
 
@@ -265,7 +266,7 @@ public class RemoveRecipes
 			boolean removeMe = false;
 			for (ItemStack customRemoved : customRemovedFurnaceRecipes)
 			{
-				if (RegistryUtil.areItemStacksEqualIgnoreSize(customRemoved, result))
+				if (Util.areItemStacksEqualIgnoreSize(customRemoved, result))
 				{
 					removeMe = true;
 					break;

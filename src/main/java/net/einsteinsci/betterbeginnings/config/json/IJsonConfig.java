@@ -19,4 +19,5 @@ public interface IJsonConfig
 	void loadIncludedConfig(FMLInitializationEvent e, List<String> includedJsons);
 
 	void savePostLoad(File subfolder);
+	void saveAutoJson(File subfolder);
 }

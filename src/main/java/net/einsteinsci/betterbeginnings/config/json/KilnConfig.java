@@ -163,6 +163,10 @@ public class KilnConfig implements IJsonConfig
 		FileUtil.overwriteAllText(customf, json);
 	}
 
+	@Override
+	public void saveAutoJson(File subfolder)
+	{ }
+
 	public JsonKilnRecipeHandler getMainRecipes()
 	{
 		return mainRecipes;

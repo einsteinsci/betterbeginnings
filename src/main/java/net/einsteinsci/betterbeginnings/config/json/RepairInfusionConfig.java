@@ -149,6 +149,10 @@ public class RepairInfusionConfig implements IJsonConfig
 		FileUtil.overwriteAllText(customf, json);
 	}
 
+	@Override
+	public void saveAutoJson(File subfolder)
+	{ }
+
 	public JsonRepairInfusionHandler getMainAssociations()
 	{
 		return mainAssociations;

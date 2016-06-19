@@ -4,8 +4,16 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Tuple;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+import org.apache.logging.log4j.Level;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class RegistryUtil
 {
@@ -64,18 +72,135 @@ public class RegistryUtil
 		return getForgeName(stack.getItem());
 	}
 
-	public static boolean areItemStacksEqualIgnoreSize(ItemStack template, ItemStack tested)
+	public static String getModOwner(Item item)
 	{
-		if (template == null)
+		String forgeName = getForgeName(item);
+
+		String res = "";
+		for (char c : forgeName.toCharArray())
 		{
-			return tested == null;
-		}
-		else if (tested == null)
-		{
-			return false;
+			if (c == ':')
+			{
+				break;
+			}
+
+			res += c;
 		}
 
-		return template.getItem() == tested.getItem() && (template.getMetadata() == tested.getMetadata() ||
-			template.getMetadata() == OreDictionary.WILDCARD_VALUE);
+		return res;
+	}
+
+	public static String getCommonOreDictName(List<ItemStack> items)
+	{
+		List<String> commonNames = null;
+
+		for (ItemStack is : items)
+		{
+			if (commonNames == null)
+			{
+				commonNames = getOreNames(is);
+			}
+			else
+			{
+				List<String> compared = getOreNames(is);
+
+				Iterator<String> iter = commonNames.iterator();
+				while (iter.hasNext())
+				{
+					String s = iter.next();
+
+					if (!compared.contains(s))
+					{
+						iter.remove();
+					}
+				}
+
+				if (commonNames.isEmpty())
+				{
+					return null;
+				}
+			}
+		}
+
+		if (commonNames == null || commonNames.isEmpty())
+		{
+			return null;
+		}
+
+		return commonNames.get(0);
+	}
+
+	public static List<String> getOreNames(ItemStack item)
+	{
+		List<String> res = new ArrayList<>();
+		for (String ore : OreDictionary.getOreNames())
+		{
+			if (OreDictionary.getOres(ore).contains(item))
+			{
+				res.add(ore);
+			}
+		}
+
+		return res;
+	}
+
+	// Kinda sketchy
+	public static Tuple getRecipeCharacter(Map<Object, Character> map, Object obj, Character current)
+	{
+		boolean res = false;
+		Character token = '0';
+
+		if (obj instanceof ItemStack)
+		{
+			ItemStack stack = (ItemStack)obj;
+
+			boolean found = false;
+			for (Map.Entry<Object, Character> kvp : map.entrySet())
+			{
+				if (kvp.getKey() instanceof ItemStack)
+				{
+					ItemStack k = (ItemStack)kvp.getKey();
+					if (Util.areItemStacksEqualIgnoreSize(k, stack))
+					{
+						token = kvp.getValue();
+						found = true;
+						break;
+					}
+				}
+			}
+
+			if (!found)
+			{
+				map.put(stack, token);
+				res = true;
+			}
+		}
+		else if (obj instanceof List)
+		{
+			String ore = null;
+			try
+			{
+				ore = RegistryUtil.getCommonOreDictName((List<ItemStack>)obj);
+			}
+			catch (ClassCastException ex)
+			{
+				LogUtil.log(Level.ERROR, "Failed to cast list in ore dictionary conversion: " + ex.toString());
+			}
+
+			if (ore != null)
+			{
+				if (map.containsKey(ore))
+				{
+					token = map.get(ore);
+				}
+				else
+				{
+					map.put(ore, current);
+					res = true;
+				}
+			}
+		}
+
+		return new Tuple(res, token);
 	}
 }

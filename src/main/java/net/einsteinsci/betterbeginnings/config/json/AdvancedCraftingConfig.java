@@ -148,6 +148,10 @@ public class AdvancedCraftingConfig implements IJsonConfig
 		FileUtil.overwriteAllText(mainf, json);
 	}
 
+	@Override
+	public void saveAutoJson(File subfolder)
+	{ }
+
 	public JsonAdvancedCraftingHandler getMainRecipes()
 	{
 		return mainRecipes;

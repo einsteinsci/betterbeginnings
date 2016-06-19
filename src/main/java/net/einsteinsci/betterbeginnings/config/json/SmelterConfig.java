@@ -165,6 +165,10 @@ public class SmelterConfig implements IJsonConfig
 		FileUtil.overwriteAllText(customf, json);
 	}
 
+	@Override
+	public void saveAutoJson(File subfolder)
+	{ }
+
 	public JsonSmelterRecipeHandler getMainRecipes()
 	{
 		return mainRecipes;

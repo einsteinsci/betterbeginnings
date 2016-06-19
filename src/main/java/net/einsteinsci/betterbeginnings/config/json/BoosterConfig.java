@@ -148,6 +148,10 @@ public class BoosterConfig implements IJsonConfig
 		FileUtil.overwriteAllText(customf, json);
 	}
 
+	@Override
+	public void saveAutoJson(File subfolder)
+	{ }
+
 	public JsonBoosterHandler getMainBoosters()
 	{
 		return mainBoosters;

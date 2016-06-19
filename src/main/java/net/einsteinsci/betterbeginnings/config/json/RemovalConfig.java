@@ -136,6 +136,10 @@ public class RemovalConfig implements IJsonConfig
 		}
 	}
 
+	@Override
+	public void saveAutoJson(File subfolder)
+	{ }
+
 	public JsonRemoveRecipesHandler getCustomRecipes()
 	{
 		return customRecipes;

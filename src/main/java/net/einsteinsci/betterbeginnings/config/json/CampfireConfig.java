@@ -193,6 +193,10 @@ public class CampfireConfig implements IJsonConfig
 		FileUtil.overwriteAllText(customf, json);
 	}
 
+	@Override
+	public void saveAutoJson(File subfolder)
+	{ }
+
 	public JsonCampfireRecipeHandler getMainRecipes()
 	{
 		return mainRecipes;
