@@ -40,6 +40,7 @@ public class NEIConfig implements IConfigureNEI
 		API.hideItem(new ItemStack(RegisterBlocks.obsidianKilnLit));
 		API.hideItem(new ItemStack(RegisterBlocks.netherBrickOvenLit));
 		API.hideItem(new ItemStack(RegisterBlocks.enderSmelterLit));
+		API.hideItem(new ItemStack(RegisterBlocks.redstoneKilnLit));
 
 		API.hideItem(new ItemStack(RegisterBlocks.campfireLit));
 	}

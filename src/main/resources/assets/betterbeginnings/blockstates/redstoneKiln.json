@@ -1,0 +1,19 @@
+{
+	"variants": {
+		"facing=north": {
+			"model": "betterbeginnings:redstoneKiln"
+		},
+		"facing=south": {
+			"model": "betterbeginnings:redstoneKiln",
+			"y": 180
+		},
+		"facing=west": {
+			"model": "betterbeginnings:redstoneKiln",
+			"y": 270
+		},
+		"facing=east": {
+			"model": "betterbeginnings:redstoneKiln",
+			"y": 90
+		}
+	}
+}

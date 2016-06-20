@@ -26,6 +26,8 @@ public class RegisterBlocks
 	public static final BlockNetherBrickOven netherBrickOvenLit = new BlockNetherBrickOven(true);
 	public static final BlockEnderSmelter enderSmelter = new BlockEnderSmelter(false);
 	public static final BlockEnderSmelter enderSmelterLit = new BlockEnderSmelter(true);
+	public static final BlockRedstoneKiln redstoneKiln = new BlockRedstoneKiln(false);
+	public static final BlockRedstoneKiln redstoneKilnLit = new BlockRedstoneKiln(true);
 
 	public static final List<Block> allBlocks = new ArrayList<>();
 
@@ -55,6 +57,9 @@ public class RegisterBlocks
 
 		RegisterHelper.registerBlock(enderSmelter);
 		RegisterHelper.registerBlock(enderSmelterLit);
+
+		RegisterHelper.registerBlock(redstoneKiln);
+		RegisterHelper.registerBlock(redstoneKilnLit);
 
 		oreDictionary();
 	}

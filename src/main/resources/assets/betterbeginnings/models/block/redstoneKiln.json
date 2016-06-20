@@ -1,0 +1,8 @@
+{
+	"parent": "block/orientable",
+	"textures": {
+		"top": "betterbeginnings:blocks/redstoneKilnTop",
+		"front": "betterbeginnings:blocks/redstoneKilnUnlit",
+		"side": "betterbeginnings:blocks/redstoneKilnSide"
+	}
+}

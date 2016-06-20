@@ -13,6 +13,8 @@ tile.netherBrickOven.name=Nether Brick Oven
 tile.netherBrickOvenLit.name=Nether Brick Oven (Lit)
 tile.enderSmelter.name=Ender Smelter
 tile.enderSmelterLit.name=Ender Smelter (Lit)
+tile.redstoneKiln.name=Redstone Kiln
+tile.redstoneKilnLit.name=Redstone Kiln (Lit)
 tile.campfire.name=Campfire
 tile.campfireLit.name=Campfire (Lit)
 
