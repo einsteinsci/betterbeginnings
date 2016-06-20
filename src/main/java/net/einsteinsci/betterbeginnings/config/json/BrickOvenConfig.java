@@ -290,11 +290,6 @@ public class BrickOvenConfig implements IJsonConfig
 			if (item != null && item instanceof ItemFood &&
 				!RegistryUtil.getModOwner(item).equals("minecraft"))
 			{
-				if (Util.listContainsItemStackIgnoreSize(AFFECTED_OUTPUTS, r.getRecipeOutput()))
-				{
-					//AFFECTED_OUTPUTS.add(r.getRecipeOutput());
-				}
-
 				// Don't add recipes for items already added.
 				if (BrickOvenRecipeHandler.instance().existsRecipeFor(output))
 				{
@@ -387,7 +382,6 @@ public class BrickOvenConfig implements IJsonConfig
 	{
 		if (!hasGenerated)
 		{
-			//_generateOutputsForCrafting();
 			_generateOutputsForFurnace();
 
 			hasGenerated = true;
@@ -417,35 +411,6 @@ public class BrickOvenConfig implements IJsonConfig
 				if (Util.listContainsItemStackIgnoreSize(AFFECTED_OUTPUTS, kvp.getValue()))
 				{
 					AFFECTED_OUTPUTS.add(kvp.getValue());
-				}
-			}
-		}
-	}
-
-	private void _generateOutputsForCrafting()
-	{
-		for (Object obj : CraftingManager.getInstance().getRecipeList())
-		{
-			if (!(obj instanceof IRecipe))
-			{
-				continue;
-			}
-
-			IRecipe r = (IRecipe)obj;
-			ItemStack output = r.getRecipeOutput();
-
-			if (output == null)
-			{
-				continue; // no idea why this happens
-			}
-
-			Item item = output.getItem();
-			if (item != null && item instanceof ItemFood &&
-				!RegistryUtil.getModOwner(item).equals("minecraft"))
-			{
-				if (Util.listContainsItemStackIgnoreSize(AFFECTED_OUTPUTS, r.getRecipeOutput()))
-				{
-					AFFECTED_OUTPUTS.add(r.getRecipeOutput());
 				}
 			}
 		}
