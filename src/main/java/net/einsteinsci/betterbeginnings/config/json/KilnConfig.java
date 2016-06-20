@@ -221,7 +221,11 @@ public class KilnConfig implements IJsonConfig
 
 	@Override
 	public void saveAutoJson(File subfolder)
-	{ }
+	{
+		String json = BBJsonLoader.serializeObject(autoRecipes);
+		File autof = new File(subfolder, "auto.json");
+		FileUtil.overwriteAllText(autof, json);
+	}
 
 	public JsonKilnRecipeHandler getMainRecipes()
 	{
