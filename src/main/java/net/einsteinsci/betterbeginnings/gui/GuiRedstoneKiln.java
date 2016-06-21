@@ -69,7 +69,7 @@ public class GuiRedstoneKiln extends GuiContainer
 
 		if (tileKiln.isBurning())
 		{
-			drawTexturedModalRect(k + 56, l + 46, 176, 0, 14, 14);
+			drawTexturedModalRect(k + 57, l + 46, 176, 0, 14, 14);
 		}
 
 		i1 = tileKiln.getCookProgressScaled(24);
