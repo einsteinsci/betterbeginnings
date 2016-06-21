@@ -37,7 +37,7 @@ public class GuiRedstoneKiln extends GuiContainer
 		// In fuel zone
 		if (mouseX >= k + 17 && mouseX <= k + 32 && mouseY >= l + 10 && mouseY <= l + 57)
 		{
-			//_drawPowerTooltip(mouseX - k, mouseY - l);
+			_drawPowerTooltip(mouseX - k, mouseY - l);
 		}
 	}
 

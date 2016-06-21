@@ -9,6 +9,7 @@ import net.einsteinsci.betterbeginnings.inventory.BatterySpecializedFurnace;
 import net.einsteinsci.betterbeginnings.inventory.ContainerRedstoneKiln;
 
 import net.einsteinsci.betterbeginnings.network.PacketPoweredBBFurnaceEnergy;
+import net.einsteinsci.betterbeginnings.util.LogUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
@@ -17,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import org.apache.logging.log4j.Level;
 
 public class TileEntityRedstoneKiln extends TileEntityKilnBase implements IEnergyReceiver, ITileEntityPoweredBBFurnace
 {
@@ -87,6 +89,9 @@ public class TileEntityRedstoneKiln extends TileEntityKilnBase implements IEnerg
 			//	}
 			//}
 
+			boolean couldSmelt = canSmelt();
+			boolean dirty = false;
+
 			if (isBurning() && canSmelt())
 			{
 				++cookTime;
@@ -94,15 +99,13 @@ public class TileEntityRedstoneKiln extends TileEntityKilnBase implements IEnerg
 				{
 					cookTime = 0;
 					smeltItem();
+					dirty = true;
 				}
 			}
 			else
 			{
 				cookTime = 0;
 			}
-
-			updateBlockState();
-			markDirty();
 
 			// Charge battery from "fuel" slot
 			ItemStack fuel = specialFurnaceStacks[SLOT_FUEL];
@@ -116,15 +119,31 @@ public class TileEntityRedstoneKiln extends TileEntityKilnBase implements IEnerg
 				{
 					capacitor.extractEnergy(fuel, CHARGE_RATE, false);
 					battery.receiveEnergy(extracted, false);
+
+					updateNetwork();
+					dirty = true;
 				}
 			}
 
-			if (fuel != null && fuel.getItem() == Items.fire_charge)
+			if (fuel != null && fuel.getItem() == Items.fire_charge) // DEBUG
 			{
 				battery.receiveEnergy(CHARGE_RATE, false);
+
+				updateNetwork();
+				dirty = true;
 			}
 
-			updateNetwork();
+			updateBlockState();
+
+			if (couldSmelt != canSmelt())
+			{
+				dirty = true;
+			}
+
+			if (dirty)
+			{
+				markDirty();
+			}
 		}
 	}
 
@@ -138,12 +157,15 @@ public class TileEntityRedstoneKiln extends TileEntityKilnBase implements IEnerg
 	@Override
 	public void smeltItem()
 	{
-		super.smeltItem();
-
 		if (canSmelt())
 		{
-			battery.extractEnergy(SMELT_COST, false);
+			int extr = battery.extractEnergy(SMELT_COST, false);
+			LogUtil.log(Level.ERROR, "=== EXTRACTED: " + extr + " ===");
 		}
+
+		super.smeltItem();
+
+		updateNetwork();
 	}
 
 	@Override

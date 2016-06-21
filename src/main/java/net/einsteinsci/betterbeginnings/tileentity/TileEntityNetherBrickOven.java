@@ -106,8 +106,8 @@ public class TileEntityNetherBrickOven extends TileEntityBrickOvenBase implement
 	@Override
 	public void update()
 	{
-		boolean flag = canSmelt();
-		boolean flag1 = false;
+		boolean couldSmelt = canSmelt();
+		boolean dirty = false;
 
 		if (!worldObj.isRemote)
 		{
@@ -118,7 +118,7 @@ public class TileEntityNetherBrickOven extends TileEntityBrickOvenBase implement
 				{
 					cookTime = 0;
 					smeltItem();
-					flag1 = true;
+					dirty = true;
 				}
 			}
 			else
@@ -138,12 +138,12 @@ public class TileEntityNetherBrickOven extends TileEntityBrickOvenBase implement
 			}
 		}
 
-		if (flag != canSmelt())
+		if (couldSmelt != canSmelt())
 		{
-			flag1 = true;
+			dirty = true;
 		}
 
-		if (flag1)
+		if (dirty)
 		{
 			markDirty();
 		}
@@ -178,12 +178,12 @@ public class TileEntityNetherBrickOven extends TileEntityBrickOvenBase implement
 	@Override
 	public void smeltItem()
 	{
-		super.smeltItem();
-
 		if (canSmelt())
 		{
 			fuelTank.getFluid().amount -= getFuelNeededForSmelt();
 		}
+
+		super.smeltItem();
 
 		updateNetwork();
 	}
