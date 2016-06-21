@@ -7,6 +7,9 @@ import net.einsteinsci.betterbeginnings.register.recipe.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.*;
 
@@ -580,6 +583,8 @@ public class RegisterRecipes
 		                                          'B', Items.bone,
 		                                          '/', "stickWood");
 
+		// region Tools & Armor
+
 		// Leather armor
 		AdvancedCraftingConfig.addAdvancedRecipe(new ItemStack(Items.leather_helmet),
 		                                          new Object[] {"itemString", 3,
@@ -1115,6 +1120,8 @@ public class RegisterRecipes
 				'/', "stickWood");
 		}
 
+		// endregion Tools & Armor
+
 		if (BBConfig.moduleInfusionRepair)
 		{
 			// Repair Infusion Station
@@ -1165,6 +1172,18 @@ public class RegisterRecipes
 				'#', Blocks.end_stone,
 				'S', RegisterBlocks.smelter,
 				'E', Items.ender_eye);
+
+			if (Loader.isModLoaded("enderio") || Loader.isModLoaded("buildcraft") ||
+				Loader.isModLoaded("cofhcore") || Loader.isModLoaded("immersiveengineering"))
+			{
+				AdvancedCraftingHandler.addAdvancedRecipe(new ItemStack(RegisterBlocks.redstoneKiln),
+					new Object[]{ "dustRedstone", 32, "nuggetGold", 16, new ItemStack(Items.blaze_powder, 10) },
+					"DED", "/K/", "DED",
+					'K', RegisterBlocks.obsidianKiln,
+					'/', Items.blaze_rod,
+					'E', Items.ender_eye,
+					'D', Items.diamond);
+			}
 		}
 
 		// Rock Hammer

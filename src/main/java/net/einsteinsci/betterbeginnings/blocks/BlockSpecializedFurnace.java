@@ -147,11 +147,13 @@ public abstract class BlockSpecializedFurnace extends BlockContainer implements 
 		}
 	}
 
+	@Override
 	protected BlockState createBlockState()
 	{
 		return new BlockState(this, FACING);
 	}
-	
+
+	@Override
 	public int getMetaFromState(IBlockState state)
 	{
 		return ((EnumFacing)state.getValue(FACING)).getIndex();

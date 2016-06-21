@@ -8,9 +8,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
-/**
- * Created by einsteinsci on 8/17/2014.
- */
 public class GuiObsidianKiln extends GuiContainer
 {
 	private static final ResourceLocation kilnGuiTextures = new ResourceLocation(

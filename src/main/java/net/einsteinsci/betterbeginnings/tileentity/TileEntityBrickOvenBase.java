@@ -185,7 +185,7 @@ public abstract class TileEntityBrickOvenBase extends TileEntitySpecializedFurna
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack)
 	{
-		return slot == OUTPUT ? false : slot == FUEL ? isItemFuel(stack) : true;
+		return slot != OUTPUT && (slot != FUEL || isItemFuel(stack));
 	}
 
 	public ItemStack getStackInRowAndColumn(int row, int column)

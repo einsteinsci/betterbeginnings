@@ -7,6 +7,7 @@ import net.einsteinsci.betterbeginnings.event.BBEventHandler;
 import net.einsteinsci.betterbeginnings.event.Worldgen;
 import net.einsteinsci.betterbeginnings.network.PacketCampfireState;
 import net.einsteinsci.betterbeginnings.network.PacketNetherBrickOvenFuelLevel;
+import net.einsteinsci.betterbeginnings.network.PacketPoweredBBFurnaceEnergy;
 import net.einsteinsci.betterbeginnings.network.ServerProxy;
 import net.einsteinsci.betterbeginnings.register.*;
 import net.einsteinsci.betterbeginnings.register.achievement.RegisterAchievements;
@@ -32,7 +33,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ModMain
 {
 	public static final String MODID = "betterbeginnings";
-	public static final String VERSION = "0.9.7-R1";
+	public static final String VERSION = "0.9.8-pre1";
 	public static final String NAME = "BetterBeginnings";
 	public static final CreativeTabs tabBetterBeginnings = new CreativeTabs("tabBetterBeginnings")
 	{
@@ -74,6 +75,8 @@ public class ModMain
 			PacketNetherBrickOvenFuelLevel.class, 0, Side.CLIENT);
 		network.registerMessage(PacketCampfireState.PacketHandler.class,
 			PacketCampfireState.class, 1, Side.CLIENT);
+		network.registerMessage(PacketPoweredBBFurnaceEnergy.PacketHandler.class,
+			PacketPoweredBBFurnaceEnergy.class, 2, Side.CLIENT);
 
 		RegisterItems.register();
 		RegisterBlocks.register();

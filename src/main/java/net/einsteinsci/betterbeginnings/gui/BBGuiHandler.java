@@ -7,9 +7,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 
-/**
- * Some issues with this. Please note the server doesn't register items or blocks. At all.
- */
 public class BBGuiHandler implements IGuiHandler
 {
 	public static final int KILN_ID = 0;
@@ -21,6 +18,10 @@ public class BBGuiHandler implements IGuiHandler
 	public static final int NETHERBRICKOVEN_ID = 7;
 	public static final int ENDERSMELTER_ID = 8;
 	public static final int CAMPFIRE_ID = 9;
+
+	public static final int REDSTONEKILN_ID = 10;
+	public static final int FLUXEDOVEN_ID = 11;
+	public static final int RESONANTSMELTER_ID = 12;
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
@@ -77,6 +78,12 @@ public class BBGuiHandler implements IGuiHandler
 		{
 			TileEntityCampfire campfire = (TileEntityCampfire)world.getTileEntity(pos);
 			return new ContainerCampfire(player.inventory, campfire);
+		}
+
+		if (ID == REDSTONEKILN_ID)
+		{
+			TileEntityRedstoneKiln redKiln = (TileEntityRedstoneKiln)world.getTileEntity(pos);
+			return new ContainerRedstoneKiln(player.inventory, redKiln);
 		}
 
 		return null;
@@ -137,6 +144,12 @@ public class BBGuiHandler implements IGuiHandler
 		{
 			TileEntityCampfire campfire = (TileEntityCampfire)world.getTileEntity(pos);
 			return new GuiCampfire(player.inventory, campfire);
+		}
+
+		if (ID == REDSTONEKILN_ID)
+		{
+			TileEntityRedstoneKiln redKiln = (TileEntityRedstoneKiln)world.getTileEntity(pos);
+			return new GuiRedstoneKiln(player.inventory, redKiln);
 		}
 
 		return null;

@@ -28,11 +28,11 @@ public abstract class TileEntityKilnBase extends TileEntitySpecializedFurnace im
 	public static final int[] SLOTS_BOTTOM = new int[] {SLOT_OUTPUT};
 	public static final int[] SLOTS_SIDES = new int[] {SLOT_FUEL, SLOT_INPUT};
 
-	public TileEntityKilnBase()
+	protected TileEntityKilnBase()
 	{
 		super(3);
 	}
-	public TileEntityKilnBase(int slots)
+	protected TileEntityKilnBase(int slots)
 	{
 		super(slots);
 	}
@@ -171,8 +171,8 @@ public abstract class TileEntityKilnBase extends TileEntitySpecializedFurnace im
 				return false;
 			}
 
-			int result = specialFurnaceStacks[SLOT_OUTPUT].stackSize + stack.stackSize;
-			return result <= getInventoryStackLimit() && result <= specialFurnaceStacks[SLOT_OUTPUT].getMaxStackSize();
+			int size = specialFurnaceStacks[SLOT_OUTPUT].stackSize + stack.stackSize;
+			return size <= getInventoryStackLimit() && size <= specialFurnaceStacks[SLOT_OUTPUT].getMaxStackSize();
 		}
 	}
 

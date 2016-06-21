@@ -24,7 +24,7 @@ public abstract class TileEntitySpecializedFurnace extends TileEntity implements
 	public int cookTime;
 	protected int processTime;
 
-	public TileEntitySpecializedFurnace(int numStacks) 
+	protected TileEntitySpecializedFurnace(int numStacks)
 	{
 		specialFurnaceStacks = new ItemStack[numStacks];
 	}
@@ -217,7 +217,11 @@ public abstract class TileEntitySpecializedFurnace extends TileEntity implements
 		tagCompound.setTag("Items", tagList);
 
 		//The Nether Brick oven doesn't use burnTime
-		if (!(this instanceof TileEntityNetherBrickOven)) tagCompound.setShort("BurnTime", (short)burnTime);
+		if (!(this instanceof TileEntityNetherBrickOven))
+		{
+			tagCompound.setShort("BurnTime", (short)burnTime);
+		}
+
 		tagCompound.setShort("CookTime", (short)cookTime);
 		
 		if (hasCustomName())

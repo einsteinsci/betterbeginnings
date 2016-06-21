@@ -33,7 +33,7 @@ public class PacketNetherBrickOvenFuelLevel implements IMessage
 
 	public PacketNetherBrickOvenFuelLevel()
 	{
-		pos = new BlockPos(0, 0, 0);
+		pos = BlockPos.ORIGIN;
 
 		fluid = null;
 	}

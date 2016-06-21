@@ -70,6 +70,7 @@ container.infusion.level=L
 container.obsidianKiln=Obsidian Kiln
 container.netherbrickoven=Nether Brick Oven
 container.enderSmelter=Ender Smelter
+container.redstoneKiln=Redstone Kiln
 container.campfire=Campfire
 container.campfire.woodFuelsOnly=Only wood fuels are accepted.
 
