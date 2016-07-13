@@ -1,10 +1,15 @@
 package net.einsteinsci.betterbeginnings.items;
 
+import net.einsteinsci.betterbeginnings.entity.projectile.EntityThrownKnife;
 import net.einsteinsci.betterbeginnings.register.IBBName;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
+import net.minecraft.world.World;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,6 +17,7 @@ import java.util.Set;
 public abstract class ItemKnife extends ItemTool implements IBBName
 {
 	public static final float DAMAGE = 3.0f;
+	public static final int DRAW_TIME = 32;
 
 	public ItemKnife(ToolMaterial material)
 	{
@@ -43,6 +49,44 @@ public abstract class ItemKnife extends ItemTool implements IBBName
 		s.add(Blocks.cactus);
 
 		return s;
+	}
+	
+	@Override
+	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn,
+			EntityPlayer playerIn) 
+	{
+		playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
+		return super.onItemRightClick(itemStackIn, worldIn, playerIn);
+	}
+	
+	@Override
+	public void onPlayerStoppedUsing(ItemStack stack, World worldIn,
+			EntityPlayer playerIn, int timeLeft) 
+	{
+		if(!worldIn.isRemote)
+		{
+			EntityThrownKnife knife = new EntityThrownKnife(worldIn, playerIn, stack);
+			knife.setForce((float) Math.min((this.getMaxItemUseDuration(stack) - timeLeft), ItemKnife.DRAW_TIME) / ItemKnife.DRAW_TIME);
+			System.out.println("SPAWN KNIFE");
+			worldIn.spawnEntityInWorld(knife);
+			if(!playerIn.capabilities.isCreativeMode)
+			{
+				playerIn.destroyCurrentEquippedItem();
+			}
+		}
+		
+	}
+	
+	@Override
+	public EnumAction getItemUseAction(ItemStack stack) 
+	{
+		return EnumAction.BOW;
+	}
+	
+	@Override
+	public int getMaxItemUseDuration(ItemStack stack) 
+	{
+		return 72000;
 	}
 
 	@Override

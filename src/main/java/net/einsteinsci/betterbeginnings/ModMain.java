@@ -76,6 +76,7 @@ public class ModMain
 
 		RegisterItems.register();
 		RegisterBlocks.register();
+		RegisterEntities.register();
 		RegisterTileEntities.register();
 	}
 
