@@ -10,6 +10,7 @@ import net.einsteinsci.betterbeginnings.inventory.ContainerRedstoneKiln;
 
 import net.einsteinsci.betterbeginnings.network.PacketPoweredBBFurnaceEnergy;
 import net.einsteinsci.betterbeginnings.util.LogUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
@@ -34,7 +35,8 @@ public class TileEntityRedstoneKiln extends TileEntityKilnBase implements IEnerg
 		processTime = 200;
 		burnTime = 1;
 
-		battery = new BatterySpecializedFurnace(MAX_RF);
+		// TODO: Remove the 3000 before actually releasing.
+		battery = new BatterySpecializedFurnace(MAX_RF, 30000); // the 30000 is PURELY for testing purposes
 	}
 
 	@Override
@@ -125,7 +127,7 @@ public class TileEntityRedstoneKiln extends TileEntityKilnBase implements IEnerg
 				}
 			}
 
-			if (fuel != null && fuel.getItem() == Items.fire_charge) // DEBUG
+			if (fuel != null && fuel.getItem() == Items.fire_charge) // TODO: remove fire charge charging
 			{
 				battery.receiveEnergy(CHARGE_RATE, false);
 
@@ -219,6 +221,16 @@ public class TileEntityRedstoneKiln extends TileEntityKilnBase implements IEnerg
 			worldObj.provider.getDimensionId(), pos.getX(), pos.getY(), pos.getZ(), 16.0d);
 		ModMain.network.sendToAllAround(new PacketPoweredBBFurnaceEnergy(
 			pos, battery.getEnergyStored()), point);
+		
+		final int rf = battery.getEnergyStored();
+		Minecraft.getMinecraft().addScheduledTask(new Runnable() // alright now we really should update to Java 1.8
+		{
+			@Override
+			public void run()
+			{
+				setEnergy(rf); // use captured variable
+			}
+		});
 	}
 
 	// region IEnergyReceiver
