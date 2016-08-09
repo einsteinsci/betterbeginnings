@@ -10,6 +10,4 @@ public interface ITileEntityPoweredBBFurnace extends IEnergyReceiver
 	int getEnergyScaled(int px);
 
 	void setEnergy(int rf);
-
-	public void updateNetwork();
 }

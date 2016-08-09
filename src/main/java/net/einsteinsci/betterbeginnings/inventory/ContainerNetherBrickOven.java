@@ -12,12 +12,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ContainerNetherBrickOven extends ContainerSpecializedFurnace
 {
+	public static final int FUEL_LEVEL_ID = 3;
+	
+	protected int lastFuelLevel;
+	
+	protected TileEntityNetherBrickOven tileEntityNetherBrickOven;
+	
 	public ContainerNetherBrickOven(InventoryPlayer playerInv, TileEntityNetherBrickOven tileEntityBrickOven)
 	{
 		tileSpecialFurnace = tileEntityBrickOven;
+		tileEntityNetherBrickOven = tileEntityBrickOven;
 		addSlotToContainer(new Slot(tileEntityBrickOven, TileEntityNetherBrickOven.FUEL, 17, 63));
 		addSlotToContainer(new SlotFurnaceOutput(playerInv.player, tileEntityBrickOven,
-		                                         TileEntityNetherBrickOven.OUTPUT, 138, 35));
+			TileEntityNetherBrickOven.OUTPUT, 138, 35));
 
 		int i;
 
@@ -43,31 +50,43 @@ public class ContainerNetherBrickOven extends ContainerSpecializedFurnace
 			addSlotToContainer(new Slot(playerInv, i, 8 + i * 18, 142));
 		}
 	}
-
+	
 	@Override
 	public void onCraftGuiOpened(ICrafting craft)
 	{
 		super.onCraftGuiOpened(craft);
-
-		craft.sendProgressBarUpdate(this, 0, tileSpecialFurnace.cookTime);
+		
+		craft.sendProgressBarUpdate(this, FUEL_LEVEL_ID, tileSpecialFurnace.currentItemBurnLength);
 	}
-
+	
 	@Override
 	public void detectAndSendChanges()
 	{
 		super.detectAndSendChanges();
-
-		for (int i = 0; i < crafters.size(); ++i)
+		
+		for (Object listItem : crafters)
 		{
-			ICrafting craft = (ICrafting)crafters.get(i);
-
-			if (lastCookTime != tileSpecialFurnace.cookTime)
+			ICrafting crafter = (ICrafting)listItem;
+			
+			if (lastFuelLevel != tileEntityNetherBrickOven.getFuelLevel())
 			{
-				craft.sendProgressBarUpdate(this, 0, tileSpecialFurnace.cookTime);
+				crafter.sendProgressBarUpdate(this, FUEL_LEVEL_ID, tileEntityNetherBrickOven.getFuelLevel());
 			}
 		}
-
-		lastCookTime = tileSpecialFurnace.cookTime;
+		
+		lastFuelLevel = tileEntityNetherBrickOven.getFuelLevel();
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void updateProgressBar(int progressBar, int level)
+	{
+		super.updateProgressBar(progressBar, level);
+		
+		if (progressBar == FUEL_LEVEL_ID)
+		{
+			tileEntityNetherBrickOven.setFuelLevel(level);
+		}
 	}
 
 	@Override
@@ -103,8 +122,7 @@ public class ContainerNetherBrickOven extends ContainerSpecializedFurnace
 				else if (BrickOvenRecipeHandler.instance().isInRecipe(itemstack1))
 				{
 					if (!mergeItemStack(itemstack1, TileEntityNetherBrickOven.INPUTSTART,
-					                    TileEntityNetherBrickOven.INPUTSTART + 9,
-					                    false)) // move to craft matrix
+					                    TileEntityNetherBrickOven.INPUTSTART + 9, false)) // move to craft matrix
 					{
 						return null;
 					}
@@ -127,8 +145,7 @@ public class ContainerNetherBrickOven extends ContainerSpecializedFurnace
 				else if (BrickOvenRecipeHandler.instance().isInRecipe(itemstack1))
 				{
 					if (!mergeItemStack(itemstack1, TileEntityNetherBrickOven.INPUTSTART,
-					                    TileEntityNetherBrickOven.INPUTSTART + 9,
-					                    false)) // move to craft matrix
+					                    TileEntityNetherBrickOven.INPUTSTART + 9, false)) // move to craft matrix
 					{
 						return null;
 					}
@@ -161,15 +178,5 @@ public class ContainerNetherBrickOven extends ContainerSpecializedFurnace
 		}
 
 		return itemstack;
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void updateProgressBar(int par1, int par2)
-	{
-		if (par1 == 0)
-		{
-			tileSpecialFurnace.cookTime = par2;
-		}
 	}
 }

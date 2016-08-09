@@ -7,7 +7,6 @@ import net.einsteinsci.betterbeginnings.event.BBEventHandler;
 import net.einsteinsci.betterbeginnings.event.Worldgen;
 import net.einsteinsci.betterbeginnings.network.PacketCampfireState;
 import net.einsteinsci.betterbeginnings.network.PacketNetherBrickOvenFuelLevel;
-import net.einsteinsci.betterbeginnings.network.PacketPoweredBBFurnaceEnergy;
 import net.einsteinsci.betterbeginnings.network.ServerProxy;
 import net.einsteinsci.betterbeginnings.register.*;
 import net.einsteinsci.betterbeginnings.register.achievement.RegisterAchievements;
@@ -35,6 +34,10 @@ public class ModMain
 	public static final String MODID = "betterbeginnings";
 	public static final String VERSION = "0.9.8-pre1";
 	public static final String NAME = "BetterBeginnings";
+	
+	@Instance(ModMain.MODID)
+	public static ModMain modInstance;
+	
 	public static final CreativeTabs tabBetterBeginnings = new CreativeTabs("tabBetterBeginnings")
 	{
 		@Override
@@ -44,10 +47,9 @@ public class ModMain
 			return RegisterItems.flintKnife;
 		}
 	};
-
-	@Instance(ModMain.MODID)
-	public static ModMain modInstance;
+	
 	public static Configuration configFile;
+	
 	public BBEventHandler eventHandler = new BBEventHandler();
 
 	@SidedProxy(clientSide = "net.einsteinsci.betterbeginnings.network.ClientProxy",
@@ -75,8 +77,6 @@ public class ModMain
 			PacketNetherBrickOvenFuelLevel.class, 0, Side.CLIENT);
 		network.registerMessage(PacketCampfireState.PacketHandler.class,
 			PacketCampfireState.class, 1, Side.CLIENT);
-		network.registerMessage(PacketPoweredBBFurnaceEnergy.PacketHandler.class,
-			PacketPoweredBBFurnaceEnergy.class, 2, Side.CLIENT);
 
 		RegisterItems.register();
 		RegisterBlocks.register();

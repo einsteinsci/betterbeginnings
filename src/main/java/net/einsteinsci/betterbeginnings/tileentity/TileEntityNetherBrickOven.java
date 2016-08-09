@@ -24,10 +24,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 public class TileEntityNetherBrickOven extends TileEntityBrickOvenBase implements IFluidHandler, IInteractionObject
 {
-	/**
-	 * Fuel used in mb per operation *
-	 */
-	public static final float FUELFORLAVA = 8; // 512 mb per stack
+	public static final float FUELFORLAVA = 15; // 960 mb per stack
 	public static final int MINIMUMTEMPERATURE = 500;
 
 	public TankNetherBrickOvenFuel fuelTank;
@@ -250,6 +247,19 @@ public class TileEntityNetherBrickOven extends TileEntityBrickOvenBase implement
 	public void setFuelLevel(FluidStack fluid)
 	{
 		fuelTank.setFluid(fluid);
+	}
+	
+	public void setFuelLevel(int level)
+	{
+		if (level <= 0)
+		{
+			setFuelLevel(null);
+		}
+		
+		FluidStack stack = fuelTank.getFluid();
+		stack.amount = level;
+		
+		setFuelLevel(stack);
 	}
 
 	@Override

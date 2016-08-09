@@ -6,18 +6,28 @@ import net.einsteinsci.betterbeginnings.tileentity.TileEntityKilnBase;
 import net.einsteinsci.betterbeginnings.tileentity.TileEntityRedstoneKiln;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ContainerRedstoneKiln extends ContainerSpecializedFurnace
 {
-	public ContainerRedstoneKiln(InventoryPlayer playerInv, TileEntityRedstoneKiln obsKiln)
+	protected int lastPowerLevel;
+	
+	protected TileEntityRedstoneKiln tileRedstoneKiln;
+	
+	public static final int POWER_LEVEL_ID = 3;
+	
+	public ContainerRedstoneKiln(InventoryPlayer playerInv, TileEntityRedstoneKiln redKiln)
 	{
-		tileSpecialFurnace = obsKiln;
-		addSlotToContainer(new Slot(obsKiln, 0, 56, 27));
-		addSlotToContainer(new Slot(obsKiln, 1, 17, 63));
-		addSlotToContainer(new SlotFurnaceOutput(playerInv.player, obsKiln, 2, 116, 35));
+		tileSpecialFurnace = redKiln;
+		tileRedstoneKiln = redKiln;
+		addSlotToContainer(new Slot(redKiln, 0, 56, 27));
+		addSlotToContainer(new Slot(redKiln, 1, 17, 63));
+		addSlotToContainer(new SlotFurnaceOutput(playerInv.player, redKiln, 2, 116, 35));
 
 		int i;
 		for (i = 0; i < 3; ++i)
@@ -31,6 +41,44 @@ public class ContainerRedstoneKiln extends ContainerSpecializedFurnace
 		for (i = 0; i < 9; ++i)
 		{
 			addSlotToContainer(new Slot(playerInv, i, 8 + i * 18, 142));
+		}
+	}
+	
+	@Override
+	public void onCraftGuiOpened(ICrafting craft)
+	{
+		super.onCraftGuiOpened(craft);
+		
+		craft.sendProgressBarUpdate(this, POWER_LEVEL_ID, tileSpecialFurnace.currentItemBurnLength);
+	}
+	
+	@Override
+	public void detectAndSendChanges()
+	{
+		super.detectAndSendChanges();
+		
+		for (Object listItem : crafters)
+		{
+			ICrafting crafter = (ICrafting)listItem;
+			
+			if (lastPowerLevel != tileRedstoneKiln.getBattery().getEnergyStored())
+			{
+				crafter.sendProgressBarUpdate(this, POWER_LEVEL_ID, tileRedstoneKiln.getBattery().getEnergyStored());
+			}
+		}
+		
+		lastPowerLevel = tileRedstoneKiln.getBattery().getEnergyStored();
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void updateProgressBar(int progressBar, int level)
+	{
+		super.updateProgressBar(progressBar, level);
+		
+		if (progressBar == POWER_LEVEL_ID)
+		{
+			tileRedstoneKiln.getBattery().setEnergyStored(level);
 		}
 	}
 

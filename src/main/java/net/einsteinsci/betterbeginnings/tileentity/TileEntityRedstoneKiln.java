@@ -8,9 +8,7 @@ import net.einsteinsci.betterbeginnings.blocks.BlockRedstoneKiln;
 import net.einsteinsci.betterbeginnings.inventory.BatterySpecializedFurnace;
 import net.einsteinsci.betterbeginnings.inventory.ContainerRedstoneKiln;
 
-import net.einsteinsci.betterbeginnings.network.PacketPoweredBBFurnaceEnergy;
 import net.einsteinsci.betterbeginnings.util.LogUtil;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
@@ -18,7 +16,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 import org.apache.logging.log4j.Level;
 
 public class TileEntityRedstoneKiln extends TileEntityKilnBase implements IEnergyReceiver, ITileEntityPoweredBBFurnace
@@ -36,7 +33,8 @@ public class TileEntityRedstoneKiln extends TileEntityKilnBase implements IEnerg
 		burnTime = 1;
 
 		// TODO: Remove the 3000 before actually releasing.
-		battery = new BatterySpecializedFurnace(MAX_RF, 30000); // the 30000 is PURELY for testing purposes
+		battery = new BatterySpecializedFurnace(MAX_RF);
+		//battery.setEnergyStored(30000); // the 30000 is PURELY for testing purposes
 	}
 
 	@Override
@@ -65,32 +63,6 @@ public class TileEntityRedstoneKiln extends TileEntityKilnBase implements IEnerg
 	{
 		if (!worldObj.isRemote)
 		{
-
-			//if (burnTime > 0)
-			//{
-			//	--burnTime;
-			//}
-			//
-			//if (burnTime == 0 && canSmelt())
-			//{
-			//	currentItemBurnLength = burnTime = getItemBurnTime(specialFurnaceStacks[SLOT_FUEL]);
-			//
-			//	if (burnTime > 0)
-			//	{
-			//		flag1 = true;
-			//		if (specialFurnaceStacks[SLOT_FUEL] != null)
-			//		{
-			//			--specialFurnaceStacks[SLOT_FUEL].stackSize;
-			//
-			//			if (specialFurnaceStacks[SLOT_FUEL].stackSize == 0)
-			//			{
-			//				specialFurnaceStacks[SLOT_FUEL] = specialFurnaceStacks[SLOT_FUEL].getItem()
-			//					.getContainerItem(specialFurnaceStacks[SLOT_FUEL]);
-			//			}
-			//		}
-			//	}
-			//}
-
 			boolean couldSmelt = canSmelt();
 			boolean dirty = false;
 
@@ -122,7 +94,6 @@ public class TileEntityRedstoneKiln extends TileEntityKilnBase implements IEnerg
 					capacitor.extractEnergy(fuel, CHARGE_RATE, false);
 					battery.receiveEnergy(extracted, false);
 
-					updateNetwork();
 					dirty = true;
 				}
 			}
@@ -131,7 +102,6 @@ public class TileEntityRedstoneKiln extends TileEntityKilnBase implements IEnerg
 			{
 				battery.receiveEnergy(CHARGE_RATE, false);
 
-				updateNetwork();
 				dirty = true;
 			}
 
@@ -166,8 +136,6 @@ public class TileEntityRedstoneKiln extends TileEntityKilnBase implements IEnerg
 		}
 
 		super.smeltItem();
-
-		updateNetwork();
 	}
 
 	@Override
@@ -212,25 +180,6 @@ public class TileEntityRedstoneKiln extends TileEntityKilnBase implements IEnerg
 	public void setEnergy(int rf)
 	{
 		battery.setEnergyStored(rf);
-	}
-
-	@Override
-	public void updateNetwork()
-	{
-		NetworkRegistry.TargetPoint point = new NetworkRegistry.TargetPoint(
-			worldObj.provider.getDimensionId(), pos.getX(), pos.getY(), pos.getZ(), 16.0d);
-		ModMain.network.sendToAllAround(new PacketPoweredBBFurnaceEnergy(
-			pos, battery.getEnergyStored()), point);
-		
-		final int rf = battery.getEnergyStored();
-		Minecraft.getMinecraft().addScheduledTask(new Runnable() // alright now we really should update to Java 1.8
-		{
-			@Override
-			public void run()
-			{
-				setEnergy(rf); // use captured variable
-			}
-		});
 	}
 
 	// region IEnergyReceiver
