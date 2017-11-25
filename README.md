@@ -7,9 +7,11 @@ Better Beginnings mod for Minecraft v1.8.x. Requires Forge (built with 11.14.4.1
 
 Kind of complicated. See the [forum topic](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/wip-mods/2192122-betterbeginnings-mod).
 
-Source for 1.7.10 version:
---------------------------
-Since IntelliJ doesn't exactly play nice with GitHub branches, I had to move the MC1.7 branch to [its own repository](https://github.com/einsteinsci/betterbeginnings-MC1.7). You can find it here. Issues for the 1.7.10 version should still be posted here.
+Other versions:
+---------------
+* [1.12.0 "reborn" version, update in progress](https://github.com/Leviathan143/betterbeginnings-MODIFIED)
+* [1.10.2 version as maintained by Daomephsta](https://github.com/einsteinsci/BetterBeginningsReborns)
+* [1.7.10 version, as maintained by Daomephsta (bugfixes only)](https://github.com/Leviathan143/betterbeginnings-MC1.7)
 
 Contributing to this project:
 -----------------------------
