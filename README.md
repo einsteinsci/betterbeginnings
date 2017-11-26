@@ -9,8 +9,8 @@ Kind of complicated. See the [forum topic](http://www.minecraftforum.net/forums/
 
 Other versions:
 ---------------
-* [1.12.0 "reborn" version, update in progress](https://github.com/Leviathan143/betterbeginnings-MODIFIED)
-* [1.10.2 version as maintained by Daomephsta](https://github.com/einsteinsci/BetterBeginningsReborns)
+* [1.12.0 "reborn" version, update in progress](https://github.com/einsteinsci/BetterBeginningsReborn)
+* [1.10.2 version as maintained by Daomephsta](https://github.com/Leviathan143/betterbeginnings-MODIFIED)
 * [1.7.10 version, as maintained by Daomephsta (bugfixes only)](https://github.com/Leviathan143/betterbeginnings-MC1.7)
 
 Contributing to this project:
