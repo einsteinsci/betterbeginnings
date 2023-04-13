@@ -1,7 +1,27 @@
+## Notice: Project inactive/dead
+
+As there appears to be some confusion, this mod has not been in development in many years. The project is dead.
+
+I know I announced an in-progress rework to overhaul a lot of the mod's structural problems, but that got cut short by a bunch of stuff that doesn't matter anymore, and I never got back to it afterwards.
+
+Mainly this was a combination of burnout and lack of interest. Overhauling a broken buggy out-of-date mod by essentially rewriting most of it was a very bad decision. Especially so when my entire commitment to the project in the first place was in the code I had written, which was of very poor quality.
+
+I never once used this in my own "real" playthroughs. The gameplay style was just never to my interest, so I never had any personal stake in keeping it up to date either. Eventually I just assumed everyone stopped trying to use it.
+
+In any case, I don't plan on ever continuing development. I don't have much interest in Java development anymore and I most certainly don't have the time or patience to continue a hopeless overhaul that was never going to see the light of day.
+
+I apologize for taking this long to make it clear, and I apologize for promising far more than I could handle.
+
+However, this is licensed under GPL v3, and that alone grants full permission to copy the source code, modify it, and publish those modifications. **You don't need to ask**; that permission is already granted as part of the license.
+
+That means that anyone can continue work on this mod, be it maintenance, or breaking it up into pieces and only using the good parts. All you have to do is clone the repo.
+
+I'll be archiving this GitHub project and my forks to halt all further issue tracking and put a big banner up top. If anyone wants to fork it or clone it or take just the parts that are actually decent, you will still be able to do so.
+
+---
+
 Better Beginnings Mod
 =====================
-
-[![Join the chat at https://gitter.im/einsteinsci/betterbeginnings](https://badges.gitter.im/einsteinsci/betterbeginnings.svg)](https://gitter.im/einsteinsci/betterbeginnings?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Better Beginnings mod for Minecraft v1.8.x. Requires Forge (built with 11.14.4.1577).
 
